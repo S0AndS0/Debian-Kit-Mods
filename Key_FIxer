@@ -1,0 +1,83 @@
+#!/bin/sh
+
+# check apt get - check the .gpg signed Release files for missing keys
+
+# Check if I am root for use later. 
+if [ $(id -u) -ne 0 ]; then 
+  ROOT=0 
+else 
+	ROOT=1 
+fi
+
+# Will we need to be rerun as root? RERUN=0
+
+# The location of the trusted keyring. APT_TRUSTED=/etc/apt/trusted.gpg
+
+# The location of the Release files. APT_LISTS=/var/lib/apt/lists
+
+# Get a list of repositories for which we have downloaded a Release File REPOSITORIES=`ls $APT_LISTS | grep Release$`
+
+# For each repository look for a matching Release.gpg signature for repo in $REPOSITORIES do 
+		echo Checking $repo 
+		RELEASE=$APT_LISTS/$repo 
+		GPG='' 
+		if [ -s $RELEASE.gpg ] 
+		then 
+		GPG=$RELEASE.gpg 
+	else 
+		if [ -s $APT_LISTS/partial/$repo.gpg ] 
+		then 
+			GPG=$APT_LISTS/partial/$repo.gpg 
+		else 
+			if [ -s $APT_LISTS/partial/$repo.gpg.reverify ] 
+			then 
+				GPG=$APT_LISTS/partial/$repo.gpg.reverify 
+			fi 
+		fi 
+	fi 
+	if [ $GPG ] 
+	then 
+		# We have found a Release.gpg signature 
+		ANSWER=`gpg -q --no-default-keyring --keyring $APT_TRUSTED--verify $GPG$RELEASE2>&1` 
+		if [ $? -ne 0 ] 
+		then 
+			# GPG errored -
+			# Assume that an ID was included in the error messageintheform 
+			# ... ID <GPGID> ... 
+			IDFOUND=0 
+			for xx in $ANSWER 
+			do 
+				if [ $IDFOUND -eq 0 ] 
+				then 
+					if [ "ID" = "$xx" ] 
+					then 
+						IDFOUND=1 
+					fi 
+				else 
+					GPGKEY=$xx 
+					break 
+				fi 
+			done 
+			if [ $ROOT -eq 1 ]; then 
+				# We are root, so we can try to download thekey. 
+				apt-key adv --keyserver hkp://subkeys.pgp.net--recv-key$GPGKEY 
+				# Assume it worked. 
+			else 
+				# We are not root, so output a message. 
+				echo " Missing GPG ID $GPGKEY" 
+				RERUN=1 
+			fi 
+		else 
+			echo " Good GPG signature found." 
+		fi 
+	else 
+		echo " No GPG Release signature found." 
+	fi 
+done
+
+if [ $RERUN -gt 0 ]; then 
+	echo 
+	echo "Rerun as root to download the missing keys." 
+fi
+# from
+# http://www.mepis.org/docs/en/index.php?title=Public_key_not_available_error
