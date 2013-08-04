@@ -1,0 +1,130 @@
+#!/bin/bash 
+# declare variable to name this script
+This_Script=SAS_MMod
+echo "starting $This_Script script"
+echo "you can update this $This_Script script from the following link" 
+echo "https://docs.google.com/document/d/1jwGD8wImGjBl-4OzOW-UBW6BXK4cI1gD-g3N0Cp_ouI/edit?usp=sharing" 
+echo "As Always happy hacking and modding" 
+echo "and the author can be contacted through" 
+echo "Google at Michael NA and" 
+echo "XDA at S0AndS0" 
+echo "for any help or concerns" 
+{ 
+# alert to what's about to happen 
+echo "________________________________" 
+echo "This script is written in the hopes that it will be found useful" 
+echo "use this script to install many extras to your" 
+echo "ARM Linux Operating System" 
+# confirm with the user 
+read -r -p "Input yes to continue" response 
+case "$response" in 
+  [yY][eE][sS]|[yY]) 
+# if yes, then start risking changes 
+		;; 
+	*) 
+#		 Otherwise exit.. 
+	echo "Good Night" 
+	exit 
+	;; 
+esac
+} 
+# Next is setting some required variables 
+ : ${USER?} ${HOME?} 
+echo 
+echo "You are $USER."
+echo "Your home directory is $HOME."
+echo 
+echo "If you are reading this message,"
+echo "critical environmental variables have been set."
+# Make some folders for all other operations to live in
+mkdir -p $HOME/ARM_Mod/Install_Scripts/Components
+mkdir -p $HOME/ARM_Mod/Download
+# file path variables start
+TS-Componit_Path=$HOME/ARM_Mod/Install_Script/Components
+TS-Download_Path=$HOME/ARM_Mod/Download
+# file path variables end
+# start file path variables read out
+echo "$TS-Componit_Path will be used"
+echo "to unpack or download script components"
+echo "used latter in $This_Script"
+# 
+echo "$TS-Download_Path will be used"
+echo "to Download source files"
+echo "used latter in $This_Script and others"
+# end file path variables read out
+# start web address variable assignment
+JavaJDK_Download=https://docs.google.com/document/d/1OQblXqQG2UhXQqGZ10ePgr6ON2GIoukKZE2bJjZQ484/edit?usp=sharing 
+Maptools_Download=https://docs.google.com/document/d/1TJaVqlhlzD7c5wJKrGc-kSHcB_wqKqWSxv4TR3VKwdw/edit?usp=sharing 
+jMonkey_Download=https://docs.google.com/document/d/1ujis8BYe-rDAmux5h-tg1ZpJO43rxm2EgTqrYtsBRhU/edit?usp=sharing 
+Casual_Download=https://docs.google.com/document/d/1bYQ-aLR6ilVvBuRZWoaIebGvAtgHHtT3kznnQFsrKTg/edit?usp=sharing 
+Heimdall_Download=https://docs.google.com/document/d/1UiyvDv2hd2ijNymRxUG4O5svr1GzaYI2q-6q5cgK8q4/edit?usp=sharing 
+OpenJDK_Download=https://docs.google.com/document/d/1M2wsPLomFM8N0WV6wH7zSKsrI82Fq3wcyCMlpIXx4Bc/edit?usp=sharing 
+Python_Download=https://docs.google.com/document/d/1SFl9OYdZUPxD0ls0ToKRdqsumwT7zzGcj7KQ1m0-3cU/edit?usp=sharing 
+# end wep address variable assignment
+# Prompt for which scripts to download or run
+echo "$SAS_MMod Can download and or run the following"
+echo "0 - All of the following"
+echo "1 - Java ARM JDK"
+echo "2 - Maptools"
+echo "3 - jMonkey"
+echo "4 - Casual"
+echo "5 - Heimdall"
+echo "6 - OpenJDK"
+echo "7 - Python"
+echo "________________________"
+echo "Choose and input a number to continue"
+echo "or input no to abort $SAS_MMod"
+read -r -p "Which one thing would you like to do" response
+	if [ $response = 1 ] 
+then 
+#	 if 1 then download and run script for installing JDK from Java
+		wget -cP $TS-Componit_Path/Java_JDK_Installer.sh 
+		sh $TS-Componit_Path/Java_JDK_Installer.sh $JavaJDK_Download
+	elif [ $response = 2 ] 
+then 
+#	 if 2 then download and run script for Maptools
+		wget -cP $TS-Componit_Path/Maptools_Installer.sh $Maptools_Download
+		sh $TS-Componit_Path/Maptools_Installer.sh
+	elif [ $response = 3 ] 
+then 
+#	 if 3 then download and run script for jMonkey 
+		wget -cP $TS-Componit_Path/jMonkey_Installer.sh $jMonkey_Download 
+		sh $TS-Componit_Path/jMonkey_Installer.sh
+	elif [ $response = 4 ] 
+then 
+#	 if 4 then download and run script for Casual 
+		wget -cP $TS-Componit_Path/Casual_Installer.sh $Casual_Download 
+		sh $TS-Componit_Path/Casual_Installer.sh 
+	elif [ $response = 5 ] 
+then 
+#	 if 5 then download and run script for Heimdall" 
+		wget -cP $TS-Componit_Path/Heimdall_Installer.sh $Heimdall_Download 
+		sh $TS-Componit_Path/Heimdall_Installer.sh 
+	elif [ $response = 6 ] 
+then 
+#	 if 6 then download and run script for OpenJDK 
+		wget -cP $TS-Componit_Path/OpenJDK_Installer.sh $OpenJDK_Download 
+		sh $TS-Componit_Path/OpenJDK_Installer.sh 
+	elif [ $response = 7 ] 
+then 
+#	 if 7 then download and run script for Python 
+		wget -cP $TS-Componit_Path/Python_Installer.sh $Python_Download 
+		sh $TS-Componit_Path/Python_Installer.sh 
+	elif [ $response = 0 ] 
+then 
+#	 if 0 then download and run all scripts available 
+		wget -cP $TS-Componit_Path/Java_JDK_Installer.sh 
+		wget -cP $TS-Componit_Path/Maptools_Installer.sh $Maptools_Download 
+		wget -cP $TS-Componit_Path/jMonkey_Installer.sh $jMonkey_Download 
+		wget -cP $TS-Componit_Path/Casual_Installer.sh $Casual_Download 
+		wget -cP $TS-Componit_Path/Heimdall_Installer.sh $Heimdall_Download 
+		wget -cP $TS-Componit_Path/OpenJDK_Installer.sh $OpenJDK_Download 
+		wget -cP $TS-Componit_Path/Python_Installer.sh $Python_Download 
+	else [ $response = * ] then 
+#	 if anything else then exit 
+		echo "exiting now"
+		echo exit 
+		exit 
+	fi
+exit
+
