@@ -1,0 +1,218 @@
+#!/bin/bash
+# Make a script to install all the things to root phones from your phone running Linux
+## Install pre-reqs
+# sudo apt-get install openjdk-7-jdk gksu dpkg
+## Download Casual Headless
+### Download Casual files
+#### Link to Caspackeger
+#### http://goo.im/devs/AdamOutler/CASPACkager/CASPACkagerDist-RSVNRevision778.jar
+#### Link to headless Casual
+#### https://code.google.com/p/android-casual/source/browse/branches/CASUAL-Headless/build.xml
+############################
+#### Link to GalaxyCamGC100
+#### http://goo.im/devs/AdamOutler/GalaxyCamGC100/RootGC100GalaxyCamera-CASUAL-R778b--Nightly.jar
+#### Link to GS3-ATT and Canadian-Root
+#### http://goo.im/devs/AdamOutler/GS3-Root-ATT-Can/GS3-ATT-and-Canadian-Root-CASUAL-R778b--Nightly.jar
+#### Link to Root and Recovery ATT-TMO-GS4
+#### http://goo.im/devs/AdamOutler/i337-GalaxyS4/Root-and-Recovery-ATT-TMO-GS4-CASUAL-R778b--Nightly.jar
+#### Link to OppoX909-TWRP-Root
+#### http://goo.im/devs/AdamOutler/OppoFind5/OppoX909-TWRP-Root-CASUAL-R778b--Nightly.jar
+#### Link to GalaxyNote10.1-TakeNoteVerizon
+#### http://goo.im/devs/AdamOutler/VZWGalaxyNote10.1/GalaxyNote10.1-TakeNoteVerizon-CASUAL-R778b--Nightly.jar
+#### Link to VZW-Gnote2--NoYouVerizon
+#### http://goo.im/devs/AdamOutler/VZWGalaxyNote2/VZW-Gnote2-CASUAL-NoYouVerizon-CASUAL-R778b--Nightly.jar
+#### Link to Root and Recovery VZW-GS4
+#### http://goo.im/devs/AdamOutler/VZWGalaxyS4/Root-and-Recovery-VZW-GS4-CASUAL-R778b--Nightly.jar
+############################
+# Script Start
+echo "________________________________"
+# List of variable assignments for the easy updating and modding
+## set the user and home variables
+ : ${USER?} ${HOME?} 
+## set web addresses as variables
+## note to user. Edit the following with new addresses if you like
+## and you will not have to update the download part just rerun your edit of This_Script
+# set Casual dowload links to variables
+V_Caspackeger="http://goo.im/devs/AdamOutler/CASPACkager/CASPACkagerDist-RSVNRevision778.jar"
+V_Headless_Casual="https://code.google.com/p/android-casual/source/browse/branches/CASUAL-Headless/build.xml"
+V_GalaxyCamGC100="http://goo.im/devs/AdamOutler/GalaxyCamGC100/RootGC100GalaxyCamera-CASUAL-R778b--Nightly.jar"
+V_GS3-ATT_and_Canadian-Root="http://goo.im/devs/AdamOutler/GS3-Root-ATT-Can/GS3-ATT-and-Canadian-Root-CASUAL-R778b--Nightly.jar"
+V_Root_and_Recovery_ATT-TMO-GS4="http://goo.im/devs/AdamOutler/i337-GalaxyS4/Root-and-Recovery-ATT-TMO-GS4-CASUAL-R778b--Nightly.jar"
+V_OppoX909-TWRP-Root="http://goo.im/devs/AdamOutler/OppoFind5/OppoX909-TWRP-Root-CASUAL-R778b--Nightly.jar"
+V_GalaxyNote10.1-TakeNoteVerizon="http://goo.im/devs/AdamOutler/VZWGalaxyNote10.1/GalaxyNote10.1-TakeNoteVerizon-CASUAL-R778b--Nightly.jar"
+V_VZW-Gnote2="http://goo.im/devs/AdamOutler/VZWGalaxyNote2/VZW-Gnote2-CASUAL-NoYouVerizon-CASUAL-R778b--Nightly.jar"
+V_Root_and_Recovery_VZW-GS4="http://goo.im/devs/AdamOutler/VZWGalaxyS4/Root-and-Recovery-VZW-GS4-CASUAL-R778b--Nightly.jar"
+echo "________________________________"
+# Make directories to unpack and download to
+echo "Making the following directory paths $HOME/Casual/Installer/Package_List"
+mkdir $HOME/ARM_Mod/Casual/Components
+mkdir $HOME/ARM_Mod/Casual/Download 
+echo "________________________________"
+# Start variables for folder paths
+Casual_Coponit_Path=$HOME/ARM_Mod/Casual/Components
+Casual_Download_Path=$HOME/ARM_Mod/Casual/Download
+# End variables for folder paths
+# start folder variable read out
+echo "$Casual_Coponit_Path will be used for" 
+echo "unpacking components of this script to" 
+echo "your ARM Linux system for latter running"
+#
+echo "Casual_Download_Path will be used for" 
+echo "downloading Casual files to your system"
+echo "for latter running"
+# end folder variable read out
+# Make a Script to install pre recs
+echo "Writing a list of packages to install with apt get"
+sudo cat > $Casual_Coponit_Path/Package_List <<EOF
+echo "Using apt get to install openjdk-7-jdk gksu dpkg wget"
+sudo apt-get --simulation install openjdk-7-jdk gksu dpkg wget
+{ 
+read -r -p "do you want to install these packages?" response 
+case "$response" in
+  [yY][eE][sS]|[yY])
+# if yes, then start risking changes
+		;;
+	*)
+#		 Otherwise exit..
+	echo "Good Night"
+	echo exit
+	exit
+	;;
+esac
+} 
+sudo apt-get --yes -q install openjdk-7-jdk
+sudo apt-get --yes -q install gksu
+sudo apt-get --yes -q install dpkg
+sudo apt-get --yes -q install wget
+EOF
+echo "________________________________"
+# Make a script to download Casual packager and then prompt for which jar to download too
+echo "Writing a script to download and install Casual to ARM Linux"
+sudo cat > $Casual_Coponit_Path/Casuall_Downloader <<EOF
+echo "This script will download Casual packager first"
+echo "then it will prompt you for which additional casual files you wish to download"
+echo "Downloading CasPackager"
+wget -cP $HOME/Casual/Installer/Downloads/ $V_Caspackeger
+echo "You may download the following"
+echo "Type Headless for headless Casual"
+echo "Type GalaxyCam for GalaxyCamGC100"
+echo "Type GS3 for GS3-ATT and Canadian-Root"
+echo "Type ATT-TMO for Root and Recovery ATT-TMO-GS4"
+echo "Type OppoX for OppoX909-TWRP-Root"
+echo "Type GalaxyNote10 for GalaxyNote10.1-TakeNoteVerizon"
+echo "Type VZW-Gnote2 for VZW-Gnote2--NoYouVerizon"
+echo "Type VZW-GS4 for Root and Recovery VZW-GS4"
+echo "Type ALL for all files"
+read -r -p "Which one thing would you like to do" response
+	if [ $response = Headless ] then 
+#	 if Headless then download Headless
+		wget -cP $Casual_Download_Path/CASUAL-Headless-build.xml $V_Headless_Casual
+		# Do something after that
+	elif [ $response = GalaxyCam ] then 
+#	 if GalaxyCam then download GalaxyCam
+		wget -cP $Casual_Download_Path/RootGC100GalaxyCamera-CASUAL.jar $V_GalaxyCamGC100
+		# Do something after that
+	elif [ $response = GS3 ] then 
+#	 if GS3 then download GS3
+		wget -cP $Casual_Download_Path/GS3-ATT-and-Canadian-Root-CASUAL.jar $V_GS3-ATT_and_Canadian-Root
+		# Do something after that
+	elif [ $response = ATT-TMO ] then 
+#	 if ATT-TMO then download ATT-TMO
+		wget -cP $Casual_Download_Path/Root-and-Recovery-ATT-TMO-GS4-CASUAL.jar $V_Root_and_Recovery_ATT-TMO-GS4
+		# Do something after that
+	elif [ $response = OppoX ] then 
+#	 if OppoX then download OppoX 
+		wget -cP $Casual_Download_Path/OppoX909-TWRP-Root-CASUAL.jar $V_OppoX909-TWRP-Root
+		# Do Something after that
+	elif [ $response = GalaxyNote10 ] then 
+#	 if GalaxyNote10 then download GalaxyNote10 
+		wget -cP $Casual_Download_Path/GalaxyNote10.1-TakeNoteVerizon-CASUAL.jar $V_GalaxyNote10.1-TakeNoteVerizon
+		# Do something after that
+	elif [ $response = VZW-Gnote2 ] then 
+#	 if VZW-Gnote2 then download VZW-Gnote2 
+		wget -cP $Casual_Download_Path/VZW-Gnote2-CASUAL-NoYouVerizon-CASUAL.jar $V_VZW-Gnote2
+		# Do something after that
+	elif [ $response = VZW-GS4 ] then 
+#	 if VZW-GS4 then download VZW-GS4 
+		wget -cP $Casual_Download_Path/Root-and-Recovery-VZW-GS4-CASUAL.jar $V_Root_and_Recovery_VZW-GS4
+		# Do something after that
+	elif [ $response = ALL ] then 
+#	 if ALL then download ALL 
+	# Download Headless Casual
+		wget -cP $Casual_Download_Path/CASUAL-Headless-build.xml $V_Headless_Casual
+	# Download GalaxyCam
+		wget -cP $Casual_Download_Path/RootGC100GalaxyCamera-CASUAL.jar $V_GalaxyCamGC100
+	# Download GS3
+		wget -cP $Casual_Download_Path/GS3-ATT-and-Canadian-Root-CASUAL.jar $V_GS3-ATT_and_Canadian-Root
+	# Download ATT-TMO
+		wget -cP $Casual_Download_Path/Root-and-Recovery-ATT-TMO-GS4-CASUAL.jar $V_Root_and_Recovery_ATT-TMO-GS4
+	# Download OppoX
+		wget -cP $Casual_Download_Path/OppoX909-TWRP-Root-CASUAL.jar $V_OppoX909-TWRP-Root
+	# Download GalaxyNote10
+		wget -cP $Casual_Download_Path/GalaxyNote10.1-TakeNoteVerizon-CASUAL.jar $V_GalaxyNote10.1-TakeNoteVerizon
+	# Download VZW-Gnote2
+		wget -cP $Casual_Download_Path/VZW-Gnote2-CASUAL-NoYouVerizon-CASUAL.jar $V_VZW-Gnote2
+	# Download VZW-GS4
+		wget -cP $Casual_Download_Path/Root-and-Recovery-VZW-GS4-CASUAL.jar $V_Root_and_Recovery_VZW-GS4
+	else [ $response = * ] then 
+#	 if anything else then exit 
+		echo "exiting now"
+		echo exit 
+		exit 
+	fi
+exit
+EOF
+echo "________________________________"
+# Make a script to help run any of the downloaded files
+echo "Writing a file to make running Casual files that were downloaded easier to run"
+sudo cat > $Casual_Coponit_Path/Casual_Runner <<EOF
+echo "run any of the following files by"
+echo "starting the command with java -jar"
+echo "and finishing the command with one of the following jar files"
+ls $HOME/Casual/Installer/Downloads
+EOF
+echo "________________________________"
+# Make a script to fix permissions
+echo "Writing a script to fix permissions"
+sudo cat > $Casual_Coponit_Path/Permission_Fixer <<EOF
+sudo chmod --recursive --reference=$HOME $HOME/Casual
+sudo chmod +x $HOME/Casual/Installer/Package_List
+sudo chmod +x $HOME/Casual/Installer/Casuall_Downloader
+sudo chmod +x $HOME/Casual/Installer/Casual_Runner
+EOF
+echo "________________________________"
+# Make a script to run all the scripts in proper order
+echo "Writing a script to run all the scripts in the proper order"
+sudo cat > $Casual_Coponit_Path/Script_Runner <<EOF
+sh $HOME/Casual/Installer/Permission_Fixer
+sh $HOME/Casual/Installer/Package_List
+sh $HOME/Casual/Installer/Casuall_Downloader
+sh $HOME/Casual/Installer/Permission_Fixer
+sh $HOME/Casual/Installer/Casual_Runner
+EOF
+echo "________________________________"
+echo "Unpacking of script complete"
+echo "you may edit the individual parts of this script"
+echo "in the $HOME/Casual/Installer folder"
+echo ls $HOME/Casual/Installer
+echo "and then run Script_Runner to apply the changes to your system"
+echo "or you can run it right now by saying yes"
+{ 
+read -r -p "Would you like to run Script_Runner now" response 
+case "$response" in
+	[yY][eE][sS]|[yY])
+# if yes, then start risking changes
+sh $HOME/Casual/Installer/Script_Runner
+		;;
+	*)
+#		 Otherwise exit..
+	echo "Good Night"
+	echo exit
+	exit
+	;;
+esac
+} 
+echo "end of script"
+echo "exiting now"
+echo exit
+exit
