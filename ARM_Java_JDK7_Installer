@@ -1,0 +1,302 @@
+#!/bin/bash
+echo "As Always happy hacking and modding"
+echo "and the author can be contacted through"
+echo "Google at Michael NA and"
+echo "XDA at S0AndS0"
+echo "for any help or concerns"
+{
+# alert to what's about to happen
+echo "________________________________"
+echo "This script is written in the hopes that it will be found useful"
+echo "use it to install Java 7 from source on ARM Linux systems"
+echo "you can find another version of this script that installs extras here"
+echo " https://docs.google.com/document/d/19zyqqYSed4TDmXaY7YSeVOTA44QRfAIWhOlxS_djtI0/edit?usp=docslist_api"
+echo "You're about to install Java 7 soft float"
+# confirm with the user
+read -r -p "Are you sure? [Y/n]" response
+case "$response" in
+  [yY][eE][sS]|[yY])
+ # if yes, then start risking changes
+		;;
+	*)
+ #		 Otherwise exit..
+	echo "Good Night" exit
+	exit 
+	;;
+esac
+}
+# Next is setting some required variables
+ : ${USER?} ${HOME?} 
+echo 
+echo "You are $USER."
+echo "Your home directory is $HOME."
+echo 
+echo "If you are reading this message"
+echo "critical environmental variables have been set."
+# Make a folder to install JVM to
+sudo mkdir -p /usr/lib/jvm
+# Make a folder to download Java apps and scripts to
+sudo mkdir -p $HOME/ARM_Mod/Install_Scripts/Components/Java7JDK
+# Start variables for folders
+Java7JDK_Componet_Path=$HOME/ARM_Mod/Install_Scripts/Components/Java7JDK 
+# End variables for folders
+# Start read out of folder variables
+echo "$Java7JDK_Componet_Path will be used for"
+echo "unpacking components of this script to"
+# End of read out of folder variables
+# Create a List of packages to install
+echo "creating a list of packages to install to your system"
+sudo cat > $Java7JDK_Componet_Path/Depends_Install_List <<EOF
+# I compiled this list from
+# http://www.oracle.com/technetwork/java/javase/downloads/jdk7-downloads-1880260.html
+# http://www.calxeda.com/trystack/gettingstarted/
+# http://elinux.org/RPi_Java_JDK_Installation
+# http://www.savagehomeautomation.com/pi-jdk
+# and automated it thanks to 
+# http://stackoverflow.com/questions/10268583/how-to-automate-download-and-instalation-of-java-jdk-on-linux
+# let me know if things need to be added or changed, please and thank you.
+echo "you may run the package install list manually later to keep your system up to date,"
+echo "to do so run $ sh $HOME/Java7ARM/Depends_Install_List from a terminal window"
+echo "for now though this script will automatically take care of the first install of all packages"
+sudo apt-get install -y java-common
+sudo apt-get install -y libc6-armel
+sudo apt-get install -y libsfgcc1
+sudo apt-get install -y libsfstdc++6
+echo "you may run the package install list manually later to keep your system up to date,"
+echo "to do so run $ sh $Java7JDK_Componet_Path/Depends_Install_List from a terminal window"
+EOF
+sudo cat > $Java7JDK_Componet_Path/Java_Source_Finder <<EOF
+echo "This script was written under the following usernames"
+echo "S0AndS0 or Michael NA"
+echo "from"
+echo "XDA and Maptools or Google."
+echo "To automate and make easy the processes of installing"
+echo "Java from source or tarball and Java dependent software"
+echo "such as Maptools and jMonkey."
+echo "For ARM CPUs running Linux such as"
+echo "Raspberry Pi and Android mobile devices."
+echo "Contact the author for help or concerns"
+# warning of pairale
+echo "This is offered freely and without warranty"
+echo "users of this script may very well destroy everything"
+echo "they hold dear and everything around them for miles"
+echo "perhaps latter?"
+# Find the tarball for Java 7u21
+find /sdcard/download -type f -iname '*tar.gz' -print0 | xargs -0 ls 
+echo "if the file was downloaded elsewhere then manually move it"
+# confirm with user
+{
+# alert to what's about to happen
+echo "________________________________"
+echo "Warning"
+echo "you may destroy everything around"
+echo "you for miles if you continue down this path"
+# confirm with the user
+read -r -p "Are you sure? [Y/n]" response
+case "$response" in
+	[yY][eE][sS]|[yY])
+ # if yes, then start risking changes
+		;;
+	*)
+#		 Otherwise exit..
+	echo "Good Night"
+	exit
+	;;
+esac
+} 
+echo "moving on to copyExtracter"
+EOF
+sudo cat > $Java7JDK_Componet_Path/Java_Source_copyExtracter <<EOF
+echo "Finding and Copying Java tarball from the SD card to your $HOME directory"
+find /sdcard/download -type f -iname 'jdk-7u21*' -print0 | xargs -0 cp --interactive --verbose --target-directory=$HOME/Java7ARM 
+echo "Finding and changing ownership of Java tarball in your $HOME directory"
+find $HOME/Java7ARM -type f -iname 'jdk-7u21*' -print0 | xargs -0 chown $USER:$USER
+echo "Finding and changing permissions of Java tarball in $HOME directory to read write and execute for $USER"
+find $HOME/Java7ARM -type f -iname 'jdk-7u21*' -print0 | xargs -0 chmod --changes --recursive 755
+cd /usr/lib/jvm
+find $HOME/Java7ARM -type f -iname 'jdk-7u21*' -print0 | xargs -0 sudo tar -vxpzf
+# --verbose --extract --gunzip --file=
+sudo ln -s jdk1.7.0_21 java-7-oracle
+cd ~
+EOF
+# Create a list of alternatives to install for JDK tools
+echo "creating a list of alternatives to install for JDK tools to your system"
+sudo cat > $Java7JDK_Componet_Path/Alternatives_Install_list <<EOF
+# I compiled this list from http://www.calxeda.com/trystack/gettingstarted/
+# let me know if things need to be added or changed, please and thank you.
+echo "you may run the package install list manually later to keep your system up to date"
+echo "to do so run $ sh $HOME/Java7ARM/Alternatives_Install_list from a terminal window"
+echo "for now though this script will automatically take care of the first install of all packages"
+sudo update-alternatives --quiet --install /usr/bin/java java /usr/lib/jvm/java-7-oracle/jre/bin/java 100
+sudo update-alternatives --quiet --install /usr/bin/keytool keytool /usr/lib/jvm/java-7-oracle/jre/bin/keytool 100
+sudo update-alternatives --quiet --install /usr/bin/pack200 pack200 /usr/lib/jvm/java-7-oracle/jre/bin/pack200 100
+sudo update-alternatives --quiet --install /usr/bin/policytool policytool /usr/lib/jvm/java-7-oracle/jre/bin/policytool 100
+sudo update-alternatives --quiet --install /usr/bin/rmid rmid /usr/lib/jvm/java-7-oracle/jre/bin/rmid 100
+sudo update-alternatives --quiet --install /usr/bin/rmiregistry rmiregistry /usr/lib/jvm/java-7-oracle/jre/bin/rmiregistry 100
+sudo update-alternatives --quiet --install /usr/bin/unpack200 unpack200 /usr/lib/jvm/java-7-oracle/jre/bin/unpack200 100
+sudo update-alternatives --quiet --install /usr/bin/orbd orbd /usr/lib/jvm/java-7-oracle/jre/bin/orbd 100
+sudo update-alternatives --quiet --install /usr/bin/servertool servertool /usr/lib/jvm/java-7-oracle/jre/bin/servertool 100
+sudo update-alternatives --quiet --install /usr/bin/tnameserv tnameserv /usr/lib/jvm/java-7-oracle/jre/bin/tnameserv 100
+sudo update-alternatives --quiet --install /usr/bin/jexec jexec /usr/lib/jvm/java-7-oracle/jre/lib/jexec 100
+sudo update-alternatives --quiet --install /usr/bin/appletviewer appletviewer /usr/lib/jvm/java-7-oracle/bin/appletviewer 100 --slave /usr/share/man/man1/appletviewer.1 appletviewer.1 /usr/lib/jvm/java-7-oracle/man/man1/appletviewer.1
+sudo update-alternatives --quiet --install /usr/bin/apt apt /usr/lib/jvm/java-7-oracle/bin/apt 100 --slave /usr/share/man/man1/apt.1 apt.1 /usr/lib/jvm/java-7-oracle/man/man1/apt.1
+sudo update-alternatives --quiet --install /usr/bin/extcheck extcheck /usr/lib/jvm/java-7-oracle/bin/extcheck 100 --slave /usr/share/man/man1/extcheck.1 extcheck.1 /usr/lib/jvm/java-7-oracle/man/man1/extcheck.1
+sudo update-alternatives --quiet --install /usr/bin/idlj idlj /usr/lib/jvm/java-7-oracle/bin/idlj 100 --slave /usr/share/man/man1/idlj.1 idlj.1 /usr/lib/jvm/java-7-oracle/man/man1/idlj.1
+sudo update-alternatives --quiet --install /usr/bin/jar jar /usr/lib/jvm/java-7-oracle/bin/jar 100 --slave /usr/share/man/man1/jar.1 jar.1 /usr/lib/jvm/java-7-oracle/man/man1/jar.1
+sudo update-alternatives --quiet --install /usr/bin/jarsigner jarsigner /usr/lib/jvm/java-7-oracle/bin/jarsigner 100 --slave /usr/share/man/man1/jarsigner.1 jarsigner.1 /usr/lib/jvm/java-7-oracle/man/man1/jarsigner.1
+sudo update-alternatives --quiet --install /usr/bin/java-rmi.cgi java-rmi.cgi /usr/lib/jvm/java-7-oracle/bin/java-rmi.cgi 100
+sudo update-alternatives --quiet --install /usr/bin/javac javac /usr/lib/jvm/java-7-oracle/bin/javac 100 --slave /usr/share/man/man1/javac.1 javac.1 /usr/lib/jvm/java-7-oracle/man/man1/javac.1
+sudo update-alternatives --quiet --install /usr/bin/javadoc javadoc /usr/lib/jvm/java-7-oracle/bin/javadoc 100 --slave /usr/share/man/man1/javadoc.1 javadoc.1 /usr/lib/jvm/java-7-oracle/man/man1/javadoc.1
+sudo update-alternatives --quiet --install /usr/bin/javah javah /usr/lib/jvm/java-7-oracle/bin/javah 100 --slave /usr/share/man/man1/javah.1 javah.1 /usr/lib/jvm/java-7-oracle/man/man1/javah.1
+sudo update-alternatives --quiet --install /usr/bin/javap javap /usr/lib/jvm/java-7-oracle/bin/javap 100 --slave /usr/share/man/man1/javap.1 javap.1 /usr/lib/jvm/java-7-oracle/man/man1/javap.1
+sudo update-alternatives --quiet --install /usr/bin/jconsole jconsole /usr/lib/jvm/java-7-oracle/bin/jconsole 100 --slave /usr/share/man/man1/jconsole.1 jconsole.1 /usr/lib/jvm/java-7-oracle/man/man1/jconsole.1
+sudo update-alternatives --quiet --install /usr/bin/jdb jdb /usr/lib/jvm/java-7-oracle/bin/jdb 100 --slave /usr/share/man/man1/jdb.1 jdb.1 /usr/lib/jvm/java-7-oracle/man/man1/jdb.1
+sudo update-alternatives --quiet --install /usr/bin/jhat jhat /usr/lib/jvm/java-7-oracle/bin/jhat 100 --slave /usr/share/man/man1/jhat.1 jhat.1 /usr/lib/jvm/java-7-oracle/man/man1/jhat.1
+sudo update-alternatives --quiet --install /usr/bin/jinfo jinfo /usr/lib/jvm/java-7-oracle/bin/jinfo 100 --slave /usr/share/man/man1/jinfo.1 jinfo.1 /usr/lib/jvm/java-7-oracle/man/man1/jinfo.1
+sudo update-alternatives --quiet --install /usr/bin/jmap jmap /usr/lib/jvm/java-7-oracle/bin/jmap 100 --slave /usr/share/man/man1/jmap.1 jmap.1 /usr/lib/jvm/java-7-oracle/man/man1/jmap.1
+sudo update-alternatives --quiet --install /usr/bin/jps jps /usr/lib/jvm/java-7-oracle/bin/jps 100 --slave /usr/share/man/man1/jps.1 jps.1 /usr/lib/jvm/java-7-oracle/man/man1/jps.1
+sudo update-alternatives --quiet --install /usr/bin/jrunscript jrunscript /usr/lib/jvm/java-7-oracle/bin/jrunscript 100 --slave /usr/share/man/man1/jrunscript.1 jrunscript.1 /usr/lib/jvm/java-7-oracle/man/man1/jrunscript.1
+sudo update-alternatives --quiet --install /usr/bin/jsadebugd jsadebugd /usr/lib/jvm/java-7-oracle/bin/jsadebugd 100 --slave /usr/share/man/man1/jsadebugd.1 jsadebugd.1 /usr/lib/jvm/java-7-oracle/man/man1/jsadebugd.1
+sudo update-alternatives --quiet --install /usr/bin/jstack jstack /usr/lib/jvm/java-7-oracle/bin/jstack 100 --slave /usr/share/man/man1/jstack.1 jstack.1 /usr/lib/jvm/java-7-oracle/man/man1/jstack.1
+sudo update-alternatives --quiet --install /usr/bin/jstat jstat /usr/lib/jvm/java-7-oracle/bin/jstat 100 --slave /usr/share/man/man1/jstat.1 jstat.1 /usr/lib/jvm/java-7-oracle/man/man1/jstat.1
+sudo update-alternatives --quiet --install /usr/bin/jstatd jstatd /usr/lib/jvm/java-7-oracle/bin/jstatd 100 --slave /usr/share/man/man1/jstatd.1 jstatd.1 /usr/lib/jvm/java-7-oracle/man/man1/jstatd.1
+sudo update-alternatives --quiet --install /usr/bin/native2ascii native2ascii /usr/lib/jvm/java-7-oracle/bin/native2ascii 100 --slave /usr/share/man/man1/native2ascii.1 native2ascii.1 /usr/lib/jvm/java-7-oracle/man/man1/native2ascii.1
+sudo update-alternatives --quiet --install /usr/bin/rmic rmic /usr/lib/jvm/java-7-oracle/bin/rmic 100 --slave /usr/share/man/man1/rmic.1 rmic.1 /usr/lib/jvm/java-7-oracle/man/man1/rmic.1
+sudo update-alternatives --quiet --install /usr/bin/schemagen schemagen /usr/lib/jvm/java-7-oracle/bin/schemagen 100 --slave /usr/share/man/man1/schemagen.1 schemagen.1 /usr/lib/jvm/java-7-oracle/man/man1/schemagen.1
+sudo update-alternatives --quiet --install /usr/bin/serialver serialver /usr/lib/jvm/java-7-oracle/bin/serialver 100 --slave /usr/share/man/man1/serialver.1 serialver.1 /usr/lib/jvm/java-7-oracle/man/man1/serialver.1
+sudo update-alternatives --quiet --install /usr/bin/wsgen wsgen /usr/lib/jvm/java-7-oracle/bin/wsgen 100 --slave /usr/share/man/man1/wsgen.1 wsgen.1 /usr/lib/jvm/java-7-oracle/man/man1/wsgen.1
+sudo update-alternatives --quiet --install /usr/bin/wsimport wsimport /usr/lib/jvm/java-7-oracle/bin/wsimport 100 --slave /usr/share/man/man1/wsimport.1 wsimport.1 /usr/lib/jvm/java-7-oracle/man/man1/wsimport.1
+sudo update-alternatives --quiet --install /usr/bin/xjc xjc /usr/lib/jvm/java-7-oracle/bin/xjc 100 --slave /usr/share/man/man1/xjc.1 xjc.1 /usr/lib/jvm/java-7-oracle/man/man1/xjc.1
+echo "you may run the Alternatives_Install_list manually later to keep your system up to date"
+echo "to do so run sh $HOME/Java7ARM/Alternatives_Install_list from a terminal window"
+EOF
+# Create script to compile the JRE/JDK description file named java-7-oracle.jinfo to use with update-java-alternatives
+echo "Creating script to compile the JRE/JDK description file named .java-7-oracle.jinfo to use with update-java-alternatives"
+sudo cat > $Java7JDK_Componet_Path/JRE_JDK_Descriptions <<EOF
+echo 'alias=java-7-oracle 
+priority=100 
+section=non-free
+hl java /usr/lib/jvm/java-7-oracle/jre/bin/java
+hl keytool /usr/lib/jvm/java-7-oracle/jre/bin/keytool
+hl pack200 /usr/lib/jvm/java-7-oracle/jre/bin/pack200
+hl rmid /usr/lib/jvm/java-7-oracle/jre/bin/rmid
+hl rmiregistry /usr/lib/jvm/java-7-oracle/jre/bin/rmiregistry
+hl unpack200 /usr/lib/jvm/java-7-oracle/jre/bin/unpack200
+hl orbd /usr/lib/jvm/java-7-oracle/jre/bin/orbd
+hl servertool /usr/lib/jvm/java-7-oracle/jre/bin/servertool
+hl tnameserv /usr/lib/jvm/java-7-oracle/jre/bin/tnameserv
+hl jexec /usr/lib/jvm/java-7-oracle/jre/lib/jexec
+jre policytool /usr/lib/jvm/java-7-oracle/jre/bin/policytool
+jdk appletviewer /usr/lib/jvm/java-7-oracle/bin/appletviewer
+jdk apt /usr/lib/jvm/java-7-oracle/bin/apt
+jdk extcheck /usr/lib/jvm/java-7-oracle/bin/extcheck
+jdk idlj /usr/lib/jvm/java-7-oracle/bin/idlj
+jdk jar /usr/lib/jvm/java-7-oracle/bin/jar
+jdk jarsigner /usr/lib/jvm/java-7-oracle/bin/jarsigner
+jdk java-rmi.cgi /usr/lib/jvm/java-7-oracle/bin/java-rmi.cgi
+jdk javac /usr/lib/jvm/java-7-oracle/bin/javac
+jdk javadoc /usr/lib/jvm/java-7-oracle/bin/javadoc
+jdk javah /usr/lib/jvm/java-7-oracle/bin/javah
+jdk javap /usr/lib/jvm/java-7-oracle/bin/javap
+jdk jconsole /usr/lib/jvm/java-7-oracle/bin/jconsole
+jdk jdb /usr/lib/jvm/java-7-oracle/bin/jdb
+jdk jhat /usr/lib/jvm/java-7-oracle/bin/jhat
+jdk jinfo /usr/lib/jvm/java-7-oracle/bin/jinfo
+jdk jmap /usr/lib/jvm/java-7-oracle/bin/jmap
+jdk jps /usr/lib/jvm/java-7-oracle/bin/jps
+jdk jrunscript /usr/lib/jvm/java-7-oracle/bin/jrunscript
+jdk jsadebugd /usr/lib/jvm/java-7-oracle/bin/jsadebugd
+jdk jstack /usr/lib/jvm/java-7-oracle/bin/jstack
+jdk jstat /usr/lib/jvm/java-7-oracle/bin/jstat
+jdk jstatd /usr/lib/jvm/java-7-oracle/bin/jstatd
+jdk native2ascii /usr/lib/jvm/java-7-oracle/bin/native2ascii
+jdk rmic /usr/lib/jvm/java-7-oracle/bin/rmic
+jdk schemagen /usr/lib/jvm/java-7-oracle/bin/schemagen
+jdk serialver /usr/lib/jvm/java-7-oracle/bin/serialver
+jdk wsgen /usr/lib/jvm/java-7-oracle/bin/wsgen
+jdk wsimport /usr/lib/jvm/java-7-oracle/bin/wsimport
+jdk xjc /usr/lib/jvm/java-7-oracle/bin/xjc' | sudo tee .java-7-oracle.jinfo
+echo "you may run the JRE_JDK_Descriptions manually later to keep your system up to date"
+echo "to do so run sh $HOME/Java7ARM/JRE_JDK_Descriptions from a terminal window"
+EOF
+# Make a script to Activate Java JDK
+echo “Now writing Java7_Activator”
+sudo cat > $Java7JDK_Componet_Path/Java7_Activator <<EOF
+sudo update-java-alternatives --set java-7-oracle
+EOF
+# Make a script to run all scripts created by this script
+echo "Now writing a script that will run all scripts that were written to your system"
+sudo cat > $Java7JDK_Componet_Path/Script_Runner <<EOF
+#!/bin/bash
+set -e
+# set -x
+echo "runing Depends_Install_List"
+sh $Java7JDK_Componet_Path/Depends_Install_List
+echo "_________________"
+echo "running Java_Source_Finder"
+sh $Java7JDK_Componet_Path/Java_Source_Finder
+echo "_________________"
+echo "running Java_Source_copyExtracter"
+sh $Java7JDK_Componet_Path/Java_Source_copyExtracter
+echo "_________________"
+echo "running Alternatives_Install_list"
+sh $Java7JDK_Componet_Path/Alternatives_Install_list
+echo "_________________"
+echo "running JRE_JDK_Descriptions"
+sh $Java7JDK_Componet_Path/JRE_JDK_Descriptions
+echo "_________________"
+echo "running Java7_Activator"
+sh $Java7JDK_Componet_Path/Java7_Activator
+echo "_________________"
+# set +x
+set +e
+EOF
+# Make a script to fix all permissions for this script
+echo "Making a file to fix permissions for the rest of this script"
+sudo cat > $Java7JDK_Componet_Path/Permission_Fixer <<EOF 
+#!/bin/bash
+# Now Fixing permissions
+echo "fixing permissions for running this script"
+sudo chmod +x $Java7JDK_Componet_Path/Script_Runner
+sudo chmod +x $Java7JDK_Componet_Path/Depends_Install_List
+sudo chmod +x $Java7JDK_Componet_Path/Java_Source_Finder
+sudo chmod +x $Java7JDK_Componet_Path/Java_Source_copyExtracter
+sudo chmod +x $Java7JDK_Componet_Path/Alternatives_Install_list
+sudo chmod +x $Java7JDK_Componet_Path/JRE_JDK_Descriptions
+sudo chmod +x $Java7JDK_Componet_Path/Java7_Activator
+EOF
+# Fix permissions for that file so it can run
+echo "Fixing the Permissions on Permission_Fixer so it can fix all other permissions"
+sudo chmod +x $Java7JDK_Componet_Path/Permission_Fixer
+# Checks will need to be added to ensure all has downloaded and installed before the next part, for now ask the user again if they want to continue
+{
+# confirm manual or auto install
+echo "Part 1 complete, starting Part 2"
+echo "To reiterate the variables"
+echo "Your username is $USER"
+echo "Your home folder is $HOME"
+echo "you can now exit this script and run each individual script"
+echo "from the $Java7JDK_Componet_Path directory"
+ls $Java7JDK_Componet_Path
+echo "or let this continue in auto mode by selecting yes"
+read -r -p "Would you like to continue in auto mode? [Y/n]" response
+case "$response" in
+	[yY][eE][sS]|[yY])
+# if yes, then run Script_Runner to auto install everything
+sh $Java7JDK_Componet_Path/Script_Runner
+# if yes, then check that Script_Runner succeeded
+java -version
+java -server -version
+		;;
+	*)
+#		 Otherwise exit..
+	echo "Good Night"
+	exit
+	;;
+esac
+} 
+echo "Installation Complete?"
+echo "________________________________"
+echo exit
+
+
