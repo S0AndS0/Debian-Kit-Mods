@@ -18,7 +18,7 @@ echo "ARM Linux Operating System"
 # confirm with the user 
 read -r -p "Input yes to continue" response 
 case "$response" in 
-  [yY][eE][sS]|[yY]) 
+	[yY][eE][sS]|[yY]) 
 # if yes, then start risking changes 
 		;; 
 	*) 
@@ -40,15 +40,15 @@ echo "critical environmental variables have been set."
 mkdir -p $HOME/ARM_Mod/Install_Scripts/Components
 mkdir -p $HOME/ARM_Mod/Download
 # file path variables start
-TS-Componit_Path=$HOME/ARM_Mod/Install_Script/Components
-TS-Download_Path=$HOME/ARM_Mod/Download
+TS_Componit_Path=$HOME/ARM_Mod/Install_Script/Components
+TS_Download_Path=$HOME/ARM_Mod/Download
 # file path variables end
 # start file path variables read out
-echo "$TS-Componit_Path will be used"
+echo "$TS_Componit_Path will be used"
 echo "to unpack or download script components"
 echo "used latter in $This_Script"
 # 
-echo "$TS-Download_Path will be used"
+echo "$TS_Download_Path will be used"
 echo "to Download source files"
 echo "used latter in $This_Script and others"
 # end file path variables read out
@@ -64,8 +64,8 @@ Python_Download=https://docs.google.com/document/d/1SFl9OYdZUPxD0ls0ToKRdqsumwT7
 # Prompt for which scripts to download or run
 echo "$SAS_MMod Can download and or run the following"
 echo "0 - All of the following"
-echo "1 - Java ARM JDK"
-echo "2 - Maptools"
+echo "1 - Java ARM JDK Functional"
+echo "2 - Maptools Functional"
 echo "3 - jMonkey"
 echo "4 - Casual"
 echo "5 - Heimdall"
@@ -78,48 +78,837 @@ read -r -p "Which one thing would you like to do" response
 	if [ $response = 1 ] 
 then 
 #	 if 1 then download and run script for installing JDK from Java
-		wget -cP $TS-Componit_Path/Java_JDK_Installer.sh 
-		sh $TS-Componit_Path/Java_JDK_Installer.sh $JavaJDK_Download
+#		wget -cP $TS_Componit_Path/Java_JDK_Installer.sh $JavaJDK_Download 
+#		sh $TS_Componit_Path/Java_JDK_Installer.sh 
+echo "________________________________"
+echo "The author can be contacted through"
+echo "Google at Michael NA and"
+echo "XDA at S0AndS0"
+echo "for any help or concerns"
+{
+# alert to what's about to happen
+echo "________________________________"
+echo "This script is written in the hopes that it will be found useful"
+echo "use it to install Java 7 from source on ARM Linux systems"
+echo "you can find another version of this script that installs extras here"
+echo " https://docs.google.com/document/d/19zyqqYSed4TDmXaY7YSeVOTA44QRfAIWhOlxS_djtI0/edit?usp=docslist_api"
+echo "You're about to install Java 7 soft float"
+# confirm with the user
+read -r -p "Are you sure? [Y/n]" response
+case "$response" in
+	[yY][eE][sS]|[yY])
+ # if yes, then start risking changes
+		;;
+	*)
+ #		 Otherwise exit..
+	echo "Good Night" exit
+	exit 
+	;;
+esac
+}
+# Next is setting some required variables
+ : ${USER?} ${HOME?} 
+echo 
+echo "You are $USER."
+echo "Your home directory is $HOME."
+echo 
+echo "If you are reading this message"
+echo "critical environmental variables have been set."
+# Make a folder to install JVM to
+sudo mkdir -p /usr/lib/jvm
+# Make a folder to download Java apps and scripts to
+sudo mkdir -p $HOME/ARM_Mod/Install_Scripts/Components/Java7JDK
+# Start variables for folders
+Java7JDK_Componet_Path=$HOME/ARM_Mod/Install_Scripts/Components/Java7JDK 
+# End variables for folders
+# Start read out of folder variables
+echo "$Java7JDK_Componet_Path will be used for"
+echo "unpacking components of this script to"
+# End of read out of folder variables
+# Create a List of packages to install
+echo "creating a list of packages to install to your system"
+sudo cat > $Java7JDK_Componet_Path/Depends_Install_List <<EOF
+# I compiled this list from
+# http://www.oracle.com/technetwork/java/javase/downloads/jdk7-downloads-1880260.html
+# http://www.calxeda.com/trystack/gettingstarted/
+# http://elinux.org/RPi_Java_JDK_Installation
+# http://www.savagehomeautomation.com/pi-jdk
+# and automated it thanks to 
+# http://stackoverflow.com/questions/10268583/how-to-automate-download-and-instalation-of-java-jdk-on-linux
+# let me know if things need to be added or changed, please and thank you.
+echo "you may run the package install list manually later to keep your system up to date,"
+echo "to do so run $ sh $HOME/Java7ARM/Depends_Install_List from a terminal window"
+echo "for now though this script will automatically take care of the first install of all packages"
+sudo apt-get install -y java-common
+sudo apt-get install -y libc6-armel
+sudo apt-get install -y libsfgcc1
+sudo apt-get install -y libsfstdc++6
+echo "you may run the package install list manually later to keep your system up to date,"
+echo "to do so run $ sh $Java7JDK_Componet_Path/Depends_Install_List from a terminal window"
+EOF
+sudo cat > $Java7JDK_Componet_Path/Java_Source_Finder <<EOF
+echo "This script was written under the following usernames"
+echo "S0AndS0 or Michael NA"
+echo "from"
+echo "XDA and Maptools or Google."
+echo "To automate and make easy the processes of installing"
+echo "Java from source or tarball and Java dependent software"
+echo "such as Maptools and jMonkey."
+echo "For ARM CPUs running Linux such as"
+echo "Raspberry Pi and Android mobile devices."
+echo "Contact the author for help or concerns"
+# warning of pairale
+echo "This is offered freely and without warranty"
+echo "users of this script may very well destroy everything"
+echo "they hold dear and everything around them for miles"
+echo "perhaps latter?"
+# Find the tarball for Java 7u21
+find /sdcard/download -type f -iname '*tar.gz' -print0 | xargs -0 ls 
+echo "if the file was downloaded elsewhere then manually move it"
+# confirm with user
+{
+# alert to what's about to happen
+echo "________________________________"
+echo "Warning"
+echo "you may destroy everything around"
+echo "you for miles if you continue down this path"
+# confirm with the user
+read -r -p "Are you sure? [Y/n]" response
+case "$response" in
+	[yY][eE][sS]|[yY])
+ # if yes, then start risking changes
+		;;
+	*)
+#		 Otherwise exit..
+	echo "Good Night"
+	exit
+	;;
+esac
+} 
+echo "moving on to copyExtracter"
+EOF
+sudo cat > $Java7JDK_Componet_Path/Java_Source_copyExtracter <<EOF
+echo "Finding and Copying Java tarball from the SD card to your $HOME directory"
+find /sdcard/download -type f -iname 'jdk-7u21*' -print0 | xargs -0 cp --interactive --verbose --target-directory=$HOME/Java7ARM 
+echo "Finding and changing ownership of Java tarball in your $HOME directory"
+find $HOME/Java7ARM -type f -iname 'jdk-7u21*' -print0 | xargs -0 chown $USER:$USER
+echo "Finding and changing permissions of Java tarball in $HOME directory to read write and execute for $USER"
+find $HOME/Java7ARM -type f -iname 'jdk-7u21*' -print0 | xargs -0 chmod --changes --recursive 755
+cd /usr/lib/jvm
+find $HOME/Java7ARM -type f -iname 'jdk-7u21*' -print0 | xargs -0 sudo tar -vxpzf
+# --verbose --extract --gunzip --file=
+sudo ln -s jdk1.7.0_21 java-7-oracle
+cd ~
+EOF
+# Create a list of alternatives to install for JDK tools
+echo "creating a list of alternatives to install for JDK tools to your system"
+sudo cat > $Java7JDK_Componet_Path/Alternatives_Install_list <<EOF
+# I compiled this list from http://www.calxeda.com/trystack/gettingstarted/
+# let me know if things need to be added or changed, please and thank you.
+echo "you may run the package install list manually later to keep your system up to date"
+echo "to do so run $ sh $HOME/Java7ARM/Alternatives_Install_list from a terminal window"
+echo "for now though this script will automatically take care of the first install of all packages"
+sudo update-alternatives --quiet --install /usr/bin/java java /usr/lib/jvm/java-7-oracle/jre/bin/java 100
+sudo update-alternatives --quiet --install /usr/bin/keytool keytool /usr/lib/jvm/java-7-oracle/jre/bin/keytool 100
+sudo update-alternatives --quiet --install /usr/bin/pack200 pack200 /usr/lib/jvm/java-7-oracle/jre/bin/pack200 100
+sudo update-alternatives --quiet --install /usr/bin/policytool policytool /usr/lib/jvm/java-7-oracle/jre/bin/policytool 100
+sudo update-alternatives --quiet --install /usr/bin/rmid rmid /usr/lib/jvm/java-7-oracle/jre/bin/rmid 100
+sudo update-alternatives --quiet --install /usr/bin/rmiregistry rmiregistry /usr/lib/jvm/java-7-oracle/jre/bin/rmiregistry 100
+sudo update-alternatives --quiet --install /usr/bin/unpack200 unpack200 /usr/lib/jvm/java-7-oracle/jre/bin/unpack200 100
+sudo update-alternatives --quiet --install /usr/bin/orbd orbd /usr/lib/jvm/java-7-oracle/jre/bin/orbd 100
+sudo update-alternatives --quiet --install /usr/bin/servertool servertool /usr/lib/jvm/java-7-oracle/jre/bin/servertool 100
+sudo update-alternatives --quiet --install /usr/bin/tnameserv tnameserv /usr/lib/jvm/java-7-oracle/jre/bin/tnameserv 100
+sudo update-alternatives --quiet --install /usr/bin/jexec jexec /usr/lib/jvm/java-7-oracle/jre/lib/jexec 100
+sudo update-alternatives --quiet --install /usr/bin/appletviewer appletviewer /usr/lib/jvm/java-7-oracle/bin/appletviewer 100 --slave /usr/share/man/man1/appletviewer.1 appletviewer.1 /usr/lib/jvm/java-7-oracle/man/man1/appletviewer.1
+sudo update-alternatives --quiet --install /usr/bin/apt apt /usr/lib/jvm/java-7-oracle/bin/apt 100 --slave /usr/share/man/man1/apt.1 apt.1 /usr/lib/jvm/java-7-oracle/man/man1/apt.1
+sudo update-alternatives --quiet --install /usr/bin/extcheck extcheck /usr/lib/jvm/java-7-oracle/bin/extcheck 100 --slave /usr/share/man/man1/extcheck.1 extcheck.1 /usr/lib/jvm/java-7-oracle/man/man1/extcheck.1
+sudo update-alternatives --quiet --install /usr/bin/idlj idlj /usr/lib/jvm/java-7-oracle/bin/idlj 100 --slave /usr/share/man/man1/idlj.1 idlj.1 /usr/lib/jvm/java-7-oracle/man/man1/idlj.1
+sudo update-alternatives --quiet --install /usr/bin/jar jar /usr/lib/jvm/java-7-oracle/bin/jar 100 --slave /usr/share/man/man1/jar.1 jar.1 /usr/lib/jvm/java-7-oracle/man/man1/jar.1
+sudo update-alternatives --quiet --install /usr/bin/jarsigner jarsigner /usr/lib/jvm/java-7-oracle/bin/jarsigner 100 --slave /usr/share/man/man1/jarsigner.1 jarsigner.1 /usr/lib/jvm/java-7-oracle/man/man1/jarsigner.1
+sudo update-alternatives --quiet --install /usr/bin/java-rmi.cgi java-rmi.cgi /usr/lib/jvm/java-7-oracle/bin/java-rmi.cgi 100
+sudo update-alternatives --quiet --install /usr/bin/javac javac /usr/lib/jvm/java-7-oracle/bin/javac 100 --slave /usr/share/man/man1/javac.1 javac.1 /usr/lib/jvm/java-7-oracle/man/man1/javac.1
+sudo update-alternatives --quiet --install /usr/bin/javadoc javadoc /usr/lib/jvm/java-7-oracle/bin/javadoc 100 --slave /usr/share/man/man1/javadoc.1 javadoc.1 /usr/lib/jvm/java-7-oracle/man/man1/javadoc.1
+sudo update-alternatives --quiet --install /usr/bin/javah javah /usr/lib/jvm/java-7-oracle/bin/javah 100 --slave /usr/share/man/man1/javah.1 javah.1 /usr/lib/jvm/java-7-oracle/man/man1/javah.1
+sudo update-alternatives --quiet --install /usr/bin/javap javap /usr/lib/jvm/java-7-oracle/bin/javap 100 --slave /usr/share/man/man1/javap.1 javap.1 /usr/lib/jvm/java-7-oracle/man/man1/javap.1
+sudo update-alternatives --quiet --install /usr/bin/jconsole jconsole /usr/lib/jvm/java-7-oracle/bin/jconsole 100 --slave /usr/share/man/man1/jconsole.1 jconsole.1 /usr/lib/jvm/java-7-oracle/man/man1/jconsole.1
+sudo update-alternatives --quiet --install /usr/bin/jdb jdb /usr/lib/jvm/java-7-oracle/bin/jdb 100 --slave /usr/share/man/man1/jdb.1 jdb.1 /usr/lib/jvm/java-7-oracle/man/man1/jdb.1
+sudo update-alternatives --quiet --install /usr/bin/jhat jhat /usr/lib/jvm/java-7-oracle/bin/jhat 100 --slave /usr/share/man/man1/jhat.1 jhat.1 /usr/lib/jvm/java-7-oracle/man/man1/jhat.1
+sudo update-alternatives --quiet --install /usr/bin/jinfo jinfo /usr/lib/jvm/java-7-oracle/bin/jinfo 100 --slave /usr/share/man/man1/jinfo.1 jinfo.1 /usr/lib/jvm/java-7-oracle/man/man1/jinfo.1
+sudo update-alternatives --quiet --install /usr/bin/jmap jmap /usr/lib/jvm/java-7-oracle/bin/jmap 100 --slave /usr/share/man/man1/jmap.1 jmap.1 /usr/lib/jvm/java-7-oracle/man/man1/jmap.1
+sudo update-alternatives --quiet --install /usr/bin/jps jps /usr/lib/jvm/java-7-oracle/bin/jps 100 --slave /usr/share/man/man1/jps.1 jps.1 /usr/lib/jvm/java-7-oracle/man/man1/jps.1
+sudo update-alternatives --quiet --install /usr/bin/jrunscript jrunscript /usr/lib/jvm/java-7-oracle/bin/jrunscript 100 --slave /usr/share/man/man1/jrunscript.1 jrunscript.1 /usr/lib/jvm/java-7-oracle/man/man1/jrunscript.1
+sudo update-alternatives --quiet --install /usr/bin/jsadebugd jsadebugd /usr/lib/jvm/java-7-oracle/bin/jsadebugd 100 --slave /usr/share/man/man1/jsadebugd.1 jsadebugd.1 /usr/lib/jvm/java-7-oracle/man/man1/jsadebugd.1
+sudo update-alternatives --quiet --install /usr/bin/jstack jstack /usr/lib/jvm/java-7-oracle/bin/jstack 100 --slave /usr/share/man/man1/jstack.1 jstack.1 /usr/lib/jvm/java-7-oracle/man/man1/jstack.1
+sudo update-alternatives --quiet --install /usr/bin/jstat jstat /usr/lib/jvm/java-7-oracle/bin/jstat 100 --slave /usr/share/man/man1/jstat.1 jstat.1 /usr/lib/jvm/java-7-oracle/man/man1/jstat.1
+sudo update-alternatives --quiet --install /usr/bin/jstatd jstatd /usr/lib/jvm/java-7-oracle/bin/jstatd 100 --slave /usr/share/man/man1/jstatd.1 jstatd.1 /usr/lib/jvm/java-7-oracle/man/man1/jstatd.1
+sudo update-alternatives --quiet --install /usr/bin/native2ascii native2ascii /usr/lib/jvm/java-7-oracle/bin/native2ascii 100 --slave /usr/share/man/man1/native2ascii.1 native2ascii.1 /usr/lib/jvm/java-7-oracle/man/man1/native2ascii.1
+sudo update-alternatives --quiet --install /usr/bin/rmic rmic /usr/lib/jvm/java-7-oracle/bin/rmic 100 --slave /usr/share/man/man1/rmic.1 rmic.1 /usr/lib/jvm/java-7-oracle/man/man1/rmic.1
+sudo update-alternatives --quiet --install /usr/bin/schemagen schemagen /usr/lib/jvm/java-7-oracle/bin/schemagen 100 --slave /usr/share/man/man1/schemagen.1 schemagen.1 /usr/lib/jvm/java-7-oracle/man/man1/schemagen.1
+sudo update-alternatives --quiet --install /usr/bin/serialver serialver /usr/lib/jvm/java-7-oracle/bin/serialver 100 --slave /usr/share/man/man1/serialver.1 serialver.1 /usr/lib/jvm/java-7-oracle/man/man1/serialver.1
+sudo update-alternatives --quiet --install /usr/bin/wsgen wsgen /usr/lib/jvm/java-7-oracle/bin/wsgen 100 --slave /usr/share/man/man1/wsgen.1 wsgen.1 /usr/lib/jvm/java-7-oracle/man/man1/wsgen.1
+sudo update-alternatives --quiet --install /usr/bin/wsimport wsimport /usr/lib/jvm/java-7-oracle/bin/wsimport 100 --slave /usr/share/man/man1/wsimport.1 wsimport.1 /usr/lib/jvm/java-7-oracle/man/man1/wsimport.1
+sudo update-alternatives --quiet --install /usr/bin/xjc xjc /usr/lib/jvm/java-7-oracle/bin/xjc 100 --slave /usr/share/man/man1/xjc.1 xjc.1 /usr/lib/jvm/java-7-oracle/man/man1/xjc.1
+echo "you may run the Alternatives_Install_list manually later to keep your system up to date"
+echo "to do so run sh $HOME/Java7ARM/Alternatives_Install_list from a terminal window"
+EOF
+# Create script to compile the JRE/JDK description file named java-7-oracle.jinfo to use with update-java-alternatives
+echo "Creating script to compile the JRE/JDK description file named .java-7-oracle.jinfo to use with update-java-alternatives"
+sudo cat > $Java7JDK_Componet_Path/JRE_JDK_Descriptions <<EOF
+echo 'alias=java-7-oracle 
+priority=100 
+section=non-free
+hl java /usr/lib/jvm/java-7-oracle/jre/bin/java
+hl keytool /usr/lib/jvm/java-7-oracle/jre/bin/keytool
+hl pack200 /usr/lib/jvm/java-7-oracle/jre/bin/pack200
+hl rmid /usr/lib/jvm/java-7-oracle/jre/bin/rmid
+hl rmiregistry /usr/lib/jvm/java-7-oracle/jre/bin/rmiregistry
+hl unpack200 /usr/lib/jvm/java-7-oracle/jre/bin/unpack200
+hl orbd /usr/lib/jvm/java-7-oracle/jre/bin/orbd
+hl servertool /usr/lib/jvm/java-7-oracle/jre/bin/servertool
+hl tnameserv /usr/lib/jvm/java-7-oracle/jre/bin/tnameserv
+hl jexec /usr/lib/jvm/java-7-oracle/jre/lib/jexec
+jre policytool /usr/lib/jvm/java-7-oracle/jre/bin/policytool
+jdk appletviewer /usr/lib/jvm/java-7-oracle/bin/appletviewer
+jdk apt /usr/lib/jvm/java-7-oracle/bin/apt
+jdk extcheck /usr/lib/jvm/java-7-oracle/bin/extcheck
+jdk idlj /usr/lib/jvm/java-7-oracle/bin/idlj
+jdk jar /usr/lib/jvm/java-7-oracle/bin/jar
+jdk jarsigner /usr/lib/jvm/java-7-oracle/bin/jarsigner
+jdk java-rmi.cgi /usr/lib/jvm/java-7-oracle/bin/java-rmi.cgi
+jdk javac /usr/lib/jvm/java-7-oracle/bin/javac
+jdk javadoc /usr/lib/jvm/java-7-oracle/bin/javadoc
+jdk javah /usr/lib/jvm/java-7-oracle/bin/javah
+jdk javap /usr/lib/jvm/java-7-oracle/bin/javap
+jdk jconsole /usr/lib/jvm/java-7-oracle/bin/jconsole
+jdk jdb /usr/lib/jvm/java-7-oracle/bin/jdb
+jdk jhat /usr/lib/jvm/java-7-oracle/bin/jhat
+jdk jinfo /usr/lib/jvm/java-7-oracle/bin/jinfo
+jdk jmap /usr/lib/jvm/java-7-oracle/bin/jmap
+jdk jps /usr/lib/jvm/java-7-oracle/bin/jps
+jdk jrunscript /usr/lib/jvm/java-7-oracle/bin/jrunscript
+jdk jsadebugd /usr/lib/jvm/java-7-oracle/bin/jsadebugd
+jdk jstack /usr/lib/jvm/java-7-oracle/bin/jstack
+jdk jstat /usr/lib/jvm/java-7-oracle/bin/jstat
+jdk jstatd /usr/lib/jvm/java-7-oracle/bin/jstatd
+jdk native2ascii /usr/lib/jvm/java-7-oracle/bin/native2ascii
+jdk rmic /usr/lib/jvm/java-7-oracle/bin/rmic
+jdk schemagen /usr/lib/jvm/java-7-oracle/bin/schemagen
+jdk serialver /usr/lib/jvm/java-7-oracle/bin/serialver
+jdk wsgen /usr/lib/jvm/java-7-oracle/bin/wsgen
+jdk wsimport /usr/lib/jvm/java-7-oracle/bin/wsimport
+jdk xjc /usr/lib/jvm/java-7-oracle/bin/xjc' | sudo tee .java-7-oracle.jinfo
+echo "you may run the JRE_JDK_Descriptions manually later to keep your system up to date"
+echo "to do so run sh $HOME/Java7ARM/JRE_JDK_Descriptions from a terminal window"
+EOF
+# Make a script to Activate Java JDK
+echo “Now writing Java7_Activator”
+sudo cat > $Java7JDK_Componet_Path/Java7_Activator <<EOF
+sudo update-java-alternatives --set java-7-oracle
+EOF
+# Make a script to run all scripts created by this script
+echo "Now writing a script that will run all scripts that were written to your system"
+sudo cat > $Java7JDK_Componet_Path/Script_Runner <<EOF
+\#!/bin/bash
+set -e
+# set -x
+echo "runing Depends_Install_List"
+sh $Java7JDK_Componet_Path/Depends_Install_List
+echo "_________________"
+echo "running Java_Source_Finder"
+sh $Java7JDK_Componet_Path/Java_Source_Finder
+echo "_________________"
+echo "running Java_Source_copyExtracter"
+sh $Java7JDK_Componet_Path/Java_Source_copyExtracter
+echo "_________________"
+echo "running Alternatives_Install_list"
+sh $Java7JDK_Componet_Path/Alternatives_Install_list
+echo "_________________"
+echo "running JRE_JDK_Descriptions"
+sh $Java7JDK_Componet_Path/JRE_JDK_Descriptions
+echo "_________________"
+echo "running Java7_Activator"
+sh $Java7JDK_Componet_Path/Java7_Activator
+echo "_________________"
+# set +x
+set +e
+EOF
+# Make a script to fix all permissions for this script
+echo "Making a file to fix permissions for the rest of this script"
+sudo cat > $Java7JDK_Componet_Path/Permission_Fixer <<EOF 
+\#!/bin/bash
+# Now Fixing permissions
+echo "fixing permissions for running this script"
+sudo chmod +x $Java7JDK_Componet_Path/Script_Runner
+sudo chmod +x $Java7JDK_Componet_Path/Depends_Install_List
+sudo chmod +x $Java7JDK_Componet_Path/Java_Source_Finder
+sudo chmod +x $Java7JDK_Componet_Path/Java_Source_copyExtracter
+sudo chmod +x $Java7JDK_Componet_Path/Alternatives_Install_list
+sudo chmod +x $Java7JDK_Componet_Path/JRE_JDK_Descriptions
+sudo chmod +x $Java7JDK_Componet_Path/Java7_Activator
+EOF
+# Fix permissions for that file so it can run
+echo "Fixing the Permissions on Permission_Fixer so it can fix all other permissions"
+sudo chmod +x $Java7JDK_Componet_Path/Permission_Fixer
+# Checks will need to be added to ensure all has downloaded and installed before the next part, for now ask the user again if they want to continue
+{
+# confirm manual or auto install
+echo "Part 1 complete, starting Part 2"
+echo "To reiterate the variables"
+echo "Your username is $USER"
+echo "Your home folder is $HOME"
+echo "you can now exit this script and run each individual script"
+echo "from the $Java7JDK_Componet_Path directory"
+ls $Java7JDK_Componet_Path
+echo "or let this continue in auto mode by selecting yes"
+read -r -p "Would you like to continue in auto mode? [Y/n]" response
+case "$response" in
+	[yY][eE][sS]|[yY])
+# if yes, then run Script_Runner to auto install everything
+sh $Java7JDK_Componet_Path/Script_Runner
+# if yes, then check that Script_Runner succeeded
+java -version
+java -server -version
+		;;
+	*)
+#		 Otherwise exit..
+	echo "Good Night"
+	exit
+	;;
+esac
+} 
+echo "Installation Complete?"
+echo "________________________________"
+echo exit 
 	elif [ $response = 2 ] 
 then 
 #	 if 2 then download and run script for Maptools
-		wget -cP $TS-Componit_Path/Maptools_Installer.sh $Maptools_Download
-		sh $TS-Componit_Path/Maptools_Installer.sh
+#		wget -cP $TS_Componit_Path/Maptools_Installer.sh $Maptools_Download
+#		sh $TS_Componit_Path/Maptools_Installer.sh
+# Make a script to download and extract Maptools
+echo "________________________________"
+echo "this script will download"
+echo "Maptools"
+echo "and extract and install it"
+{ 
+read -r -p "Are you sure? [Y/n]" response
+case "$response" in
+	[yY][eE][sS]|[yY])
+ # if yes, then start risking changes
+		;;
+	*)
+#		 Otherwise exit..
+	echo "Good Night"
+	echo exit
+	exit
+	;;
+esac
+} 
+ : ${USER?} ${HOME?} 
+echo 
+echo "You are $USER."
+echo "Your home directory is $HOME."
+echo 
+echo "If you are reading this message,"
+echo "critical environmental variables have been set."
+# Make some folders for all other operations to live in
+mkdir -p $HOME/ARM_Mod/Install_Scripts/Components/Maptools
+mkdir -p $HOME/ARM_Mod/Download/Maptools
+mkdir -p $HOME/ARM_Mod/jApps
+# file path variables start
+MT_Componit_Path=$HOME/ARM_Mod/Install_Script/Components/Maptools
+MT_Download_Path=$HOME/ARM_Mod/Download/Maptools
+MT_Install_Path=$HOME/ARM_Mod/jApps
+# file path variables end
+# start file path variables read out
+echo "$MT_Componit_Path will be used"
+echo "to unpack or download script components"
+echo "used latter in $This_Script"
+# 
+echo "$MT_Download_Path will be used"
+echo "to Download source files"
+echo "used latter in $This_Script and others"
+# 
+echo "$MT_Install_Path will be used"
+echo "to install new programs"
+echo "on your ARM Linux system"
+# end file path variables read out
+# start web address variable assignment
+Download_MT-1_3_b87="http://www.rptools.net/download/zip/maptool-1.3.b87.zip" 
+Download_DnD35_Pathfinder="https://www.sugarsync.com/pf/D356388_6189570_977596?directDownload=true" 
+# end web address variable assignment 
+# Write a Script to download Maptools
+sudo cat > $MT_Componit_Path/Maptools_Downloader <<EOF
+wget -cP $MT_Download_Path/maptool-1.3.b87.zip http://www.rptools.net/download/zip/maptool-1.3.b87.zip 
+EOF
+# Write a Script to extract Maptools 
+sudo cat >  $MT_Componit_Path/Maptools_Extractor <<EOF
+cd $MT_Install_Path
+find $MT_Download_Path -type f -iname 'maptool*' -print0 | xargs -0 sudo tar -vxpzf 
+cd ~
+EOF
+# Write a script to download extras to Maptools 
+sudo cat >  $MT_Componit_Path/Maptools_Extras <<EOF
+wget -cP $MT_Download_Path/MT1.3.87.06_DnD35_Pathfinder.cmpgn $Download_DnD35_Pathfinder
+mv $MT_Download_Path/MT1.3.87.06_DnD35_Pathfinder.cmpgn $MT_Install_Path/maptool*
+EOF
+# Write a script to make short cuts on your desktop for Maptools
+sudo cat >  $MT_Componit_Path/Shortcut_Maker <<EOF 
+ln -s $MT_Install_Path/maptool* $HOME/Desktop/Maptools
+EOF 
+# Write a script to fix all permissions for this script
+sudo cat >  $MT_Componit_Path/Permission_Fixer <<EOF 
+sudo chmod +x $MT_Componit_Path/Maptools_Downloader
+sudo chmod +x $MT_Componit_Path/Maptools_Extractor
+sudo chmod +x $MT_Componit_Path/Maptools_Extras
+sudo chmod +x $MT_Componit_Path/Shortcut_Maker
+sudo chmod +x $MT_Componit_Path/Script_Runner
+EOF 
+# fix permissions for Permission_Fixer
+sudo chmod +x $MT_Componit_Path/Permission_Fixer 
+# Write a script to make all other scripts run in proper oder
+sudo cat >  $MT_Componit_Path/Script_Runner <<EOF 
+sh $MT_Componit_Path/Maptools_Downloader 
+sh $MT_Componit_Path/Maptools_Extractor
+sh $MT_Componit_Path/Maptools_Extras
+sh $MT_Componit_Path/Shortcut_Maker
+EOF 
+echo "finished unpacking $This_Script"
+{ 
+read -r -p "Still want to continue? [Y/n]" response
+case "$response" in
+	[yY][eE][sS]|[yY])
+ # if yes, then start risking changes
+sh $MT_Componit_Path/Script_Runner
+		;;
+	*)
+#		 Otherwise exit..
+	echo "Good Night"
+	echo exit
+	exit
+	;;
+esac
+} 
+exit 
 	elif [ $response = 3 ] 
 then 
 #	 if 3 then download and run script for jMonkey 
-		wget -cP $TS-Componit_Path/jMonkey_Installer.sh $jMonkey_Download 
-		sh $TS-Componit_Path/jMonkey_Installer.sh
+#		wget -cP $TS_Componit_Path/jMonkey_Installer.sh $jMonkey_Download 
+#		sh $TS_Componit_Path/jMonkey_Installer.sh
+# Make a script to download and extract jMonkey
+# confirm with user
+{
+# alert to what's about to happen
+echo "________________________________"
+echo "this script will download"
+echo "jMonkey JDK"
+echo "and extract and install it"
+# confirm with the user
+read -r -p "Are you sure? [Y/n]" response
+case "$response" in
+	[yY][eE][sS]|[yY])
+ # if yes, then start risking changes
+		;;
+	*)
+#		 Otherwise exit..
+	echo "Good Night"
+	echo exit
+	exit
+	;;
+esac
+} 
+# Create some directories
+mkdir -p $HOME/ARM_Mod/Install_Scripts/Components/jMonkey
+mkdir -p $HOME/ARM_Mod/Download/jMonkey
+mkdir -p $HOME/ARM_Mod/jApps 
+# assine variables to new directories
+jM_Componet_Path=$HOME/ARM_Mod/Install_Script/Components/jMonkey
+jM_Download_Path=$HOME/ARM_Mod/Download/jMonkey
+jM_Install_Path=$HOME/ARM_Mod/jApps 
+# start variable readout
+echo "$jM_Componet_Path will be used to"
+echo "unpack this script to"
+#
+echo "$jM_Download_Path will be used to"
+echo "download jMonkey source file"
+#
+echo "$jM_Install_Path will be used to
+echo "\install jMonkey software"
+# end variable readout
+sudo cat > $jM_Componet_Path/Download_jMonkey <<EOF 
+# Download jMonkey JDK
+echo "downloading jMonkey JDK"
+sudo wget -cP $jM_Download_Path/jME3_SDK_3.0RC2-linux.zip http://hub.jmonkeyengine.org/wp-content/plugins/download-monitor/download.php?id=2
+EOF
+sudo cat > $jM_Componet_Path/Extract_jMonkey <<EOF 
+# Extract Maptools
+##### edits required
+cd $jM_Install_Path 
+find $jM_Download_Path -type f -iname 'jME3_SDK*' -print0 | xargs -0 sudo tar -vxpzf 
+cd ~
+EOF
+sudo cat > $jM_Componet_Path/Install_jMonkey <<EOF 
+# Run the installer for jMonkey
+echo "The next \command will open jMonkey’s installer"
+echo "when you are \done with the prompts that it prompts you \for"
+echo "then come back to the window that This_Script is running in"
+echo "so that This_Script can \complete the \install and update process"
+find $jM_Install_Path -type f -iname ‘jME3_SDK_3*’ -print0 | xargs -0 sh
+echo "if you’ve hit finish on the jMonkey installer window then say yes to the next prompt on This_Script"
+# confirm with user
+{
+# alert to what's about to happen
+echo "________________________________"
+echo "Has jMonkeys installer window closed"
+# confirm with the user
+read -r -p "Are you sure? [Y/n]" response
+case "$response" in
+	[yY][eE][sS]|[yY])
+ # if yes, then start risking changes
+		;;
+	*)
+#		 Otherwise exit..
+	echo "Good Night"
+	echo exit
+	exit
+	;;
+esac
+} 
+# Fix the shortcut on your desktop to the Maptools folder
+echo “Fixing the shortcut on your desktop to Maptools program”
+find $HOME/Desktop -type f -iname ‘jMonkeyEngine*’ -print0 | xargs -0 chmod --changes --recursive 755
+echo "Next you should try double clicking on the new shortcut on your desktop"
+echo "after jMonkey opens \for the first time you are not quite done"
+echo "go to the main jMonkey window"
+echo "up at the top is a \help drop down"
+echo "click \help and \then check \for updates"
+echo "let jMonkey check and download updates"
+echo "you will be prompted about security and certificates"
+echo "accept them and \then mouse down to the bottom of the jMonkey window"
+echo "after a few minutes you will see a pop up bubble stating"
+echo "that you should restart the jMonkey application"
+echo "be sure that you close all other jMonkey windows"
+echo "such as the \help window that popped up \for jMonkey"
+echo "then click the restart bubble and \let jMonkey update"
+echo "after that you should have a happy developing experience on ARM"
+EOF 
+sudo cat > $jM_Componet_Path/Permission_Fixer <<EOF 
+sudo chmod +x $jM_Componet_Path/Download_jMonkey 
+sudo chmod +x $jM_Componet_Path/Extract_jMonkey 
+sudo chmod +x $jM_Componet_Path/Install_jMonkey 
+sudo chmod +x $jM_Componet_Path/Script_Runner 
+EOF
+sudo chmod +x $jM_Componet_Path/Permission_Fixer 
+sudo cat > $jM_Componet_Path/Script_Runner <<EOF 
+sh $jM_Componet_Path/Download_jMonkey
+sh $jM_Componet_Path/Extract_jMonkey
+sh $jM_Componet_Path/Install_jMonkey 
+EOF
+echo "unpacking of script componets compleat"
+echo "starting the script runner \for jMonkey"
+sh $jM_Componet_Path/Script_Runner
+echo "exiting now"
+echo exit 
 	elif [ $response = 4 ] 
 then 
 #	 if 4 then download and run script for Casual 
-		wget -cP $TS-Componit_Path/Casual_Installer.sh $Casual_Download 
-		sh $TS-Componit_Path/Casual_Installer.sh 
+# 		wget -cP $TS_Componit_Path/Casual_Installer.sh $Casual_Download 
+# sh $TS_Componit_Path/Casual_Installer.sh 
+# Make a script to install all the things to root phones from your phone running Linux
+# Script Start
+echo "________________________________"
+# List of variable assignments for the easy updating and modding
+## set the user and home variables
+ : ${USER?} ${HOME?} 
+## set web addresses as variables
+## note to user. Edit the following with new addresses if you like
+## and you will not have to update the download part just rerun your edit of This_Script
+# set Casual dowload links to variables
+V_Caspackeger="http://goo.im/devs/AdamOutler/CASPACkager/CASPACkagerDist-RSVNRevision778.jar"
+V_Headless_Casual="https://code.google.com/p/android-casual/source/browse/branches/CASUAL-Headless/build.xml"
+V_GalaxyCamGC100="http://goo.im/devs/AdamOutler/GalaxyCamGC100/RootGC100GalaxyCamera-CASUAL-R778b--Nightly.jar"
+V_GS3-ATT_and_Canadian-Root="http://goo.im/devs/AdamOutler/GS3-Root-ATT-Can/GS3-ATT-and-Canadian-Root-CASUAL-R778b--Nightly.jar"
+V_Root_and_Recovery_ATT-TMO-GS4="http://goo.im/devs/AdamOutler/i337-GalaxyS4/Root-and-Recovery-ATT-TMO-GS4-CASUAL-R778b--Nightly.jar"
+V_OppoX909-TWRP-Root="http://goo.im/devs/AdamOutler/OppoFind5/OppoX909-TWRP-Root-CASUAL-R778b--Nightly.jar"
+V_GalaxyNote10.1-TakeNoteVerizon="http://goo.im/devs/AdamOutler/VZWGalaxyNote10.1/GalaxyNote10.1-TakeNoteVerizon-CASUAL-R778b--Nightly.jar"
+V_VZW-Gnote2="http://goo.im/devs/AdamOutler/VZWGalaxyNote2/VZW-Gnote2-CASUAL-NoYouVerizon-CASUAL-R778b--Nightly.jar"
+V_Root_and_Recovery_VZW-GS4="http://goo.im/devs/AdamOutler/VZWGalaxyS4/Root-and-Recovery-VZW-GS4-CASUAL-R778b--Nightly.jar"
+echo "________________________________"
+# Make directories to unpack and download to
+echo "Making the following directory paths $HOME/Casual/Installer/Package_List"
+mkdir $HOME/ARM_Mod/Install_Scripts/Components/Casual
+mkdir $HOME/ARM_Mod/Download/Casual 
+echo "________________________________"
+# Start variables for folder paths
+Casual_Coponit_Path=$HOME/ARM_Mod/Install_Scripts/Components/Casual
+Casual_Download_Path=$HOME/ARM_Mod/Download/Casual
+# End variables for folder paths
+# start folder variable read out
+echo "$Casual_Coponit_Path will be used \for" 
+echo "unpacking components of this script to" 
+echo "your ARM Linux system \for latter running"
+#
+echo "$Casual_Download_Path will be used \for" 
+echo "downloading Casual files to your system"
+echo "\for latter running"
+# end folder variable read out
+# Make a Script to install pre recs
+echo "Writing a list of packages to \install with apt get"
+sudo cat > $Casual_Coponit_Path/Package_List <<EOF
+echo "Using apt get to \install openjdk-7-jdk gksu dpkg \wget"
+sudo apt-get --simulation install openjdk-7-jdk gksu dpkg wget
+{ 
+read -r -p "\do you want to \install these packages?" response 
+case "$response" in
+	[yY][eE][sS]|[yY])
+# if yes, then start risking changes
+		;;
+	*)
+#		 Otherwise exit..
+	echo "Good Night"
+	echo exit
+	exit
+	;;
+esac
+} 
+# sudo apt-get --yes -q install openjdk-7-jdk
+sudo apt-get --yes -q install gksu
+sudo apt-get --yes -q install dpkg
+sudo apt-get --yes -q install wget
+EOF
+echo "________________________________"
+# Make a script to download Casual packager and then prompt for which jar to download too
+echo "Writing a script to download and \install Casual to ARM Linux"
+sudo cat > $Casual_Coponit_Path/Casuall_Downloader <<EOF
+echo "This script will download Casual packager first"
+echo "then it will prompt you \for \which additional casual files you wish to download"
+echo "Downloading CasPackager"
+wget -cP $Casual_Download_Path/CASPACkagerDist-RSVNRevision778.jar $V_Caspackeger
+echo "You may download the following"
+echo "Type Headless \for headless Casual"
+echo "Type GalaxyCam \for GalaxyCamGC100"
+echo "Type GS3 \for GS3-ATT and Canadian-Root"
+echo "Type ATT-TMO \for Root and Recovery ATT-TMO-GS4"
+echo "Type OppoX \for OppoX909-TWRP-Root"
+echo "Type GalaxyNote10 \for GalaxyNote10.1-TakeNoteVerizon"
+echo "Type VZW-Gnote2 \for VZW-Gnote2--NoYouVerizon"
+echo "Type VZW-GS4 \for Root and Recovery VZW-GS4"
+echo "Type ALL \for all files"
+read -r -p "Which one thing would you like to do" response
+	if [ $response = Headless ] then 
+#	 if Headless then download Headless
+		wget -cP $Casual_Download_Path/CASUAL-Headless-build.xml $V_Headless_Casual
+		# Do something after that
+	elif [ $response = GalaxyCam ] then 
+#	 if GalaxyCam then download GalaxyCam
+		wget -cP $Casual_Download_Path/RootGC100GalaxyCamera-CASUAL.jar $V_GalaxyCamGC100
+		# Do something after that
+	elif [ $response = GS3 ] then 
+#	 if GS3 then download GS3
+		wget -cP $Casual_Download_Path/GS3-ATT-and-Canadian-Root-CASUAL.jar $V_GS3-ATT_and_Canadian-Root
+		# Do something after that
+	elif [ $response = ATT-TMO ] then 
+#	 if ATT-TMO then download ATT-TMO
+		wget -cP $Casual_Download_Path/Root-and-Recovery-ATT-TMO-GS4-CASUAL.jar $V_Root_and_Recovery_ATT-TMO-GS4
+		# Do something after that
+	elif [ $response = OppoX ] then 
+#	 if OppoX then download OppoX 
+		wget -cP $Casual_Download_Path/OppoX909-TWRP-Root-CASUAL.jar $V_OppoX909-TWRP-Root
+		# Do Something after that
+	elif [ $response = GalaxyNote10 ] then 
+#	 if GalaxyNote10 then download GalaxyNote10 
+		wget -cP $Casual_Download_Path/GalaxyNote10.1-TakeNoteVerizon-CASUAL.jar $V_GalaxyNote10.1-TakeNoteVerizon
+		# Do something after that
+	elif [ $response = VZW-Gnote2 ] then 
+#	 if VZW-Gnote2 then download VZW-Gnote2 
+		wget -cP $Casual_Download_Path/VZW-Gnote2-CASUAL-NoYouVerizon-CASUAL.jar $V_VZW-Gnote2
+		# Do something after that
+	elif [ $response = VZW-GS4 ] then 
+#	 if VZW-GS4 then download VZW-GS4 
+		wget -cP $Casual_Download_Path/Root-and-Recovery-VZW-GS4-CASUAL.jar $V_Root_and_Recovery_VZW-GS4
+		# Do something after that
+	elif [ $response = ALL ] then 
+#	 if ALL then download ALL 
+	# Download Headless Casual
+		wget -cP $Casual_Download_Path/CASUAL-Headless-build.xml $V_Headless_Casual
+	# Download GalaxyCam
+		wget -cP $Casual_Download_Path/RootGC100GalaxyCamera-CASUAL.jar $V_GalaxyCamGC100
+	# Download GS3
+		wget -cP $Casual_Download_Path/GS3-ATT-and-Canadian-Root-CASUAL.jar $V_GS3-ATT_and_Canadian-Root
+	# Download ATT-TMO
+		wget -cP $Casual_Download_Path/Root-and-Recovery-ATT-TMO-GS4-CASUAL.jar $V_Root_and_Recovery_ATT-TMO-GS4
+	# Download OppoX
+		wget -cP $Casual_Download_Path/OppoX909-TWRP-Root-CASUAL.jar $V_OppoX909-TWRP-Root
+	# Download GalaxyNote10
+		wget -cP $Casual_Download_Path/GalaxyNote10.1-TakeNoteVerizon-CASUAL.jar $V_GalaxyNote10.1-TakeNoteVerizon
+	# Download VZW-Gnote2
+		wget -cP $Casual_Download_Path/VZW-Gnote2-CASUAL-NoYouVerizon-CASUAL.jar $V_VZW-Gnote2
+	# Download VZW-GS4
+		wget -cP $Casual_Download_Path/Root-and-Recovery-VZW-GS4-CASUAL.jar $V_Root_and_Recovery_VZW-GS4
+	else [ $response = * ] then 
+#	 if anything else then exit 
+		echo "exiting now"
+		echo exit 
+		exit 
+	fi
+exit
+EOF
+echo "________________________________"
+# Make a script to help run any of the downloaded files
+echo "Writing a \file to \make running Casual files that were downloaded easier to run"
+sudo cat > $Casual_Coponit_Path/Casual_Runner <<EOF
+echo "run any of the following files by"
+echo "starting the \command with java -jar"
+echo "and finishing the \command with one of the following jar files"
+ls $Casual_Coponit_Path
+EOF
+echo "________________________________"
+# Make a script to fix permissions
+echo "Writing a script to fix permissions"
+sudo cat > $Casual_Coponit_Path/Permission_Fixer <<EOF
+sudo chmod --recursive --reference=$HOME $HOME/ARM_Mod/Install_Scripts/Components/
+sudo chmod --recursive --reference=$HOME $HOME/ARM_Mod/Download/
+sudo chmod +x $HOME/Casual/Installer/Package_List
+sudo chmod +x $HOME/Casual/Installer/Casuall_Downloader
+sudo chmod +x $HOME/Casual/Installer/Casual_Runner
+EOF
+echo "________________________________"
+# Make a script to run all the scripts in proper order
+echo "Writing a script to run all the scripts \in the proper order"
+sudo cat > $Casual_Coponit_Path/Script_Runner <<EOF
+sh $Casual_Coponit_Path/Permission_Fixer
+sh $Casual_Coponit_Path/Package_List
+sh $Casual_Coponit_Path/Casuall_Downloader
+sh $Casual_Coponit_Path/Permission_Fixer
+sh $Casual_Coponit_Path/Casual_Runner
+EOF
+echo "________________________________"
+echo "Unpacking of script complete"
+echo "you may edit the individual parts of this script"
+echo "in the $Casual_Coponit_Path folder"
+echo ls $Casual_Coponit_Path
+echo "and \then run Script_Runner to apply the changes to your system"
+echo "or you can run it right now by saying yes"
+{ 
+read -r -p "Would you like to run Script_Runner now" response 
+case "$response" in
+	[yY][eE][sS]|[yY])
+# if yes, then start risking changes
+sh $Casual_Coponit_Path/Script_Runner
+		;;
+	*)
+#		 Otherwise exit..
+	echo "Good Night"
+	echo exit
+	exit
+	;;
+esac
+} 
+echo "end of script"
+echo "exiting now"
+echo exit
+exit
 	elif [ $response = 5 ] 
 then 
 #	 if 5 then download and run script for Heimdall" 
-		wget -cP $TS-Componit_Path/Heimdall_Installer.sh $Heimdall_Download 
-		sh $TS-Componit_Path/Heimdall_Installer.sh 
+#		wget -cP $TS_Componit_Path/Heimdall_Installer.sh $Heimdall_Download 
+#		sh $TS_Componit_Path/Heimdall_Installer.sh 
+# Make a script to download and install Heimdall
+# confirm with user
+{
+# alert to what's about to happen
+echo "________________________________"
+echo "this script will download"
+echo "Heimdall"
+echo "and extract and install it"
+# confirm with the user
+read -r -p "Are you sure? [Y/n]" response
+case "$response" in
+	[yY][eE][sS]|[yY])
+ # if yes, then start risking changes
+		;;
+	*)
+#		 Otherwise exit..
+	echo "Good Night"
+	echo exit
+	exit
+	;;
+esac
+} 
+# Create some directories
+mkdir -p $HOME/ARM_Mod/Install_Scripts/Components/Heimdall
+mkdir -p $HOME/ARM_Mod/Download/Heimdall
+# mkdir -p $HOME/ARM_Mod/jApps 
+# assine variables to new directories
+Heimdall_Componet_Path=$HOME/ARM_Mod/Install_Script/Components/Heimdall
+Heimdall_Download_Path=$HOME/ARM_Mod/Download/Heimdall
+# Heimdall_Install_Path=$HOME/ARM_Mod/jApps 
+# start variable readout
+echo "$Heimdall_Componet_Path will be used to"
+echo "unpack this script to"
+#
+echo "$Heimdall_Download_Path will be used to"
+echo "download Heimdall source file"
+#
+echo "$Heimdall_Install_Path will be used to
+echo "\install Heimdall software"
+# end variable readout
+sudo cat > $Heimdall_Componet_Path/Download_Heimdall <<EOF 
+#
+EOF
+sudo cat > $Heimdall_Componet_Path/Extract_Heimdall <<EOF 
+#
+EOF
+sudo cat > $Heimdall_Componet_Path/Install_Heimdall <<EOF 
+#
+EOF
+sudo cat > $Heimdall_Componet_Path/Permission_Fixer <<EOF 
+#
+EOF
+sudo cat > $Heimdall_Componet_Path/Script_Runner <<EOF 
+#
+EOF
+# script unpack end
+echo "Unpacking of Heimdall compleat"
+{
+# alert to what's about to happen
+echo "________________________________"
+echo "Say yes \if you want to \continue \in auto mode"
+# confirm with the user
+read -r -p "Are you sure? [Y/n]" response
+case "$response" in
+	[yY][eE][sS]|[yY])
+ # if yes, then start risking changes
+		;;
+	*)
+#		 Otherwise exit..
+	echo "Good Night"
+	echo exit
+	exit
+	;;
+esac
+} 
+# Heimdall installation compleat?
+echo exit
 	elif [ $response = 6 ] 
 then 
 #	 if 6 then download and run script for OpenJDK 
-		wget -cP $TS-Componit_Path/OpenJDK_Installer.sh $OpenJDK_Download 
-		sh $TS-Componit_Path/OpenJDK_Installer.sh 
+		wget -cP $TS_Componit_Path/OpenJDK_Installer.sh $OpenJDK_Download 
+		sh $TS_Componit_Path/OpenJDK_Installer.sh 
 	elif [ $response = 7 ] 
 then 
 #	 if 7 then download and run script for Python 
-		wget -cP $TS-Componit_Path/Python_Installer.sh $Python_Download 
-		sh $TS-Componit_Path/Python_Installer.sh 
+		wget -cP $TS_Componit_Path/Python_Installer.sh $Python_Download 
+		sh $TS_Componit_Path/Python_Installer.sh 
 	elif [ $response = 0 ] 
 then 
 #	 if 0 then download and run all scripts available 
-		wget -cP $TS-Componit_Path/Java_JDK_Installer.sh 
-		wget -cP $TS-Componit_Path/Maptools_Installer.sh $Maptools_Download 
-		wget -cP $TS-Componit_Path/jMonkey_Installer.sh $jMonkey_Download 
-		wget -cP $TS-Componit_Path/Casual_Installer.sh $Casual_Download 
-		wget -cP $TS-Componit_Path/Heimdall_Installer.sh $Heimdall_Download 
-		wget -cP $TS-Componit_Path/OpenJDK_Installer.sh $OpenJDK_Download 
-		wget -cP $TS-Componit_Path/Python_Installer.sh $Python_Download 
+		wget -cP $TS_Componit_Path/Java_JDK_Installer.sh $JavaJDK_Download 
+		wget -cP $TS_Componit_Path/Maptools_Installer.sh $Maptools_Download 
+		wget -cP $TS_Componit_Path/jMonkey_Installer.sh $jMonkey_Download 
+		wget -cP $TS_Componit_Path/Casual_Installer.sh $Casual_Download 
+		wget -cP $TS_Componit_Path/Heimdall_Installer.sh $Heimdall_Download 
+		wget -cP $TS_Componit_Path/OpenJDK_Installer.sh $OpenJDK_Download 
+		wget -cP $TS_Componit_Path/Python_Installer.sh $Python_Download 
 	else [ $response = * ] then 
 #	 if anything else then exit 
 		echo "exiting now"
