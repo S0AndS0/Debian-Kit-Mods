@@ -51,6 +51,9 @@ echo "on your ARM Linux system"
 Download_MT-1_3_b87="http://www.rptools.net/download/zip/maptool-1.3.b87.zip" 
 Download_DnD35_Pathfinder="https://www.sugarsync.com/pf/D356388_6189570_977596?directDownload=true" 
 # end web address variable assignment 
+# start of matenance variable assignments
+pathFinderversion=MT1.3.87.06_DnD35_Pathfinder.cmpgn
+# end of matenance variable assignments
 # Write a Script to download Maptools
 sudo cat > $TS-Componit_Path/Maptools_Downloader <<EOF
 wget -cP $TS-Download_Path/maptool-1.3.b87.zip http://www.rptools.net/download/zip/maptool-1.3.b87.zip 
@@ -64,7 +67,7 @@ EOF
 # Write a script to download extras to Maptools 
 sudo cat >  $TS-Componit_Path/Maptools_Extras <<EOF
 wget -cP $TS-Download_Path/MT1.3.87.06_DnD35_Pathfinder.cmpgn $Download_DnD35_Pathfinder
-mv $TS-Download_Path/MT1.3.87.06_DnD35_Pathfinder.cmpgn $TS-Install_Path/maptool*
+mv $TS-Download_Path/$pathFinderversion $TS-Install_Path/maptool*
 EOF
 # Write a script to make short cuts on your desktop for Maptools
 sudo cat >  $TS-Componit_Path/Shortcut_Maker <<EOF 
