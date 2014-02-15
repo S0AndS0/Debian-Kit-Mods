@@ -49,6 +49,7 @@ echo "unpacking components of this script to"
 # start of matenance variable assignment
 javaVersion=jdk-7u21
 javaFind=$HOME/Downloads
+javaShortcutVersion=jdk1.7.0_21
 # end of variable assignment
 # Create a List of packages to install
 echo "creating a list of packages to install to your system"
@@ -122,7 +123,7 @@ find $HOME/Java7ARM -type f -iname '$javaVersion*' -print0 | xargs -0 chmod --ch
 cd /usr/lib/jvm
 find $HOME/Java7ARM -type f -iname '$javaVersion*' -print0 | xargs -0 sudo tar -vxpzf
 # --verbose --extract --gunzip --file=
-sudo ln -s jdk1.7.0_21 java-7-oracle
+sudo ln -s $javaShortcutVersion java-7-oracle
 cd ~
 EOF
 # Create a list of alternatives to install for JDK tools
