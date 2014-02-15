@@ -44,6 +44,10 @@ Java7JDK_Componet_Path=$HOME/ARM_Mod/Install_Scripts/Components/Java7JDK
 echo "$Java7JDK_Componet_Path will be used for"
 echo "unpacking components of this script to"
 # End of read out of folder variables
+# start of matenance variable assignment
+javaVersion=jdk-7u21
+javaFind=$HOME/Downloads
+# end of variable assignment
 # Create a List of packages to install
 echo "creating a list of packages to install to your system"
 sudo cat > $Java7JDK_Componet_Path/Depends_Install_List <<EOF
@@ -108,13 +112,13 @@ echo "moving on to copyExtracter"
 EOF
 sudo cat > $Java7JDK_Componet_Path/Java_Source_copyExtracter <<EOF
 echo "Finding and Copying Java tarball from the SD card to your $HOME directory"
-find /sdcard/download -type f -iname 'jdk-7u21*' -print0 | xargs -0 cp --interactive --verbose --target-directory=$HOME/Java7ARM 
+find $javaFind -type f -iname '$javaVersion*' -print0 | xargs -0 cp --interactive --verbose --target-directory=$HOME/Java7ARM 
 echo "Finding and changing ownership of Java tarball in your $HOME directory"
-find $HOME/Java7ARM -type f -iname 'jdk-7u21*' -print0 | xargs -0 chown $USER:$USER
+find $HOME/Java7ARM -type f -iname '$javaVersion*' -print0 | xargs -0 chown $USER:$USER
 echo "Finding and changing permissions of Java tarball in $HOME directory to read write and execute for $USER"
-find $HOME/Java7ARM -type f -iname 'jdk-7u21*' -print0 | xargs -0 chmod --changes --recursive 755
+find $HOME/Java7ARM -type f -iname '$javaVersion*' -print0 | xargs -0 chmod --changes --recursive 755
 cd /usr/lib/jvm
-find $HOME/Java7ARM -type f -iname 'jdk-7u21*' -print0 | xargs -0 sudo tar -vxpzf
+find $HOME/Java7ARM -type f -iname '$javaVersion*' -print0 | xargs -0 sudo tar -vxpzf
 # --verbose --extract --gunzip --file=
 sudo ln -s jdk1.7.0_21 java-7-oracle
 cd ~
@@ -173,6 +177,7 @@ EOF
 # Create script to compile the JRE/JDK description file named java-7-oracle.jinfo to use with update-java-alternatives
 echo "Creating script to compile the JRE/JDK description file named .java-7-oracle.jinfo to use with update-java-alternatives"
 sudo cat > $Java7JDK_Componet_Path/JRE_JDK_Descriptions <<EOF
+cd /usr/lib/jvm
 echo 'alias=java-7-oracle 
 priority=100 
 section=non-free
@@ -216,6 +221,7 @@ jdk serialver /usr/lib/jvm/java-7-oracle/bin/serialver
 jdk wsgen /usr/lib/jvm/java-7-oracle/bin/wsgen
 jdk wsimport /usr/lib/jvm/java-7-oracle/bin/wsimport
 jdk xjc /usr/lib/jvm/java-7-oracle/bin/xjc' | sudo tee .java-7-oracle.jinfo
+cd ~
 echo "you may run the JRE_JDK_Descriptions manually later to keep your system up to date"
 echo "to do so run sh $HOME/Java7ARM/JRE_JDK_Descriptions from a terminal window"
 EOF
