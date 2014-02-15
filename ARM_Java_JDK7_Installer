@@ -36,9 +36,11 @@ echo "critical environmental variables have been set."
 # Make a folder to install JVM to
 sudo mkdir -p /usr/lib/jvm
 # Make a folder to download Java apps and scripts to
+mkdir -p $HOME/ARM_Mod/JDK7
 mkdir -p $HOME/ARM_Mod/Install_Scripts/Components/Java7JDK
 # Start variables for folders
 Java7JDK_Componet_Path=$HOME/ARM_Mod/Install_Scripts/Components/Java7JDK 
+jdkDesenation=$HOME/ARM_Mod/JDK7
 # End variables for folders
 # Start read out of folder variables
 echo "$Java7JDK_Componet_Path will be used for"
@@ -86,7 +88,7 @@ echo "users of this script may very well destroy everything"
 echo "they hold dear and everything around them for miles"
 echo "perhaps latter?"
 # Find the tarball for Java 7u21
-find /sdcard/download -type f -iname '*tar.gz' -print0 | xargs -0 ls 
+find $javaFind -type f -iname '*tar.gz' -print0 | xargs -0 ls 
 echo "if the file was downloaded elsewhere then manually move it"
 # confirm with user
 {
@@ -112,7 +114,7 @@ echo "moving on to copyExtracter"
 EOF
 sudo cat > $Java7JDK_Componet_Path/Java_Source_copyExtracter <<EOF
 echo "Finding and Copying Java tarball from the SD card to your $HOME directory"
-find $javaFind -type f -iname '$javaVersion*' -print0 | xargs -0 cp --interactive --verbose --target-directory=$HOME/Java7ARM 
+find $javaFind -type f -iname '$javaVersion*' -print0 | xargs -0 cp --interactive --verbose --target-directory=$jdkDesenation 
 echo "Finding and changing ownership of Java tarball in your $HOME directory"
 find $HOME/Java7ARM -type f -iname '$javaVersion*' -print0 | xargs -0 chown $USER:$USER
 echo "Finding and changing permissions of Java tarball in $HOME directory to read write and execute for $USER"
