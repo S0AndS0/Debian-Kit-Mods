@@ -115,11 +115,11 @@ echo "moving on to copyExtracter"
 EOF
 sudo cat > $Java7JDK_Componet_Path/Java_Source_copyExtracter <<EOF
 echo "Finding and Copying Java tarball from the $javaFind directory to your $jdkDesenation directory"
-find $javaFind -type f -iname '$javaVersion*' -print0 | xargs -0 cp --interactive --verbose --target-directory=$jdkDesenation 
+find $javaFind -type f -iname '$javaVersion*' -print0 | xargs -0 sudo cp --interactive --verbose --target-directory=$jdkDesenation 
 echo "Finding and changing ownership of Java tarball in your $jdkDesenation directory"
-find $jdkDesenation -type f -iname '$javaVersion*' -print0 | xargs -0 chown $USER:$USER
+find $jdkDesenation -type f -iname '$javaVersion*' -print0 | xargs -0 sudo chown $USER:$USER
 echo "Finding and changing permissions of Java tarball in $HOME directory to read write and execute for $USER"
-find $jdkDesenation -type f -iname '$javaVersion*' -print0 | xargs -0 chmod --changes --recursive 755
+find $jdkDesenation -type f -iname '$javaVersion*' -print0 | xargs -0 sudo chmod --changes --recursive 755
 cd /usr/lib/jvm
 find $jdkDesenation -type f -iname '$javaVersion*' -print0 | xargs -0 sudo tar -vxpzf
 # --verbose --extract --gunzip --file=
