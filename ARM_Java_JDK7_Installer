@@ -229,7 +229,7 @@ echo "you may run the JRE_JDK_Descriptions manually later to keep your system up
 echo "to do so run sh $HOME/Java7ARM/JRE_JDK_Descriptions from a terminal window"
 EOF
 # Make a script to Activate Java JDK
-echo “Now writing Java7_Activator”
+echo "Now writing Java7_Activator"
 sudo cat > $Java7JDK_Componet_Path/Java7_Activator <<EOF
 sudo update-java-alternatives --set java-7-oracle
 EOF
