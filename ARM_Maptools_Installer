@@ -61,7 +61,7 @@ wget -cP $MT_Download_Path/$pathFinderversion $Download_DnD35_Pathfinder
 mv $MT_Download_Path/$pathFinderversion $MT_Install_Path/maptool*
 EOF
 # Write a script to make short cuts on your desktop for Maptools
-sudo cat > $MT_Componit_Path/Shortcut_Maker <<EOF 
+sudo cat > $MT_Componit_Path/Shortcut_Maker <<EOF
 ln -s $MT_Install_Path/$MT_shortcutVersion $HOME/Desktop/$MT_shortcutVersion
 EOF 
 # Write a script to fix all permissions for this script
