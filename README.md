@@ -48,7 +48,7 @@ for ARM_Java_JDK7_Istaller
 51	javaShortcutVersion=jdk1.7.0_21
 	~~~~~~
 	use these to modify the script so that it finds and sets up Java corectly on your device.
-	for example, bellow, the sugested modds to the script would point 
+	for example, bellow, the sugested modds to the script would change things so java version 7u45 would be installed and find would be pointed to your external sdcard for finding the source .tar file.
 	~~~~~~
 49	javaVersion=jdk-7u45
 50	javaFind=/sdcard/downloads
@@ -63,7 +63,7 @@ http://www.oracle.com/technetwork/java/javase/downloads/jdk7-downloads-1880260.h
 http://www.calxeda.com/trystack/gettingstarted/
 http://elinux.org/RPi_Java_JDK_Installation
 http://www.savagehomeautomation.com/pi-jdk
-	and automated it thanks to 
+	and automated ARM_Java_JDK7_Istaller thanks to 
 http://stackoverflow.com/questions/10268583/how-to-automate-download-and-instalation-of-java-jdk-on-linux
 	for Alternatives_Install_list I compiled this list from
 http://www.calxeda.com/trystack/gettingstarted/
