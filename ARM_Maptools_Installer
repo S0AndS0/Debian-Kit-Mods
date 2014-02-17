@@ -1,9 +1,9 @@
 #!/bin/bash
-# Make a script to download and extract Maptools
+# Make a set of scripts to download and extract Maptools and related software
+This_Script=ARM_Maptools_Installer
 echo "________________________________"
-echo "this script will download"
-echo "Maptools"
-echo "and extract and install it"
+echo "$This_Script will download"
+echo "Maptools and extract and install it"
 { 
 read -r -p "Are you sure? [Y/n]" response
 case "$response" in
@@ -19,76 +19,67 @@ case "$response" in
 esac
 } 
  : ${USER?} ${HOME?} 
-echo 
-echo "You are $USER."
-echo "Your home directory is $HOME."
-echo 
-echo "If you are reading this message,"
-echo "critical environmental variables have been set."
 # Make some folders for all other operations to live in
 mkdir -p $HOME/ARM_Mod/Install_Scripts/Components/Maptools
 mkdir -p $HOME/ARM_Mod/Download/Maptools
 mkdir -p $HOME/ARM_Mod/jApps
 # file path variables start
-TS-Componit_Path=$HOME/ARM_Mod/Install_Script/Components/Maptools
-TS-Download_Path=$HOME/ARM_Mod/Download/Maptools
-TS-Install_Path=$HOME/ARM_Mod/jApps
+MT_Componit_Path=$HOME/ARM_Mod/Install_Script/Components/Maptools
+MT_Download_Path=$HOME/ARM_Mod/Download/Maptools
+MT_Install_Path=$HOME/ARM_Mod/jApps
 # file path variables end
-# start file path variables read out
-echo "$TS-Componit_Path will be used"
-echo "to unpack or download script components"
-echo "used latter in $This_Script"
-# 
-echo "$TS-Download_Path will be used"
-echo "to Download source files"
-echo "used latter in $This_Script and others"
-# 
-echo "$TS-Install_Path will be used"
-echo "to install new programs"
-echo "on your ARM Linux system"
-# end file path variables read out
 # start web address variable assignment
-Download_MT-1_3_b87="http://www.rptools.net/download/zip/maptool-1.3.b87.zip" 
+MT_Download_1_3_b87=http://www.rptools.net/download/zip/maptool-1.3.b87.zip
+MT_Download_1_3_b89=http://www.rptools.net/download/zip/maptool-1.3.b89.zip
 Download_DnD35_Pathfinder="https://www.sugarsync.com/pf/D356388_6189570_977596?directDownload=true" 
 # end web address variable assignment 
 # start of matenance variable assignments
 pathFinderversion=MT1.3.87.06_DnD35_Pathfinder.cmpgn
+MT_buildVersion87=maptool-1.3.b87
+MT_buildVersion89=maptool-1.3.b89
 # end of matenance variable assignments
+# variable readout start
+echo "You are $USER."
+echo "Your home directory is $HOME."
+echo "$MT_Componit_Path will be used to unpack or download script components used latter in $This_Script"
+echo "$MT_Componit_Path will be used to Download source files used latter in $This_Script and others"
+echo "$MT_Install_Path will be used to install new programs on your ARM Linux system"
+# variable readout end
 # Write a Script to download Maptools
-sudo cat > $TS-Componit_Path/Maptools_Downloader <<EOF
-wget -cP $TS-Download_Path/maptool-1.3.b87.zip http://www.rptools.net/download/zip/maptool-1.3.b87.zip 
+sudo cat > $TS_Componit_Path/Maptools_Downloader <<EOF
+wget -cP $MT_Download_Path/$MT_buildVersion87.zip $MT_Download_1_3_b87 
 EOF
 # Write a Script to extract Maptools 
-sudo cat >  $TS-Componit_Path/Maptools_Extractor <<EOF
-cd $TS-Install_Path
-find $TS-Download_Path -type f -iname 'maptool*' -print0 | xargs -0 sudo tar -vxpzf 
+sudo cat >  $MT_Componit_Path/Maptools_Extractor <<EOF
+cd $TS_Install_Path
+find $MT_Download_Path -type f -iname 'maptool*' -print0 | xargs -0 sudo tar -vxpzf 
 cd ~
 EOF
 # Write a script to download extras to Maptools 
-sudo cat >  $TS-Componit_Path/Maptools_Extras <<EOF
-wget -cP $TS-Download_Path/MT1.3.87.06_DnD35_Pathfinder.cmpgn $Download_DnD35_Pathfinder
-mv $TS-Download_Path/$pathFinderversion $TS-Install_Path/maptool*
+sudo cat >  $MT_Componit_Path/Maptools_Extras <<EOF
+wget -cP $MT_Download_Path/$pathFinderversion $Download_DnD35_Pathfinder
+mv $MT_Download_Path/$pathFinderversion $MT_Install_Path/maptool*
 EOF
 # Write a script to make short cuts on your desktop for Maptools
-sudo cat >  $TS-Componit_Path/Shortcut_Maker <<EOF 
-ln -s $TS-Install_Path/maptool* $HOME/Desktop/Maptools
+sudo cat >  $MT_Componit_Path/Shortcut_Maker <<EOF 
+ln -s $MT_Install_Path/maptool-1.3* $HOME/Desktop/Maptools
 EOF 
 # Write a script to fix all permissions for this script
-sudo cat >  $TS-Componit_Path/Permission_Fixer <<EOF 
-sudo chmod +x $TS-Componit_Path/Maptools_Downloader
-sudo chmod +x $TS-Componit_Path/Maptools_Extractor
-sudo chmod +x $TS-Componit_Path/Maptools_Extras
-sudo chmod +x $TS-Componit_Path/Shortcut_Maker
-sudo chmod +x $TS-Componit_Path/Script_Runner
+sudo cat >  $MT_Componit_Path/Permission_Fixer <<EOF 
+sudo chmod +x $MT_Componit_Path/Maptools_Downloader
+sudo chmod +x $MT_Componit_Path/Maptools_Extractor
+sudo chmod +x $MT_Componit_Path/Maptools_Extras
+sudo chmod +x $MT_Componit_Path/Shortcut_Maker
+sudo chmod +x $MT_Componit_Path/Script_Runner
 EOF 
 # fix permissions for Permission_Fixer
-sudo chmod +x $TS-Componit_Path/Permission_Fixer 
+sudo chmod +x $MT_Componit_Path/Permission_Fixer 
 # Write a script to make all other scripts run in proper oder
-sudo cat >  $TS-Componit_Path/Script_Runner <<EOF 
-sh $TS-Componit_Path/Maptools_Downloader 
-sh $TS-Componit_Path/Maptools_Extractor
-sh $TS-Componit_Path/Maptools_Extras
-sh $TS-Componit_Path/Shortcut_Maker
+sudo cat >  $MT_Componit_Path/Script_Runner <<EOF 
+sh $MT_Componit_Path/Maptools_Downloader 
+sh $MT_Componit_Path/Maptools_Extractor
+sh $MT_Componit_Path/Maptools_Extras
+sh $MT_Componit_Path/Shortcut_Maker
 EOF 
 echo "finished unpacking $This_Script"
 { 
@@ -96,7 +87,7 @@ read -r -p "Still want to continue? [Y/n]" response
 case "$response" in
 	[yY][eE][sS]|[yY])
  # if yes, then start risking changes
-sh $TS-Componit_Path/Script_Runner
+sh $MT_Componit_Path/Script_Runner
 		;;
 	*)
 #		 Otherwise exit..
@@ -107,5 +98,3 @@ sh $TS-Componit_Path/Script_Runner
 esac
 } 
 exit
-
-
