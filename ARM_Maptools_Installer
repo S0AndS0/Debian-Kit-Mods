@@ -50,22 +50,22 @@ sudo cat > $MT_Componit_Path/Maptools_Downloader <<EOF
 wget -cP $MT_Download_Path/$MT_buildVersion.zip $MT_downloadVersion 
 EOF
 # Write a Script to extract Maptools 
-sudo cat >  $MT_Componit_Path/Maptools_Extractor <<EOF
+sudo cat > $MT_Componit_Path/Maptools_Extractor <<EOF
 cd $MT_Install_Path
 find $MT_Download_Path -type f -iname 'maptool*' -print0 | xargs -0 sudo tar -vxpzf 
 cd ~
 EOF
 # Write a script to download extras to Maptools 
-sudo cat >  $MT_Componit_Path/Maptools_Extras <<EOF
+sudo cat > $MT_Componit_Path/Maptools_Extras <<EOF
 wget -cP $MT_Download_Path/$pathFinderversion $Download_DnD35_Pathfinder
 mv $MT_Download_Path/$pathFinderversion $MT_Install_Path/maptool*
 EOF
 # Write a script to make short cuts on your desktop for Maptools
-sudo cat >  $MT_Componit_Path/Shortcut_Maker <<EOF 
+sudo cat > $MT_Componit_Path/Shortcut_Maker <<EOF 
 ln -s $MT_Install_Path/$MT_shortcutVersion $HOME/Desktop/$MT_shortcutVersion
 EOF 
 # Write a script to fix all permissions for this script
-sudo cat >  $MT_Componit_Path/Permission_Fixer <<EOF 
+sudo cat > $MT_Componit_Path/Permission_Fixer <<EOF 
 sudo chmod +x $MT_Componit_Path/Maptools_Downloader
 sudo chmod +x $MT_Componit_Path/Maptools_Extractor
 sudo chmod +x $MT_Componit_Path/Maptools_Extras
@@ -75,7 +75,7 @@ EOF
 # fix permissions for Permission_Fixer
 sudo chmod +x $MT_Componit_Path/Permission_Fixer 
 # Write a script to make all other scripts run in proper oder
-sudo cat >  $MT_Componit_Path/Script_Runner <<EOF 
+sudo cat > $MT_Componit_Path/Script_Runner <<EOF 
 sh $MT_Componit_Path/Maptools_Downloader 
 sh $MT_Componit_Path/Maptools_Extractor
 sh $MT_Componit_Path/Maptools_Extras
