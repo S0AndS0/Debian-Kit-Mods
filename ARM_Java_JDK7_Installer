@@ -10,7 +10,7 @@ echo "________________________________"
 echo "This script is written in the hopes that it will be found useful"
 echo "use it to install Java 7 from source on ARM Linux systems"
 echo "you can find another version of this script that installs extras here"
-echo " https://docs.google.com/document/d/19zyqqYSed4TDmXaY7YSeVOTA44QRfAIWhOlxS_djtI0/edit?usp=docslist_api"
+echo " https://docs.google.com/document/d/19zyqqYSed4TDmXaY7YSeVOTA44QRfAIWhOlxS_djtI0/edit?usp=docslist_api "
 echo "You're about to install Java 7 soft float"
 # confirm with the user
 read -r -p "Are you sure? [Y/n]" response
@@ -53,43 +53,15 @@ javaShortcutVersion=jdk1.7.0_21
 # Create a List of packages to install
 echo "creating a list of packages to install to your system"
 sudo cat > $Java7JDK_Componet_Path/Depends_Install_List <<EOF
-# I compiled this list from
-# http://www.oracle.com/technetwork/java/javase/downloads/jdk7-downloads-1880260.html
-# http://www.calxeda.com/trystack/gettingstarted/
-# http://elinux.org/RPi_Java_JDK_Installation
-# http://www.savagehomeautomation.com/pi-jdk
-# and automated it thanks to 
-# http://stackoverflow.com/questions/10268583/how-to-automate-download-and-instalation-of-java-jdk-on-linux
-# let me know if things need to be added or changed, please and thank you.
-echo "you may run the package install list manually later to keep your system up to date,"
-echo "to do so run $ sh $HOME/Java7ARM/Depends_Install_List from a terminal window"
-echo "for now though this script will automatically take care of the first install of all packages"
 sudo apt-get install -y java-common
 sudo apt-get install -y libc6-armel
 sudo apt-get install -y libsfgcc1
 sudo apt-get install -y libsfstdc++6
-echo "you may run the package install list manually later to keep your system up to date,"
-echo "to do so run $ sh $Java7JDK_Componet_Path/Depends_Install_List from a terminal window"
 EOF
-sudo cat > $Java7JDK_Componet_Path/Java_Source_Finder <<EOF
-echo "This script was written under the following usernames"
-echo "S0AndS0 or Michael NA"
-echo "from"
-echo "XDA and Maptools or Google."
-echo "To automate and make easy the processes of installing"
-echo "Java from source or tarball and Java dependent software"
-echo "such as Maptools and jMonkey."
-echo "For ARM CPUs running Linux such as"
-echo "Raspberry Pi and Android mobile devices."
-echo "Contact the author for help or concerns"
-# warning of pairale
-echo "This is offered freely and without warranty"
-echo "users of this script may very well destroy everything"
-echo "they hold dear and everything around them for miles"
-echo "perhaps latter?"
+sudo cat > $Java7JDK_Componet_Path/Java_Source_copyExtracter <<EOF
 # Find the tarball for Java 7u21
 find $javaFind -type f -iname '*tar.gz' -print0 | xargs -0 ls 
-echo "if the file was downloaded elsewhere then manually move it"
+echo "if the file was downloaded elsewhere then manually move it before procieding"
 # confirm with user
 {
 # alert to what's about to happen
@@ -110,9 +82,7 @@ case "$response" in
 	;;
 esac
 } 
-echo "moving on to copyExtracter"
-EOF
-sudo cat > $Java7JDK_Componet_Path/Java_Source_copyExtracter <<EOF
+echo "moving on to copying java to $jdkDesenation and extracting there"
 echo "Finding and Copying Java tarball from the $javaFind directory to your $jdkDesenation directory"
 find $javaFind -type f -iname '$javaVersion*' -print0 | xargs -0 sudo cp --interactive --verbose --target-directory=$jdkDesenation 
 echo "Finding and changing ownership of Java tarball in your $jdkDesenation directory"
@@ -128,11 +98,6 @@ EOF
 # Create a list of alternatives to install for JDK tools
 echo "creating a list of alternatives to install for JDK tools to your system"
 sudo cat > $Java7JDK_Componet_Path/Alternatives_Install_list <<EOF
-# I compiled this list from http://www.calxeda.com/trystack/gettingstarted/
-# let me know if things need to be added or changed, please and thank you.
-echo "you may run the package install list manually later to keep your system up to date"
-echo "to do so run $ sh $HOME/Java7ARM/Alternatives_Install_list from a terminal window"
-echo "for now though this script will automatically take care of the first install of all packages"
 sudo update-alternatives --quiet --install /usr/bin/java java /usr/lib/jvm/java-7-oracle/jre/bin/java 100
 sudo update-alternatives --quiet --install /usr/bin/keytool keytool /usr/lib/jvm/java-7-oracle/jre/bin/keytool 100
 sudo update-alternatives --quiet --install /usr/bin/pack200 pack200 /usr/lib/jvm/java-7-oracle/jre/bin/pack200 100
@@ -173,8 +138,6 @@ sudo update-alternatives --quiet --install /usr/bin/serialver serialver /usr/lib
 sudo update-alternatives --quiet --install /usr/bin/wsgen wsgen /usr/lib/jvm/java-7-oracle/bin/wsgen 100 --slave /usr/share/man/man1/wsgen.1 wsgen.1 /usr/lib/jvm/java-7-oracle/man/man1/wsgen.1
 sudo update-alternatives --quiet --install /usr/bin/wsimport wsimport /usr/lib/jvm/java-7-oracle/bin/wsimport 100 --slave /usr/share/man/man1/wsimport.1 wsimport.1 /usr/lib/jvm/java-7-oracle/man/man1/wsimport.1
 sudo update-alternatives --quiet --install /usr/bin/xjc xjc /usr/lib/jvm/java-7-oracle/bin/xjc 100 --slave /usr/share/man/man1/xjc.1 xjc.1 /usr/lib/jvm/java-7-oracle/man/man1/xjc.1
-echo "you may run the Alternatives_Install_list manually later to keep your system up to date"
-echo "to do so run sh $HOME/Java7ARM/Alternatives_Install_list from a terminal window"
 EOF
 # Create script to compile the JRE/JDK description file named java-7-oracle.jinfo to use with update-java-alternatives
 echo "Creating script to compile the JRE/JDK description file named .java-7-oracle.jinfo to use with update-java-alternatives"
@@ -224,8 +187,6 @@ jdk wsgen /usr/lib/jvm/java-7-oracle/bin/wsgen
 jdk wsimport /usr/lib/jvm/java-7-oracle/bin/wsimport
 jdk xjc /usr/lib/jvm/java-7-oracle/bin/xjc' | sudo tee .java-7-oracle.jinfo
 cd ~
-echo "you may run the JRE_JDK_Descriptions manually later to keep your system up to date"
-echo "to do so run sh $HOME/Java7ARM/JRE_JDK_Descriptions from a terminal window"
 EOF
 # Make a script to Activate Java JDK
 echo "Now writing Java7_Activator"
@@ -238,20 +199,26 @@ sudo cat > $Java7JDK_Componet_Path/Script_Runner <<EOF
 #!/bin/bash
 set -e
 # set -x
+echo "_________________"
+echo "you may run the package install list manually later to keep your system up to date,"
+echo "to do so run $ sh $Java7JDK_Componet_Path/Depends_Install_List from a terminal window"
+echo "for now though this script will automatically take care of the first install of all packages"
 echo "runing Depends_Install_List"
 sh $Java7JDK_Componet_Path/Depends_Install_List
-echo "_________________"
-echo "running Java_Source_Finder"
-sh $Java7JDK_Componet_Path/Java_Source_Finder
 echo "_________________"
 echo "running Java_Source_copyExtracter"
 sh $Java7JDK_Componet_Path/Java_Source_copyExtracter
 echo "_________________"
+echo "you may run the package install list manually later to keep your system up to date"
+echo "to do so run $ sh $Java7JDK_Componet_Path/Alternatives_Install_list from a terminal window"
+echo "for now though this script will automatically take care of the first install of all packages"
 echo "running Alternatives_Install_list"
 sh $Java7JDK_Componet_Path/Alternatives_Install_list
 echo "_________________"
 echo "running JRE_JDK_Descriptions"
 sh $Java7JDK_Componet_Path/JRE_JDK_Descriptions
+echo "you may run the JRE_JDK_Descriptions manually later to keep your system up to date"
+echo "to do so run sh $Java7JDK_Componet_Path/JRE_JDK_Descriptions from a terminal window"
 echo "_________________"
 echo "running Java7_Activator"
 sh $Java7JDK_Componet_Path/Java7_Activator
@@ -267,7 +234,6 @@ sudo cat > $Java7JDK_Componet_Path/Permission_Fixer <<EOF
 echo "fixing permissions for running this script"
 sudo chmod +x $Java7JDK_Componet_Path/Script_Runner
 sudo chmod +x $Java7JDK_Componet_Path/Depends_Install_List
-sudo chmod +x $Java7JDK_Componet_Path/Java_Source_Finder
 sudo chmod +x $Java7JDK_Componet_Path/Java_Source_copyExtracter
 sudo chmod +x $Java7JDK_Componet_Path/Alternatives_Install_list
 sudo chmod +x $Java7JDK_Componet_Path/JRE_JDK_Descriptions
