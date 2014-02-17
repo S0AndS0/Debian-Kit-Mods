@@ -24,7 +24,7 @@ mkdir -p $HOME/ARM_Mod/Install_Scripts/Components/Maptools
 mkdir -p $HOME/ARM_Mod/Download/Maptools
 mkdir -p $HOME/ARM_Mod/jApps
 # file path variables start
-MT_Componit_Path=$HOME/ARM_Mod/Install_Script/Components/Maptools
+MT_Componit_Path=$HOME/ARM_Mod/Install_Scripts/Components/Maptools
 MT_Download_Path=$HOME/ARM_Mod/Download/Maptools
 MT_Install_Path=$HOME/ARM_Mod/jApps
 # file path variables end
@@ -46,7 +46,7 @@ echo "$MT_Componit_Path will be used to Download source files used latter in $Th
 echo "$MT_Install_Path will be used to install new programs on your ARM Linux system"
 # variable readout end
 # Write a Script to download Maptools
-sudo cat > $TS_Componit_Path/Maptools_Downloader <<EOF
+sudo cat > $MT_Componit_Path/Maptools_Downloader <<EOF
 wget -cP $MT_Download_Path/$MT_buildVersion87.zip $MT_Download_1_3_b87 
 EOF
 # Write a Script to extract Maptools 
