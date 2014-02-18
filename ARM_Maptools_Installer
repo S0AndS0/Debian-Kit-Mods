@@ -52,7 +52,7 @@ EOF
 # Write a Script to extract Maptools 
 sudo cat > $MT_Componit_Path/Maptools_Extractor <<EOF
 cd $MT_Install_Path
-find $MT_Download_Path -type f -iname 'maptool*' -print0 | xargs -0 sudo tar -vxpzf 
+find $MT_Download_Path -type f -iname '$MT_buildVersion' -print0 | xargs -0 sudo tar -vxpzf 
 cd ~
 EOF
 # Write a script to download extras to Maptools 
