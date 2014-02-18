@@ -58,7 +58,7 @@ EOF
 # Write a script to download extras to Maptools 
 sudo cat > $MT_Componit_Path/Maptools_Extras <<EOF
 wget -cP $MT_Download_Path/$pathFinderversion $Download_DnD35_Pathfinder
-mv $MT_Download_Path/$pathFinderversion $MT_Install_Path/maptool*
+mv $MT_Download_Path/$pathFinderversion $MT_Install_Path/$MT_buildVersion
 EOF
 # Write a script to make short cuts on your desktop for Maptools
 sudo cat > $MT_Componit_Path/Shortcut_Maker <<EOF
