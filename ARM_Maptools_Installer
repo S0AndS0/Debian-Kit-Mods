@@ -34,7 +34,7 @@ mkdir -p $HOME/ARM_Mod/jApps/$MT_buildVersion
 # file path variables start
 MT_Componit_Path=$HOME/ARM_Mod/Install_Scripts/Components/Maptools
 MT_Download_Path=$HOME/ARM_Mod/Download/Maptools
-MT_Install_Path=$HOME/ARM_Mod/jApps/Maptools
+MT_Install_Path=$HOME/ARM_Mod/jApps/$MT_buildVersion
 # file path variables end
 # variable readout start
 echo "You are $USER."
