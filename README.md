@@ -49,6 +49,15 @@ for ARM_Maptools_Installer
 #	sh /home/Downloads/Debian-Kit-Mods/ARM_Maptools_Installer
 	~~~~~
 	follow the prompts and enjoy Maptools on your Android device
+if the shortcut on your desktop does't work for Maptools
+	right click the desktop shortcut
+	click on properties
+	click on the "open with" drop down under the general tab
+	click on "custumize" or "choose an application"
+	click on the right hand tab "custom comandline"
+	input the following in the text diolog
+		java -jar
+	click on the ok button and give it a second or two to start up.
 ~~~~~~
 
 modification instructions
