@@ -37,7 +37,7 @@ Download_DnD35_Pathfinder=https://www.sugarsync.com/pf/D356388_6189570_977596?di
 pathFinderversion=MT1.3.87.06_DnD35_Pathfinder.cmpgn
 MT_buildVersion=maptool-1.3.b87
 MT_shortcutVersion=maptool-1.3.b87
-MT_findVersion=1.3.b87
+MT_findVersion=maptool
 # end of matenance variable assignments
 # variable readout start
 echo "You are $USER."
@@ -53,7 +53,7 @@ EOF
 # Write a Script to extract Maptools 
 sudo cat > $MT_Componit_Path/Maptools_Extractor <<EOF
 cd $MT_Install_Path
-find $MT_Download_Path -type f -iname '*$MT_findVersion*' -print0 | xargs -0 sudo tar -vxpzf
+find $MT_Download_Path -type f -iname '$MT_findVersion*' -print0 | xargs -0 sudo tar -vxpzf
 cd ~
 EOF
 # Write a script to download extras to Maptools 
