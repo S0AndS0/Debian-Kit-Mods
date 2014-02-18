@@ -31,7 +31,7 @@ MT_Install_Path=$HOME/ARM_Mod/jApps
 # start web address variable assignment
 MT_downloadVersion=http://www.rptools.net/download/zip/maptool-1.3.b87.zip
 # http://www.rptools.net/download/zip/maptool-1.3.b89.zip
-Download_DnD35_Pathfinder="https://www.sugarsync.com/pf/D356388_6189570_977596?directDownload=true" 
+Download_DnD35_Pathfinder=https://www.sugarsync.com/pf/D356388_6189570_977596?directDownload=true 
 # end web address variable assignment 
 # start of matenance variable assignments
 pathFinderversion=MT1.3.87.06_DnD35_Pathfinder.cmpgn
