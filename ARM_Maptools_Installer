@@ -19,33 +19,26 @@ case "$response" in
 esac
 } 
  : ${USER?} ${HOME?} 
-# Make some folders for all other operations to live in
-mkdir -p $HOME/ARM_Mod/Install_Scripts/Components/Maptools
-mkdir -p $HOME/ARM_Mod/Download/Maptools
-mkdir -p $HOME/ARM_Mod/jApps
-# file path variables start
-MT_Componit_Path=$HOME/ARM_Mod/Install_Scripts/Components/Maptools
-MT_Download_Path=$HOME/ARM_Mod/Download/Maptools
-MT_Install_Path=$HOME/ARM_Mod/jApps
-# file path variables end
-# start web address variable assignment
-MT_downloadVersion=http://www.rptools.net/download/zip/maptool-1.3.b87.zip
-# http://www.rptools.net/download/zip/maptool-1.3.b89.zip
-Download_DnD35_Pathfinder=https://www.sugarsync.com/pf/D356388_6189570_977596?directDownload=true 
-# end web address variable assignment 
 # start of matenance variable assignments
 pathFinderversion=MT1.3.87.06_DnD35_Pathfinder.cmpgn
 MT_buildVersion=maptool-1.3.b87
-MT_shortcutVersion=maptool-1.3.b87
+MT_shortcutVersion=maptool-1.3.b87.jar
 MT_findVersion=maptool
+MT_downloadVersion=http://www.rptools.net/download/zip/maptool-1.3.b87.zip
+Download_DnD35_Pathfinder=https://www.sugarsync.com/pf/D356388_6189570_977596?directDownload=true
 # end of matenance variable assignments
+# Make some folders for all other operations to live in
+mkdir -p $HOME/ARM_Mod/Install_Scripts/Components/Maptools
+mkdir -p $HOME/ARM_Mod/Download/Maptools
+mkdir -p $HOME/ARM_Mod/jApps/$MT_buildVersion
+# file path variables start
+MT_Componit_Path=$HOME/ARM_Mod/Install_Scripts/Components/Maptools
+MT_Download_Path=$HOME/ARM_Mod/Download/Maptools
+MT_Install_Path=$HOME/ARM_Mod/jApps/Maptools
+# file path variables end
 # variable readout start
 echo "You are $USER."
 echo "Your home directory is $HOME."
-echo "$MT_Componit_Path will be used to unpack or download script components used latter in $This_Script"
-echo "$MT_Download_Path will be used to Download source files used latter in $This_Script and others"
-echo "$MT_Install_Path will be used to install new programs on your ARM Linux system"
-# variable readout end
 # Write a Script to download Maptools
 sudo cat > $MT_Componit_Path/Maptools_Downloader <<EOF
 wget -cP $MT_Download_Path/ $MT_downloadVersion 
@@ -64,7 +57,7 @@ echo
 EOF
 # Write a script to make short cuts on your desktop for Maptools
 sudo cat > $MT_Componit_Path/Shortcut_Maker <<EOF
-ln -s $MT_Install_Path/$MT_shortcutVersion $HOME/Desktop/$MT_shortcutVersion 
+ln -s $MT_Install_Path/$MT_shortcutVersion $HOME/Desktop/$MT_buildVersion 
 EOF
 # Write a script to fix all permissions for this script
 sudo cat > $MT_Componit_Path/Permission_Fixer <<EOF
