@@ -23,7 +23,7 @@ Such as Maptools and jMonkey which wouldn't normally be able to run on ARM CPUs.
 test results
 ~~~~~~
 02152014 ARM_Java_JDK7_Istaller works again.
-
+02172014 ARM_Maptools_Installer works again.
 ~~~~~~
 usage instructions
 ~~~~~~
@@ -70,8 +70,6 @@ for ARM_Java_JDK7_Istaller
 for ARM_Maptools_Installer
 	lines 23-28 have variables set up to easly modify for different builds of maptools.
 	~~~~~~
-32	MT_downloadVersion=http://www.rptools.net/download/zip/maptool-1.3.b87.zip
-...
 23	pathFinderversion=MT1.3.87.06_DnD35_Pathfinder.cmpgn
 24	MT_buildVersion=maptool-1.3.b87
 25	MT_shortcutVersion=maptool-1.3.b87.jar
