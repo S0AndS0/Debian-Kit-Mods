@@ -23,6 +23,7 @@ Such as Maptools and jMonkey which wouldn't normally be able to run on ARM CPUs.
 test results
 ~~~~~~
 02152014 ARM_Java_JDK7_Istaller works again.
+
 ~~~~~~
 usage instructions
 ~~~~~~
@@ -37,7 +38,19 @@ for ARM_Java_JDK7_Istaller
 #	sh /home/Downloads/Debian-Kit-Mods/ARM_Java_JDK7_Istaller
 	~~~~~
 	follow the prompts and enjoy Java on your Android device
+for ARM_Maptools_Installer
+	clone this github projects to a directory, such as a Downloads folder
+	~~~~~
+#	cd /home/Downloads
+#	git clone https://github.com/S0AndS0/Debian-Kit-Mods
+	~~~~~
+	then run the ARM_Maptools_Installer script with
+	~~~~~
+#	sh /home/Downloads/Debian-Kit-Mods/ARM_Maptools_Installer
+	~~~~~
+	follow the prompts and enjoy Maptools on your Android device
 ~~~~~~
+
 modification instructions
 ~~~~~~
 for ARM_Java_JDK7_Istaller
@@ -73,6 +86,7 @@ for ARM_Maptools_Installer
 39	MT_shortcutVersion=maptool-1.3.b89
 	~~~~~~
 ~~~~~~
+
 Sources that where used to construct these scripts
 ~~~~~~
 for ARM_Java_JDK7_Istaller
@@ -85,5 +99,6 @@ http://www.savagehomeautomation.com/pi-jdk
 http://stackoverflow.com/questions/10268583/how-to-automate-download-and-instalation-of-java-jdk-on-linux
 	for Alternatives_Install_list I compiled this list from
 http://www.calxeda.com/trystack/gettingstarted/
+
 ~~~~~~
 
