@@ -42,7 +42,7 @@ MT_shortcutVersion=maptool-1.3.b87
 echo "You are $USER."
 echo "Your home directory is $HOME."
 echo "$MT_Componit_Path will be used to unpack or download script components used latter in $This_Script"
-echo "$MT_Componit_Path will be used to Download source files used latter in $This_Script and others"
+echo "$MT_Download_Path will be used to Download source files used latter in $This_Script and others"
 echo "$MT_Install_Path will be used to install new programs on your ARM Linux system"
 # variable readout end
 # Write a Script to download Maptools
