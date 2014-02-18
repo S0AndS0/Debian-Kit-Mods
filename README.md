@@ -68,22 +68,26 @@ for ARM_Java_JDK7_Istaller
 51	javaShortcutVersion=jdk1.7.0_45
 	~~~~~~
 for ARM_Maptools_Installer
-	lines 32 & 37-39 have variables set up to easly modify for different builds of maptools.
+	lines 23-28 have variables set up to easly modify for different builds of maptools.
 	~~~~~~
 32	MT_downloadVersion=http://www.rptools.net/download/zip/maptool-1.3.b87.zip
 ...
-37	pathFinderversion=MT1.3.87.06_DnD35_Pathfinder.cmpgn
-38	MT_buildVersion=maptool-1.3.b87
-39	MT_shortcutVersion=maptool-1.3.b87
+23	pathFinderversion=MT1.3.87.06_DnD35_Pathfinder.cmpgn
+24	MT_buildVersion=maptool-1.3.b87
+25	MT_shortcutVersion=maptool-1.3.b87.jar
+26	MT_findVersion=maptool
+27	MT_downloadVersion=http://www.rptools.net/download/zip/maptool-1.3.b87.zip
+28	Download_DnD35_Pathfinder=https://www.sugarsync.com/pf/D356388_6189570_977596?directDownload=true
 	~~~~~~
 	use thes to download and install the version that your GM is using.
 	for example, bellow, the sugested modds the the script would download and install build 89 of maptools instead
 	~~~~~~
-32	MT_downloadVersion=http://www.rptools.net/download/zip/maptool-1.3.b89.zip
-...
-37	pathFinderversion=MT1.3.87.06_DnD35_Pathfinder.cmpgn
-38	MT_buildVersion=maptool-1.3.b89
-39	MT_shortcutVersion=maptool-1.3.b89
+23	pathFinderversion=MT1.3.87.06_DnD35_Pathfinder.cmpgn
+24	MT_buildVersion=maptool-1.3.b89
+25	MT_shortcutVersion=maptool-1.3.b89.jar
+26	MT_findVersion=maptool
+27	MT_downloadVersion=http://www.rptools.net/download/zip/maptool-1.3.b89.zip
+28	Download_DnD35_Pathfinder=https://www.sugarsync.com/pf/D356388_6189570_977596?directDownload=true
 	~~~~~~
 ~~~~~~
 
