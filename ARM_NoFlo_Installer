@@ -25,6 +25,8 @@ njs_Path=$HOME/ARM_Mod/nodejs
 # set web address variables
 njs_Download=http://nodejs.org/dist/v0.10.2/node-v0.10.2-linux-arm-pi.tar.gz
 # set maintenance variables
+njs_targetFile=node-v0.10.2-linux-arm-pi.tar.gz
+njs_minSize=90000
 njs_Version=v0.10.2
 njs_bashPath=$njs_Path/node-v0.10.2-linux-arm-pi
 pathinto_bashrc=$HOME/.bashrc
@@ -43,6 +45,14 @@ sudo cat > $NF_Componit_Path/Nodejs_Installer <<EOF
 # download and extract node.js to $njs_Path
 cd $njs_Path
 wget $njs_Download
+# check if download sucseeded and if not wait a few seconds and try again"
+njs_trueSize=$(du -b "$njs_targetFile" | cut -f 1)
+if [ $njs_trueSize -ge $njs_minSize ]; then
+	echo "seems ok, moving on to extracting"
+	else
+	echo "oh no something did not go ok, trying again in a few seconds"
+	wget $njs_Download
+fi
 find $njs_Path type -f iname '*$njs_Version*' -print0 | xargs -0 tar -xvzf
 cd ~
 # append bashrc file to include the following so nodejs can be called from other programs
@@ -123,3 +133,5 @@ esac
 # http://joshondesign.com/2013/10/23/noderpi
 # for NoFlo
 # https://plus.google.com/100751105859582805241/posts/iDbvbUJXHsN
+# for automaticly trying to download node.js if it fails the first time
+# http://stackoverflow.com/questions/5920333/how-to-check-size-of-a-file
