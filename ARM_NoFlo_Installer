@@ -25,27 +25,60 @@ njs_Download=http://nodejs.org/dist/v0.10.2/node-v0.10.2-linux-arm-pi.tar.gz
 # set maintenance variables
 NF_Version=neadsset
 njs_Version=v0.10.2
-njs_Path=$njs_Path/node-v0.10.2-linux-arm-pi
-pathinto_bashrc=/etc/bash/bashrc
+njs_bashPath=$njs_Path/node-v0.10.2-linux-arm-pi
+pathinto_bashrc=$HOME/.bashrc
+NF_Componit_Path=$HOME/ARM_Mod/Install_Scripts/Components/NoFlo
 # end of variable assignments
-# buigining of script
-
-# make a directory for node.js and download and extract there
-mkdir -p $njsDownload_Path
+# make some directories for this scripts componits and for programs to be installed to
+mkdir -p $NF_Componit_Path
+mkdir -p $njs_Path
+mkdir -p $NF_Path
+# write out script componits
+sudo cat > $NF_Componit_Path/Nodejs_Installer <<EOF
+# download and extract node.js to $njsDownload_Path
 cd $njs_Path
 wget $njs_Download
 find $njs_Path type -f iname '*$njs_version*' -print0 | xargs -0 tar -xvzf
 cd ~
 # append bashrc file to include the following so nodejs can be called from other programs
 echo '
-NODE_JS_HOME=$njs_Path
+NODE_JS_HOME=$njs_bashPath
 PATH=$PATH:$NODE_JS_HOME/bin' | sudo tee -a $pathinto_bashrc
-# make a directory for NoFlo and clone there
-
-
+EOF
+sudo cat > $NF_Componit_Path/NoFlow_Installer <<EOF
+# use npm to install NoFlo to $NF_Path
+cd $NF_Path
+npm install -g noflo
+cd ~
+EOF
+sudo cat > $NF_Componit_Path/Permission_Fixer <<EOF
+sudo chmod +x $NF_Componit_Path/Nodejs_Installer
+sudo chmod +x $NF_Componit_Path/NoFlow_Installer
+sudo chmod +x $NF_Componit_Path/Script_Runner
+EOF
+sudo cat > $NF_Componit_Path/Script_Runner <<EOF
+sh $NF_Componit_Path/Nodejs_Installer
+sh $NF_Componit_Path/NoFlow_Installer
+EOF
+# request permission to continue
+{
+# confirm with the user
+read -r -p "Are you sure? [Y/n]" response
+case "$response" in
+  [yY][eE][sS]|[yY])
+ # if yes, then start risking changes
+		;;
+	*)
+ #		 Otherwise exit..
+	echo "Good Night" exit
+	exit 
+	;;
+esac
+}
 # end of script
 # credits
-# 
+# auther of this script
+# https://github.com/S0AndS0
 # sources of information that where helpful in writing this script
 # for node.js
 # http://joshondesign.com/2013/10/23/noderpi
