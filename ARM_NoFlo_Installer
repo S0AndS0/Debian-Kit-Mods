@@ -15,6 +15,8 @@ case "$response" in
 	;;
 esac
 }
+echo "___________________"
+echo "setting variables"
 # Next is setting some required variables
  : ${USER?} ${HOME?} 
 # set directory variables
@@ -23,17 +25,20 @@ njs_Path=$HOME/ARM_Mod/nodejs
 # set web address variables
 njs_Download=http://nodejs.org/dist/v0.10.2/node-v0.10.2-linux-arm-pi.tar.gz
 # set maintenance variables
-NF_Version=neadsset
 njs_Version=v0.10.2
-njs_bashPath=$HOME/ARM_Mod/nodejs/node-v0.10.2-linux-arm-pi
+njs_bashPath=$njs_Path/node-v0.10.2-linux-arm-pi
 pathinto_bashrc=$HOME/.bashrc
 NF_Componit_Path=$HOME/ARM_Mod/Install_Scripts/Components/NoFlo
 # end of variable assignments
 # make some directories for this scripts componits and for programs to be installed to
+echo "___________________"
+echo "making directories"
 mkdir -p $NF_Componit_Path
 mkdir -p $njs_Path
 mkdir -p $NF_Path
 # write out script componits
+echo "___________________"
+echo "writing Nodejs_Installer to $NF_Componit_Path"
 sudo cat > $NF_Componit_Path/Nodejs_Installer <<EOF
 # download and extract node.js to $njs_Path
 cd $njs_Path
@@ -41,32 +46,66 @@ wget $njs_Download
 find $njs_Path type -f iname '*$njs_Version*' -print0 | xargs -0 tar -xvzf
 cd ~
 # append bashrc file to include the following so nodejs can be called from other programs
-echo '
-NODE_JS_HOME=$njs_bashPath
+echo 'NODE_JS_HOME=$njs_bashPath
 PATH=$PATH:$NODE_JS_HOME/bin' | sudo tee -a $pathinto_bashrc
 EOF
+echo "___________________"
+echo "writing NoFlow_Installer to $NF_Componit_Path"
 sudo cat > $NF_Componit_Path/NoFlow_Installer <<EOF
 # use npm to install NoFlo to $NF_Path
 cd $NF_Path
 npm install -g noflo
 cd ~
 EOF
+echo "___________________"
+echo "writing Permission_Fixer to $NF_Componit_Path"
 sudo cat > $NF_Componit_Path/Permission_Fixer <<EOF
 sudo chmod +x $NF_Componit_Path/Nodejs_Installer
 sudo chmod +x $NF_Componit_Path/NoFlow_Installer
 sudo chmod +x $NF_Componit_Path/Script_Runner
 EOF
+echo "___________________"
+echo "writing Script_Runner to $NF_Componit_Path"
 sudo cat > $NF_Componit_Path/Script_Runner <<EOF
+echo "___________________"
+echo "running Permission_Fixer on Nodejs_Installer, NoFlow_Installer, and Script_Runner"
+sh $NF_Componit_Path/Permission_Fixer
+echo "___________________"
+echo "running Nodejs_Installer which will download, extract, and modify your bashrc file to include node.js"
 sh $NF_Componit_Path/Nodejs_Installer
-sh $NF_Componit_Path/NoFlow_Installer
-EOF
-# request permission to continue
 {
 # confirm with the user
+echo "___________________"
+echo "about to install NoFlo, you may say n or no if happy with just node.js on your system"
+echo "___________________"
 read -r -p "Are you sure? [Y/n]" response
 case "$response" in
   [yY][eE][sS]|[yY])
  # if yes, then start risking changes
+ sh $NF_Componit_Path/NoFlow_Installer
+		;;
+	*)
+ #		 Otherwise exit..
+	echo "Good Night" exit
+	exit 
+	;;
+esac
+}
+exit
+EOF
+# give Permission_Fixer exicutable permissions
+sudo chmod +x $NF_Componit_Path/Permission_Fixer
+# request permission to continue
+{
+# confirm with the user
+echo "___________________"
+echo "writing out of this scripts moduals comleat and about to automaticly install node.js"
+echo "___________________"
+read -r -p "Are you sure? [Y/n]" response
+case "$response" in
+  [yY][eE][sS]|[yY])
+ # if yes, then start risking changes
+ sh $NF_Componit_Path/Script_Runner
 		;;
 	*)
  #		 Otherwise exit..
