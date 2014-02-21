@@ -25,7 +25,7 @@ njs_Download=http://nodejs.org/dist/v0.10.2/node-v0.10.2-linux-arm-pi.tar.gz
 # set maintenance variables
 NF_Version=neadsset
 njs_Version=v0.10.2
-njs_bashPath=$njs_Path/node-v0.10.2-linux-arm-pi
+njs_bashPath=$HOME/ARM_Mod/nodejs/node-v0.10.2-linux-arm-pi
 pathinto_bashrc=$HOME/.bashrc
 NF_Componit_Path=$HOME/ARM_Mod/Install_Scripts/Components/NoFlo
 # end of variable assignments
@@ -35,10 +35,10 @@ mkdir -p $njs_Path
 mkdir -p $NF_Path
 # write out script componits
 sudo cat > $NF_Componit_Path/Nodejs_Installer <<EOF
-# download and extract node.js to $njsDownload_Path
+# download and extract node.js to $njs_Path
 cd $njs_Path
 wget $njs_Download
-find $njs_Path type -f iname '*$njs_version*' -print0 | xargs -0 tar -xvzf
+find $njs_Path type -f iname '*$njs_Version*' -print0 | xargs -0 tar -xvzf
 cd ~
 # append bashrc file to include the following so nodejs can be called from other programs
 echo '
