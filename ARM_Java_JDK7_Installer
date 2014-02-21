@@ -43,7 +43,7 @@ jdkDesenation=/usr/lib/jvm
 # End variables for folders
 # Start read out of folder variables
 echo "$Java7JDK_Componet_Path will be used for"
-echo "unpacking components of this script to"
+echo "unpacking components of this script"
 # End of read out of folder variables
 # start of matenance variable assignment
 javaVersion=jdk-7u21

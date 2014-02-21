@@ -1,0 +1,53 @@
+#!/bin/bash
+echo "This script will install node.js and NoFlo"
+echo "to your ARM Linux OS"
+{
+# confirm with the user
+read -r -p "Are you sure? [Y/n]" response
+case "$response" in
+  [yY][eE][sS]|[yY])
+ # if yes, then start risking changes
+		;;
+	*)
+ #		 Otherwise exit..
+	echo "Good Night" exit
+	exit 
+	;;
+esac
+}
+# Next is setting some required variables
+ : ${USER?} ${HOME?} 
+# set directory variables
+NF_Path=$HOME/ARM_Mod/NoFlo
+njs_Path=$HOME/ARM_Mod/nodejs
+# set web address variables
+njs_Download=http://nodejs.org/dist/v0.10.2/node-v0.10.2-linux-arm-pi.tar.gz
+# set maintenance variables
+NF_Version=neadsset
+njs_Version=v0.10.2
+njs_Path=$njs_Path/node-v0.10.2-linux-arm-pi
+pathinto_bashrc=/etc/bash/bashrc
+# end of variable assignments
+# buigining of script
+
+# make a directory for node.js and download and extract there
+mkdir -p $njsDownload_Path
+cd $njs_Path
+wget $njs_Download
+find $njs_Path type -f iname '*$njs_version*' -print0 | xargs -0 tar -xvzf
+cd ~
+# append bashrc file to include the following so nodejs can be called from other programs
+echo '
+NODE_JS_HOME=$njs_Path
+PATH=$PATH:$NODE_JS_HOME/bin' | sudo tee -a $pathinto_bashrc
+# make a directory for NoFlo and clone there
+
+
+# end of script
+# credits
+# 
+# sources of information that where helpful in writing this script
+# for node.js
+# http://joshondesign.com/2013/10/23/noderpi
+# for NoFlo
+# https://plus.google.com/100751105859582805241/posts/iDbvbUJXHsN
