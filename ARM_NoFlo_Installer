@@ -49,7 +49,7 @@ wget $njs_Download
 njs_trueSize=\$(du -b "$njs_targetFile" | cut -f 1)
 if [ \$njs_trueSize -ge $njs_minSize ]; then
 	echo "seems ok, moving on to extracting"
-	find $njs_Path type -f iname '*$njs_Version*' -print0 | xargs -0 tar -xvzf
+	find $njs_Path -type f -iname '*$njs_Version*' -print0 | xargs -0 tar -xvzf
 	else
 	echo "oh no something did not go ok, trying again in a few seconds"
 	rm $njs_targetFile
