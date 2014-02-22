@@ -26,7 +26,7 @@ njs_Path=$HOME/ARM_Mod/nodejs
 njs_Download=http://nodejs.org/dist/v0.10.2/node-v0.10.2-linux-arm-pi.tar.gz
 # set maintenance variables
 njs_targetFile=node-v0.10.2-linux-arm-pi.tar.gz
-njs_minSize=90000
+njs_minSize=9000
 njs_Version=v0.10.2
 njs_bashPath=$njs_Path/node-v0.10.2-linux-arm-pi
 pathinto_bashrc=$HOME/.bashrc
@@ -44,7 +44,7 @@ echo "writing Nodejs_Installer to $NF_Componit_Path"
 sudo cat > $NF_Componit_Path/Nodejs_Installer <<EOF
 # download and extract node.js to $njs_Path
 cd $njs_Path
-wget $njs_Download
+wget -N $njs_Download
 # check if download sucseeded and if not wait a few seconds and try again"
 njs_trueSize=\$(du -b "$njs_targetFile" | cut -f 1)
 if [ \$njs_trueSize -ge $njs_minSize ]; then
@@ -53,13 +53,15 @@ if [ \$njs_trueSize -ge $njs_minSize ]; then
 	else
 	echo "oh no something did not go ok, trying again in a few seconds"
 	rm $njs_targetFile
-	sleep 30 && wget $njs_Download
+	sleep 30 && wget -N $njs_Download
 	find $njs_Path -type f -iname '*$njs_Version*' -print0 | xargs -0 tar -xvzf
 fi
 cd ~
 # append bashrc file to include the following so nodejs can be called from other programs
-echo 'NODE_JS_HOME=$njs_bashPath
-PATH=$PATH:$NODE_JS_HOME/bin' | sudo tee -a $pathinto_bashrc
+echo '
+# path to nodejs
+NODE_JS_HOME=$njs_bashPath
+PATH=\$PATH:\$NODE_JS_HOME/bin' | sudo tee -a $pathinto_bashrc
 EOF
 echo "___________________"
 echo "writing NoFlow_Installer to $NF_Componit_Path"
