@@ -46,8 +46,8 @@ sudo cat > $NF_Componit_Path/Nodejs_Installer <<EOF
 cd $njs_Path
 wget $njs_Download
 # check if download sucseeded and if not wait a few seconds and try again"
-njs_trueSize=$(du -b "$njs_targetFile" | cut -f 1)
-if [ $njs_trueSize -ge $njs_minSize ]; then
+njs_trueSize=\$(du -b "$njs_targetFile" | cut -f 1)
+if [ \$njs_trueSize -ge $njs_minSize ]; then
 	echo "seems ok, moving on to extracting"
 	else
 	echo "oh no something did not go ok, trying again in a few seconds"
