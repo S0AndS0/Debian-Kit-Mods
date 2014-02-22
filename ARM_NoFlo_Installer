@@ -49,11 +49,13 @@ wget $njs_Download
 njs_trueSize=\$(du -b "$njs_targetFile" | cut -f 1)
 if [ \$njs_trueSize -ge $njs_minSize ]; then
 	echo "seems ok, moving on to extracting"
+	find $njs_Path type -f iname '*$njs_Version*' -print0 | xargs -0 tar -xvzf
 	else
 	echo "oh no something did not go ok, trying again in a few seconds"
-	wget $njs_Download
+	rm $njs_targetFile
+	sleep 30 && wget $njs_Download
+	find $njs_Path -type f -iname '*$njs_Version*' -print0 | xargs -0 tar -xvzf
 fi
-find $njs_Path type -f iname '*$njs_Version*' -print0 | xargs -0 tar -xvzf
 cd ~
 # append bashrc file to include the following so nodejs can be called from other programs
 echo 'NODE_JS_HOME=$njs_bashPath
