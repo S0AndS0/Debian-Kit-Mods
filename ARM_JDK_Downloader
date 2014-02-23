@@ -16,6 +16,22 @@ java_Download=$userset1javaDownload
 java_targetFile=$userset2javaSource
 java_minSize=90000
 # end variables
+echo "this will unpack java downloader"
+echo "to your ARM Linux OS"
+{
+# confirm with the user
+read -r -p "Are you sure? [Y/n]" response
+case "$response" in
+  [yY][eE][sS]|[yY])
+ # if yes, then start risking changes
+		;;
+	*)
+ #		 Otherwise exit..
+	echo "Good Night" exit
+	exit 
+	;;
+esac
+}
 # use the following to atempt to download java
 # wget --no-cookies --header "Cookie: gpw_e24=http%3A%2F%2Fwww.oracle.com" "$java_Download"
 # download java to $java_Path
@@ -35,3 +51,29 @@ if [ \$java_trueSize -ge $java_minSize ]; then
 fi
 cd ~
 EOF
+sudo cat > $java_Componit/Permission_Fixer <<EOF
+sudo chmod +x $java_Componit/Download_Java
+sudo chmod +x $java_Componit/Script_Runner
+EOF
+sudo cat > $java_Componit/Script_Runner <<EOF
+sh $java_Componit/Download_Java
+EOF
+# fix Permission_Fixer permissions
+sudo chmod +x $java_Componit/Permission_Fixer
+echo "unpacking compleated and about to download java"
+echo "to your ARM Linux OS"
+{
+# confirm with the user
+read -r -p "Are you sure? [Y/n]" response
+case "$response" in
+  [yY][eE][sS]|[yY])
+ # if yes, then start risking changes
+ sh $java_Componit/Script_Runner
+		;;
+	*)
+ #		 Otherwise exit..
+	echo "Good Night" exit
+	exit 
+	;;
+esac
+}
