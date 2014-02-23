@@ -1,0 +1,34 @@
+#!/bin/bash
+# use some command line commands to download Java JDK
+http://www.oracle.com/technetwork/java/javase/downloads/jdk7-downloads-1880260.html
+# set vareables
+# web address vareables
+armjre_HFdownload=http://download.oracle.com/otn/java/ejre/7u51-b13/ejre-7u51-fcs-b13-linux-arm-vfp-hflt-client_headful-18_dec_2013.tar.gz
+armjre_SFdownload=http://download.oracle.com/otn/java/ejre/7u51-b13/ejre-7u51-fcs-b13-linux-arm-vfp-sflt-client_headful-18_dec_2013.tar.gz
+armJDK_HFdownload=http://download.oracle.com/otn-pub/java/jdk/7u51-b13/jdk-7u51-linux-arm-vfp-hflt.tar.gz
+armJDK_HFdownload=http://download.oracle.com/otn-pub/java/jdk/7u51-b13/jdk-7u51-linux-arm-vfp-sflt.tar.gz
+# file path variables
+ : ${USER?} ${HOME?} 
+java_Path=$HOME/Downloads
+# retry variables
+java_Download=$userset1javaDownload
+java_targetFile=$userset2javaSource
+java_minSize=90000
+# end variables
+# use the following to atempt to download java
+# wget --no-cookies --header "Cookie: gpw_e24=http%3A%2F%2Fwww.oracle.com" "$downloadLink"
+# download java to $java_Path
+cd $java_Path
+wget -N $java_Download
+# check if download sucseeded and if not wait a few seconds and try again"
+java_trueSize=\$(du -b "$java_targetFile" | cut -f 1)
+if [ \$java_trueSize -ge $java_minSize ]; then
+	echo "seems ok, moving on to extracting"
+#	find $java_Path -type f -iname '*$java_Version*' -print0 | xargs -0 tar -xvzf
+	else
+	echo "oh no something did not go ok, trying again in a few seconds"
+	rm $java_targetFile
+	sleep 30 && wget -N $java_Download
+#	find $java_Path -type f -iname '*$java_Version*' -print0 | xargs -0 tar -xvzf
+fi
+cd ~
