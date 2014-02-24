@@ -1,8 +1,8 @@
 #!/bin/bash
-# use some command line commands to download Java JDK
-http://www.oracle.com/technetwork/java/javase/downloads/jdk7-downloads-1880260.html
-# set vareables
-# web address vareables
+# use some command line commands to download JavaDevelopentKit or JavaRuntimeEnviroment from
+# http://www.oracle.com/technetwork/java/javase/downloads/jdk7-downloads-1880260.html
+# set variables
+# web address variables
 armjre_HFdownload=http://download.oracle.com/otn/java/ejre/7u51-b13/ejre-7u51-fcs-b13-linux-arm-vfp-hflt-client_headful-18_dec_2013.tar.gz
 armjre_SFdownload=http://download.oracle.com/otn/java/ejre/7u51-b13/ejre-7u51-fcs-b13-linux-arm-vfp-sflt-client_headful-18_dec_2013.tar.gz
 armJDK_HFdownload=http://download.oracle.com/otn-pub/java/jdk/7u51-b13/jdk-7u51-linux-arm-vfp-hflt.tar.gz
@@ -34,9 +34,9 @@ case "$response" in
 	;;
 esac
 }
-# use the following to atempt to download java
+# use the following to adtempt to download java
 # wget --no-cookies --header "Cookie: gpw_e24=http%3A%2F%2Fwww.oracle.com" "$java_Download"
-# download java to $java_Path
+echo "writing out Download_Java to $java_Componit"
 sudo cat > $java_Componit/Download_Java <<EOF
 echo "you have some options on which java can be downloaded"
 echo "respond with 0 to download nothing and quit"
@@ -45,87 +45,89 @@ echo "respond with 2 to download $armjre_SFdownload"
 echo "respond with 3 to download $armJDK_HFdownload"
 echo "respond with 4 to download $armJDK_SFdownload"
 read -r -p "Which one thing would you like to do? " response
-	if [ $response = 1 ] 
+if [ \$response = 1 ] 
 then 
-# download armjre_HFdownload
-cd $java_Path
-wget -N $armjre_HFdownload
-# check if download sucseeded and if not wait a few seconds and try again"
-java_trueSize=\$(du -b "$javajreHF_targetFile" | cut -f 1)
-if [ \$java_trueSize -ge $java_minSize ]; then
-	echo "seems ok, moving on to extracting"
-#	find $java_Path -type f -iname '$javajreHF_targetFile' -print0 | xargs -0 tar -xvzf
-	else
-	echo "oh no something did not go ok, trying again in a few seconds"
-	rm $javajreHF_targetFile
-	sleep 30 && wget -N $armjre_HFdownload
-#	find $java_Path -type f -iname '$javajreHF_targetFile' -print0 | xargs -0 tar -xvzf
-fi
-cd ~
-	elif [ $response = 2 ] 
+#	 download $armjre_HFdownload
+	cd $java_Path
+	wget -N $armjre_HFdownload
+	# check if download sucseeded and if not wait a few seconds and try again"
+	java_trueSize=\$(du -b "$javajreHF_targetFile" | cut -f 1)
+	if [ \$java_trueSize -ge $java_minSize ]; then
+		echo "seems ok, moving on to extracting"
+#		find $java_Path -type f -iname '$javajreHF_targetFile' -print0 | xargs -0 tar -xvzf
+		else
+		echo "oh no something did not go ok, trying again in a few seconds"
+		rm $javajreHF_targetFile
+		sleep 30 && wget -N $armjre_HFdownload
+#		find $java_Path -type f -iname '$javajreHF_targetFile' -print0 | xargs -0 tar -xvzf
+	fi
+	cd ~
+elif [ \$response = 2 ] 
 then 
-# download armjre_SFdownload
-cd $java_Path
-wget -N $armjre_SFdownload
-# check if download sucseeded and if not wait a few seconds and try again"
-java_trueSize=\$(du -b "$javajreSF_targetFile" | cut -f 1)
-if [ \$java_trueSize -ge $java_minSize ]; then
-	echo "seems ok, moving on to extracting"
-#	find $java_Path -type f -iname '$javajreSF_targetFile' -print0 | xargs -0 tar -xvzf
-	else
-	echo "oh no something did not go ok, trying again in a few seconds"
-	rm $javajreSF_targetFile
-	sleep 30 && wget -N $armjre_SFdownload
-#	find $java_Path -type f -iname '$javajreSF_targetFile' -print0 | xargs -0 tar -xvzf
-fi
-cd ~
-	elif [ $response = 3 ] 
+#	 download $armjre_SFdownload
+	cd $java_Path
+	wget -N $armjre_SFdownload
+#	 check if download sucseeded and if not wait a few seconds and try again"
+	java_trueSize=\$(du -b "$javajreSF_targetFile" | cut -f 1)
+	if [ \$java_trueSize -ge $java_minSize ]; then
+		echo "seems ok, moving on to extracting"
+#		find $java_Path -type f -iname '$javajreSF_targetFile' -print0 | xargs -0 tar -xvzf
+		else
+		echo "oh no something did not go ok, trying again in a few seconds"
+		rm $javajreSF_targetFile
+		sleep 30 && wget -N $armjre_SFdownload
+#		find $java_Path -type f -iname '$javajreSF_targetFile' -print0 | xargs -0 tar -xvzf
+	fi
+	cd ~
+elif [ \$response = 3 ] 
 then 
-# download armJDK_HFdownload
-cd $java_Path
-wget -N $armJDK_HFdownload
-# check if download sucseeded and if not wait a few seconds and try again"
-java_trueSize=\$(du -b "$javajdkHF_targetFile" | cut -f 1)
-if [ \$java_trueSize -ge $java_minSize ]; then
-	echo "seems ok, moving on to extracting"
-#	find $java_Path -type f -iname '$javajdkHF_targetFile' -print0 | xargs -0 tar -xvzf
-	else
-	echo "oh no something did not go ok, trying again in a few seconds"
-	rm $javajdkHF_targetFile
-	sleep 30 && wget -N $armJDK_HFdownload
-#	find $java_Path -type f -iname '$javajdkHF_targetFile' -print0 | xargs -0 tar -xvzf
-fi
-cd ~
-	elif [ $response = 4 ] 
+#	 download armJDK_HFdownload
+	cd $java_Path
+	wget -N $armJDK_HFdownload
+#	 check if download sucseeded and if not wait a few seconds and try again"
+	java_trueSize=\$(du -b "$javajdkHF_targetFile" | cut -f 1)
+	if [ \$java_trueSize -ge $java_minSize ]; then
+		echo "seems ok, moving on to extracting"
+#		find $java_Path -type f -iname '$javajdkHF_targetFile' -print0 | xargs -0 tar -xvzf
+		else
+		echo "oh no something did not go ok, trying again in a few seconds"
+		rm $javajdkHF_targetFile
+		sleep 30 && wget -N $armJDK_HFdownload
+#		find $java_Path -type f -iname '$javajdkHF_targetFile' -print0 | xargs -0 tar -xvzf
+	fi
+	cd ~
+elif [ \$response = 4 ] 
 then 
-# download armJDK_SFdownload
-cd $java_Path
-wget -N $armJDK_SFdownload
-# check if download sucseeded and if not wait a few seconds and try again"
-java_trueSize=\$(du -b "$javajdkSF_targetFile" | cut -f 1)
-if [ \$java_trueSize -ge $java_minSize ]; then
-	echo "seems ok, moving on to extracting"
-#	find $java_Path -type f -iname '$javajdkSF_targetFile' -print0 | xargs -0 tar -xvzf
-	else
-	echo "oh no something did not go ok, trying again in a few seconds"
-	rm $javajdkSF_targetFile
-	sleep 30 && wget -N $armJDK_SFdownload
-#	find $java_Path -type f -iname '$javajdkSF_targetFile' -print0 | xargs -0 tar -xvzf
-fi
-cd ~
-	elif [ $response = 0 ] 
+#	 download armJDK_SFdownload
+	cd $java_Path
+	wget -N $armJDK_SFdownload
+#	 check if download sucseeded and if not wait a few seconds and try again"
+	java_trueSize=\$(du -b "$javajdkSF_targetFile" | cut -f 1)
+	if [ \$java_trueSize -ge $java_minSize ]; then
+		echo "seems ok, moving on to extracting"
+#		find $java_Path -type f -iname '$javajdkSF_targetFile' -print0 | xargs -0 tar -xvzf
+		else
+		echo "oh no something did not go ok, trying again in a few seconds"
+		rm $javajdkSF_targetFile
+		sleep 30 && wget -N $armJDK_SFdownload
+#		find $java_Path -type f -iname '$javajdkSF_targetFile' -print0 | xargs -0 tar -xvzf
+	fi
+	cd ~
+elif [ \$response = 0 ] 
 then 
-exit && esac
+	exit && esac
 fi
 EOF
+echo "writing out Permission_Fixer to $java_Componit"
 sudo cat > $java_Componit/Permission_Fixer <<EOF
 sudo chmod +x $java_Componit/Download_Java
 sudo chmod +x $java_Componit/Script_Runner
 EOF
+echo "writing out Script_Runner to $java_Componit"
 sudo cat > $java_Componit/Script_Runner <<EOF
 sh $java_Componit/Download_Java
 EOF
-# fix Permission_Fixer permissions
+echo "fixing Permission_Fixer permissions"
 sudo chmod +x $java_Componit/Permission_Fixer
 echo "unpacking compleated and about to download java"
 echo "to your ARM Linux OS"
@@ -144,3 +146,11 @@ sh $java_Componit/Script_Runner
 	;;
 esac
 }
+# end of script
+# credits
+# for downloading Java from the command line
+# http://stackoverflow.com/questions/10268583/how-to-automate-download-and-instalation-of-java-jdk-on-linux
+# for downloading only if a file doesn't exsist
+# http://stackoverflow.com/questions/4944295/wget-skip-if-files-exist
+# for auto retrying if the download fails in the middle
+# http://stackoverflow.com/questions/5920333/how-to-check-size-of-a-file
