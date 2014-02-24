@@ -18,14 +18,14 @@ javajdkHF_targetFile=jdk/7u51-b13/jdk-7u51-linux-arm-vfp-hflt.tar.gz
 javajdkSF_targetFile=jdk/7u51-b13/jdk-7u51-linux-arm-vfp-sflt.tar.gz
 java_minSize=90000
 # end variables
-echo "this will unpack java downloader"
+echo "this will unpack ARM_JDK_Downloader"
 echo "to your ARM Linux OS"
 {
 # confirm with the user
 read -r -p "Are you sure? [Y/n]" response
 case "$response" in
   [yY][eE][sS]|[yY])
- # if yes, then start risking changes
+# if yes, then start risking changes
 		;;
 	*)
  #		 Otherwise exit..
@@ -39,12 +39,12 @@ esac
 # download java to $java_Path
 sudo cat > $java_Componit/Download_Java <<EOF
 echo "you have some options on which java can be downloaded"
+echo "respond with 0 to download nothing and quit"
 echo "respond with 1 to download $armjre_HFdownload"
 echo "respond with 2 to download $armjre_SFdownload"
 echo "respond with 3 to download $armJDK_HFdownload"
 echo "respond with 4 to download $armJDK_SFdownload"
-echo "respond with 0 to download nothing and quit"
-read -r -p "Which one thing would you like to do" response
+read -r -p "Which one thing would you like to do? " response
 	if [ $response = 1 ] 
 then 
 # download armjre_HFdownload
@@ -57,8 +57,8 @@ if [ \$java_trueSize -ge $java_minSize ]; then
 #	find $java_Path -type f -iname '$javajreHF_targetFile' -print0 | xargs -0 tar -xvzf
 	else
 	echo "oh no something did not go ok, trying again in a few seconds"
-#	rm $javajreHF_targetFile
-#	sleep 30 && wget -N $armjre_HFdownload
+	rm $javajreHF_targetFile
+	sleep 30 && wget -N $armjre_HFdownload
 #	find $java_Path -type f -iname '$javajreHF_targetFile' -print0 | xargs -0 tar -xvzf
 fi
 cd ~
@@ -74,8 +74,8 @@ if [ \$java_trueSize -ge $java_minSize ]; then
 #	find $java_Path -type f -iname '$javajreSF_targetFile' -print0 | xargs -0 tar -xvzf
 	else
 	echo "oh no something did not go ok, trying again in a few seconds"
-#	rm $javajreSF_targetFile
-#	sleep 30 && wget -N $armjre_SFdownload
+	rm $javajreSF_targetFile
+	sleep 30 && wget -N $armjre_SFdownload
 #	find $java_Path -type f -iname '$javajreSF_targetFile' -print0 | xargs -0 tar -xvzf
 fi
 cd ~
@@ -91,8 +91,8 @@ if [ \$java_trueSize -ge $java_minSize ]; then
 #	find $java_Path -type f -iname '$javajdkHF_targetFile' -print0 | xargs -0 tar -xvzf
 	else
 	echo "oh no something did not go ok, trying again in a few seconds"
-#	rm $javajdkHF_targetFile
-#	sleep 30 && wget -N $armJDK_HFdownload
+	rm $javajdkHF_targetFile
+	sleep 30 && wget -N $armJDK_HFdownload
 #	find $java_Path -type f -iname '$javajdkHF_targetFile' -print0 | xargs -0 tar -xvzf
 fi
 cd ~
@@ -108,14 +108,15 @@ if [ \$java_trueSize -ge $java_minSize ]; then
 #	find $java_Path -type f -iname '$javajdkSF_targetFile' -print0 | xargs -0 tar -xvzf
 	else
 	echo "oh no something did not go ok, trying again in a few seconds"
-#	rm $javajdkSF_targetFile
-#	sleep 30 && wget -N $armJDK_SFdownload
+	rm $javajdkSF_targetFile
+	sleep 30 && wget -N $armJDK_SFdownload
 #	find $java_Path -type f -iname '$javajdkSF_targetFile' -print0 | xargs -0 tar -xvzf
 fi
 cd ~
 	elif [ $response = 0 ] 
 then 
 exit && esac
+fi
 EOF
 sudo cat > $java_Componit/Permission_Fixer <<EOF
 sudo chmod +x $java_Componit/Download_Java
@@ -133,8 +134,8 @@ echo "to your ARM Linux OS"
 read -r -p "Are you sure? [Y/n]" response
 case "$response" in
   [yY][eE][sS]|[yY])
- # if yes, then start risking changes
- sh $java_Componit/Script_Runner
+# if yes, then start risking changes
+sh $java_Componit/Script_Runner
 		;;
 	*)
  #		 Otherwise exit..
