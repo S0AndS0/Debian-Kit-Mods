@@ -6,14 +6,16 @@ http://www.oracle.com/technetwork/java/javase/downloads/jdk7-downloads-1880260.h
 armjre_HFdownload=http://download.oracle.com/otn/java/ejre/7u51-b13/ejre-7u51-fcs-b13-linux-arm-vfp-hflt-client_headful-18_dec_2013.tar.gz
 armjre_SFdownload=http://download.oracle.com/otn/java/ejre/7u51-b13/ejre-7u51-fcs-b13-linux-arm-vfp-sflt-client_headful-18_dec_2013.tar.gz
 armJDK_HFdownload=http://download.oracle.com/otn-pub/java/jdk/7u51-b13/jdk-7u51-linux-arm-vfp-hflt.tar.gz
-armJDK_HFdownload=http://download.oracle.com/otn-pub/java/jdk/7u51-b13/jdk-7u51-linux-arm-vfp-sflt.tar.gz
+armJDK_SFdownload=http://download.oracle.com/otn-pub/java/jdk/7u51-b13/jdk-7u51-linux-arm-vfp-sflt.tar.gz
 # file path variables
  : ${USER?} ${HOME?} 
 java_Path=$HOME/Downloads
 java_Componit=$HOME/ARM_Mods/Install_Scripts/Componits/javaDownloader
 # retry variables
-java_Download=$userset1javaDownload
-java_targetFile=$userset2javaSource
+javajreHF_targetFile=ejre-7u51-fcs-b13-linux-arm-vfp-hflt-client_headful-18_dec_2013.tar.gz
+javajreSF_targetFile=ejre-7u51-fcs-b13-linux-arm-vfp-sflt-client_headful-18_dec_2013.tar.gz
+javajdkHF_targetFile=jdk/7u51-b13/jdk-7u51-linux-arm-vfp-hflt.tar.gz
+javajdkSF_targetFile=jdk/7u51-b13/jdk-7u51-linux-arm-vfp-sflt.tar.gz
 java_minSize=90000
 # end variables
 echo "this will unpack java downloader"
@@ -36,20 +38,84 @@ esac
 # wget --no-cookies --header "Cookie: gpw_e24=http%3A%2F%2Fwww.oracle.com" "$java_Download"
 # download java to $java_Path
 sudo cat > $java_Componit/Download_Java <<EOF
+echo "you have some options on which java can be downloaded"
+echo "respond with 1 to download $armjre_HFdownload"
+echo "respond with 2 to download $armjre_SFdownload"
+echo "respond with 3 to download $armJDK_HFdownload"
+echo "respond with 4 to download $armJDK_SFdownload"
+echo "respond with 0 to download nothing and quit"
+read -r -p "Which one thing would you like to do" response
+	if [ $response = 1 ] 
+then 
+# download armjre_HFdownload
 cd $java_Path
-wget -N $java_Download
+wget -N $armjre_HFdownload
 # check if download sucseeded and if not wait a few seconds and try again"
-java_trueSize=\$(du -b "$java_targetFile" | cut -f 1)
+java_trueSize=\$(du -b "$javajreHF_targetFile" | cut -f 1)
 if [ \$java_trueSize -ge $java_minSize ]; then
 	echo "seems ok, moving on to extracting"
-#	find $java_Path -type f -iname '$java_targetFile' -print0 | xargs -0 tar -xvzf
+#	find $java_Path -type f -iname '$javajreHF_targetFile' -print0 | xargs -0 tar -xvzf
 	else
 	echo "oh no something did not go ok, trying again in a few seconds"
-#	rm $java_targetFile
-#	sleep 30 && wget -N $java_Download
-#	find $java_Path -type f -iname '$java_targetFile' -print0 | xargs -0 tar -xvzf
+#	rm $javajreHF_targetFile
+#	sleep 30 && wget -N $armjre_HFdownload
+#	find $java_Path -type f -iname '$javajreHF_targetFile' -print0 | xargs -0 tar -xvzf
 fi
 cd ~
+	elif [ $response = 2 ] 
+then 
+# download armjre_SFdownload
+cd $java_Path
+wget -N $armjre_SFdownload
+# check if download sucseeded and if not wait a few seconds and try again"
+java_trueSize=\$(du -b "$javajreSF_targetFile" | cut -f 1)
+if [ \$java_trueSize -ge $java_minSize ]; then
+	echo "seems ok, moving on to extracting"
+#	find $java_Path -type f -iname '$javajreSF_targetFile' -print0 | xargs -0 tar -xvzf
+	else
+	echo "oh no something did not go ok, trying again in a few seconds"
+#	rm $javajreSF_targetFile
+#	sleep 30 && wget -N $armjre_SFdownload
+#	find $java_Path -type f -iname '$javajreSF_targetFile' -print0 | xargs -0 tar -xvzf
+fi
+cd ~
+	elif [ $response = 3 ] 
+then 
+# download armJDK_HFdownload
+cd $java_Path
+wget -N $armJDK_HFdownload
+# check if download sucseeded and if not wait a few seconds and try again"
+java_trueSize=\$(du -b "$javajdkHF_targetFile" | cut -f 1)
+if [ \$java_trueSize -ge $java_minSize ]; then
+	echo "seems ok, moving on to extracting"
+#	find $java_Path -type f -iname '$javajdkHF_targetFile' -print0 | xargs -0 tar -xvzf
+	else
+	echo "oh no something did not go ok, trying again in a few seconds"
+#	rm $javajdkHF_targetFile
+#	sleep 30 && wget -N $armJDK_HFdownload
+#	find $java_Path -type f -iname '$javajdkHF_targetFile' -print0 | xargs -0 tar -xvzf
+fi
+cd ~
+	elif [ $response = 4 ] 
+then 
+# download armJDK_SFdownload
+cd $java_Path
+wget -N $armJDK_SFdownload
+# check if download sucseeded and if not wait a few seconds and try again"
+java_trueSize=\$(du -b "$javajdkSF_targetFile" | cut -f 1)
+if [ \$java_trueSize -ge $java_minSize ]; then
+	echo "seems ok, moving on to extracting"
+#	find $java_Path -type f -iname '$javajdkSF_targetFile' -print0 | xargs -0 tar -xvzf
+	else
+	echo "oh no something did not go ok, trying again in a few seconds"
+#	rm $javajdkSF_targetFile
+#	sleep 30 && wget -N $armJDK_SFdownload
+#	find $java_Path -type f -iname '$javajdkSF_targetFile' -print0 | xargs -0 tar -xvzf
+fi
+cd ~
+	elif [ $response = 0 ] 
+then 
+exit && esac
 EOF
 sudo cat > $java_Componit/Permission_Fixer <<EOF
 sudo chmod +x $java_Componit/Download_Java
