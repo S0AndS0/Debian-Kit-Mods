@@ -39,7 +39,7 @@ EOF
 echo "writing jMonkey_Extracter"
 sudo cat > $jM_Componit/jMonkey_Extracter <<EOF
 cd $jM_Path
-find $jM_Download -type f -iname '$jM_Target' -print0 | xargs -0 tar -xvzf
+find $jM_Download -type f -iname '$jM_Target' -print0 | xargs -0 unzip
 cd ~
 # run jMonkey jar file
 # java -jar $jM_Path/$jM_Jar
