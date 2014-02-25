@@ -40,18 +40,20 @@ mkdir -p $java_Componit
 echo "writing out Download_Java to $java_Componit"
 sudo cat > $java_Componit/Download_Java <<EOF
 echo "you have some options on which java can be downloaded"
+echo "___________________"
 echo "respond with 0 to download nothing and quit"
-echo "respond with 1 to download $armjre_HFdownload"
-echo "respond with 2 to download $armjre_SFdownload"
-echo "respond with 3 to download $armJDK_HFdownload"
-echo "respond with 4 to download $armJDK_SFdownload"
+echo "respond with 1 to download $javajreHF_targetFile"
+echo "respond with 2 to download $javajreSF_targetFile"
+echo "respond with 3 to download $javajdkHF_targetFile"
+echo "respond with 4 to download $javajdkSF_targetFile"
+echo "___________________"
 read -r -p "Which one thing would you like to do? " response
 if [ \$response = 1 ] 
 then 
 #	 download $armjre_HFdownload
 	cd $java_Path
 	wget -N $armjre_HFdownload
-	# check if download sucseeded and if not wait a few seconds and try again"
+#	 check if download sucseeded and if not wait a few seconds and try again"
 	java_trueSize=\$(du -b "$javajreHF_targetFile" | cut -f 1)
 	if [ \$java_trueSize -ge $java_minSize ]; then
 		echo "seems ok, moving on to extracting"
@@ -116,7 +118,8 @@ then
 	cd ~
 elif [ \$response = 0 ] 
 then 
-	exit && esac
+	echo "Good night"
+	exit
 fi
 EOF
 echo "writing out Permission_Fixer to $java_Componit"
