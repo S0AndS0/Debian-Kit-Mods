@@ -9,7 +9,7 @@ armJDK_HFdownload=http://download.oracle.com/otn-pub/java/jdk/7u51-b13/jdk-7u51-
 armJDK_SFdownload=http://download.oracle.com/otn-pub/java/jdk/7u51-b13/jdk-7u51-linux-arm-vfp-sflt.tar.gz
 # file path variables
  : ${USER?} ${HOME?} 
-java_Path=$HOME/Downloads
+java_Path=$HOME/ARM_Mod/Download
 java_Componit=$HOME/ARM_Mod/Install_Scripts/Components/javaDownloader
 # retry variables
 javajreHF_targetFile=ejre-7u51-fcs-b13-linux-arm-vfp-hflt-client_headful-18_dec_2013.tar.gz
@@ -40,6 +40,7 @@ esac
 # use the following to adtempt to download java
 # wget $wgetModifiers "Cookie: $javaCookie" "$java_Download"
 mkdir -p $java_Componit
+mkdir -p $java_Path
 echo "writing out Download_Java to $java_Componit"
 sudo cat > $java_Componit/Download_Java <<EOF
 echo "you have some options on which java can be downloaded"
