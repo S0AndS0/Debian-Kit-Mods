@@ -112,7 +112,7 @@ sudo chmod +x $NF_Componit_Path/Permission_Fixer
 {
 # confirm with the user
 echo "___________________"
-echo "writing out of this scripts moduals comleat and about to automaticly install node.js"
+echo "writing out of this scripts moduals compleat and about to automaticly install node.js"
 echo "___________________"
 read -r -p "Are you sure? [Y/n]" response
 case "$response" in
