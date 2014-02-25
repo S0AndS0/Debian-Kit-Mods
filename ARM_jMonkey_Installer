@@ -21,8 +21,8 @@ jM_Componit=$HOME/ARM_Mod/Install_Scripts/Components/jMonkey
 jM_Download=$HOME/ARM_Mod/Download
 jM_Address=http://nightly.jmonkeyengine.org/jME3_2013-05-26.zip
 jM_Target=jME3_2013-05-26.zip
-jM_Path=$HOME/ARM_Mod/jMonkey
-jM_Install=jME3_SDK_3.0RC2-linux.sh
+jM_Path=$HOME/ARM_Mod/jApps/
+jM_Jar=jMonkeyEngine3.jar
 # end variable setting
 echo "making directories"
 mkdir -p $jM_Componit
@@ -38,8 +38,8 @@ sudo cat > $jM_Componit/jMonkey_Extracter <<EOF
 cd $jM_Path
 find $jM_Download -type f -iname '$jM_Target' -print0 | xargs -0 tar -xvzf
 cd ~
-# run jMonkey install script
-# sh $jM_Path/$jM_Install
+# run jMonkey jar file
+# java -jar $jM_Path/$jM_Jar
 EOF
 sudo cat > $jM_Componit/Permission_Fixer <<EOF
 chmod +x $jM_Componit/jMonkey_Downloader
@@ -72,4 +72,10 @@ esac
 }
 # credits
 # auther of this script
-# S0AndS0 from XDA, rptools, and github
+# S0AndS0 from 
+# XDA
+# http://forum.xda-developers.com/showthread.php?t=2240397&page=11
+# rptools
+# http://forums.rptools.net/viewtopic.php?f=12&t=24082&start=15
+# github
+# https://github.com/S0AndS0?tab=repositories
