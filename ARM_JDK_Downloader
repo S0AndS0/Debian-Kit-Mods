@@ -17,6 +17,9 @@ javajreSF_targetFile=ejre-7u51-fcs-b13-linux-arm-vfp-sflt-client_headful-18_dec_
 javajdkHF_targetFile=jdk/7u51-b13/jdk-7u51-linux-arm-vfp-hflt.tar.gz
 javajdkSF_targetFile=jdk/7u51-b13/jdk-7u51-linux-arm-vfp-sflt.tar.gz
 java_minSize=90000
+# Cookie: gpw_e24=http%3A%2F%2Fwww.oracle.com
+javaCookie=gpw_e24\=https%3A%2F%2Fedelivery.oracle.com
+wgetModifiers="--no-check-certificate --no-cookies --header"
 # end variables
 echo "this will unpack ARM_JDK_Downloader"
 echo "to your ARM Linux OS"
@@ -35,7 +38,7 @@ case "$response" in
 esac
 }
 # use the following to adtempt to download java
-# wget --no-cookies --header "Cookie: gpw_e24=http%3A%2F%2Fwww.oracle.com" "$java_Download"
+# wget $wgetModifiers "Cookie: $javaCookie" "$java_Download"
 mkdir -p $java_Componit
 echo "writing out Download_Java to $java_Componit"
 sudo cat > $java_Componit/Download_Java <<EOF
@@ -52,7 +55,7 @@ if [ \$response = 1 ]
 then 
 #	 download $armjre_HFdownload
 	cd $java_Path
-	wget -N $armjre_HFdownload
+	wget $wgetModifiers "Cookie: $javaCookie" $armjre_HFdownload
 #	 check if download sucseeded and if not wait a few seconds and try again"
 	java_trueSize=\$(du -b "$javajreHF_targetFile" | cut -f 1)
 	if [ \$java_trueSize -ge $java_minSize ]; then
@@ -61,7 +64,7 @@ then
 		else
 		echo "oh no something did not go ok, trying again in a few seconds"
 		rm $javajreHF_targetFile
-		sleep 30 && wget -N $armjre_HFdownload
+		sleep 30 && wget $wgetModifiers "Cookie: $javaCookie" $armjre_HFdownload
 #		find $java_Path -type f -iname '$javajreHF_targetFile' -print0 | xargs -0 tar -xvzf
 	fi
 	cd ~
@@ -69,7 +72,7 @@ elif [ \$response = 2 ]
 then 
 #	 download $armjre_SFdownload
 	cd $java_Path
-	wget -N $armjre_SFdownload
+	wget $wgetModifiers "Cookie: $javaCookie" $armjre_SFdownload
 #	 check if download sucseeded and if not wait a few seconds and try again"
 	java_trueSize=\$(du -b "$javajreSF_targetFile" | cut -f 1)
 	if [ \$java_trueSize -ge $java_minSize ]; then
@@ -78,7 +81,7 @@ then
 		else
 		echo "oh no something did not go ok, trying again in a few seconds"
 		rm $javajreSF_targetFile
-		sleep 30 && wget -N $armjre_SFdownload
+		sleep 30 && wget $wgetModifiers "Cookie: $javaCookie" $armjre_SFdownload
 #		find $java_Path -type f -iname '$javajreSF_targetFile' -print0 | xargs -0 tar -xvzf
 	fi
 	cd ~
@@ -86,7 +89,7 @@ elif [ \$response = 3 ]
 then 
 #	 download armJDK_HFdownload
 	cd $java_Path
-	wget -N $armJDK_HFdownload
+	wget $wgetModifiers "Cookie: $javaCookie" $armJDK_HFdownload
 #	 check if download sucseeded and if not wait a few seconds and try again"
 	java_trueSize=\$(du -b "$javajdkHF_targetFile" | cut -f 1)
 	if [ \$java_trueSize -ge $java_minSize ]; then
@@ -95,7 +98,7 @@ then
 		else
 		echo "oh no something did not go ok, trying again in a few seconds"
 		rm $javajdkHF_targetFile
-		sleep 30 && wget -N $armJDK_HFdownload
+		sleep 30 && wget $wgetModifiers "Cookie: $javaCookie" $armJDK_HFdownload
 #		find $java_Path -type f -iname '$javajdkHF_targetFile' -print0 | xargs -0 tar -xvzf
 	fi
 	cd ~
@@ -103,7 +106,7 @@ elif [ \$response = 4 ]
 then 
 #	 download armJDK_SFdownload
 	cd $java_Path
-	wget -N $armJDK_SFdownload
+	wget $wgetModifiers "Cookie: $javaCookie" $armJDK_SFdownload
 #	 check if download sucseeded and if not wait a few seconds and try again"
 	java_trueSize=\$(du -b "$javajdkSF_targetFile" | cut -f 1)
 	if [ \$java_trueSize -ge $java_minSize ]; then
@@ -112,7 +115,7 @@ then
 		else
 		echo "oh no something did not go ok, trying again in a few seconds"
 		rm $javajdkSF_targetFile
-		sleep 30 && wget -N $armJDK_SFdownload
+		sleep 30 && wget $wgetModifiers "Cookie: $javaCookie" $armJDK_SFdownload
 #		find $java_Path -type f -iname '$javajdkSF_targetFile' -print0 | xargs -0 tar -xvzf
 	fi
 	cd ~
