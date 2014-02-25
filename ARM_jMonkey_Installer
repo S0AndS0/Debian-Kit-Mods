@@ -15,7 +15,7 @@ case "$response" in
 	;;
 esac
 }
-# setting variables
+echo "setting variables"
  : ${USER?} ${HOME?} 
 jM_Componit=$HOME/ARM_Mod/Install_Scripts/Components/jMonkey
 jM_Download=$HOME/ARM_Mod/Download
@@ -23,17 +23,20 @@ jM_Address=http://nightly.jmonkeyengine.org/jME3_2013-05-26.zip
 jM_Target=jME3_2013-05-26.zip
 jM_Path=$HOME/ARM_Mod/jApps/
 jM_Jar=jMonkeyEngine3.jar
-# end variable setting
+jM_Shortcut=jME3
+echo "finished variable setting"
 echo "making directories"
 mkdir -p $jM_Componit
 mkdir -p $jM_Download
 mkdir -p $jM_Path
 echo "finished making directories"
+echo "writing jMonkey_Downloader"
 sudo cat > $jM_Componit/jMonkey_Downloader <<EOF
 cd $jM_Download
 wget -N $jM_Address
 cd ~
 EOF
+echo "writing jMonkey_Extracter"
 sudo cat > $jM_Componit/jMonkey_Extracter <<EOF
 cd $jM_Path
 find $jM_Download -type f -iname '$jM_Target' -print0 | xargs -0 tar -xvzf
@@ -41,15 +44,23 @@ cd ~
 # run jMonkey jar file
 # java -jar $jM_Path/$jM_Jar
 EOF
+echo "writing jMonkey_Shortcutter"
+sudo cat > $jM_Componit/jMonkey_Shortcutter <<EOF
+ln -s $jM_Path/jME3_2013-05-26/$jM_Jar $HOME/Desktop/$jM_Shortcut 
+EOF
+echo "writing Permission_Fixer"
 sudo cat > $jM_Componit/Permission_Fixer <<EOF
 chmod +x $jM_Componit/jMonkey_Downloader
 chmod +x $jM_Componit/jMonkey_Extracter
+chmod +x $jM_Componit/jMonkey_Shortcutter
 chmod +x $jM_Componit/Script_Runner
 EOF
+echo "writing Script_Runner"
 sudo cat > $jM_Componit/Script_Runner <<EOF
 sh $jM_Componit/Permission_Fixer
 sh $jM_Componit/jMonkey_Downloader
 sh $jM_Componit/jMonkey_Extracter
+sh $jM_Componit/jMonkey_Shortcutter
 EOF
 echo "fixing Permission_Fixer permissions"
 chmod +x $jM_Componit/Permission_Fixer
