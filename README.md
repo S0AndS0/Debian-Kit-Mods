@@ -22,11 +22,25 @@ Such as Maptools and jMonkey which wouldn't normally be able to run on ARM CPUs.
 ###
 test results
 ~~~~~~
-02152014 ARM_Java_JDK7_Istaller works again.
+02152014 ARM_Java_JDK7_Istaller works again. (renamed to ARM_JDK7sf_Installer in preperation for other versions for hardfloat to be made)
 02172014 ARM_Maptools_Installer works again.
+02242014 ARM_Java7_Downloader now exsists and works.
 ~~~~~~
 usage instructions
 ~~~~~~
+for ARM_Java7_Downloader
+	clone this github projects to a directory, such as a Downloads folder
+	~~~~~
+#	cd /home/Downloads
+#	git clone https://github.com/S0AndS0/Debian-Kit-Mods
+	~~~~~
+	then run the ARM_Java7_Downloader script with
+	~~~~~
+#	sh /home/Downloads/Debian-Kit-Mods/ARM_Java7_Downloader
+	~~~~~
+	follow the prompts and choose which source file you wish to have downloaded
+	which at this point the options are jre or JDK soft float or hardfloat
+	~~~~~
 for ARM_Java_JDK7_Istaller 
 	clone this github projects to a directory, such as a Downloads folder
 	~~~~~
