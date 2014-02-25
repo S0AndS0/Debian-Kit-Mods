@@ -1,0 +1,75 @@
+#!/bin/bash
+echo "This script will install jMonkey"
+echo "to your ARM Linux OS"
+{
+# confirm with the user
+read -r -p "Are you sure? [Y/n]" response
+case "$response" in
+  [yY][eE][sS]|[yY])
+# if yes, then start risking changes
+		;;
+	*)
+ #		 Otherwise exit..
+	echo "Good Night" exit
+	exit 
+	;;
+esac
+}
+# setting variables
+ : ${USER?} ${HOME?} 
+jM_Componit=$HOME/ARM_Mod/Install_Scripts/Components/jMonkey
+jM_Download=$HOME/ARM_Mod/Download
+jM_Address=http://nightly.jmonkeyengine.org/jME3_2013-05-26.zip
+jM_Target=jME3_2013-05-26.zip
+jM_Path=$HOME/ARM_Mod/jMonkey
+jM_Install=jME3_SDK_3.0RC2-linux.sh
+# end variable setting
+echo "making directories"
+mkdir -p $jM_Componit
+mkdir -p $jM_Download
+mkdir -p $jM_Path
+echo "finished making directories"
+sudo cat > $jM_Componit/jMonkey_Downloader <<EOF
+cd $jM_Download
+wget -N $jM_Address
+cd ~
+EOF
+sudo cat > $jM_Componit/jMonkey_Extracter <<EOF
+cd $jM_Path
+find $jM_Download -type f -iname '$jM_Target' -print0 | xargs -0 tar -xvzf
+cd ~
+# run jMonkey install script
+# sh $jM_Path/$jM_Install
+EOF
+sudo cat > $jM_Componit/Permission_Fixer <<EOF
+chmod +x $jM_Componit/jMonkey_Downloader
+chmod +x $jM_Componit/jMonkey_Extracter
+chmod +x $jM_Componit/Script_Runner
+EOF
+sudo cat > $jM_Componit/Script_Runner <<EOF
+sh $jM_Componit/Permission_Fixer
+sh $jM_Componit/jMonkey_Downloader
+sh $jM_Componit/jMonkey_Extracter
+EOF
+echo "fixing Permission_Fixer permissions"
+chmod +x $jM_Componit/Permission_Fixer
+echo "writing out of script componits compleat"
+echo "about to automaticly install jMonkey to your ARM Linux OS"
+{
+# confirm with the user
+read -r -p "Are you sure? [Y/n]" response
+case "$response" in
+  [yY][eE][sS]|[yY])
+# if yes, then start risking changes
+sh $jM_Componit/Script_Runner
+		;;
+	*)
+ #		 Otherwise exit..
+	echo "Good Night" exit
+	exit 
+	;;
+esac
+}
+# credits
+# auther of this script
+# S0AndS0 from XDA, rptools, and github
