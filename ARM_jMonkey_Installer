@@ -21,9 +21,10 @@ jM_Componit=$HOME/ARM_Mod/Install_Scripts/Components/jMonkey
 jM_Download=$HOME/ARM_Mod/Download
 jM_Address=http://nightly.jmonkeyengine.org/jME3_2013-05-26.zip
 jM_Target=jME3_2013-05-26.zip
-jM_Path=$HOME/ARM_Mod/jApps/
+jM_Path=$HOME/ARM_Mod/jApps
 jM_Jar=jMonkeyEngine3.jar
 jM_Shortcut=jME3
+jM_minSize=9000
 echo "finished variable setting"
 echo "making directories"
 mkdir -p $jM_Componit
@@ -34,6 +35,17 @@ echo "writing jMonkey_Downloader"
 sudo cat > $jM_Componit/jMonkey_Downloader <<EOF
 cd $jM_Download
 wget -N $jM_Address
+#	 check if download sucseeded and if not wait a few seconds and try again"
+	jM_trueSize=\$(du -b "$jM_Target" | cut -f 1)
+	if [ \$jM_trueSize -ge $jM_minSize ]; then
+		echo "seems ok, moving on to extracting"
+#		find $jM_Download -type f -iname '$jM_Target' -print0 | xargs -0 unzip
+		else
+		echo "oh no something did not go ok, removing partial file and trying again in a few seconds"
+		find $jM_Download -type f -iname '$jM_Target' -print0 | xargs -0 rm -rI
+		sleep 30 && wget -N $jM_Address
+#		find $jM_Download -type f -iname '$jM_Target' -print0 | xargs -0 unzip
+	fi
 cd ~
 EOF
 echo "writing jMonkey_Extracter"
