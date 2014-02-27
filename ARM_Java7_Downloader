@@ -63,7 +63,7 @@ then
 #		find $java_Path -type f -iname '$javajreHF_targetFile' -print0 | xargs -0 tar -xvzf
 		else
 		echo "oh no something did not go ok, removing partial file and trying again in a few seconds"
-		find $java_Path -type f -iname '$javajreHF_targetFile' -print0 | xargs -0 rm
+		find $java_Path -type f -iname '$javajreHF_targetFile' -print0 | xargs -0 rm -rI
 		sleep 30 && wget $wgetModifiers "Cookie: $javaCookie" $armjre_HFdownload
 #		find $java_Path -type f -iname '$javajreHF_targetFile' -print0 | xargs -0 tar -xvzf
 	fi
@@ -80,7 +80,7 @@ then
 #		find $java_Path -type f -iname '$javajreSF_targetFile' -print0 | xargs -0 tar -xvzf
 		else
 		echo "oh no something did not go ok, removing partial file and trying again in a few seconds"
-		find $java_Path -type f -iname '$javajreHF_targetFile' -print0 | xargs -0 rm
+		find $java_Path -type f -iname '$javajreHF_targetFile' -print0 | xargs -0 rm -rI
 		sleep 30 && wget $wgetModifiers "Cookie: $javaCookie" $armjre_SFdownload
 #		find $java_Path -type f -iname '$javajreSF_targetFile' -print0 | xargs -0 tar -xvzf
 	fi
@@ -97,7 +97,7 @@ then
 #		find $java_Path -type f -iname '$javajdkHF_targetFile' -print0 | xargs -0 tar -xvzf
 		else
 		echo "oh no something did not go ok, removing parial file and trying again in a few seconds"
-		find $java_Path -type f -iname '$javajreHF_targetFile' -print0 | xargs -0 rm
+		find $java_Path -type f -iname '$javajreHF_targetFile' -print0 | xargs -0 rm -rI
 		sleep 30 && wget $wgetModifiers "Cookie: $javaCookie" $armJDK_HFdownload
 #		find $java_Path -type f -iname '$javajdkHF_targetFile' -print0 | xargs -0 tar -xvzf
 	fi
@@ -114,7 +114,7 @@ then
 #		find $java_Path -type f -iname '$javajdkSF_targetFile' -print0 | xargs -0 tar -xvzf
 		else
 		echo "oh no something did not go ok, removing parial file and trying again in a few seconds"
-		find $java_Path -type f -iname '$javajreHF_targetFile' -print0 | xargs -0 rm
+		find $java_Path -type f -iname '$javajreHF_targetFile' -print0 | xargs -0 rm -rI
 		sleep 30 && wget $wgetModifiers "Cookie: $javaCookie" $armJDK_SFdownload
 #		find $java_Path -type f -iname '$javajdkSF_targetFile' -print0 | xargs -0 tar -xvzf
 	fi
