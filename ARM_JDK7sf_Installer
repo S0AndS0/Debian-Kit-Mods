@@ -46,9 +46,9 @@ echo "$Java7JDK_Componet_Path will be used for"
 echo "unpacking components of this script"
 # End of read out of folder variables
 # start of matenance variable assignment
-javaVersion=jdk-7u21
+javaVersion=jdk-7u51
 javaFind=$HOME/Downloads
-javaShortcutVersion=jdk1.7.0_21
+javaShortcutVersion=jdk1.7.0_51
 # end of variable assignment
 # Create a List of packages to install
 echo "creating a list of packages to install to your system"
@@ -59,7 +59,7 @@ sudo apt-get install -y libsfgcc1
 sudo apt-get install -y libsfstdc++6
 EOF
 sudo cat > $Java7JDK_Componet_Path/Java_Source_copyExtracter <<EOF
-# Find the tarball for Java 7u21
+# Find the tarball for $javaVersion
 find $javaFind -type f -iname '*tar.gz' -print0 | xargs -0 ls 
 echo "if the file was downloaded elsewhere then manually move it before procieding"
 # confirm with user
