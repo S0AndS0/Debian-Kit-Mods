@@ -1,6 +1,6 @@
 #!/bin/bash
 # this is only usefull for educational perpiouses and really serves no other perpious
-# find the name of this script and store it to a variable
+echo "finding the name of this script and store it to a variable"
 hook_ScriptPath="$(readlink -f $0)"
 # deleat last componit from ThisScript and store to another variable
 hook_ScriptDirectory="$(dirname $hook_ScriptPath)"
@@ -8,15 +8,16 @@ hook_ScriptDirectory="$(dirname $hook_ScriptPath)"
 echo "Your curent working directory is : $PWD"
 echo "The name of this script is : $hook_ScriptPath"
 echo "The path to this script is : $hook_ScriptDirectory"
-# set componit path variable
+echo "setting componit path variable"
 _componitPath=$hook_ScriptDirectory/ARM_Mod/Install_Scripts/Components/test
-# make a directory under the new path
+_cleanerPath=$hook_ScriptDirectory/ARM_Mod/Install_Scripts/Components
+echo "making a directory under the new path"
 mkdir -p $_componitPath
-# write a file to the new directory
+echo "writing a file helloWorld to the new directory"
 sudo cat > $_componitPath/helloWorld <<EOF
 echo "hello world"
 EOF
-# write the above find file paths portion of this script to a file in the new directory
+echo "writing the above find file paths portion of this script to a file in the new directory"
 sudo cat > $_componitPath/findHooks <<EOF
 # find the name of this script and store it to a variable
 test_ScriptPath="\$(readlink -f \$0)"
@@ -27,8 +28,28 @@ echo "Your curent working directory is : \$PWD"
 echo "The name of this script is : \$test_ScriptPath"
 echo "The path to this script is : \$test_ScriptDirectory"
 EOF
-# write a script to run the above componits
+echo "writing a script to run the above componits"
 sudo cat > $_componitPath/scriptRunner.sh <<EOF
 sh $_componitPath/helloWorld
 sh $_componitPath/findHooks
 EOF
+echo "running the scriptrunner for files that where writen"
+sh $_componitPath/scriptRunner.sh
+echo "respond yes if this worked for you and you want the Test_hooking script componits to be removed"
+ls $_componitPath
+{
+# confirm with the user
+read -r -p "Did this work? [Y/n]" response
+case "$response" in
+  [yY][eE][sS]|[yY])
+# if yes, then start risking changes
+		find $_cleanerPath -name 'test' -print0 | xargs -0 rm -rI
+		;;
+	*)
+ #		 Otherwise exit..
+	echo "Good Night" exit
+	exit 
+	;;
+esac
+}
+
