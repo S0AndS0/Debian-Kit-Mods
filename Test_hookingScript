@@ -43,7 +43,7 @@ read -r -p "Did this work? [Y/n]" response
 case "$response" in
   [yY][eE][sS]|[yY])
 # if yes, then start risking changes
-		find $_cleanerPath -name 'test' -print0 | xargs -0 rm -rI
+#		find $_cleanerPath -name 'test' -print0 | xargs -0 rm -rI
 		;;
 	*)
  #		 Otherwise exit..
