@@ -108,7 +108,10 @@ then
 		exit 
 	elif [ $response = 0 ] 
 then 
-
+		echo "this has yet to be writen"
+		echo "exiting now"
+		echo exit 
+		exit 
 	else [ $response = * ] then 
 #	 if anything else then exit 
 		echo "exiting now"
