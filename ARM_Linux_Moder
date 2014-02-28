@@ -73,7 +73,7 @@ then
 	elif [ $response = 2 ] 
 then 
 		echo "this has yet to be tested"
-		sh $LM_ScriptDirectory/$JDK7sf_nameScript
+		sh $LM_ScriptDirectory/Install_Scripts/$JDK7sf_nameScript
 		echo "exiting now"
 		echo exit 
 	elif [ $response = 3 ] 
