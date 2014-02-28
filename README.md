@@ -101,6 +101,9 @@ FindScriptDirectory modification instructions
 8	echo "The name of this script is : \$ThisScript"
 9	echo "The path to this script is : \$PathTo_ThisScript"
 	in the "host script" so the variables are not prossessed during the writing out portion.
+	This example will be used latter to modify some of the curent scripts and the new ones to come.
+	 Perpios of this script example is to save the directory that it is running from into a variable that can be use latter,
+	 reason why this is useful; allows script componits to find one another no matter where they may have been downloaded from. 
 	~~~~~
 ~~~~~~
 
