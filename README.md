@@ -157,6 +157,10 @@ http://www.savagehomeautomation.com/pi-jdk
 http://stackoverflow.com/questions/10268583/how-to-automate-download-and-instalation-of-java-jdk-on-linux
 	for Alternatives_Install_list I compiled this list from
 http://www.calxeda.com/trystack/gettingstarted/
+	~~~~~~
+for FindScriptDirectory
+http://stackoverflow.com/questions/59895/can-a-bash-script-tell-what-directory-its-stored-in
+http://www.cyberciti.biz/faq/unix-linux-appleosx-bsd-bash-script-find-what-directory-itsstoredin/
 
 ~~~~~~
 

@@ -7,10 +7,3 @@ PathTo_ThisScript="$(dirname $ThisScript)"
 echo "Your curent working directory is : $PWD"
 echo "The name of this script is : $ThisScript"
 echo "The path to this script is : $PathTo_ThisScript"
-# credits
-# debuged and tested for ARM linux by S0AndS0
-# https://github.com/S0AndS0
-# sources of fantastic information on how this works
-# http://stackoverflow.com/questions/59895/can-a-bash-script-tell-what-directory-its-stored-in
-# http://www.cyberciti.biz/faq/unix-linux-appleosx-bsd-bash-script-find-what-directory-itsstoredin/
-
