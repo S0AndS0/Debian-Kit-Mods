@@ -79,5 +79,4 @@ if [ $RERUN -gt 0 ]; then
 	echo 
 	echo "Rerun as root to download the missing keys." 
 fi
-# from
-# http://www.mepis.org/docs/en/index.php?title=Public_key_not_available_error
+

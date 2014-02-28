@@ -83,27 +83,19 @@ for FindScriptDirectory
 	~~~~~
 #	sh /home/Downloads/Debian-Kit-Mods/FindScriptDirectory
 	~~~~~
-FindScriptDirectory modification instructions
+for Key_Fixer
 	~~~~~
-	$ThisScript and $PathTo_ThisScript can be modifide for other uses or encorperation into other scripts.
-	if using within a script that writes out its componits such as the ones found in this branch then the following lines;
-3	ThisScript="$(readlink -f $0)"
-	and
-5	PathTo_ThisScript="$(dirname $ThisScript)"
-	and
-8	echo "The name of this script is : $ThisScript"
-9	echo "The path to this script is : $PathTo_ThisScript"
-	should be modifide to;
-3	ThisScript="\$(readlink -f \$0)"
-	and
-5	PathTo_ThisScript="\$(dirname \$ThisScript)"
-	and
-8	echo "The name of this script is : \$ThisScript"
-9	echo "The path to this script is : \$PathTo_ThisScript"
-	in the "host script" so the variables are not prossessed during the writing out portion.
-	This example will be used latter to modify some of the curent scripts and the new ones to come.
-	 Perpios of this script example is to save the directory that it is running from into a variable that can be use latter,
-	 reason why this is useful; allows script componits to find one another no matter where they may have been downloaded from. 
+	for Key_Fixer
+	clone this github projects to a directory, such as a Downloads folder
+	~~~~~
+#	cd /home/Downloads
+#	git clone https://github.com/S0AndS0/Debian-Kit-Mods
+	~~~~~
+	then run the Key_Fixer script with
+	~~~~~
+#	sh /home/Downloads/Debian-Kit-Mods/Key_Fixer
+	~~~~~
+	use this to fix any missing keys that maybe causing errors after manualy modifying apt-get's source list.
 	~~~~~
 ~~~~~~
 
@@ -143,6 +135,28 @@ for ARM_Maptools_Installer
 27	MT_downloadVersion=http://www.rptools.net/download/zip/maptool-1.3.b89.zip
 28	Download_DnD35_Pathfinder=https://www.sugarsync.com/pf/D356388_6189570_977596?directDownload=true
 	~~~~~~
+for FindScriptDirectory
+	~~~~~
+	$ThisScript and $PathTo_ThisScript can be modifide for other uses or encorperation into other scripts.
+	if using within a script that writes out its componits such as the ones found in this branch then the following lines;
+3	ThisScript="$(readlink -f $0)"
+	and
+5	PathTo_ThisScript="$(dirname $ThisScript)"
+	and
+8	echo "The name of this script is : $ThisScript"
+9	echo "The path to this script is : $PathTo_ThisScript"
+	should be modifide to;
+3	ThisScript="\$(readlink -f \$0)"
+	and
+5	PathTo_ThisScript="\$(dirname \$ThisScript)"
+	and
+8	echo "The name of this script is : \$ThisScript"
+9	echo "The path to this script is : \$PathTo_ThisScript"
+	in the "host script" so the variables are not prossessed during the writing out portion.
+	This example will be used latter to modify some of the curent scripts and the new ones to come.
+	 Perpios of this script example is to save the directory that it is running from into a variable that can be use latter,
+	 reason why this is useful; allows script componits to find one another no matter where they may have been downloaded from. 
+	~~~~~
 ~~~~~~
 
 Sources that where used to construct these scripts
@@ -161,6 +175,9 @@ http://www.calxeda.com/trystack/gettingstarted/
 for FindScriptDirectory
 http://stackoverflow.com/questions/59895/can-a-bash-script-tell-what-directory-its-stored-in
 http://www.cyberciti.biz/faq/unix-linux-appleosx-bsd-bash-script-find-what-directory-itsstoredin/
+	~~~~~~
+for Key_Fixer
+http://www.mepis.org/docs/en/index.php?title=Public_key_not_available_error
 
 ~~~~~~
 
