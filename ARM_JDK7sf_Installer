@@ -36,7 +36,7 @@ echo "critical environmental variables have been set."
 # Make a folder to install JVM to
 sudo mkdir -p /usr/lib/jvm
 # Make a folder to download Java apps and scripts to
-mkdir -p $HOME/ARM_Mod/Install_Scripts/Components/Java7JDK
+mkdir -p $HOME/ARM_Mod/Install_Scripts/Components/Java7JDK_Installer
 # Start variables for folders
 Java7JDK_Componet_Path=$HOME/ARM_Mod/Install_Scripts/Components/Java7JDK_Installer
 jdkDesenation=/usr/lib/jvm
