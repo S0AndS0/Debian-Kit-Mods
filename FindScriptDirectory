@@ -1,11 +1,16 @@
 #!/bin/bash
-# testing for portability from
-# http://www.cyberciti.biz/faq/unix-linux-appleosx-bsd-bash-script-find-what-directory-itsstoredin/
-# who am I or find the name of this script and store it to a variable
-ThisScript="$(readlink -f ${BASH_SOURCE[0]})"
+# find the name of this script and store it to a variable
+ThisScript="$(readlink -f $0)"
 # deleat last componit from ThisScript and store to another variable
 PathTo_ThisScript="$(dirname $ThisScript)"
 # print curent working directory then print the newly set variables
 echo "Your curent working directory is : $PWD"
 echo "The name of this script is : $ThisScript"
 echo "The path to this script is : $PathTo_ThisScript"
+# credits
+# debuged and tested for ARM linux by S0AndS0
+# https://github.com/S0AndS0
+# sources of fantastic information on how this works
+# http://stackoverflow.com/questions/59895/can-a-bash-script-tell-what-directory-its-stored-in
+# http://www.cyberciti.biz/faq/unix-linux-appleosx-bsd-bash-script-find-what-directory-itsstoredin/
+
