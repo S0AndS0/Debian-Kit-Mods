@@ -25,6 +25,7 @@ test results
 02152014 ARM_Java_JDK7_Istaller works again. (renamed to ARM_JDK7sf_Installer in preperation for other versions for hardfloat to be made)
 02172014 ARM_Maptools_Installer works again.
 02242014 ARM_Java7_Downloader now exsists and works.
+02272014 FindScriptDirectory works as an example of what's to come
 ~~~~~~
 usage instructions
 ~~~~~~
@@ -72,6 +73,35 @@ if the shortcut on your desktop does't work for Maptools
 	input the following in the text diolog
 		java -jar
 	click on the ok button and give it a second or two to start up.
+for FindScriptDirectory
+	clone this github projects to a directory, such as a Downloads folder
+	~~~~~
+#	cd /home/Downloads
+#	git clone https://github.com/S0AndS0/Debian-Kit-Mods
+	~~~~~
+	then run the FindScriptDirectory script with
+	~~~~~
+#	sh /home/Downloads/Debian-Kit-Mods/FindScriptDirectory
+	~~~~~
+FindScriptDirectory modification instructions
+	~~~~~
+	$ThisScript and $PathTo_ThisScript can be modifide for other uses or encorperation into other scripts.
+	if using within a script that writes out its componits such as the ones found in this branch then the following lines;
+3	ThisScript="$(readlink -f $0)"
+	and
+5	PathTo_ThisScript="$(dirname $ThisScript)"
+	and
+8	echo "The name of this script is : $ThisScript"
+9	echo "The path to this script is : $PathTo_ThisScript"
+	should be modifide to;
+3	ThisScript="\$(readlink -f \$0)"
+	and
+5	PathTo_ThisScript="\$(dirname \$ThisScript)"
+	and
+8	echo "The name of this script is : \$ThisScript"
+9	echo "The path to this script is : \$PathTo_ThisScript"
+	in the "host script" so the variables are not prossessed during the writing out portion.
+	~~~~~
 ~~~~~~
 
 modification instructions
