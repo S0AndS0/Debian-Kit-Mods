@@ -1,0 +1,34 @@
+#!/bin/bash
+# this is only usefull for educational perpiouses and really serves no other perpious
+# find the name of this script and store it to a variable
+hook_ScriptPath="$(readlink -f $0)"
+# deleat last componit from ThisScript and store to another variable
+hook_ScriptDirectory="$(dirname $hook_ScriptPath)"
+# print curent working directory then print the newly set variables
+echo "Your curent working directory is : $PWD"
+echo "The name of this script is : $hook_ScriptPath"
+echo "The path to this script is : $hook_ScriptDirectory"
+# set componit path variable
+_componitPath=$hook_ScriptDirectory/ARM_Mod/Install_Scripts/Components/test
+# make a directory under the new path
+mkdir -p $_componitPath
+# write a file to the new directory
+sudo cat > $_componitPath/helloWorld <<EOF
+echo "hello world"
+EOF
+# write the above find file paths portion of this script to a file in the new directory
+sudo cat > $_componitPath/findHooks <<EOF
+# find the name of this script and store it to a variable
+test_ScriptPath="\$(readlink -f \$0)"
+# deleat last componit from ThisScript and store to another variable
+test_ScriptDirectory="\$(dirname \$test_ScriptPath)"
+# print curent working directory then print the newly set variables
+echo "Your curent working directory is : \$PWD"
+echo "The name of this script is : \$test_ScriptPath"
+echo "The path to this script is : \$test_ScriptDirectory"
+EOF
+# write a script to run the above componits
+sudo cat > $_componitPath/scriptRunner.sh <<EOF
+sh $_componitPath/helloWorld
+sh $_componitPath/findHooks
+EOF
