@@ -3,7 +3,7 @@ echo "__________________"
 echo "declaring variabls..."
 LM_nameScript=ARM_Linux_Modder
 JD_nameScript=ARM_Java7_Downloader
-JDK7sf_nameScript=ARM_JDK7sf_Installer
+JDK7sf_nameScript=ARM_JDKsf_Installer
 MT_nameScript=ARM_Maptools_Installer
 jM_nameScript=ARM_jMonkey_Installer
 NF_nameScript=ARM_NoFlo_Installer
@@ -22,8 +22,9 @@ echo "Your curent working directory is : $PWD"
 echo "The name of this script is : $LM_fullScriptPath"
 echo "The path to this script is : $LM_ScriptDirectory"
 echo "setting componit path variable"
-LM_componitPath=$LM_ScriptDirectory/ARM_Mod/Install_Scripts/Components
-LM_downloadPath=$LM_ScriptDirectory/ARM_Mod/Download
+LM_componitPath=$LM_ScriptDirectory/Install_Scripts/Components
+LM_downloadPath=$LM_ScriptDirectory/Download
+LM_runPath=$LM_ScriptDirectory/Install_Scripts
 echo "$LM_nameScript will use the following file path for script componits"
 echo "$LM_componitPath"
 echo "$LM_nameScript will use the following file path for downloading files"
@@ -73,7 +74,7 @@ then
 	elif [ $response = 2 ] 
 then 
 		echo "this has yet to be tested"
-		sh $LM_ScriptDirectory/Install_Scripts/$JDK7sf_nameScript
+		sh LM_runPath/$JDK7sf_nameScript
 		echo "exiting now"
 		echo exit 
 	elif [ $response = 3 ] 
