@@ -1,6 +1,6 @@
 #!/bin/bash
 JDK7sf_nameScript=ARM_JDKsf_Installer
-JD_nameScript=ARM_JREorJDK_Downloader
+JD_nameScript=ARM_JREorJDK7_Downloader
 echo "$JDK7sf_nameScript is running"
  : ${USER?} ${HOME?} 
 echo "user is : $USER"
