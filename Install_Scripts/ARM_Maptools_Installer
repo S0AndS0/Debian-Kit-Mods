@@ -19,17 +19,26 @@ MT_shortcutVersion=maptool-1.3.b87.jar
 MT_findVersion=maptool
 MT_downloadVersion=http://www.rptools.net/download/zip/maptool-1.3.b87.zip
 Download_DnD35_Pathfinder=https://www.sugarsync.com/pf/D356388_6189570_977596?directDownload=true
+pathFinderversion=Pathfinder.cmpn
+Download_tokenTool=http://www.rptools.net/download/zip/tokentool-1.0.b28.zip
+tokenTool_Version=tokentool-1.0.b28.zip
+Download_initiativeTool=http://www.rptools.net/download/zip/initiativetool-1.1.b9.zip
+initiativeTool_Version=initiativetool-1.1.b9.zip
+Download_characterTool=http://www.rptools.net/download/zip/chartool-1.0.b15.zip
+characterTool_Version=chartool-1.0.b15.zip
+Download_diceTool=http://www.rptools.net/download/zip/dicetool-1.0.b34.zip
+diceTool_Version=dicetool-1.0.b34.zip
 # end of matenance variable assignments
 # file path variables start
 MT_Componit_Path=$PathTo_MT/Components/Maptools
 MT_Download_Path=$PathTo_MT/Download/Maptools
-MT_Install_Path=$HOME/ARM_Mod/jApps/$MT_buildVersion
+MT_Install_Path=$PathTo_MT/jApps/$MT_buildVersion
 # file path variables end
 # variable readout start
 echo "You are $USER."
 echo "Your home directory is $HOME."
 echo "________________________________"
-echo "$This_Script will download"
+echo "$MT_nameScript will download"
 echo "Maptools and extract and install it"
 { 
 read -r -p "Are you sure? [Y/n]" response
@@ -61,9 +70,61 @@ cd ~
 EOF
 echo "writing Maptools_Extras"
 sudo cat > $MT_Componit_Path/Maptools_Extras <<EOF
-# wget -cP $MT_Download_Path/$pathFinderversion $Download_DnD35_Pathfinder
-# mv $MT_Download_Path/$pathFinderversion $MT_Install_Path/$MT_buildVersion
-echo 
+echo "$MT_nameScript can download and or run the following"
+echo "0 - exit"
+echo "1 - Download $pathFinderversion [untested]"
+echo "2 - Download $tokenTool_Version [untested]"
+echo "3 - Download $initiativeTool_Version [untested]"
+echo "4 - Download $characterTool_Version [untested]"
+echo "5 - Download $diceTool_Version [untested]"
+echo "6 - Download all available [untested]"
+
+read -r -p "Which one thing would you like to do? " response
+	if [ $response = 1 ] 
+then 
+wget -cP $MT_Download_Path/$pathFinderversion $Download_DnD35_Pathfinder
+mv $MT_Download_Path/$pathFinderversion $MT_Install_Path/$MT_buildVersion
+	elif [ $response = 2 ] 
+then 
+wget -cP $MT_Download_Path/$tokenTool_Version $Download_tokenTool
+mv $MT_Download_Path/$tokenTool_Version $MT_Install_Path/$MT_buildVersion
+	elif [ $response = 3 ] 
+then 
+wget -cP $MT_Download_Path/$initiativeTool_Version $Download_initiativeTool
+mv $MT_Download_Path/$initiativeTool_Version $MT_Install_Path/$MT_buildVersion
+	elif [ $response = 4 ] 
+then 
+wget -cP $MT_Download_Path/$characterTool_Version $Download_characterTool
+mv $MT_Download_Path/$characterTool_Version $MT_Install_Path/$MT_buildVersion
+	elif [ $response = 5 ] 
+then 
+wget -cP $MT_Download_Path/$diceTool_Version $Download_diceTool
+mv $MT_Download_Path/$diceTool_Version $MT_Install_Path/$MT_buildVersion
+	elif [ $response = 6 ] 
+then 
+wget -cP $MT_Download_Path/$pathFinderversion $Download_DnD35_Pathfinder
+mv $MT_Download_Path/$pathFinderversion $MT_Install_Path/$MT_buildVersion
+wget -cP $MT_Download_Path/$tokenTool_Version $Download_tokenTool
+mv $MT_Download_Path/$tokenTool_Version $MT_Install_Path/$MT_buildVersion
+wget -cP $MT_Download_Path/$initiativeTool_Version $Download_initiativeTool
+mv $MT_Download_Path/$initiativeTool_Version $MT_Install_Path/$MT_buildVersion
+wget -cP $MT_Download_Path/$characterTool_Version $Download_characterTool
+mv $MT_Download_Path/$characterTool_Version $MT_Install_Path/$MT_buildVersion
+wget -cP $MT_Download_Path/$diceTool_Version $Download_diceTool
+mv $MT_Download_Path/$diceTool_Version $MT_Install_Path/$MT_buildVersion
+	elif [ $response = 0 ] 
+then 
+		echo "this has yet to be writen"
+		echo "exiting now"
+		echo exit 
+		exit 
+	else [ $response = * ] then 
+#	 if anything else then exit 
+		echo "exiting now"
+		echo exit 
+		exit 
+	fi
+echo "End of Maptools_Extras"
 EOF
 echo "writing Shortcut_Maker"
 sudo cat > $MT_Componit_Path/Shortcut_Maker <<EOF
