@@ -78,7 +78,7 @@ echo "you may destroy everything around"
 echo "you for miles if you continue down this path"
 # confirm with the user
 read -r -p "Are you sure? [Y/n]" response
-case "$response" in
+case "\$response" in
 	[yY][eE][sS]|[yY])
  # if yes, then start risking changes
 		;;
@@ -209,7 +209,7 @@ echo "otherwise answer no to continue with the installation prosess"
 echo "________________________________"
 # confirm with the user
 read -r -p "Do you still need to download JDKsf? [Y/n] " response
-case "$response" in
+case "\$response" in
 	[yY][eE][sS]|[yY])
  # if yes, then start risking changes
  		sh $JDK7sf_ScriptDirectory/$JD_nameScript
