@@ -128,6 +128,7 @@ then
 		echo "oh no something did not go ok, removing parial file and trying again in a few seconds"
 		find $java_Path -type f -iname '$javajreHF_targetFile' -print0 | xargs -0 rm -rI
 		sleep 30 && wget $wgetModifiers "Cookie: $javaCookie" $armJDK_SFdownload
+		echo "running $JDK7sf_nameScript"
 		sh $PathTo_JD_Directory/$JDK7sf_nameScript
 #		find $java_Path -type f -iname '$javajdkSF_targetFile' -print0 | xargs -0 tar -xvzf
 	fi
