@@ -2,7 +2,7 @@
 echo "__________________"
 echo "declaring variabls..."
 LM_nameScript=ARM_Linux_Modder
-JD_nameScript=ARM_Java7_Downloader
+JD_nameScript=ARM_JREorJDK7_Downloader
 JDK7sf_nameScript=ARM_JDKsf_Installer
 MT_nameScript=ARM_Maptools_Installer
 jM_nameScript=ARM_jMonkey_Installer
