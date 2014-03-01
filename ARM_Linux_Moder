@@ -68,7 +68,7 @@ read -r -p "Which one thing would you like to do? " response
 	if [ $response = 1 ] 
 then 
 		echo "this has yet to be tested"
-		sh $LM_ScriptDirectory/$JD_nameScript
+		sh $LM_runPath/$JD_nameScript
 		echo "exiting now"
 		echo exit 
 	elif [ $response = 2 ] 
@@ -80,7 +80,7 @@ then
 	elif [ $response = 3 ] 
 then 
 		echo "this has yet to be tested"
-		sh $LM_ScriptDirectory/$MT_nameScript
+		sh $LM_runPath/$MT_nameScript
 		echo "exiting now"
 		echo exit 
 	elif [ $response = 4 ] 
