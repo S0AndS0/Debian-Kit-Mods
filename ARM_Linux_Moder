@@ -63,7 +63,7 @@ echo "6 - run $KF_nameScript [untested]"
 echo "7 - exit"
 echo "________________________"
 echo "Choose and input a number to continue"
-echo "or input no to abort $SAS_MMod"
+echo "or input no to abort $LM_nameScript"
 read -r -p "Which one thing would you like to do? " response
 	if [ $response = 1 ] 
 then 
