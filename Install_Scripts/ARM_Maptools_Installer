@@ -3,6 +3,7 @@
 echo "__________________"
 echo "declaring variabls..."
 MT_nameScript=ARM_Maptools_Installer
+JD_nameScript=ARM_JREorJDK7_Downloader
 # find the name of this script and store it to a variable
 MT_fullScriptPath="$(readlink -f $0)"
 # deleat last componit from MT_fullScriptPath and store to another variable
@@ -32,6 +33,7 @@ diceTool_Version=dicetool-1.0.b34.zip
 # file path variables start
 MT_Componit_Path=$PathTo_MT/Components/Maptools
 MT_Download_Path=$PathTo_MT/Download/Maptools
+MT_JavaSource_Path=$PathTo_MT/Download
 MT_Install_Path=$PathTo_MT/jApps/$MT_buildVersion
 # file path variables end
 # variable readout start
@@ -78,29 +80,28 @@ echo "3 - Download $initiativeTool_Version [untested]"
 echo "4 - Download $characterTool_Version [untested]"
 echo "5 - Download $diceTool_Version [untested]"
 echo "6 - Download all available [untested]"
-
 read -r -p "Which one thing would you like to do? " response
-	if [ $response = 1 ] 
+	if [ \$response = 1 ] 
 then 
 wget -cP $MT_Download_Path/$pathFinderversion $Download_DnD35_Pathfinder
 mv $MT_Download_Path/$pathFinderversion $MT_Install_Path/$MT_buildVersion
-	elif [ $response = 2 ] 
+	elif [ \$response = 2 ] 
 then 
 wget -cP $MT_Download_Path/$tokenTool_Version $Download_tokenTool
 mv $MT_Download_Path/$tokenTool_Version $MT_Install_Path/$MT_buildVersion
-	elif [ $response = 3 ] 
+	elif [ \$response = 3 ] 
 then 
 wget -cP $MT_Download_Path/$initiativeTool_Version $Download_initiativeTool
 mv $MT_Download_Path/$initiativeTool_Version $MT_Install_Path/$MT_buildVersion
-	elif [ $response = 4 ] 
+	elif [ \$response = 4 ] 
 then 
 wget -cP $MT_Download_Path/$characterTool_Version $Download_characterTool
 mv $MT_Download_Path/$characterTool_Version $MT_Install_Path/$MT_buildVersion
-	elif [ $response = 5 ] 
+	elif [ \$response = 5 ] 
 then 
 wget -cP $MT_Download_Path/$diceTool_Version $Download_diceTool
 mv $MT_Download_Path/$diceTool_Version $MT_Install_Path/$MT_buildVersion
-	elif [ $response = 6 ] 
+	elif [ \$response = 6 ] 
 then 
 wget -cP $MT_Download_Path/$pathFinderversion $Download_DnD35_Pathfinder
 mv $MT_Download_Path/$pathFinderversion $MT_Install_Path/$MT_buildVersion
@@ -112,13 +113,13 @@ wget -cP $MT_Download_Path/$characterTool_Version $Download_characterTool
 mv $MT_Download_Path/$characterTool_Version $MT_Install_Path/$MT_buildVersion
 wget -cP $MT_Download_Path/$diceTool_Version $Download_diceTool
 mv $MT_Download_Path/$diceTool_Version $MT_Install_Path/$MT_buildVersion
-	elif [ $response = 0 ] 
+	elif [ \$response = 0 ] 
 then 
 		echo "this has yet to be writen"
 		echo "exiting now"
 		echo exit 
 		exit 
-	else [ $response = * ] then 
+	else [ \$response = * ] then 
 #	 if anything else then exit 
 		echo "exiting now"
 		echo exit 
@@ -130,8 +131,32 @@ echo "writing Shortcut_Maker"
 sudo cat > $MT_Componit_Path/Shortcut_Maker <<EOF
 ln -s $MT_Install_Path/$MT_shortcutVersion $HOME/Desktop/$MT_buildVersion 
 EOF
+sudo cat > $MT_Componit_Path/Download_Prompter <<EOF
+echo "listing contents of : $MT_JavaSource_Path"
+ls $MT_JavaSource_Path
+echo "At the next prompt answer yes if you nead to run the $JD_nameScript first"
+echo "and select option 4 when promted"
+echo "otherwise answer no to continue with the installation prosess"
+{
+# alert to what's about to happen
+echo "________________________________"
+# confirm with the user
+read -r -p "Do you still need to download JDKsf? [Y/n] " response
+case "\$response" in
+	[yY][eE][sS]|[yY])
+ # if yes, then start risking changes
+ 		sh $PathTo_MT/$JD_nameScript
+		;;
+	*)
+#		 Otherwise continue on
+	echo "Moving on with $MT_nameScript"
+	;;
+esac
+} 
+EOF
 echo "writing Permission_Fixer"
 sudo cat > $MT_Componit_Path/Permission_Fixer <<EOF
+sudo chmod +x $MT_Componit_Path/Download_Prompter
 sudo chmod +x $MT_Componit_Path/Maptools_Downloader
 sudo chmod +x $MT_Componit_Path/Maptools_Extractor
 sudo chmod +x $MT_Componit_Path/Maptools_Extras
@@ -142,6 +167,7 @@ echo "fixing permissions for Permission_Fixer"
 sudo chmod +x $MT_Componit_Path/Permission_Fixer 
 echo "writing Script_Runner"
 sudo cat > $MT_Componit_Path/Script_Runner <<EOF
+sh $MT_Componit_Path/Download_Prompter
 sh $MT_Componit_Path/Maptools_Downloader 
 sh $MT_Componit_Path/Maptools_Extractor
 sh $MT_Componit_Path/Maptools_Extras
