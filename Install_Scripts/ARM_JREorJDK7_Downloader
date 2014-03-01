@@ -1,0 +1,176 @@
+#!/bin/bash
+# use some command line commands to download JavaDevelopentKit or JavaRuntimeEnviroment from
+# http://www.oracle.com/technetwork/java/javase/downloads/jdk7-downloads-1880260.html
+# set variables
+# find the name of this script and store it to a variable
+JD_fullScriptPath="$(readlink -f $0)"
+# deleat last componit from JD_fullScriptPath and store to another variable
+PathTo_JD_Directory="$(dirname $JD_fullScriptPath)"
+# print curent working directory then print the newly set variables
+echo "Your curent working directory is : $PWD"
+echo "The name of this script is : $JD_fullScriptPath"
+echo "The path to this script is : $PathTo_JD"
+# web address variables
+armjre_HFdownload=http://download.oracle.com/otn/java/ejre/7u51-b13/ejre-7u51-fcs-b13-linux-arm-vfp-hflt-client_headful-18_dec_2013.tar.gz
+armjre_SFdownload=http://download.oracle.com/otn/java/ejre/7u51-b13/ejre-7u51-fcs-b13-linux-arm-vfp-sflt-client_headful-18_dec_2013.tar.gz
+armJDK_HFdownload=http://download.oracle.com/otn-pub/java/jdk/7u51-b13/jdk-7u51-linux-arm-vfp-hflt.tar.gz
+armJDK_SFdownload=http://download.oracle.com/otn-pub/java/jdk/7u51-b13/jdk-7u51-linux-arm-vfp-sflt.tar.gz
+# file path variables
+ : ${USER?} ${HOME?} 
+java_Path=$PathTo_JD_Directory/Download
+java_Componit=$PathTo_JD_Directory/Install_Scripts/Components/javaDownloader
+# retry variables
+javajreHF_targetFile=ejre-7u51-fcs-b13-linux-arm-vfp-hflt-client_headful-18_dec_2013.tar.gz
+javajreSF_targetFile=ejre-7u51-fcs-b13-linux-arm-vfp-sflt-client_headful-18_dec_2013.tar.gz
+javajdkHF_targetFile=jdk-7u51-linux-arm-vfp-hflt.tar.gz
+javajdkSF_targetFile=jdk-7u51-linux-arm-vfp-sflt.tar.gz
+java_minSize=900
+javaCookie=gpw_e24\=https%3A%2F%2Fedelivery.oracle.com
+wgetModifiers="-N --no-check-certificate --no-cookies --header"
+# script name variables
+JD_nameScript=ARM_JREorJDK_Installer
+JDK7sf_nameScript=ARM_JDKsf_Installer
+# end variables
+echo "this will unpack ARM_JDK_Downloader"
+echo "to your ARM Linux OS"
+{
+# confirm with the user
+read -r -p "Are you sure? [Y/n]" response
+case "$response" in
+  [yY][eE][sS]|[yY])
+# if yes, then start risking changes
+		;;
+	*)
+ #		 Otherwise exit..
+	echo "Good Night" exit
+	exit 
+	;;
+esac
+}
+# use the following to adtempt to download java
+# wget $wgetModifiers "Cookie: $javaCookie" "$java_Download"
+mkdir -p $java_Componit
+mkdir -p $java_Path
+echo "writing out Download_Java to $java_Componit"
+sudo cat > $java_Componit/Download_Java <<EOF
+echo "you have some options on which java can be downloaded"
+echo "___________________"
+echo "respond with 0 to download nothing and quit"
+echo "respond with 1 to download $javajreHF_targetFile"
+echo "respond with 2 to download $javajreSF_targetFile"
+echo "respond with 3 to download $javajdkHF_targetFile"
+echo "respond with 4 to download $javajdkSF_targetFile"
+echo "___________________"
+read -r -p "Which one thing would you like to do? " response
+if [ \$response = 1 ] 
+then 
+#	 download $armjre_HFdownload
+	cd $java_Path
+	wget $wgetModifiers "Cookie: $javaCookie" $armjre_HFdownload
+#	 check if download sucseeded and if not wait a few seconds and try again"
+	java_trueSize=\$(du -b "$javajreHF_targetFile" | cut -f 1)
+	if [ \$java_trueSize -ge $java_minSize ]; then
+		echo "seems ok, moving on to extracting"
+#		find $java_Path -type f -iname '$javajreHF_targetFile' -print0 | xargs -0 tar -xvzf
+		else
+		echo "oh no something did not go ok, removing partial file and trying again in a few seconds"
+		find $java_Path -type f -iname '$javajreHF_targetFile' -print0 | xargs -0 rm -rI
+		sleep 30 && wget $wgetModifiers "Cookie: $javaCookie" $armjre_HFdownload
+#		find $java_Path -type f -iname '$javajreHF_targetFile' -print0 | xargs -0 tar -xvzf
+	fi
+	cd ~
+elif [ \$response = 2 ] 
+then 
+#	 download $armjre_SFdownload
+	cd $java_Path
+	wget $wgetModifiers "Cookie: $javaCookie" $armjre_SFdownload
+#	 check if download sucseeded and if not wait a few seconds and try again"
+	java_trueSize=\$(du -b "$javajreSF_targetFile" | cut -f 1)
+	if [ \$java_trueSize -ge $java_minSize ]; then
+		echo "seems ok, moving on to extracting"
+#		find $java_Path -type f -iname '$javajreSF_targetFile' -print0 | xargs -0 tar -xvzf
+		else
+		echo "oh no something did not go ok, removing partial file and trying again in a few seconds"
+		find $java_Path -type f -iname '$javajreHF_targetFile' -print0 | xargs -0 rm -rI
+		sleep 30 && wget $wgetModifiers "Cookie: $javaCookie" $armjre_SFdownload
+#		find $java_Path -type f -iname '$javajreSF_targetFile' -print0 | xargs -0 tar -xvzf
+	fi
+	cd ~
+elif [ \$response = 3 ] 
+then 
+#	 download armJDK_HFdownload
+	cd $java_Path
+	wget $wgetModifiers "Cookie: $javaCookie" $armJDK_HFdownload
+#	 check if download sucseeded and if not wait a few seconds and try again"
+	java_trueSize=\$(du -b "$javajdkHF_targetFile" | cut -f 1)
+	if [ \$java_trueSize -ge $java_minSize ]; then
+		echo "seems ok, moving on to extracting"
+#		find $java_Path -type f -iname '$javajdkHF_targetFile' -print0 | xargs -0 tar -xvzf
+		else
+		echo "oh no something did not go ok, removing parial file and trying again in a few seconds"
+		find $java_Path -type f -iname '$javajreHF_targetFile' -print0 | xargs -0 rm -rI
+		sleep 30 && wget $wgetModifiers "Cookie: $javaCookie" $armJDK_HFdownload
+#		find $java_Path -type f -iname '$javajdkHF_targetFile' -print0 | xargs -0 tar -xvzf
+	fi
+	cd ~
+elif [ \$response = 4 ] 
+then 
+#	 download armJDK_SFdownload
+	cd $java_Path
+	wget $wgetModifiers "Cookie: $javaCookie" $armJDK_SFdownload
+#	 check if download sucseeded and if not wait a few seconds and try again"
+	java_trueSize=\$(du -b "$javajdkSF_targetFile" | cut -f 1)
+	if [ \$java_trueSize -ge $java_minSize ]; then
+		echo "seems ok, moving on to $JDK7sf_nameScript"
+		sh $PathTo_JD_Directory/$JDK7sf_nameScript
+#		find $java_Path -type f -iname '$javajdkSF_targetFile' -print0 | xargs -0 tar -xvzf
+	else
+		echo "oh no something did not go ok, removing parial file and trying again in a few seconds"
+		find $java_Path -type f -iname '$javajreHF_targetFile' -print0 | xargs -0 rm -rI
+		sleep 30 && wget $wgetModifiers "Cookie: $javaCookie" $armJDK_SFdownload
+		sh $PathTo_JD_Directory/$JDK7sf_nameScript
+#		find $java_Path -type f -iname '$javajdkSF_targetFile' -print0 | xargs -0 tar -xvzf
+	fi
+	cd ~
+elif [ \$response = 0 ] 
+then 
+	echo "Good night"
+	exit
+fi
+EOF
+echo "writing out Permission_Fixer to $java_Componit"
+sudo cat > $java_Componit/Permission_Fixer <<EOF
+sudo chmod +x $java_Componit/Download_Java
+sudo chmod +x $java_Componit/Script_Runner
+EOF
+echo "writing out Script_Runner to $java_Componit"
+sudo cat > $java_Componit/Script_Runner <<EOF
+sh $java_Componit/Download_Java
+EOF
+echo "fixing Permission_Fixer permissions"
+sudo chmod +x $java_Componit/Permission_Fixer
+echo "unpacking compleated and about to download java"
+echo "to your ARM Linux OS"
+{
+# confirm with the user
+read -r -p "Are you sure? [Y/n]" response
+case "$response" in
+  [yY][eE][sS]|[yY])
+# if yes, then start risking changes
+sh $java_Componit/Script_Runner
+		;;
+	*)
+ #		 Otherwise exit..
+	echo "Good Night" exit
+	exit 
+	;;
+esac
+}
+# end of script
+# credits
+# for downloading Java from the command line
+# http://stackoverflow.com/questions/10268583/how-to-automate-download-and-instalation-of-java-jdk-on-linux
+# for downloading only if a file doesn't exsist
+# http://stackoverflow.com/questions/4944295/wget-skip-if-files-exist
+# for auto retrying if the download fails in the middle
+# http://stackoverflow.com/questions/5920333/how-to-check-size-of-a-file
