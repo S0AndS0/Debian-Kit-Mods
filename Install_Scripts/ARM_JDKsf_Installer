@@ -55,8 +55,6 @@ echo "...JVM to be installed to"
 sudo mkdir -p $JDKsf_Destanation
 echo "Making directory for componits to be writen too"
 mkdir -p $JDK7sf_componitPath
-echo "Making directory for Java source file to be downloaded to"
-mkdir -p $JDK7sf_downloadPath
 echo "__________________"
 echo "unpacking components of this script"
 echo "creating a list of packages to install to your system"

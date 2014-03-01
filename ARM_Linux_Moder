@@ -55,7 +55,7 @@ mkdir -p $LM_downloadPath
 echo "$LM_nameScript can download and or run the following"
 echo "0 - exit"
 echo "1 - run $JD_nameScript [untested]"
-echo "2 - run $JDK7sf_nameScript [untested]"
+echo "2 - run $JDK7sf_nameScript [tested]"
 echo "3 - run $MT_nameScript [untested]"
 echo "4 - run $jM_nameScript [untested]"
 echo "5 - run $NF_nameScript [untested]"
