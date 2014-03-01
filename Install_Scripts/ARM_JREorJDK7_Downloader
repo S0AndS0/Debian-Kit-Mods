@@ -9,7 +9,7 @@ PathTo_JD_Directory="$(dirname $JD_fullScriptPath)"
 # print curent working directory then print the newly set variables
 echo "Your curent working directory is : $PWD"
 echo "The name of this script is : $JD_fullScriptPath"
-echo "The path to this script is : $PathTo_JD"
+echo "The path to this script is : $PathTo_JD_Directory"
 # web address variables
 armjre_HFdownload=http://download.oracle.com/otn/java/ejre/7u51-b13/ejre-7u51-fcs-b13-linux-arm-vfp-hflt-client_headful-18_dec_2013.tar.gz
 armjre_SFdownload=http://download.oracle.com/otn/java/ejre/7u51-b13/ejre-7u51-fcs-b13-linux-arm-vfp-sflt-client_headful-18_dec_2013.tar.gz
