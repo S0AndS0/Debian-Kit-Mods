@@ -19,14 +19,14 @@ echo "$JDK7sf_nameScript will use the following file path for script componits"
 echo "$JDK7sf_componitPath"
 echo "$JDK7sf_nameScript will use the following file path for downloading files"
 echo "$JDK7sf_downloadPath"
-echo "setting JDK soft float destanation"
+echo "setting JDK soft float destanation to"
 JDKsf_Destanation=/usr/lib/jvm
-echo "to $JDKsf_Destanation"
+echo "$JDKsf_Destanation"
 echo "setting matenance variables to"
 JDKsf_Version=jdk-7u51
 JDKsf_ShortcutVersion=jdk1.7.0_51
 echo "$JDKsf_Version for Java JDK soft float version"
-echo and $JDKsf_ShortcutVersion for creating a symbolic link"
+echo "and $JDKsf_ShortcutVersion for creating a symbolic link"
 # end of variable assignment
 echo "__________________"
 echo "This script is written in the hopes that it will be found useful" 
