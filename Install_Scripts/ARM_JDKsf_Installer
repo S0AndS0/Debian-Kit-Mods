@@ -1,9 +1,10 @@
 #!/bin/bash
 JDK7sf_nameScript=ARM_JDKsf_Installer
+JD_nameScript=ARM_JREorJDK_Downloader
 echo "$JDK7sf_nameScript is running"
  : ${USER?} ${HOME?} 
 echo "user is : $USER"
-echo "home directory is $HOME"
+echo "home directory is : $HOME"
 echo "finding the name of this script and store it to a variable"
 JDK7sf_fullScriptPath="$(readlink -f $0)"
 # delete last componit from this script and store to another variable
@@ -197,12 +198,38 @@ echo "Now writing Java7_Activator"
 sudo cat > $JDK7sf_componitPath/Java7_Activator <<EOF
 sudo update-java-alternatives --set java-7-oracle
 EOF
+sudo cat > $JDK7sf_componitPath/Download_Prompter <<EOF
+echo "listing contents of : $JDK7sf_downloadPath"
+ls $JDK7sf_downloadPath
+echo "At the next prompt answer yes if you nead to run the $JD_nameScript first"
+echo "and select option 4 when promted"
+echo "otherwise answer no to continue with the installation prosess"
+{
+# alert to what's about to happen
+echo "________________________________"
+# confirm with the user
+read -r -p "Do you still need to download JDKsf? [Y/n] " response
+case "$response" in
+	[yY][eE][sS]|[yY])
+ # if yes, then start risking changes
+ 		sh $JDK7sf_ScriptDirectory/$JD_nameScript
+		;;
+	*)
+#		 Otherwise continue on
+	echo "Moving on with $JDK7sf_nameScript"
+	;;
+esac
+} 
+EOF
 # Make a script to run all scripts created by this script
 echo "Now writing a script that will run all scripts that were written to your system"
 sudo cat > $JDK7sf_componitPath/Script_Runner <<EOF
 #!/bin/bash
 set -e
 # set -x
+echo "_________________"
+echo "running Download_Prompter"
+sh $JDK7sf_componitPath/Download_Prompter
 echo "_________________"
 echo "you may run the package install list manually later to keep your system up to date,"
 echo "to do so run $ sh $JDK7sf_componitPath/Depends_Install_List from a terminal window"
@@ -235,6 +262,7 @@ sudo cat > $JDK7sf_componitPath/Permission_Fixer <<EOF
 #!/bin/bash
 # Now Fixing permissions
 echo "fixing permissions for running this script"
+sudo chmod +x $JDK7sf_componitPath/Download_Prompter
 sudo chmod +x $JDK7sf_componitPath/Script_Runner
 sudo chmod +x $JDK7sf_componitPath/Depends_Install_List
 sudo chmod +x $JDK7sf_componitPath/Java_Source_copyExtracter
