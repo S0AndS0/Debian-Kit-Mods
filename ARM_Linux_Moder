@@ -54,13 +54,13 @@ mkdir -p $LM_downloadPath
 # Prompt for which scripts to download or run
 echo "$LM_nameScript can download and or run the following"
 echo "0 - exit"
-echo "1 - run $JD_nameScript [untested]"
+echo "1 - run $JD_nameScript [tested]"
 echo "2 - run $JDK7sf_nameScript [tested]"
 echo "3 - run $MT_nameScript [untested]"
 echo "4 - run $jM_nameScript [untested]"
 echo "5 - run $NF_nameScript [untested]"
 echo "6 - run $KF_nameScript [untested]"
-echo "7 - exit"
+echo "7 - run $LM_nameScript mod instructions [unwritten]"
 echo "________________________"
 echo "Choose and input a number to continue"
 echo "or input no to abort $LM_nameScript"
@@ -103,7 +103,30 @@ then
 		echo exit 
 	elif [ $response = 7 ] 
 then 
-		echo "this has yet to be writen"
+		echo "this has yet to be compleatly writen"
+		echo "__________________"
+		echo "List of Variables being used in $LM_nameScript"
+		echo "__________________"
+		echo "\$LM_nameScript is : $LM_nameScript "
+		echo "\$JD_nameScript is : $JD_nameScript "
+		echo "\$JDK7sf_nameScript is : $JDK7sf_nameScript "
+		echo "\$MT_nameScript is : $MT_nameScript "
+		echo "\$jM_nameScript is : $jM_nameScript "
+		echo "\$NF_nameScript is : $NF_nameScript "
+		echo "\$KF_nameScript is : $KF_nameScript "
+		echo "\$USER is : $USER "
+		echo "\$HOME is : $HOME "
+		echo "\$LM_fullScriptPath is : $LM_fullScriptPath "
+		echo "\$LM_ScriptDirectory is : $LM_ScriptDirectory "
+		echo "\$LM_componitPath is : $LM_componitPath "
+		echo "\$LM_downloadPath is : $LM_downloadPath "
+		echo "\$LM_runPath is : $LM_runPath "
+		echo 
+		echo "__________________"
+		
+		echo "__________________"
+		
+		echo 
 		echo "exiting now"
 		echo exit 
 		exit 
