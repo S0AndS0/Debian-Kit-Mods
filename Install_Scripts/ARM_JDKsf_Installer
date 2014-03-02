@@ -14,7 +14,7 @@ echo "Your curent working directory is : $PWD"
 echo "The name of this script is : $JDK7sf_fullScriptPath"
 echo "The path to this script is : $JDK7sf_ScriptDirectory"
 echo "setting componit path variable"
-JDK7sf_componitPath=$JDK7sf_ScriptDirectory/Components/JDK7sf
+JDK7sf_componitPath=$JDK7sf_ScriptDirectory/Components/JDK7sf_Installer
 JDK7sf_downloadPath=$JDK7sf_ScriptDirectory/Download
 echo "$JDK7sf_nameScript will use the following file path for script componits"
 echo "$JDK7sf_componitPath"
@@ -38,7 +38,7 @@ echo "__________________"
 # alert to what's about to happen
 echo "You're about to install Java 7 soft float"
 # confirm with the user
-read -r -p "Are you sure? [Y/n]" response
+read -r -p "Are you sure? [Y/n] " response
 case "$response" in
   [yY][eE][sS]|[yY])
  # if yes, then start risking changes
@@ -51,8 +51,7 @@ case "$response" in
 esac
 }
 echo "__________________"
-echo "Creating directories for..."
-echo "...JVM to be installed to"
+echo "Creating directories for JVM to be installed to"
 sudo mkdir -p $JDKsf_Destanation
 echo "Making directory for componits to be writen too"
 mkdir -p $JDK7sf_componitPath
@@ -61,9 +60,9 @@ echo "unpacking components of this script"
 echo "creating a list of packages to install to your system"
 sudo cat > $JDK7sf_componitPath/Depends_Install_List <<EOF
 sudo apt-get install -y java-common
-sudo apt-get install -y libc6-armel
-sudo apt-get install -y libsfgcc1
-sudo apt-get install -y libsfstdc++6
+# sudo apt-get install -y libc6-armel
+# sudo apt-get install -y libsfgcc1
+# sudo apt-get install -y libsfstdc++6
 EOF
 sudo cat > $JDK7sf_componitPath/Java_Source_copyExtracter <<EOF
 # Find the tarball for $JDKsf_Version

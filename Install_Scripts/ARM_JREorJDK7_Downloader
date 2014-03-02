@@ -18,7 +18,7 @@ armJDK_SFdownload=http://download.oracle.com/otn-pub/java/jdk/7u51-b13/jdk-7u51-
 # file path variables
  : ${USER?} ${HOME?} 
 java_Path=$PathTo_JD_Directory/Download
-java_Componit=$PathTo_JD_Directory/Install_Scripts/Components/javaDownloader
+java_Componit=$PathTo_JD_Directory/Components/javaDownloader
 # retry variables
 javajreHF_targetFile=ejre-7u51-fcs-b13-linux-arm-vfp-hflt-client_headful-18_dec_2013.tar.gz
 javajreSF_targetFile=ejre-7u51-fcs-b13-linux-arm-vfp-sflt-client_headful-18_dec_2013.tar.gz
