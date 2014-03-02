@@ -94,9 +94,9 @@ echo "Finding and Copying Java tarball from the $JDK7sf_downloadPath directory t
 find $JDK7sf_downloadPath -type f -iname '$JDKsf_Version*' -print0 | xargs -0 sudo cp --interactive --verbose --target-directory=$JDKsf_Destanation 
 echo "Finding and changing ownership of Java tarball in your $JDKsf_Destanation directory"
 find $JDKsf_Destanation -type f -iname '$JDKsf_Version*' -print0 | xargs -0 sudo chown $USER:$USER
-echo "Finding and changing permissions of Java tarball in $HOME directory to read write and execute for $USER"
+echo "Finding and changing permissions of Java tarball in $JDKsf_Destanation directory to read write and execute for $USER"
 find $JDKsf_Destanation -type f -iname '$JDKsf_Version*' -print0 | xargs -0 sudo chmod --changes --recursive 755
-cd $JDKsf_Destanation
+sudo cd $JDKsf_Destanation
 find $JDKsf_Destanation -type f -iname '$JDKsf_Version*' -print0 | xargs -0 sudo tar -vxpzf
 # --verbose --extract --gunzip --file=
 sudo ln -s JDKsf_ShortcutVersion java-7-oracle
@@ -148,7 +148,7 @@ sudo update-alternatives --quiet --install /usr/bin/xjc xjc /usr/lib/jvm/java-7-
 EOF
 echo "Creating script to compile the JRE/JDK description file named .java-7-oracle.jinfo to use with update-java-alternatives"
 sudo cat > $JDK7sf_componitPath/JRE_JDK_Descriptions <<EOF
-cd $JDKsf_Destanation
+sudo cd $JDKsf_Destanation
 echo 'alias=java-7-oracle 
 priority=100 
 section=non-free
