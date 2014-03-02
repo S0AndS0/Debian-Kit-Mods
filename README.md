@@ -26,6 +26,9 @@ test results
 02172014 ARM_Maptools_Installer works again.
 02242014 ARM_Java7_Downloader now exsists and works.
 02272014 FindScriptDirectory works as an example of what's to come
+03012014 ARM_Linux_Moder now functions to run any of the scripts from this github project
+	furthermore; the three new versions of ARM_Java_JDK7_Istaller, ARM_Maptools_Installer, and ARM_Java7_Downloader under the Install_Scripts 
+	should all function corectly
 ~~~~~~
 usage instructions
 ~~~~~~
