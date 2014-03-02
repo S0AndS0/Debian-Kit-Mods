@@ -29,6 +29,9 @@ javaCookie=gpw_e24\=https%3A%2F%2Fedelivery.oracle.com
 wgetModifiers="-N --no-check-certificate --no-cookies --header"
 # script name variables
 JD_nameScript=ARM_JREorJDK_Installer
+jre7HF_nameScript=ARM_jreHF_Installer
+jre7SF_nameScript=ARM_jreSF_Installer
+JDK7hf_nameScript=ARM_JDKhf_Installer
 JDK7sf_nameScript=ARM_JDKsf_Installer
 # end variables
 echo "this will unpack ARM_JDK_Downloader"
@@ -71,12 +74,12 @@ then
 	java_trueSize=\$(du -b "$javajreHF_targetFile" | cut -f 1)
 	if [ \$java_trueSize -ge $java_minSize ]; then
 		echo "seems ok, moving on to extracting"
-#		find $java_Path -type f -iname '$javajreHF_targetFile' -print0 | xargs -0 tar -xvzf
+#		sh $PathTo_JD_Directory/$jre7HF_nameScript
 		else
 		echo "oh no something did not go ok, removing partial file and trying again in a few seconds"
-		find $java_Path -type f -iname '$javajreHF_targetFile' -print0 | xargs -0 rm -rI
+		rm -rI $java_Path/$javajreHF_targetFile
 		sleep 30 && wget $wgetModifiers "Cookie: $javaCookie" $armjre_HFdownload
-#		find $java_Path -type f -iname '$javajreHF_targetFile' -print0 | xargs -0 tar -xvzf
+#		sh $PathTo_JD_Directory/$jre7HF_nameScript
 	fi
 	cd ~
 elif [ \$response = 2 ] 
@@ -88,12 +91,12 @@ then
 	java_trueSize=\$(du -b "$javajreSF_targetFile" | cut -f 1)
 	if [ \$java_trueSize -ge $java_minSize ]; then
 		echo "seems ok, moving on to extracting"
-#		find $java_Path -type f -iname '$javajreSF_targetFile' -print0 | xargs -0 tar -xvzf
+#		sh $PathTo_JD_Directory/$jre7SF_nameScript
 		else
 		echo "oh no something did not go ok, removing partial file and trying again in a few seconds"
-		find $java_Path -type f -iname '$javajreHF_targetFile' -print0 | xargs -0 rm -rI
+		rm -rI $java_Path/$javajreSF_targetFile
 		sleep 30 && wget $wgetModifiers "Cookie: $javaCookie" $armjre_SFdownload
-#		find $java_Path -type f -iname '$javajreSF_targetFile' -print0 | xargs -0 tar -xvzf
+#		sh $PathTo_JD_Directory/$jre7SF_nameScript
 	fi
 	cd ~
 elif [ \$response = 3 ] 
@@ -105,12 +108,12 @@ then
 	java_trueSize=\$(du -b "$javajdkHF_targetFile" | cut -f 1)
 	if [ \$java_trueSize -ge $java_minSize ]; then
 		echo "seems ok, moving on to extracting"
-#		find $java_Path -type f -iname '$javajdkHF_targetFile' -print0 | xargs -0 tar -xvzf
+#		sh $PathTo_JD_Directory/$JDK7hf_nameScript
 		else
 		echo "oh no something did not go ok, removing parial file and trying again in a few seconds"
-		find $java_Path -type f -iname '$javajreHF_targetFile' -print0 | xargs -0 rm -rI
+		rm -rI $java_Path/$javajdkHF_targetFile
 		sleep 30 && wget $wgetModifiers "Cookie: $javaCookie" $armJDK_HFdownload
-#		find $java_Path -type f -iname '$javajdkHF_targetFile' -print0 | xargs -0 tar -xvzf
+#		sh $PathTo_JD_Directory/$JDK7hf_nameScript
 	fi
 	cd ~
 elif [ \$response = 4 ] 
@@ -123,14 +126,12 @@ then
 	if [ \$java_trueSize -ge $java_minSize ]; then
 		echo "seems ok, moving on to $JDK7sf_nameScript"
 		sh $PathTo_JD_Directory/$JDK7sf_nameScript
-#		find $java_Path -type f -iname '$javajdkSF_targetFile' -print0 | xargs -0 tar -xvzf
 	else
 		echo "oh no something did not go ok, removing parial file and trying again in a few seconds"
-		find $java_Path -type f -iname '$javajreHF_targetFile' -print0 | xargs -0 rm -rI
+		rm -rI $java_Path/$javajdkSF_targetFile
 		sleep 30 && wget $wgetModifiers "Cookie: $javaCookie" $armJDK_SFdownload
 		echo "running $JDK7sf_nameScript"
 		sh $PathTo_JD_Directory/$JDK7sf_nameScript
-#		find $java_Path -type f -iname '$javajdkSF_targetFile' -print0 | xargs -0 tar -xvzf
 	fi
 	cd ~
 elif [ \$response = 0 ] 
