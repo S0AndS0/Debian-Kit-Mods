@@ -3,6 +3,7 @@ echo "__________________"
 echo "declaring variabls..."
 LM_nameScript=ARM_Linux_Modder
 JD_nameScript=ARM_JREorJDK7_Downloader
+JDK7hf_nameScript=ARM_JDKhf_Installer
 JDK7sf_nameScript=ARM_JDKsf_Installer
 MT_nameScript=ARM_Maptools_Installer
 jM_nameScript=ARM_jMonkey_Installer
@@ -60,7 +61,8 @@ echo "3 - run $MT_nameScript [untested]"
 echo "4 - run $jM_nameScript [untested]"
 echo "5 - run $NF_nameScript [untested]"
 echo "6 - run $KF_nameScript [untested]"
-echo "7 - run $LM_nameScript mod instructions [unwritten]"
+echo "7 - run $JDK7hf_nameScript [untested]"
+echo "8 - run $LM_nameScript mod instructions [unwritten]"
 echo "________________________"
 echo "Choose and input a number to continue"
 echo "or input no to abort $LM_nameScript"
@@ -102,6 +104,12 @@ then
 		echo "exiting now"
 		echo exit 
 	elif [ $response = 7 ] 
+then 
+		echo "this has yet to be tested"
+		sh $LM_runPath/$JDK7hf_nameScript
+		echo "exiting now"
+		echo exit 
+	elif [ $response = 8 ] 
 then 
 		echo "this has yet to be compleatly writen"
 		echo "__________________"
