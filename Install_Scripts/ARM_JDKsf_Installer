@@ -1,6 +1,7 @@
 #!/bin/bash
 JDK7sf_nameScript=ARM_JDKsf_Installer
 JD_nameScript=ARM_JREorJDK7_Downloader
+LM_nameScript=ARM_Linux_Modder
 echo "$JDK7sf_nameScript is running"
  : ${USER?} ${HOME?} 
 echo "user is : $USER"
@@ -252,6 +253,11 @@ echo "to do so run sh $JDK7sf_componitPath/JRE_JDK_Descriptions from a terminal 
 echo "_________________"
 echo "running Java7_Activator"
 sh $JDK7sf_componitPath/Java7_Activator
+echo "_________________"
+echo "restarting $LM_nameScript to give options to install Java dependent software"
+cd $JDK7sf_ScriptDirectory
+cd 
+sh $LM_nameScript
 echo "_________________"
 # set +x
 set +e
