@@ -1,0 +1,24 @@
+#!/bin/bash
+echo "Reading variables..."
+# for all scripts
+ : ${USER?} ${HOME?} 
+VR_nameScript=Variable_readFile
+LM_nameScript=ARM_Linux_Modder
+JD_nameScript=ARM_JREorJDK7_Downloader
+JDK7hf_nameScript=ARM_JDKhf_Installer
+JDK7sf_nameScript=ARM_JDKsf_Installer
+MT_nameScript=ARM_Maptools_Installer
+jM_nameScript=ARM_jMonkey_Installer
+NF_nameScript=ARM_NoFlo_Installer
+KF_nameScript=Key_Fixer
+
+_fullScriptPath="$(readlink -f $0)"
+# deleat last componit from this script and store to another variable
+_ScriptDirectory="$(dirname $_fullScriptPath)"
+
+_componitPath=$_ScriptDirectory/Install_Scripts/Components
+_downloadPath=$_ScriptDirectory/Download
+
+# for individual scripts
+
+echo "... end of variable read"
