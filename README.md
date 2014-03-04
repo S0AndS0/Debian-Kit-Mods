@@ -181,6 +181,12 @@ http://www.cyberciti.biz/faq/unix-linux-appleosx-bsd-bash-script-find-what-direc
 	~~~~~~
 for Key_Fixer
 http://www.mepis.org/docs/en/index.php?title=Public_key_not_available_error
+	~~~~~~
+for ARM_NodeJS_Installer
+	easy script to cross compile for multiple versions of ARM
+https://github.com/itwars/Nodejs-ARM-builder
+	for sources of pre-compiled nodejs binaries
+https://gist.github.com/adammw/3245130
 
 ~~~~~~
 
