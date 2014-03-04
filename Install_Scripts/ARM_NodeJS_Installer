@@ -1,0 +1,72 @@
+#!/bin/bash
+nJS_nameScript=ARM_NodeJS_Installer
+ : ${USER?} ${HOME?} 
+echo "finding the name of $nJS_nameScript and store it to a variable"
+nJS_fullScriptPath="$(readlink -f $0)"
+# delete last componit from this script and store to another variable
+nJS_ScriptDirectory="$(dirname $nJS_fullScriptPath)"
+# print curent working directory then print the newly set variables
+echo "Your curent working directory is : $PWD"
+echo "The name of this script is : $nJS_fullScriptPath"
+echo "The path to this script is : $nJS_ScriptDirectory"
+echo "setting componit path variable"
+nJS_componitPath=$JDK7hf_ScriptDirectory/Components/nJS_Installer
+nJS_downloadPath=$JDK7hf_ScriptDirectory/Download
+nJS_Download=http://nodejs.org/dist/v0.10.2/node-v0.10.2-linux-arm-pi.tar.gz
+# set maintenance variables
+nJS_targetFile=node-v0.10.2-linux-arm-pi.tar.gz
+nJS_minSize=9000
+nJS_Version=v0.10.2
+nJS_Path=$HOME/ARM_Mod/nodejs
+nJS_bashPath=$nJS_Path/node-v0.10.2-linux-arm-pi
+pathinto_bashrc=$HOME/.bashrc
+echo "0 - exit"
+echo "1 - run node.js hard float Installer"
+echo "2 - run node.js soft float Installer"
+read -r -p "Which one would you like to do? " response
+	if [ $response = 1 ] 
+then 
+# $NF_Componit_Path/Nodejs_Installer 
+# download and extract node.js to $njs_Path
+cd $nJS_Path
+wget -N $nJS_Download
+# check if download sucseeded and if not wait a few seconds and try again"
+njs_trueSize=$(du -b "$nJS_targetFile" | cut -f 1)
+if [ $nJS_trueSize -ge $nJS_minSize ]; then
+	echo "seems ok, moving on to extracting"
+	find $nJS_Path -type f -iname '*$nJS_Version*' -print0 | xargs -0 tar -xvzf
+	else
+	echo "oh no something did not go ok, trying again in a few seconds"
+	rm $nJS_targetFile
+	sleep 30 && wget -N $nJS_Download
+	find $nJS_Path -type f -iname '*$nJS_Version*' -print0 | xargs -0 tar -xvzf
+fi
+cd ~
+# append bashrc file to include the following so nodejs can be called from other programs
+echo '
+# path to nodejs
+NODE_JS_HOME=$njs_bashPath
+PATH=\$PATH:\$NODE_JS_HOME/bin' | sudo tee -a $pathinto_bashrc
+
+	elif [ $response = 2 ] 
+then 
+		echo "this has yet to be writen and from what I've read may take up to two houres to compleatly Install"
+#		https://github.com/itwars/Nodejs-ARM-builder
+#		ch nJS_downloadPath
+#		git clone https://github.com/itwars/Nodejs-ARM-builder
+#		cd ~
+#		sh nJS_downloadPath/Nodejs-ARM-builder/cross-compiler.sh
+		echo "exiting now"
+		echo exit 
+	elif [ $response = 0 ] 
+then 
+		echo "exiting now"
+		echo exit 
+		exit 
+	else [ $response = * ] then 
+#	 if anything else then exit 
+		echo "exiting now"
+		echo exit 
+		exit 
+	fi
+exit
