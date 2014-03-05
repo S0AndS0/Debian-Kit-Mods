@@ -1,0 +1,220 @@
+# Write a set of scripts to upset the distrobution
+# set variables
+RM_nameScript=ARM_Repo_Moder
+ : ${USER?} ${HOME?} 
+# find the name of this script and store it to a variable
+RM_fullScriptPath="$(readlink -f $0)"
+# deleat last componit from JD_fullScriptPath and store to another variable
+PathTo_RM_Directory="$(dirname $JD_fullScriptPath)"
+RM_CopnitPath=$PathTo_RM_Directory/Components/RepoMucker
+RM_ListTempPath=$PathTo_RM_Directory/Componets/RepoMucker/ListTemp
+echo "You are about to destabalize your sources list"
+echo 
+{ 
+echo "use with care.."
+# confirm with the user
+read -r -p "Are you sure? [Y/n]" response
+case "$response" in
+	[yY][eE][sS]|[yY])
+ # if yes, then start risking changes
+		;;
+	*)
+ #		 Otherwise exit..
+	echo "Try again? exiting.."
+	exit 
+	;;
+esac
+} 
+# make some folders to keep things organized
+mkdir -p $RM_CopnitPath
+mkdir -p $RM_ListTempPath
+##
+# read out changes to user
+echo "_____________________"
+echo "the following folders have been made"
+echo "$RM_CopnitPath"
+echo "$RM_ListTempPath"
+##
+# write out scripts and files for latter use
+echo "_____________________"
+echo "Writing a script named Key_Fixer.sh"
+echo "to $RM_CopnitPath/Key_Fixer.sh"
+sudo cat > $RM_CopnitPath/Key_Fixer.sh <<EOF 
+# from Crunchbang
+sudo apt-get update 2> /tmp/keymissing; for key in $(grep "NO_PUBKEY" /tmp/keymissing |sed "s/.*NO_PUBKEY //"); do echo -e "nProcessing key: $key"; gpg --keyserver keys.gnupgp.net --recv $key && gpg --export --armor $key | sudo apt-key add -; done
+EOF
+echo "_____________________"
+echo "Writing a script named source_list_Modder"
+echo "to $RM_CopnitPath/source_list_Modder"
+sudo cat > $RM_CopnitPath/source_list_Modder <<EOF 
+## move pentest.list and fix permissions
+sudo mv $RM_ListTempPath/pentest.list /etc/apt/sources.list.d/pentest.list
+chmod --reference=/etc/apt/sources.list /etc/apt/sources.list.d/pentest.list
+## move wheeze.list and fix permissions
+sudo mv $RM_ListTempPath/wheeze.list /etc/apt/sources.list.d/wheeze.list
+chmod --reference=/etc/apt/sources.list /etc/apt/sources.list.d/wheeze.list
+## move HardFlote.list and fix permissions
+sudo mv $RM_ListTempPath/HardFlote.list /etc/apt/sources.list.d/HardFlote.list
+chmod --reference=/etc/apt/sources.list /etc/apt/sources.list.d/HardFlote.list
+## move backports.list and fix permissions
+sudo mv $RM_ListTempPath/backports.list /etc/apt/sources.list.d/backports.list
+chmod --reference=/etc/apt/sources.list /etc/apt/sources.list.d/backports.list
+## move oddBall.list and fix permissions
+sudo mv $RM_ListTempPath/oddBall.list /etc/apt/sources.list.d/oddBall.list
+chmod --reference=/etc/apt/sources.list /etc/apt/sources.list.d/oddBall.list
+EOF
+echo "_____________________"
+echo "Writing a script named source_list_unModder"
+echo "to $RM_CopnitPath/source_list_unModder"
+sudo cat > $RM_CopnitPath/source_list_unModder <<EOF 
+## move pentest.list and fix permissions
+sudo mv /etc/apt/sources.list.d/pentest.list $RM_ListTempPath/pentest.list
+chmod --reference=$RM_ListTempPath/Script_Runner $RM_ListTempPath/pentest.list
+## move wheeze.list and fix permissions
+sudo mv /etc/apt/sources.list.d/wheeze.list $RM_ListTempPath/wheeze.list
+chmod --reference=$RM_ListTempPath/Script_Runner $RM_ListTempPath/wheeze.list
+## move HardFlote.list and fix permissions
+sudo mv /etc/apt/sources.list.d/HardFlote.list $RM_ListTempPath/HardFlote.list
+chmod --reference=$RM_ListTempPath/Script_Runner $RM_ListTempPath/HardFlote.list
+## move backports.list and fix permissions
+sudo mv /etc/apt/sources.list.d/HardFlote.list $RM_ListTempPath/backports.list
+chmod --reference=$RM_ListTempPath/Script_Runner $RM_ListTempPath/backports.list
+## move oddBall.list and fix permissions
+sudo mv /etc/apt/sources.list.d/oddBall.list $RM_ListTempPath/oddBall.list
+chmod --reference=$RM_ListTempPath/Script_Runner $RM_ListTempPath/oddBall.list
+EOF 
+echo "_____________________"
+echo "Writing a script named ppaCommandModer"
+echo "to $RM_CopnitPath/ppaCommandModer"
+sudo cat > $RM_CopnitPath/ppaCommandModer <<EOF 
+## Move add-apt-repository to /usr/sbin
+sudo mv $RM_CopnitPath/add-apt-repository /usr/sbin/add-apt-repository
+## Change permissions for add-apt-repository
+sudo chmod o+x /usr/sbin/add-apt-repository
+## Change ownership of add-apt-repository
+sudo chown root:root /usr/sbin/add-apt-repository
+## set up a bash_aliases file to add command to command line
+echo 'alias add-apt-repository=\’/usr/sbin/add-apt-repository\’ ' sudo tee -a $HOME/.bash_aliases
+EOF
+## add the add-apt-repository command to squeeze
+## from http://blog.anantshri.info/2010/12/12/howto-add-ppa-in-debian/
+sudo cat > $RM_CopnitPath/add-apt-repository <<EOF 
+\#!/bin/bash
+if [ \$# -eq 1 ]
+NM\=\`uname -a && date\`
+NAME\=\`echo $NM | md5sum | cut -f1 -d" "\`
+then
+	ppa_name=\`echo "$1" | cut -d":" -f2 -s\`
+	if [ -z "\$ppa_name" ]
+	then
+		echo "PPA name not found"
+		echo "Utility to add PPA repositories in your debian machine"
+		echo "\$0 ppa:user/ppa-name"
+	else
+		echo "\$ppa_name"
+		echo "deb http://ppa.launchpad.net/$ppa_name/ubuntu lucid main" >> /etc/apt/sources.list.d/testy.list
+		apt-get update >> /dev/null 2> /tmp/${NAME}_apt_add_key.txt
+		key=`cat /tmp/\${NAME}_apt_add_key.txt | cut -d":" -f6 | cut -d" " -f3`
+		apt-key adv --keyserver keyserver.ubuntu.com --recv-keys \$key
+		rm -rf /tmp/\${NAME}_apt_add_key.txt
+	fi
+else
+	echo "Utility to add PPA repositories in your debian machine"
+	echo "\$0 ppa:user/ppa-name"
+fi
+EOF 
+echo '#################
+# fixers made safties in place
+# writing lots of source lists
+#################' 
+# Write a file named oddBall.list
+sudo cat > $RM_ListTempPath/oddBall.list <<EOF 
+# Printer Driver Packages
+deb http://www.openprinting.org/download/printdriver/debian/ lsb3.2 main contrib main-nonfree
+
+EOF
+# Write a file named backports.list
+sudo cat > $RM_ListTempPath/backports.list <<EOF 
+# backports squeeze
+deb http://backports.debian.org/debian-backports/ squeeze-backports(-sloppy) main
+# backports wheezy
+deb http://ftp.debian.org/debian/ wheezy-backports main
+EOF 
+# Write a new file named HardFlote.list
+sudo cat > $RM_ListTempPath/HardFlote.list <<EOF 
+http://mirrors.ece.ubc.ca/debian/ stable/main
+EOF
+# Write a new file named wheeze.list
+sudo cat > $RM_ListTempPath/wheeze.list <<EOF 
+deb http://http.debian.net/debian wheezy main
+deb-src http://http.debian.net/debian wheezy main
+deb http://http.debian.net/debian wheezy-updates main
+deb-src http://http.debian.net/debian wheezy-updates main
+deb http://security.debian.org/ wheezy/updates main
+deb-src http://security.debian.org/ wheezy/updates main
+EOF
+# Write a new file named pentest.list
+sudo cat > $RM_ListTempPath/pentest.list <<EOF 
+deb http://http.kali.org/ kali main contrib non-free 
+deb http://http.kali.org/ wheezy main contrib non-free 
+deb http://http.kali.org/kali kali-dev. main contrib non-free 
+deb http://http.kali.org/kali kali-dev main/debian-installer 
+deb-src http://http.kali.org/kali kali-dev main contrib non-free 
+deb http://http.kali.org/kali kali main contrib non-free 
+deb http://http.kali.org/kali kali main/debian-installer 
+deb-src http://http.kali.org/kali kali main contrib non-free 
+deb http://security.kali.org/kali-security kali/updates main contrib non-free 
+deb-src http://security.kali.org/kali-security kali/updates main contrib non-free 
+deb http://repo.kali.org/kali kali-bleeding-edge main 
+EOF 
+# write a new file named PPA_List
+sudo cat > $RM_ListTempPath/PPA_List <<EOF 
+# add PPA repositories with add-apt-repository
+## add the following repos from ubuntu touch
+add-apt-repository -y ppa:ubuntu-touch-coreapps-drivers/collection
+add-apt-repository -y ppa:ubuntu-touch-coreapps-drivers/daily
+## add the following repos for crazyflie projects
+sudo add-apt-repository ppa:tortoisehg-ppa/releases
+sudo add-apt-repository ppa:iztok.jeras/ppa
+##
+EOF 
+echo "_____________________"
+echo "Writing a script named ScriptRunner.sh"
+echo "to $RM_CopnitPath/ScriptRunner.sh"
+sudo cat > $RM_ListTempPath/Script_Runner <<EOF 
+echo '########################################
+Script_Runner starting
+########################################'
+echo sh $RM_CopnitPath/source_list_Modder 
+echo sh $RM_CopnitPath/ppaCommandModer 
+echo sh $RM_ListTempPath/PPA_List 
+echo sh $RM_CopnitPath/Key_Fixer.sh 
+echo '########################################
+Script_Runner finished 
+most of the modifications to your source lists can be undone with 
+	 $RM_CopnitPath/source_list_unModder
+if no magor erros have popped up you should now be able to 
+	 apt-get install 
+many more packages than before
+########################################'
+EOF
+echo 
+{ 
+echo "use with care.."
+# confirm with the user
+read -r -p "Are you sure? [Y/n]" response
+case "$response" in
+	[yY][eE][sS]|[yY])
+ # if yes, then start risking changes
+ sh $RM_ListTempPath/Script_Runner
+		;;
+	*)
+ #		 Otherwise exit..
+	echo "Try again? exiting.."
+	exit 
+	;;
+esac
+} 
+echo exit
+# end of script 
+echo exit
