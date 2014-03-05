@@ -69,23 +69,23 @@ EOF
 echo "_____________________"
 echo "Writing a script named source_list_unModder"
 echo "to $RM_CopnitPath/source_list_unModder"
-sudo cat > $RM_CopnitPath/source_list_unModder <<EOF 
-## move pentest.list and fix permissions
+sudo cat > $RM_CopnitPath/source_list_unModder <<EOF
+# move pentest.list and fix permissions
 sudo mv /etc/apt/sources.list.d/pentest.list $RM_ListTempPath/pentest.list
 chmod --reference=$RM_ListTempPath/Script_Runner $RM_ListTempPath/pentest.list
-## move wheeze.list and fix permissions
+# move wheeze.list and fix permissions
 sudo mv /etc/apt/sources.list.d/wheeze.list $RM_ListTempPath/wheeze.list
 chmod --reference=$RM_ListTempPath/Script_Runner $RM_ListTempPath/wheeze.list
-## move HardFlote.list and fix permissions
+# move HardFlote.list and fix permissions
 sudo mv /etc/apt/sources.list.d/HardFlote.list $RM_ListTempPath/HardFlote.list
 chmod --reference=$RM_ListTempPath/Script_Runner $RM_ListTempPath/HardFlote.list
-## move backports.list and fix permissions
+# move backports.list and fix permissions
 sudo mv /etc/apt/sources.list.d/HardFlote.list $RM_ListTempPath/backports.list
 chmod --reference=$RM_ListTempPath/Script_Runner $RM_ListTempPath/backports.list
-## move oddBall.list and fix permissions
+# move oddBall.list and fix permissions
 sudo mv /etc/apt/sources.list.d/oddBall.list $RM_ListTempPath/oddBall.list
 chmod --reference=$RM_ListTempPath/Script_Runner $RM_ListTempPath/oddBall.list
-## move sid.list and fix permissions
+# move sid.list and fix permissions
 sudo mv /etc/apt/sources.list.d/sid.list $RM_ListTempPath/sid.list
 chmod --reference=$RM_ListTempPath/Script_Runner $RM_ListTempPath/sid.list
 EOF 
@@ -211,7 +211,7 @@ if no magor erros have popped up you should now be able to
 many more packages than before
 ########################################'
 EOF
-echo 
+echo "__________________"
 { 
 echo "use with care.."
 # confirm with the user
