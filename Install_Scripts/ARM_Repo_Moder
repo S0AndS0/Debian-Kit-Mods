@@ -62,6 +62,9 @@ chmod --reference=/etc/apt/sources.list /etc/apt/sources.list.d/backports.list
 ## move oddBall.list and fix permissions
 sudo mv $RM_ListTempPath/oddBall.list /etc/apt/sources.list.d/oddBall.list
 chmod --reference=/etc/apt/sources.list /etc/apt/sources.list.d/oddBall.list
+## move sid.list and fix permissions
+sudo mv $RM_ListTempPath/sid.list /etc/apt/sources.list.d/sid.list
+chmod --reference=/etc/apt/sources.list /etc/apt/sources.list.d/sid.list
 EOF
 echo "_____________________"
 echo "Writing a script named source_list_unModder"
@@ -82,6 +85,9 @@ chmod --reference=$RM_ListTempPath/Script_Runner $RM_ListTempPath/backports.list
 ## move oddBall.list and fix permissions
 sudo mv /etc/apt/sources.list.d/oddBall.list $RM_ListTempPath/oddBall.list
 chmod --reference=$RM_ListTempPath/Script_Runner $RM_ListTempPath/oddBall.list
+## move sid.list and fix permissions
+sudo mv /etc/apt/sources.list.d/sid.list $RM_ListTempPath/sid.list
+chmod --reference=$RM_ListTempPath/Script_Runner $RM_ListTempPath/sid.list
 EOF 
 echo "_____________________"
 echo "Writing a script named ppaCommandModer"
@@ -113,7 +119,7 @@ then
 	else
 		echo "\$ppa_name"
 		echo "deb http://ppa.launchpad.net/$ppa_name/ubuntu lucid main" >> /etc/apt/sources.list.d/testy.list
-		apt-get update >> /dev/null 2> /tmp/${NAME}_apt_add_key.txt
+		apt-get update >> /dev/null 2> /tmp/\${NAME}_apt_add_key.txt
 		key=`cat /tmp/\${NAME}_apt_add_key.txt | cut -d":" -f6 | cut -d" " -f3`
 		apt-key adv --keyserver keyserver.ubuntu.com --recv-keys \$key
 		rm -rf /tmp/\${NAME}_apt_add_key.txt
@@ -167,6 +173,10 @@ deb http://security.kali.org/kali-security kali/updates main contrib non-free
 deb-src http://security.kali.org/kali-security kali/updates main contrib non-free 
 deb http://repo.kali.org/kali kali-bleeding-edge main 
 EOF 
+# write a new file named sid.list
+sudo cat > $RM_ListTempPath/sid.list <<EOF
+deb ftp://ftp.dk.debian.org/debian/ sid main
+EOF
 # write a new file named PPA_List
 sudo cat > $RM_ListTempPath/PPA_List <<EOF 
 # add PPA repositories with add-apt-repository
