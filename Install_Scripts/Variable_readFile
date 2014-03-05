@@ -21,4 +21,16 @@ _downloadPath=$_ScriptDirectory/Download
 
 # for individual scripts
 
+# for ARM_NodeJS_Installer
+JDK7hf_ScriptDirectory=_ScriptDirectory
+nJS_componitPath=$JDK7hf_ScriptDirectory/Components/nJS_Installer
+nJS_downloadPath=$JDK7hf_ScriptDirectory/Download
+nJS_Download=http://nodejs.org/dist/v0.10.2/node-v0.10.2-linux-arm-pi.tar.gz
+nJS_targetFile=node-v0.10.2-linux-arm-pi.tar.gz
+nJS_minSize=9000
+nJS_Version=v0.10.2
+nJS_Path=$HOME/ARM_Mod/nodejs
+nJS_bashPath=$nJS_Path/node-v0.10.2-linux-arm-pi
+pathinto_bashrc=$HOME/.bashrc
+
 echo "... end of variable read"
