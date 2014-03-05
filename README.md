@@ -187,6 +187,14 @@ for ARM_NodeJS_Installer
 https://github.com/itwars/Nodejs-ARM-builder
 	for sources of pre-compiled nodejs binaries
 https://gist.github.com/adammw/3245130
-
+	~~~~~~
+for ARM_Repo_Moder
+chef Opscode
+# Secure APT - wget -O- http://apt.opscode.com/packages@opscode.com.gpg.key | sudo apt-key add -
+# deb http://apt.opscode.com/ stable main
+Note you can use the following link to remove repos and their keys
+http://www.sourceslist.eu/?download=remove-apt-repository
+if you find that you don’t want that repo anymore
+Note2 the site is in Italian so use google translate if you need directions
 ~~~~~~
 
