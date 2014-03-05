@@ -11,8 +11,8 @@ case "$response" in
 	[yY][eE][sS]|[yY]) 
 # if yes, then start risking changes 
 cd $example_ScriptDirectory
-cd 
-sh /Install_Scripts/Variable_readFile
+cd ..
+sh Install_Scripts/Variable_readFile
 cd ~
 		;; 
 	*) 
