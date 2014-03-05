@@ -9,6 +9,7 @@ MT_nameScript=ARM_Maptools_Installer
 jM_nameScript=ARM_jMonkey_Installer
 NF_nameScript=ARM_NoFlo_Installer
 KF_nameScript=Key_Fixer
+RM_nameScript=ARM_Repo_Moder
 echo "$LM_nameScript is running"
 echo "variables for user and home directories" 
  : ${USER?} ${HOME?} 
@@ -62,7 +63,8 @@ echo "4 - run $jM_nameScript [untested]"
 echo "5 - run $NF_nameScript [untested]"
 echo "6 - run $KF_nameScript [untested]"
 echo "7 - run $JDK7hf_nameScript [untested]"
-echo "8 - run $LM_nameScript mod instructions [unwritten]"
+echo "8 - run $RM_nameScript [untested]"
+echo "9 - run $LM_nameScript mod instructions [unwritten]"
 echo "________________________"
 echo "Choose and input a number to continue"
 echo "or input no to abort $LM_nameScript"
@@ -111,6 +113,12 @@ then
 		echo exit 
 	elif [ $response = 8 ] 
 then 
+		echo "this has yet to be tested"
+		sh $LM_runPath/$RM_nameScript
+		echo "exiting now"
+		echo exit 
+	elif [ $response = 9 ] 
+then 
 		echo "this has yet to be compleatly writen"
 		echo "__________________"
 		echo "List of Variables being used in $LM_nameScript"
@@ -122,6 +130,7 @@ then
 		echo "\$jM_nameScript is : $jM_nameScript "
 		echo "\$NF_nameScript is : $NF_nameScript "
 		echo "\$KF_nameScript is : $KF_nameScript "
+		echo "\$RM_nameScript is : $RM_nameScript "
 		echo "\$USER is : $USER "
 		echo "\$HOME is : $HOME "
 		echo "\$LM_fullScriptPath is : $LM_fullScriptPath "
