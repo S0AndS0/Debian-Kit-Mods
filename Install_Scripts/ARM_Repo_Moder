@@ -41,7 +41,7 @@ echo "Writing a script named Key_Fixer.sh"
 echo "to $RM_CopnitPath/Key_Fixer.sh"
 sudo cat > $RM_CopnitPath/Key_Fixer.sh <<EOF 
 # from Crunchbang
-sudo apt-get update 2> /tmp/keymissing; for key in $(grep "NO_PUBKEY" /tmp/keymissing |sed "s/.*NO_PUBKEY //"); do echo -e "nProcessing key: $key"; gpg --keyserver keys.gnupgp.net --recv $key && gpg --export --armor $key | sudo apt-key add -; done
+sudo apt-get update 2> /tmp/keymissing; for key in \$(grep "NO_PUBKEY" /tmp/keymissing |sed "s/.*NO_PUBKEY //"); do echo -e "nProcessing key: $key"; gpg --keyserver keys.gnupgp.net --recv $key && gpg --export --armor \$key | sudo apt-key add -; done
 EOF
 echo "_____________________"
 echo "Writing a script named source_list_Modder"
@@ -137,7 +137,6 @@ echo '#################
 sudo cat > $RM_ListTempPath/oddBall.list <<EOF 
 # Printer Driver Packages
 deb http://www.openprinting.org/download/printdriver/debian/ lsb3.2 main contrib main-nonfree
-
 EOF
 # Write a file named backports.list
 sudo cat > $RM_ListTempPath/backports.list <<EOF 
@@ -195,10 +194,14 @@ sudo cat > $RM_ListTempPath/Script_Runner <<EOF
 echo '########################################
 Script_Runner starting
 ########################################'
-echo sh $RM_CopnitPath/source_list_Modder 
-echo sh $RM_CopnitPath/ppaCommandModer 
-echo sh $RM_ListTempPath/PPA_List 
-echo sh $RM_CopnitPath/Key_Fixer.sh 
+set -e
+# set -x
+sh $RM_CopnitPath/source_list_Modder 
+sh $RM_CopnitPath/ppaCommandModer 
+sh $RM_ListTempPath/PPA_List 
+sh $RM_CopnitPath/Key_Fixer.sh 
+# set +x
+set +e
 echo '########################################
 Script_Runner finished 
 most of the modifications to your source lists can be undone with 
