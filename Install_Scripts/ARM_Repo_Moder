@@ -4,8 +4,8 @@ RM_nameScript=ARM_Repo_Moder
  : ${USER?} ${HOME?} 
 # find the name of this script and store it to a variable
 RM_fullScriptPath="$(readlink -f $0)"
-# deleat last componit from JD_fullScriptPath and store to another variable
-PathTo_RM_Directory="$(dirname $JD_fullScriptPath)"
+# deleat last componit from RM_fullScriptPath and store to another variable
+PathTo_RM_Directory="$(dirname $RM_fullScriptPath)"
 RM_CopnitPath=$PathTo_RM_Directory/Components/RepoMucker
 RM_ListTempPath=$PathTo_RM_Directory/Componets/RepoMucker/ListTemp
 echo "You are about to destabalize your sources list"
