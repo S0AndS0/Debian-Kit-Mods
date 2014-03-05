@@ -10,8 +10,8 @@ echo "Your curent working directory is : $PWD"
 echo "The name of this script is : $nJS_fullScriptPath"
 echo "The path to this script is : $nJS_ScriptDirectory"
 echo "setting componit path variable"
-nJS_componitPath=$JDK7hf_ScriptDirectory/Components/nJS_Installer
-nJS_downloadPath=$JDK7hf_ScriptDirectory/Download
+nJS_componitPath=$nJS_ScriptDirectory/Components/nJS_Installer
+nJS_downloadPath=$nJS_ScriptDirectory/Download
 nJS_Download=http://nodejs.org/dist/v0.10.2/node-v0.10.2-linux-arm-pi.tar.gz
 # set maintenance variables
 nJS_targetFile=node-v0.10.2-linux-arm-pi.tar.gz
@@ -20,9 +20,10 @@ nJS_Version=v0.10.2
 nJS_Path=$HOME/ARM_Mod/nodejs
 nJS_bashPath=$nJS_Path/node-v0.10.2-linux-arm-pi
 pathinto_bashrc=$HOME/.bashrc
+echo "Use $nJS_nameScript to install NodeJS to your ARM Linux OS"
 echo "0 - exit"
-echo "1 - run node.js hard float Installer"
-echo "2 - run node.js soft float Installer"
+echo "1 - run node.js hard float Installer [untested]"
+echo "2 - run node.js soft float Installer [untested]"
 read -r -p "Which one would you like to do? " response
 	if [ $response = 1 ] 
 then 
@@ -50,12 +51,13 @@ PATH=\$PATH:\$NODE_JS_HOME/bin' | sudo tee -a $pathinto_bashrc
 
 	elif [ $response = 2 ] 
 then 
-		echo "this has yet to be writen and from what I've read may take up to two houres to compleatly Install"
+		echo "this has yet to be tested"
 #		https://github.com/itwars/Nodejs-ARM-builder
-#		ch nJS_downloadPath
-#		git clone https://github.com/itwars/Nodejs-ARM-builder
-#		cd ~
-#		sh nJS_downloadPath/Nodejs-ARM-builder/cross-compiler.sh
+		mkdir -p $nJS_downloadPath
+		cd $nJS_downloadPath
+		git clone https://github.com/itwars/Nodejs-ARM-builder
+		cd ~
+		sudo sh $nJS_downloadPath/Nodejs-ARM-builder/cross-compiler.sh
 		echo "exiting now"
 		echo exit 
 	elif [ $response = 0 ] 
