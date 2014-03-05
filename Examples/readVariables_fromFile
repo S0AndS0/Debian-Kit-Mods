@@ -1,0 +1,52 @@
+#!/bin/bash
+example_fullScriptPath="$(readlink -f $0)"
+# deleat last componit from this script and store to another variable
+example_ScriptDirectory="$(dirname $_fullScriptPath)"
+echo "This script will print out the values of variables stored in the Variable_readFile"
+echo "__________________"
+{ 
+# confirm with the user 
+read -r -p "Do you wish to continue? [y/N] " response 
+case "$response" in 
+	[yY][eE][sS]|[yY]) 
+# if yes, then start risking changes 
+cd $example_ScriptDirectory
+cd 
+sh /Install_Scripts/Variable_readFile
+cd ~
+		;; 
+	*) 
+#		 Otherwise exit.. 
+	echo "Good Night" 
+	exit 
+	;; 
+esac
+}
+echo "echoing out variables" 
+echo "$VR_nameScript"
+echo "$LM_nameScript"
+echo "$JD_nameScript"
+echo "$JDK7hf_nameScript"
+echo "$JDK7sf_nameScript"
+echo "$MT_nameScript"
+echo "$jM_nameScript"
+echo "$NF_nameScript"
+echo "$KF_nameScript"
+#
+echo "$_fullScriptPath"
+echo "$_ScriptDirectory"
+#
+echo "$_componitPath"
+echo "$_downloadPath"
+#
+echo "for ARM_NodeJS_Installer"
+echo "$JDK7hf_ScriptDirectory"
+echo "$nJS_componitPath"
+echo "$nJS_downloadPath"
+echo "$nJS_Download"
+echo "$nJS_targetFile"
+echo "$nJS_minSize"
+echo "$nJS_Version"
+echo "$nJS_Path"
+echo "$nJS_bashPath"
+echo "$pathinto_bashrc"
