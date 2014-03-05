@@ -59,10 +59,10 @@ sudo cat > $java_Componit/Download_Java <<EOF
 echo "you have some options on which java can be downloaded"
 echo "___________________"
 echo "respond with 0 to download nothing and quit"
-echo "respond with 1 to download $javajreHF_targetFile"
-echo "respond with 2 to download $javajreSF_targetFile"
-echo "respond with 3 to download $javajdkHF_targetFile and run $JDK7hf_nameScript"
-echo "respond with 4 to download $javajdkSF_targetFile and run $JDK7sf_nameScript"
+echo "respond with 1 to download $javajreHF_targetFile [Untested]"
+echo "respond with 2 to download $javajreSF_targetFile [Untested]"
+echo "respond with 3 to download $javajdkHF_targetFile and run $JDK7hf_nameScript [Untested]"
+echo "respond with 4 to download $javajdkSF_targetFile and run $JDK7sf_nameScript [Tested and works]"
 echo "___________________"
 read -r -p "Which one thing would you like to do? " response
 if [ \$response = 1 ] 
