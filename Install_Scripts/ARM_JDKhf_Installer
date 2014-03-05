@@ -256,7 +256,7 @@ sh $JDK7hf_componitPath/Java7_Activator
 echo "_________________"
 echo "restarting $LM_nameScript to give options to install Java dependent software"
 cd $JDK7hf_ScriptDirectory
-cd 
+cd ..
 sh $LM_nameScript
 echo "_________________"
 # set +x
