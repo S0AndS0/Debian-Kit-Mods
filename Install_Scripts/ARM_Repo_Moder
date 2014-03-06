@@ -189,7 +189,7 @@ EOF
 echo "_____________________"
 echo "Writing a script named ScriptRunner.sh"
 echo "to $RM_CopnitPath/ScriptRunner.sh"
-sudo cat > $RM_ListTempPath/Script_Runner <<EOF 
+sudo cat > $RM_CopnitPath/Script_Runner <<EOF 
 echo "Script_Runner starting"
 set -e
 # set -x
