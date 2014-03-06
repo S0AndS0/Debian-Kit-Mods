@@ -7,7 +7,7 @@ RM_fullScriptPath="$(readlink -f $0)"
 # deleat last componit from RM_fullScriptPath and store to another variable
 PathTo_RM_Directory="$(dirname $RM_fullScriptPath)"
 RM_CopnitPath=$PathTo_RM_Directory/Components/RepoMucker
-RM_ListTempPath=$PathTo_RM_Directory/Componets/RepoMucker/ListTemp
+RM_ListTempPath=$PathTo_RM_Directory/Components/RepoMucker/ListTemp
 echo "You are about to destabalize your sources list"
 echo 
 { 
@@ -41,7 +41,7 @@ echo "Writing a script named Key_Fixer.sh"
 echo "to $RM_CopnitPath/Key_Fixer.sh"
 sudo cat > $RM_CopnitPath/Key_Fixer.sh <<EOF 
 # from Crunchbang
-sudo apt-get update 2> /tmp/keymissing; for key in \$(grep "NO_PUBKEY" /tmp/keymissing |sed "s/.*NO_PUBKEY //"); do echo -e "nProcessing key: $key"; gpg --keyserver keys.gnupgp.net --recv $key && gpg --export --armor \$key | sudo apt-key add -; done
+sudo apt-get update 2> /tmp/keymissing; for key in \$(grep "NO_PUBKEY" /tmp/keymissing |sed "s/.*NO_PUBKEY //"); do echo -e "nProcessing key: \$key"; gpg --keyserver keys.gnupgp.net --recv \$key && gpg --export --armor \$key | sudo apt-key add -; done
 EOF
 echo "_____________________"
 echo "Writing a script named source_list_Modder"
@@ -69,7 +69,7 @@ EOF
 echo "_____________________"
 echo "Writing a script named source_list_unModder"
 echo "to $RM_CopnitPath/source_list_unModder"
-sudo cat > $RM_CopnitPath/source_list_unModder <<EOF
+sudo cat > $RM_CopnitPath/source_list_unModder <<EOF 
 # move pentest.list and fix permissions
 sudo mv /etc/apt/sources.list.d/pentest.list $RM_ListTempPath/pentest.list
 chmod --reference=$RM_ListTempPath/Script_Runner $RM_ListTempPath/pentest.list
@@ -88,29 +88,31 @@ chmod --reference=$RM_ListTempPath/Script_Runner $RM_ListTempPath/oddBall.list
 # move sid.list and fix permissions
 sudo mv /etc/apt/sources.list.d/sid.list $RM_ListTempPath/sid.list
 chmod --reference=$RM_ListTempPath/Script_Runner $RM_ListTempPath/sid.list
-EOF 
+EOF
 echo "_____________________"
 echo "Writing a script named ppaCommandModer"
 echo "to $RM_CopnitPath/ppaCommandModer"
 sudo cat > $RM_CopnitPath/ppaCommandModer <<EOF 
-## Move add-apt-repository to /usr/sbin
+# Move add-apt-repository to /usr/sbin
 sudo mv $RM_CopnitPath/add-apt-repository /usr/sbin/add-apt-repository
-## Change permissions for add-apt-repository
+# Change permissions for add-apt-repository
 sudo chmod o+x /usr/sbin/add-apt-repository
-## Change ownership of add-apt-repository
+# Change ownership of add-apt-repository
 sudo chown root:root /usr/sbin/add-apt-repository
-## set up a bash_aliases file to add command to command line
+# set up a bash_aliases file to add command to command line
 echo 'alias add-apt-repository=\’/usr/sbin/add-apt-repository\’ ' sudo tee -a $HOME/.bash_aliases
 EOF
-## add the add-apt-repository command to squeeze
-## from http://blog.anantshri.info/2010/12/12/howto-add-ppa-in-debian/
+# add the add-apt-repository command to squeeze
+# from http://blog.anantshri.info/2010/12/12/howto-add-ppa-in-debian/
+echo "Writing a script named add-apt-repository"
+echo "to $RM_CopnitPath/add-apt-repository"
 sudo cat > $RM_CopnitPath/add-apt-repository <<EOF 
-\#!/bin/bash
+#!/bin/bash
 if [ \$# -eq 1 ]
-NM\=\`uname -a && date\`
-NAME\=\`echo $NM | md5sum | cut -f1 -d" "\`
+NM=`uname -a && date`
+NAME=`echo $NM | md5sum | cut -f1 -d" "`
 then
-	ppa_name=\`echo "$1" | cut -d":" -f2 -s\`
+	ppa_name=`echo "\$1" | cut -d":" -f2 -s`
 	if [ -z "\$ppa_name" ]
 	then
 		echo "PPA name not found"
@@ -129,27 +131,24 @@ else
 	echo "\$0 ppa:user/ppa-name"
 fi
 EOF 
-echo '#################
-# fixers made safties in place
-# writing lots of source lists
-#################' 
+echo "fixers made safties in place ... writing lots of source lists"
 # Write a file named oddBall.list
 sudo cat > $RM_ListTempPath/oddBall.list <<EOF 
 # Printer Driver Packages
 deb http://www.openprinting.org/download/printdriver/debian/ lsb3.2 main contrib main-nonfree
 EOF
-# Write a file named backports.list
+echo "Writing a file named backports.list"
 sudo cat > $RM_ListTempPath/backports.list <<EOF 
 # backports squeeze
 deb http://backports.debian.org/debian-backports/ squeeze-backports(-sloppy) main
 # backports wheezy
 deb http://ftp.debian.org/debian/ wheezy-backports main
 EOF 
-# Write a new file named HardFlote.list
+echo "Writing a file named HardFlote.list"
 sudo cat > $RM_ListTempPath/HardFlote.list <<EOF 
 http://mirrors.ece.ubc.ca/debian/ stable/main
 EOF
-# Write a new file named wheeze.list
+echo "Writing a file named wheeze.list"
 sudo cat > $RM_ListTempPath/wheeze.list <<EOF 
 deb http://http.debian.net/debian wheezy main
 deb-src http://http.debian.net/debian wheezy main
@@ -158,7 +157,7 @@ deb-src http://http.debian.net/debian wheezy-updates main
 deb http://security.debian.org/ wheezy/updates main
 deb-src http://security.debian.org/ wheezy/updates main
 EOF
-# Write a new file named pentest.list
+echo "Writing a file named pentest.list"
 sudo cat > $RM_ListTempPath/pentest.list <<EOF 
 deb http://http.kali.org/ kali main contrib non-free 
 deb http://http.kali.org/ wheezy main contrib non-free 
@@ -172,11 +171,11 @@ deb http://security.kali.org/kali-security kali/updates main contrib non-free
 deb-src http://security.kali.org/kali-security kali/updates main contrib non-free 
 deb http://repo.kali.org/kali kali-bleeding-edge main 
 EOF 
-# write a new file named sid.list
+echo "writing a file named sid.list"
 sudo cat > $RM_ListTempPath/sid.list <<EOF
 deb ftp://ftp.dk.debian.org/debian/ sid main
 EOF
-# write a new file named PPA_List
+echo "writing a new file named PPA_List"
 sudo cat > $RM_ListTempPath/PPA_List <<EOF 
 # add PPA repositories with add-apt-repository
 ## add the following repos from ubuntu touch
@@ -191,9 +190,7 @@ echo "_____________________"
 echo "Writing a script named ScriptRunner.sh"
 echo "to $RM_CopnitPath/ScriptRunner.sh"
 sudo cat > $RM_ListTempPath/Script_Runner <<EOF 
-echo '########################################
-Script_Runner starting
-########################################'
+echo "Script_Runner starting"
 set -e
 # set -x
 sh $RM_CopnitPath/source_list_Modder 
@@ -202,14 +199,12 @@ sh $RM_ListTempPath/PPA_List
 sh $RM_CopnitPath/Key_Fixer.sh 
 # set +x
 set +e
-echo '########################################
-Script_Runner finished 
-most of the modifications to your source lists can be undone with 
-	 $RM_CopnitPath/source_list_unModder
-if no magor erros have popped up you should now be able to 
-	 apt-get install 
-many more packages than before
-########################################'
+echo "Script_Runner finished" 
+echo "most of the modifications to your source lists can be undone with "
+echo "$RM_CopnitPath/source_list_unModder"
+echo "if no magor erros have popped up you should now be able to "
+echo "apt-get install "
+echo "many more packages than before"
 EOF
 echo "__________________"
 { 
