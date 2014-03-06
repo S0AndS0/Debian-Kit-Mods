@@ -12,11 +12,12 @@ echo "The path to this script is : $nJS_ScriptDirectory"
 echo "setting componit path variable"
 nJS_componitPath=$nJS_ScriptDirectory/Components/nJS_Installer
 nJS_downloadPath=$nJS_ScriptDirectory/Download
-nJS_Download=http://nodejs.org/dist/v0.10.2/node-v0.10.2-linux-arm-pi.tar.gz
+nJS_HF_Download=http://nodejs.org/dist/v0.10.2/node-v0.10.2-linux-arm-pi.tar.gz
+nJS_SF_Download=https://github.com/downloads/TooTallNate/node/node-v0.8.9-pre-arm
 # set maintenance variables
 nJS_targetFile=node-v0.10.2-linux-arm-pi.tar.gz
 nJS_minSize=9000
-nJS_Version=v0.10.2
+nJS_HF_Version=v0.10.2
 nJS_Path=$HOME/ARM_Mod/nodejs
 nJS_bashPath=$nJS_Path/node-v0.10.2-linux-arm-pi
 pathinto_bashrc=$HOME/.bashrc
@@ -30,17 +31,17 @@ then
 # $NF_Componit_Path/Nodejs_Installer 
 # download and extract node.js to $njs_Path
 cd $nJS_Path
-wget -N $nJS_Download
+wget -N $nJS_HF_Download
 # check if download sucseeded and if not wait a few seconds and try again"
 njs_trueSize=$(du -b "$nJS_targetFile" | cut -f 1)
 if [ $nJS_trueSize -ge $nJS_minSize ]; then
 	echo "seems ok, moving on to extracting"
-	find $nJS_Path -type f -iname '*$nJS_Version*' -print0 | xargs -0 tar -xvzf
+	find $nJS_Path -type f -iname '*$nJS_HF_Version*' -print0 | xargs -0 tar -xvzf
 	else
 	echo "oh no something did not go ok, trying again in a few seconds"
 	rm $nJS_targetFile
-	sleep 30 && wget -N $nJS_Download
-	find $nJS_Path -type f -iname '*$nJS_Version*' -print0 | xargs -0 tar -xvzf
+	sleep 30 && wget -N $nJS_HF_Download
+	find $nJS_Path -type f -iname '*$nJS_HF_Version*' -print0 | xargs -0 tar -xvzf
 fi
 cd ~
 # append bashrc file to include the following so nodejs can be called from other programs
@@ -53,6 +54,7 @@ PATH=\$PATH:\$NODE_JS_HOME/bin' | sudo tee -a $pathinto_bashrc
 then 
 		echo "this has yet to be tested"
 #		https://github.com/itwars/Nodejs-ARM-builder
+#		https://github.com/downloads/TooTallNate/node/node-v0.8.9-pre-arm
 		mkdir -p $nJS_downloadPath
 		cd $nJS_downloadPath
 		git clone https://github.com/itwars/Nodejs-ARM-builder
