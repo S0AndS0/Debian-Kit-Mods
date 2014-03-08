@@ -73,10 +73,12 @@ then
 		sudo apt-get update 2> /tmp/keymissing; for key in $(grep "NO_PUBKEY" /tmp/keymissing |sed "s/.*NO_PUBKEY //"); do echo -e "nProcessing key: $key"; gpg --keyserver keys.gnupgp.net --recv $key && gpg --export --armor $key | sudo apt-key add -; done
 		echo "__________________"
 		echo "installing node.js"
-		sudo apt-get install -y nodejs npm
+		sudo apt-get install -y nodejs
+		sudo apt-get install npm
+		sudo apt-get install gcc-4.4.5-8
 		echo "__________________"
 		echo "removing sid.list"
-		sudo rm -I /etc/apt/sources.list.d/sid.list
+		sudo rm -rI /etc/apt/sources.list.d/sid.list
 		echo "__________________"
 		echo exit
 	elif [ $response = 0 ] 
