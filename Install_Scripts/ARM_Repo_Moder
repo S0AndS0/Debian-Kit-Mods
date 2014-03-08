@@ -1,5 +1,6 @@
-# Write a set of scripts to upset the distrobution
-# set variables
+#!/bin/bash
+echo "Writing a set of scripts to upset the distrobution"
+echo "setting variables..."
 RM_nameScript=ARM_Repo_Moder
  : ${USER?} ${HOME?} 
 # find the name of this script and store it to a variable
@@ -9,9 +10,7 @@ PathTo_RM_Directory="$(dirname $RM_fullScriptPath)"
 RM_CopnitPath=$PathTo_RM_Directory/Components/RepoMucker
 RM_ListTempPath=$PathTo_RM_Directory/Components/RepoMucker/ListTemp
 echo "You are about to destabalize your sources list"
-echo 
 { 
-echo "use with care.."
 # confirm with the user
 read -r -p "Are you sure? [Y/n]" response
 case "$response" in
@@ -47,22 +46,22 @@ echo "_____________________"
 echo "Writing a script named source_list_Modder"
 echo "to $RM_CopnitPath/source_list_Modder"
 sudo cat > $RM_CopnitPath/source_list_Modder <<EOF 
-## move pentest.list and fix permissions
+# move pentest.list and fix permissions
 sudo mv $RM_ListTempPath/pentest.list /etc/apt/sources.list.d/pentest.list
 chmod --reference=/etc/apt/sources.list /etc/apt/sources.list.d/pentest.list
-## move wheeze.list and fix permissions
+# move wheeze.list and fix permissions
 sudo mv $RM_ListTempPath/wheeze.list /etc/apt/sources.list.d/wheeze.list
 chmod --reference=/etc/apt/sources.list /etc/apt/sources.list.d/wheeze.list
-## move HardFlote.list and fix permissions
+# move HardFlote.list and fix permissions
 sudo mv $RM_ListTempPath/HardFlote.list /etc/apt/sources.list.d/HardFlote.list
 chmod --reference=/etc/apt/sources.list /etc/apt/sources.list.d/HardFlote.list
-## move backports.list and fix permissions
+# move backports.list and fix permissions
 sudo mv $RM_ListTempPath/backports.list /etc/apt/sources.list.d/backports.list
 chmod --reference=/etc/apt/sources.list /etc/apt/sources.list.d/backports.list
-## move oddBall.list and fix permissions
+# move oddBall.list and fix permissions
 sudo mv $RM_ListTempPath/oddBall.list /etc/apt/sources.list.d/oddBall.list
 chmod --reference=/etc/apt/sources.list /etc/apt/sources.list.d/oddBall.list
-## move sid.list and fix permissions
+# move sid.list and fix permissions
 sudo mv $RM_ListTempPath/sid.list /etc/apt/sources.list.d/sid.list
 chmod --reference=/etc/apt/sources.list /etc/apt/sources.list.d/sid.list
 EOF
@@ -100,19 +99,19 @@ sudo chmod o+x /usr/sbin/add-apt-repository
 # Change ownership of add-apt-repository
 sudo chown root:root /usr/sbin/add-apt-repository
 # set up a bash_aliases file to add command to command line
-echo 'alias add-apt-repository=\’/usr/sbin/add-apt-repository\’ ' sudo tee -a $HOME/.bash_aliases
+echo 'alias add-apt-repository=’/usr/sbin/add-apt-repository’ ' sudo tee -a $HOME/.bash_aliases
 EOF
 # add the add-apt-repository command to squeeze
-# from http://blog.anantshri.info/2010/12/12/howto-add-ppa-in-debian/
+# thanks to http://blog.anantshri.info/2010/12/12/howto-add-ppa-in-debian/
 echo "Writing a script named add-apt-repository"
 echo "to $RM_CopnitPath/add-apt-repository"
-sudo cat > $RM_CopnitPath/add-apt-repository <<EOF 
-#!/bin/bash
+sudo cat > $RM_CopnitPath/add_apt_repository <<EOF 
+'#!/bin/bash
 if [ \$# -eq 1 ]
 NM=`uname -a && date`
-NAME=`echo $NM | md5sum | cut -f1 -d" "`
+NAME=`echo \$NM | md5sum | cut -f1 -d" "`
 then
-	ppa_name=\`echo "\$1" | cut -d":" -f2 -s\`
+	ppa_name=`echo "\$1" | cut -d":" -f2 -s`
 	if [ -z "\$ppa_name" ]
 	then
 		echo "PPA name not found"
@@ -122,17 +121,17 @@ then
 		echo "\$ppa_name"
 		echo "deb http://ppa.launchpad.net/\$ppa_name/ubuntu lucid main" >> /etc/apt/sources.list.d/testy.list
 		apt-get update >> /dev/null 2> /tmp/\${NAME}_apt_add_key.txt
-		key=\`cat /tmp/\${NAME}_apt_add_key.txt | cut -d":" -f6 | cut -d" " -f3`
+		key=`cat /tmp/\${NAME}_apt_add_key.txt | cut -d":" -f6 | cut -d" " -f3`
 		apt-key adv --keyserver keyserver.ubuntu.com --recv-keys \$key
 		rm -rf /tmp/\${NAME}_apt_add_key.txt
 	fi
 else
 	echo "Utility to add PPA repositories in your debian machine"
 	echo "\$0 ppa:user/ppa-name"
-fi
+fi' | sudo tee /usr/sbin/add-apt-repository
 EOF 
 echo "fixers made safties in place ... writing lots of source lists"
-# Write a file named oddBall.list
+echo "Writing a file named oddBall.list"
 sudo cat > $RM_ListTempPath/oddBall.list <<EOF 
 # Printer Driver Packages
 deb http://www.openprinting.org/download/printdriver/debian/ lsb3.2 main contrib main-nonfree
@@ -171,29 +170,29 @@ deb http://security.kali.org/kali-security kali/updates main contrib non-free
 deb-src http://security.kali.org/kali-security kali/updates main contrib non-free 
 deb http://repo.kali.org/kali kali-bleeding-edge main 
 EOF 
-echo "writing a file named sid.list"
+echo "Writing a file named sid.list"
 sudo cat > $RM_ListTempPath/sid.list <<EOF
 deb ftp://ftp.dk.debian.org/debian/ sid main
 EOF
-echo "writing a new file named PPA_List"
+echo "Writing a new file named PPA_List"
 sudo cat > $RM_ListTempPath/PPA_List <<EOF 
 # add PPA repositories with add-apt-repository
-## add the following repos from ubuntu touch
+# add the following repos from ubuntu touch
 add-apt-repository -y ppa:ubuntu-touch-coreapps-drivers/collection
 add-apt-repository -y ppa:ubuntu-touch-coreapps-drivers/daily
-## add the following repos for crazyflie projects
+# add the following repos for crazyflie projects
 sudo add-apt-repository ppa:tortoisehg-ppa/releases
 sudo add-apt-repository ppa:iztok.jeras/ppa
-##
 EOF 
 echo "_____________________"
-echo "Writing a script named ScriptRunner.sh"
-echo "to $RM_CopnitPath/ScriptRunner.sh"
+echo "Writing a script named ScriptRunner"
+echo "to $RM_CopnitPath/ScriptRunner"
 sudo cat > $RM_CopnitPath/Script_Runner <<EOF 
 echo "Script_Runner starting"
 set -e
 # set -x
 sh $RM_CopnitPath/source_list_Modder 
+sh $RM_CopnitPath/add_apt_repository 
 sh $RM_CopnitPath/ppaCommandModer 
 sh $RM_ListTempPath/PPA_List 
 sh $RM_CopnitPath/Key_Fixer.sh 
@@ -210,7 +209,7 @@ echo "__________________"
 { 
 echo "use with care.."
 # confirm with the user
-read -r -p "Are you sure? [Y/n]" response
+read -r -p "Are you sure? [Y/n] " response
 case "$response" in
 	[yY][eE][sS]|[yY])
  # if yes, then start risking changes
@@ -225,4 +224,3 @@ esac
 } 
 echo exit
 # end of script 
-echo exit
