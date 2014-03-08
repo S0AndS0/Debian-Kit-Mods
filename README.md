@@ -29,6 +29,10 @@ test results
 03012014 ARM_Linux_Moder now functions to run any of the scripts from this github project
 	furthermore; the three new versions of ARM_Java_JDK7_Istaller, ARM_Maptools_Installer, and ARM_Java7_Downloader under the Install_Scripts 
 	should all function corectly
+03082014 ARM_NodeJS_Installer now works for Debian Kit; use option 3 to install through apt-get.
+	note though that installing libc6-dev may kick you out of xrdp and ssh connections temperaraly wile it installs, but after a minuet or two everything will restart and you can reconect.
+	options 1 and 2 are still untested as I don't have hard float running right now and the other option is for Pi soft float.
+	for NoFlo enthusiest there is a final prompt to request permition to install noflo through npm.
 ~~~~~~
 usage instructions
 ~~~~~~
