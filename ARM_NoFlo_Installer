@@ -42,26 +42,23 @@ mkdir -p $NF_Path
 echo "___________________"
 echo "writing Nodejs_Installer to $NF_Componit_Path"
 sudo cat > $NF_Componit_Path/Nodejs_Installer <<EOF
-# download and extract node.js to $njs_Path
-cd $njs_Path
-wget -N $njs_Download
-# check if download sucseeded and if not wait a few seconds and try again"
-njs_trueSize=\$(du -b "$njs_targetFile" | cut -f 1)
-if [ \$njs_trueSize -ge $njs_minSize ]; then
-	echo "seems ok, moving on to extracting"
-	find $njs_Path -type f -iname '*$njs_Version*' -print0 | xargs -0 tar -xvzf
-	else
-	echo "oh no something did not go ok, trying again in a few seconds"
-	rm $njs_targetFile
-	sleep 30 && wget -N $njs_Download
-	find $njs_Path -type f -iname '*$njs_Version*' -print0 | xargs -0 tar -xvzf
-fi
-cd ~
-# append bashrc file to include the following so nodejs can be called from other programs
-echo '
-# path to nodejs
-NODE_JS_HOME=$njs_bashPath
-PATH=\$PATH:\$NODE_JS_HOME/bin' | sudo tee -a $pathinto_bashrc
+echo "using apt-get to install node.js requires sid list to be temperaraly added"
+echo "deb ftp://ftp.dk.debian.org/debian/ sid main" | sudo tee /etc/apt/sources.list.d/sid.list
+echo "__________________"
+# from Crunchbang
+echo "updating keys"
+sudo apt-get update 2> /tmp/keymissing; for key in $(grep "NO_PUBKEY" /tmp/keymissing |sed "s/.*NO_PUBKEY //"); do echo -e "nProcessing key: $key"; gpg --keyserver keys.gnupgp.net --recv $key && gpg --export --armor $key | sudo apt-key add -; done
+echo "__________________"
+echo "installing node.js"
+echo "note though that lib6-dev may cause services to re-start though upon installation"
+echo "__________________" && sleep 10
+sudo apt-get install libc6-dev
+# sudo apt-get install python-pkg-resorces
+sudo apt-get install -y nodejs
+sudo apt-get install -y npm
+echo "__________________"
+echo "removing sid.list"
+sudo rm -rI /etc/apt/sources.list.d/sid.list
 EOF
 echo "___________________"
 echo "writing NoFlow_Installer to $NF_Componit_Path"
