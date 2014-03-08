@@ -61,7 +61,7 @@ esac
 } 
 # Make some folders for all other operations to live in
 mkdir -p $MT_Componit_Path
-mkdir -p MT_Download_Path
+mkdir -p $MT_Download_Path
 mkdir -p $MT_Install_Path
 echo "writing Maptools_Downloader"
 sudo cat > $MT_Componit_Path/Maptools_Downloader <<EOF
