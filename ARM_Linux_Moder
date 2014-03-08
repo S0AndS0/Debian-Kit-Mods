@@ -10,6 +10,7 @@ jM_nameScript=ARM_jMonkey_Installer
 NF_nameScript=ARM_NoFlo_Installer
 KF_nameScript=Key_Fixer
 RM_nameScript=ARM_Repo_Moder
+nJS_nameScript=ARM_NodeJS_Installer
 echo "$LM_nameScript is running"
 echo "variables for user and home directories" 
  : ${USER?} ${HOME?} 
@@ -64,7 +65,8 @@ echo "5 - run $NF_nameScript [untested]"
 echo "6 - run $KF_nameScript [untested]"
 echo "7 - run $JDK7hf_nameScript [untested]"
 echo "8 - run $RM_nameScript [untested]"
-echo "9 - run $LM_nameScript mod instructions [unwritten]"
+echo "9 - run $nJS_nameScript [untested]"
+echo "10 - run $LM_nameScript mod instructions [unwritten]"
 echo "________________________"
 echo "Choose and input a number to continue"
 echo "or input no to abort $LM_nameScript"
@@ -118,6 +120,12 @@ then
 		echo "exiting now"
 		echo exit 
 	elif [ $response = 9 ] 
+then 
+		echo "this has yet to be tested"
+		sh $LM_runPath/$nJS_nameScript
+		echo "exiting now"
+		echo exit 
+	elif [ $response = 10 ] 
 then 
 		echo "this has yet to be compleatly writen"
 		echo "__________________"
