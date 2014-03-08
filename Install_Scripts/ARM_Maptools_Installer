@@ -30,7 +30,7 @@ characterTool_Version=chartool-1.0.b15.zip
 Download_diceTool=http://www.rptools.net/download/zip/dicetool-1.0.b34.zip
 diceTool_Version=dicetool-1.0.b34.zip
 Download_PCGen=http://sourceforge.net/projects/pcgen/files/latest/download?source=files
-PCGen_Version=pcGen60200.zip
+PCGen_Version=pcGen6.02.0.zip
 # end of matenance variable assignments
 # file path variables start
 MT_Componit_Path=$PathTo_MT/Components/Maptools
@@ -127,18 +127,40 @@ unzip $PCGen_Version
 cd ~
 	elif [ \$response = 7 ] 
 then 
+# 1
+echo "Downloading $pathFinderversion..."
 wget -cP $MT_Download_Path/$pathFinderversion $Download_DnD35_Pathfinder
+echo "Moving $pathFinderversion to $MT_Install_Path"
 mv $MT_Download_Path/$pathFinderversion $MT_Install_Path/$MT_buildVersion/$pathFinderversion
+# 2
+echo "Downloading $tokenTool_Version..."
 wget -cP $MT_Download_Path/$tokenTool_Version $Download_tokenTool
+echo "Moving $tokenTool_Version to $MT_Install_Path"
 mv $MT_Download_Path/$tokenTool_Version $MT_Install_Path/$MT_buildVersion/$tokenTool_Version
+# 3
+echo "Downloading $initiativeTool_Version..."
 wget -cP $MT_Download_Path/$initiativeTool_Version $Download_initiativeTool
+echo "Moving $initiativeTool_Version to $MT_Install_Path"
 mv $MT_Download_Path/$initiativeTool_Version $MT_Install_Path/$MT_buildVersion/$initiativeTool_Version
+# 4
+echo "Downloading $characterTool_Version..."
 wget -cP $MT_Download_Path/$characterTool_Version $Download_characterTool
+echo "Moving $characterTool_Version to $MT_Install_Path"
 mv $MT_Download_Path/$characterTool_Version $MT_Install_Path/$MT_buildVersion/$characterTool_Version
-wget -cP $MT_Download_Path/$diceTool_Version $Download_diceTool
+# 5
+echo "Downloading $diceTool_Version..."
+wget -cP $MT_Download_Path/$Download_PCGen $Download_diceTool
+echo "Moving $diceTool_Version to $MT_Install_Path"
 mv $MT_Download_Path/$diceTool_Version $MT_Install_Path/$MT_buildVersion/$diceTool_Version
-wget -cP $MT_Download_Path/$tokenTool_Version $PCGen_Version
+# 6
+echo "Downloading $PCGen_Version..."
+wget -cP $MT_Download_Path/$PCGen_Version $Download_PCGen
+echo "Moving $PCGen_Version to $jApps_Install_Path"
 mv $MT_Download_Path/$PCGen_Version $jApps_Install_Path/$MT_buildVersion/$PCGen_Version
+echo "Changing directories and unziping there"
+cd $jApps_Install_Path
+unzip $PCGen_Version
+cd ~
 	elif [ \$response = 0 ] 
 then 
 		echo "this has yet to be writen"
