@@ -30,7 +30,7 @@ characterTool_Version=chartool-1.0.b15.zip
 Download_diceTool=http://www.rptools.net/download/zip/dicetool-1.0.b34.zip
 diceTool_Version=dicetool-1.0.b34.zip
 Download_PCGen=http://sourceforge.net/projects/pcgen/files/latest/download?source=files
-PCGen_Version=pcGen6.02.0.zip
+PCGen_Version=pcGen6.02.0
 # end of matenance variable assignments
 # file path variables start
 MT_Componit_Path=$PathTo_MT/Components/Maptools
@@ -118,12 +118,9 @@ mv $MT_Download_Path/$diceTool_Version $MT_Install_Path/$MT_buildVersion/$diceTo
 	elif [ \$response = 6 ] 
 then 
 echo "Downloading $PCGen_Version..."
-wget -cP $MT_Download_Path/$PCGen_Version $Download_PCGen
-echo "Moving $PCGen_Version to $jApps_Install_Path"
-mv $MT_Download_Path/$PCGen_Version $jApps_Install_Path/$MT_buildVersion/$PCGen_Version
-echo "Changing directories and unziping there"
-cd $jApps_Install_Path
-unzip $PCGen_Version
+wget -cP $MT_Download_Path/ $Download_PCGen
+cd $MT_Install_Path
+find $MT_Download_Path -type f -iname '$PCGen_Version*' -print0 | xargs -0 sudo unzip 
 cd ~
 	elif [ \$response = 7 ] 
 then 
