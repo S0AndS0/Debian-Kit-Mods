@@ -25,32 +25,31 @@ echo "Use $nJS_nameScript to install NodeJS to your ARM Linux OS"
 echo "0 - exit"
 echo "1 - run node.js hard float Installer [untested]"
 echo "2 - run node.js soft float Installer [untested]"
-echo "__________________"
 echo "3 - run node.js install with apt-get"
 read -r -p "Which one would you like to do? " response
 	if [ $response = 1 ] 
 then 
-# $NF_Componit_Path/Nodejs_Installer 
-# download and extract node.js to $njs_Path
-cd $nJS_Path
-wget -N $nJS_HF_Download
-# check if download sucseeded and if not wait a few seconds and try again"
-njs_trueSize=$(du -b "$nJS_targetFile" | cut -f 1)
-if [ $nJS_trueSize -ge $nJS_minSize ]; then
-	echo "seems ok, moving on to extracting"
-	find $nJS_Path -type f -iname '*$nJS_HF_Version*' -print0 | xargs -0 tar -xvzf
-	else
-	echo "oh no something did not go ok, trying again in a few seconds"
-	rm $nJS_targetFile
-	sleep 30 && wget -N $nJS_HF_Download
-	find $nJS_Path -type f -iname '*$nJS_HF_Version*' -print0 | xargs -0 tar -xvzf
-fi
-cd ~
-# append bashrc file to include the following so nodejs can be called from other programs
-echo '
-# path to nodejs
-NODE_JS_HOME=$njs_bashPath
-PATH=\$PATH:\$NODE_JS_HOME/bin' | sudo tee -a $pathinto_bashrc
+#		 $NF_Componit_Path/Nodejs_Installer 
+#		 download and extract node.js to $njs_Path
+		cd $nJS_Path
+		wget -N $nJS_HF_Download
+#		 check if download sucseeded and if not wait a few seconds and try again"
+		njs_trueSize=$(du -b "$nJS_targetFile" | cut -f 1)
+		if [ $nJS_trueSize -ge $nJS_minSize ]; then
+			echo "seems ok, moving on to extracting"
+			find $nJS_Path -type f -iname '*$nJS_HF_Version*' -print0 | xargs -0 tar -xvzf
+			else
+			echo "oh no something did not go ok, trying again in a few seconds"
+			rm $nJS_targetFile
+			sleep 30 && wget -N $nJS_HF_Download
+			find $nJS_Path -type f -iname '*$nJS_HF_Version*' -print0 | xargs -0 tar -xvzf
+		fi
+		cd ~
+#		 append bashrc file to include the following so nodejs can be called from other programs
+		echo '
+#		 path to nodejs
+		NODE_JS_HOME=$njs_bashPath
+		PATH=\$PATH:\$NODE_JS_HOME/bin' | sudo tee -a $pathinto_bashrc
 
 	elif [ $response = 2 ] 
 then 
@@ -64,17 +63,22 @@ then
 		sudo sh $nJS_downloadPath/Nodejs-ARM-builder/cross-compiler.sh
 		echo "exiting now"
 		echo exit 
-	if [ $response = 3 ] 
+	elif [ $response = 3 ] 
 then 
 		echo "using apt-get to install node.js requires sid list to be temperaraly added"
-		'deb ftp://ftp.dk.debian.org/debian/ sid main' | sudo tee /etc/apt/sources.list.d/sid.list
+		echo "deb ftp://ftp.dk.debian.org/debian/ sid main" | sudo tee /etc/apt/sources.list.d/sid.list
+		echo "__________________"
 		# from Crunchbang
 		echo "updating keys"
 		sudo apt-get update 2> /tmp/keymissing; for key in $(grep "NO_PUBKEY" /tmp/keymissing |sed "s/.*NO_PUBKEY //"); do echo -e "nProcessing key: $key"; gpg --keyserver keys.gnupgp.net --recv $key && gpg --export --armor $key | sudo apt-key add -; done
+		echo "__________________"
 		echo "installing node.js"
-		sudo apt-get install -y node
+		sudo apt-get install -y nodejs npm
+		echo "__________________"
 		echo "removing sid.list"
-		sudo rm -rI /etc/apt/sources.list.d/sid.list
+		sudo rm -I /etc/apt/sources.list.d/sid.list
+		echo "__________________"
+		echo exit
 	elif [ $response = 0 ] 
 then 
 		echo "exiting now"
