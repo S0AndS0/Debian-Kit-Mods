@@ -29,12 +29,15 @@ Download_characterTool=http://www.rptools.net/download/zip/chartool-1.0.b15.zip
 characterTool_Version=chartool-1.0.b15.zip
 Download_diceTool=http://www.rptools.net/download/zip/dicetool-1.0.b34.zip
 diceTool_Version=dicetool-1.0.b34.zip
+Download_PCGen=http://sourceforge.net/projects/pcgen/files/latest/download?source=files
+PCGen_Version=pcGen60200.zip
 # end of matenance variable assignments
 # file path variables start
 MT_Componit_Path=$PathTo_MT/Components/Maptools
 MT_Download_Path=$PathTo_MT/Download/Maptools
 MT_JavaSource_Path=$PathTo_MT/Download
 MT_Install_Path=$PathTo_MT/jApps/$MT_buildVersion
+jApps_Install_Path=$PathTo_MT/jApps
 # file path variables end
 # variable readout start
 echo "You are $USER."
@@ -79,40 +82,63 @@ echo "2 - Download $tokenTool_Version [untested]"
 echo "3 - Download $initiativeTool_Version [untested]"
 echo "4 - Download $characterTool_Version [untested]"
 echo "5 - Download $diceTool_Version [untested]"
-echo "6 - Download all available [untested]"
+echo "6 - Download $PCGen_Version [untested]"
+echo "7 - Download all available [untested]"
 read -r -p "Which one thing would you like to do? " response
 	if [ \$response = 1 ] 
 then 
+echo "Downloading $pathFinderversion..."
 wget -cP $MT_Download_Path/$pathFinderversion $Download_DnD35_Pathfinder
-mv $MT_Download_Path/$pathFinderversion $MT_Install_Path/$MT_buildVersion
+echo "Moving $pathFinderversion to $MT_Install_Path"
+mv $MT_Download_Path/$pathFinderversion $MT_Install_Path/$MT_buildVersion/$pathFinderversion
 	elif [ \$response = 2 ] 
 then 
+echo "Downloading $tokenTool_Version..."
 wget -cP $MT_Download_Path/$tokenTool_Version $Download_tokenTool
-mv $MT_Download_Path/$tokenTool_Version $MT_Install_Path/$MT_buildVersion
+echo "Moving $tokenTool_Version to $MT_Install_Path"
+mv $MT_Download_Path/$tokenTool_Version $MT_Install_Path/$MT_buildVersion/$tokenTool_Version
 	elif [ \$response = 3 ] 
 then 
+echo "Downloading $initiativeTool_Version..."
 wget -cP $MT_Download_Path/$initiativeTool_Version $Download_initiativeTool
-mv $MT_Download_Path/$initiativeTool_Version $MT_Install_Path/$MT_buildVersion
+echo "Moving $initiativeTool_Version to $MT_Install_Path"
+mv $MT_Download_Path/$initiativeTool_Version $MT_Install_Path/$MT_buildVersion/$initiativeTool_Version
 	elif [ \$response = 4 ] 
 then 
+echo "Downloading $characterTool_Version..."
 wget -cP $MT_Download_Path/$characterTool_Version $Download_characterTool
-mv $MT_Download_Path/$characterTool_Version $MT_Install_Path/$MT_buildVersion
+echo "Moving $characterTool_Version to $MT_Install_Path"
+mv $MT_Download_Path/$characterTool_Version $MT_Install_Path/$MT_buildVersion/$characterTool_Version
 	elif [ \$response = 5 ] 
 then 
-wget -cP $MT_Download_Path/$diceTool_Version $Download_diceTool
-mv $MT_Download_Path/$diceTool_Version $MT_Install_Path/$MT_buildVersion
+echo "Downloading $diceTool_Version..."
+wget -cP $MT_Download_Path/$Download_PCGen $Download_diceTool
+echo "Moving $diceTool_Version to $MT_Install_Path"
+mv $MT_Download_Path/$diceTool_Version $MT_Install_Path/$MT_buildVersion/$diceTool_Version
 	elif [ \$response = 6 ] 
 then 
+echo "Downloading $PCGen_Version..."
+wget -cP $MT_Download_Path/$PCGen_Version $Download_PCGen
+echo "Moving $PCGen_Version to $jApps_Install_Path"
+mv $MT_Download_Path/$PCGen_Version $jApps_Install_Path/$MT_buildVersion/$PCGen_Version
+echo "Changing directories and unziping there"
+cd $jApps_Install_Path
+unzip $PCGen_Version
+cd ~
+	elif [ \$response = 7 ] 
+then 
 wget -cP $MT_Download_Path/$pathFinderversion $Download_DnD35_Pathfinder
-mv $MT_Download_Path/$pathFinderversion $MT_Install_Path/$MT_buildVersion
+mv $MT_Download_Path/$pathFinderversion $MT_Install_Path/$MT_buildVersion/$pathFinderversion
 wget -cP $MT_Download_Path/$tokenTool_Version $Download_tokenTool
-mv $MT_Download_Path/$tokenTool_Version $MT_Install_Path/$MT_buildVersion
+mv $MT_Download_Path/$tokenTool_Version $MT_Install_Path/$MT_buildVersion/$tokenTool_Version
 wget -cP $MT_Download_Path/$initiativeTool_Version $Download_initiativeTool
-mv $MT_Download_Path/$initiativeTool_Version $MT_Install_Path/$MT_buildVersion
+mv $MT_Download_Path/$initiativeTool_Version $MT_Install_Path/$MT_buildVersion/$initiativeTool_Version
 wget -cP $MT_Download_Path/$characterTool_Version $Download_characterTool
-mv $MT_Download_Path/$characterTool_Version $MT_Install_Path/$MT_buildVersion
+mv $MT_Download_Path/$characterTool_Version $MT_Install_Path/$MT_buildVersion/$characterTool_Version
 wget -cP $MT_Download_Path/$diceTool_Version $Download_diceTool
-mv $MT_Download_Path/$diceTool_Version $MT_Install_Path/$MT_buildVersion
+mv $MT_Download_Path/$diceTool_Version $MT_Install_Path/$MT_buildVersion/$diceTool_Version
+wget -cP $MT_Download_Path/$tokenTool_Version $PCGen_Version
+mv $MT_Download_Path/$PCGen_Version $jApps_Install_Path/$MT_buildVersion/$PCGen_Version
 	elif [ \$response = 0 ] 
 then 
 		echo "this has yet to be writen"
