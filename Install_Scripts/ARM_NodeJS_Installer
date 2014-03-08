@@ -25,6 +25,8 @@ echo "Use $nJS_nameScript to install NodeJS to your ARM Linux OS"
 echo "0 - exit"
 echo "1 - run node.js hard float Installer [untested]"
 echo "2 - run node.js soft float Installer [untested]"
+echo "__________________"
+echo "3 - run node.js install with apt-get"
 read -r -p "Which one would you like to do? " response
 	if [ $response = 1 ] 
 then 
@@ -62,6 +64,17 @@ then
 		sudo sh $nJS_downloadPath/Nodejs-ARM-builder/cross-compiler.sh
 		echo "exiting now"
 		echo exit 
+	if [ $response = 3 ] 
+then 
+		echo "using apt-get to install node.js requires sid list to be temperaraly added"
+		'deb ftp://ftp.dk.debian.org/debian/ sid main' | sudo tee /etc/apt/sources.list.d/sid.list
+		# from Crunchbang
+		echo "updating keys"
+		sudo apt-get update 2> /tmp/keymissing; for key in $(grep "NO_PUBKEY" /tmp/keymissing |sed "s/.*NO_PUBKEY //"); do echo -e "nProcessing key: $key"; gpg --keyserver keys.gnupgp.net --recv $key && gpg --export --armor $key | sudo apt-key add -; done
+		echo "installing node.js"
+		sudo apt-get install -y node
+		echo "removing sid.list"
+		sudo rm -rI /etc/apt/sources.list.d/sid.list
 	elif [ $response = 0 ] 
 then 
 		echo "exiting now"
