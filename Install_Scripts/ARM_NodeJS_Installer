@@ -97,20 +97,33 @@ then
 	fi
 echo "now that that is done you may now use npm to install more goodies"
 echo "to your ARM Linux OS"
-{
-# confirm with the user
-read -r -p "Are you sure? [Y/n]" response
-case "$response" in
-  [yY][eE][sS]|[yY])
- # if yes, then start risking changes
- npm install noflo
-		;;
-	*)
- #		 Otherwise exit..
-	echo "Good Night" exit
-	exit 
-	;;
-esac
-}
-echo "end of $nJS_nameScript"
+echo "For example respond 1 to install NoFlo or respond 2 to install phonegap"
+read -r -p "Which one thing would you like to do? " response
+	if [ $response = 1 ] 
+then 
+		echo "installing NoFlo"
+		npm install noflo
+		echo "exiting now"
+		echo exit 
+	elif [ $response = 2 ] 
+then 
+		echo "Installing PhoneGap"
+		npm install phonegap
+		echo "exiting now"
+		echo exit 
+	elif [ $response = 3 ] 
+		echo "this has yet to be writen"
+		echo exit
+	elif [ $response = 0 ] 
+then 
+		echo "this has yet to be writen"
+		echo "exiting now"
+		echo exit 
+		exit 
+	else [ $response = * ] then 
+#	 if anything else then exit 
+		echo "exiting now"
+		echo exit 
+		exit 
+	fi
 echo exit
