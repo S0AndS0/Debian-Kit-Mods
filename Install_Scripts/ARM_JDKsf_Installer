@@ -17,33 +17,32 @@ echo "The path to this script is : $JDK7sf_ScriptDirectory"
 echo "setting componit path variable"
 JDK7sf_componitPath=$JDK7sf_ScriptDirectory/Components/JDK7sf_Installer
 JDK7sf_downloadPath=$JDK7sf_ScriptDirectory/Download
+JDKsf_Destanation=/usr/lib/jvm
+JDKsf_Version=jdk-7u51
+JDKsf_ShortcutVersion=jdk1.7.0_51
 echo "$JDK7sf_nameScript will use the following file path for script componits"
 echo "$JDK7sf_componitPath"
 echo "$JDK7sf_nameScript will use the following file path for downloading files"
 echo "$JDK7sf_downloadPath"
-echo "setting JDK soft float destanation to"
-JDKsf_Destanation=/usr/lib/jvm
+echo "JDK soft float destanation is"
 echo "$JDKsf_Destanation"
-echo "setting matenance variables to"
-JDKsf_Version=jdk-7u51
-JDKsf_ShortcutVersion=jdk1.7.0_51
+echo "setting matenance variables are"
 echo "$JDKsf_Version for Java JDK soft float version"
 echo "and $JDKsf_ShortcutVersion for creating a symbolic link"
 # end of variable assignment
 echo "__________________"
 echo "This script is written in the hopes that it will be found useful" 
 echo "But without waranty. Use $JDK7sf_nameScript to install Java 7 soft float to your" 
-echo "ARM Linux Operating System" 
+echo "ARM Linux Operating System running Debian Squeeze" 
 echo "__________________"
 {
-# alert to what's about to happen
 echo "You're about to install Java 7 soft float"
-# confirm with the user
 read -r -p "Are you sure? [Y/n] " response
 case "$response" in
   [yY][eE][sS]|[yY])
  # if yes, then start risking changes
 		;;
+ # if anything else then exit
 	*)
  #		 Otherwise exit..
 	echo "Good Night" exit
@@ -52,7 +51,7 @@ case "$response" in
 esac
 }
 echo "__________________"
-echo "Creating directories for JVM to be installed to"
+echo "Creating directories for JVM to be installed to using sudo"
 sudo mkdir -p $JDKsf_Destanation
 echo "Making directory for componits to be writen too"
 mkdir -p $JDK7sf_componitPath
@@ -68,16 +67,13 @@ EOF
 sudo cat > $JDK7sf_componitPath/Java_Source_copyExtracter <<EOF
 # Find the tarball for $JDKsf_Version
 find $JDK7sf_downloadPath -type f -iname '$JDKsf_Version*' -print0 | xargs -0 ls 
-echo "if the file was downloaded elsewhere then manually move it before procieding"
 # confirm with user
 {
-# alert to what's about to happen
 echo "________________________________"
-echo "Warning"
-echo "you may destroy everything around"
-echo "you for miles if you continue down this path"
+echo "if $JDKsf_Version was downloaded elsewhere then manually move it before procieding..."
+echo "input y or yes to continue"
 # confirm with the user
-read -r -p "Are you sure? [Y/n]" response
+read -r -p "Are you ready? [Y/n] " response
 case "\$response" in
 	[yY][eE][sS]|[yY])
  # if yes, then start risking changes
@@ -91,19 +87,21 @@ esac
 } 
 echo "moving on to copying java to $JDKsf_Destanation and extracting there"
 echo "Finding and Copying Java tarball from the $JDK7sf_downloadPath directory to your $JDKsf_Destanation directory"
-find $JDK7sf_downloadPath -type f -iname '$JDKsf_Version*' -print0 | xargs -0 sudo cp --interactive --verbose --target-directory=$JDKsf_Destanation 
+find $JDK7sf_downloadPath -type f -iname '$JDKsf_Version*' -print0 | xargs -0 sudo cp --interactive --verbose --target-directory=$JDKsf_Destanation
 echo "Finding and changing ownership of Java tarball in your $JDKsf_Destanation directory"
 find $JDKsf_Destanation -type f -iname '$JDKsf_Version*' -print0 | xargs -0 sudo chown $USER:$USER
 echo "Finding and changing permissions of Java tarball in $JDKsf_Destanation directory to read write and execute for $USER"
 find $JDKsf_Destanation -type f -iname '$JDKsf_Version*' -print0 | xargs -0 sudo chmod --changes --recursive 755
+echo "Changing directories temperaraly to $JDKsf_Destanation for extraction process"
 sudo cd $JDKsf_Destanation
 find $JDKsf_Destanation -type f -iname '$JDKsf_Version*' -print0 | xargs -0 sudo tar -vxpzf
 # --verbose --extract --gunzip --file=
-sudo ln -s JDKsf_ShortcutVersion java-7-oracle
+echo "Creating a symbolic link in $JDKsf_Destanation named java-7-oracle"
+sudo ln -s $JDKsf_ShortcutVersion java-7-oracle
+echo "Reverting to default working directory"
 cd ~
 EOF
-# Create a list of alternatives to install for JDK tools
-echo "creating a list of alternatives to install for JDK tools to your system"
+echo "creating a list of alternatives to install for JDK tools to your system under : $JDK7sf_componitPath/Alternatives_Install_list"
 sudo cat > $JDK7sf_componitPath/Alternatives_Install_list <<EOF
 sudo update-alternatives --quiet --install /usr/bin/java java /usr/lib/jvm/java-7-oracle/jre/bin/java 100
 sudo update-alternatives --quiet --install /usr/bin/keytool keytool /usr/lib/jvm/java-7-oracle/jre/bin/keytool 100
@@ -146,7 +144,8 @@ sudo update-alternatives --quiet --install /usr/bin/wsgen wsgen /usr/lib/jvm/jav
 sudo update-alternatives --quiet --install /usr/bin/wsimport wsimport /usr/lib/jvm/java-7-oracle/bin/wsimport 100 --slave /usr/share/man/man1/wsimport.1 wsimport.1 /usr/lib/jvm/java-7-oracle/man/man1/wsimport.1
 sudo update-alternatives --quiet --install /usr/bin/xjc xjc /usr/lib/jvm/java-7-oracle/bin/xjc 100 --slave /usr/share/man/man1/xjc.1 xjc.1 /usr/lib/jvm/java-7-oracle/man/man1/xjc.1
 EOF
-echo "Creating script to compile the JRE/JDK description file named .java-7-oracle.jinfo to use with update-java-alternatives"
+echo "Creating script to compile the JRE/JDK description file named .java-7-oracle.jinfo to use with update-java-alternatives under : $JDK7sf_componitPath/JRE_JDK_Descriptions"
+echo "which when run will write the contents to : $JDKsf_Destanation/.java-7-oracle.jinfo"
 sudo cat > $JDK7sf_componitPath/JRE_JDK_Descriptions <<EOF
 sudo cd $JDKsf_Destanation
 echo 'alias=java-7-oracle 
@@ -194,10 +193,11 @@ jdk wsimport /usr/lib/jvm/java-7-oracle/bin/wsimport
 jdk xjc /usr/lib/jvm/java-7-oracle/bin/xjc' | sudo tee .java-7-oracle.jinfo
 cd ~
 EOF
-echo "Now writing Java7_Activator"
+echo "Now writing Java7_Activator to : $JDK7sf_componitPath/Java7_Activator"
 sudo cat > $JDK7sf_componitPath/Java7_Activator <<EOF
 sudo update-java-alternatives --set java-7-oracle
 EOF
+echo "Writing a script to prompt to download JDK if neaded to : $JDK7sf_componitPath/Download_Prompter"
 sudo cat > $JDK7sf_componitPath/Download_Prompter <<EOF
 echo "listing contents of : $JDK7sf_downloadPath"
 ls $JDK7sf_downloadPath
@@ -205,9 +205,7 @@ echo "At the next prompt answer yes if you nead to run the $JD_nameScript first"
 echo "and select option 4 when promted"
 echo "otherwise answer no to continue with the installation prosess"
 {
-# alert to what's about to happen
 echo "________________________________"
-# confirm with the user
 read -r -p "Do you still need to download JDKsf? [Y/n] " response
 case "\$response" in
 	[yY][eE][sS]|[yY])
@@ -221,8 +219,7 @@ case "\$response" in
 esac
 } 
 EOF
-# Make a script to run all scripts created by this script
-echo "Now writing a script that will run all scripts that were written to your system"
+echo "Now writing a script that will run all scripts that were written to your system to : $JDK7sf_componitPath/Script_Runner"
 sudo cat > $JDK7sf_componitPath/Script_Runner <<EOF
 #!/bin/bash
 set -e
@@ -239,9 +236,16 @@ sh $JDK7sf_componitPath/Depends_Install_List
 echo "_________________"
 echo "running Java_Source_copyExtracter"
 sh $JDK7sf_componitPath/Java_Source_copyExtracter
+echo "if things error out here you can always manualy set the permitions and extract with the GUI or command line"
+echo "to change permissions use : sudo chown $USER:$USER : and : sudo chmod --changes --recursive 755"
+echo "to copy to the corect directory use : sudo cp --interactive --verbose --target-directory=$JDKsf_Destanation"
+echo "to extract use : sudo tar -vxpzf"
+echo "place the full file path and name for Java in the proper places and run the above example commands"
+echo "then when ready rerun $JDK7sf_componitPath/Script_Runner with : sh"
+echo "and ignore when the find script fails again"
 echo "_________________"
 echo "you may run the package install list manually later to keep your system up to date"
-echo "to do so run $ sh $JDK7sf_componitPath/Alternatives_Install_list from a terminal window"
+echo "to do so run : sh $JDK7sf_componitPath/Alternatives_Install_list"
 echo "for now though this script will automatically take care of the first install of all packages"
 echo "running Alternatives_Install_list"
 sh $JDK7sf_componitPath/Alternatives_Install_list
@@ -249,7 +253,7 @@ echo "_________________"
 echo "running JRE_JDK_Descriptions"
 sh $JDK7sf_componitPath/JRE_JDK_Descriptions
 echo "you may run the JRE_JDK_Descriptions manually later to keep your system up to date"
-echo "to do so run sh $JDK7sf_componitPath/JRE_JDK_Descriptions from a terminal window"
+echo "to do so run : sh $JDK7sf_componitPath/JRE_JDK_Descriptions"
 echo "_________________"
 echo "running Java7_Activator"
 sh $JDK7sf_componitPath/Java7_Activator
