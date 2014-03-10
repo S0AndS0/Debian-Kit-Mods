@@ -36,39 +36,19 @@ test results
 ~~~~~~
 usage instructions
 ~~~~~~
-for ARM_Java7_Downloader
+##
 	clone this github projects to a directory, such as a Downloads folder
 	~~~~~
 #	cd /home/Downloads
 #	git clone https://github.com/S0AndS0/Debian-Kit-Mods
 	~~~~~
-	then run the ARM_Java7_Downloader script with
+	then run the ARM_Linux_Moder script with
 	~~~~~
-#	sh /home/Downloads/Debian-Kit-Mods/ARM_Java7_Downloader
+#	sh /home/Downloads/Debian-Kit-Mods/ARM_Linux_Moder
 	~~~~~
-	follow the prompts and choose which source file you wish to have downloaded
-	which at this point the options are jre or JDK soft float or hardfloat
-	~~~~~
-for ARM_Java_JDK7_Istaller 
-	clone this github projects to a directory, such as a Downloads folder
-	~~~~~
-#	cd /home/Downloads
-#	git clone https://github.com/S0AndS0/Debian-Kit-Mods
-	~~~~~
-	then run the ARM_Java_JDK7_Istaller script with
-	~~~~~
-#	sh /home/Downloads/Debian-Kit-Mods/ARM_Java_JDK7_Istaller
-	~~~~~
-	follow the prompts and enjoy Java on your Android device
+	follow the prompts and choose which source file you wish to have downloaded or installed
+##
 for ARM_Maptools_Installer
-	clone this github projects to a directory, such as a Downloads folder
-	~~~~~
-#	cd /home/Downloads
-#	git clone https://github.com/S0AndS0/Debian-Kit-Mods
-	~~~~~
-	then run the ARM_Maptools_Installer script with
-	~~~~~
-#	sh /home/Downloads/Debian-Kit-Mods/ARM_Maptools_Installer
 	~~~~~
 	follow the prompts and enjoy Maptools on your Android device
 if the shortcut on your desktop does't work for Maptools
@@ -80,27 +60,7 @@ if the shortcut on your desktop does't work for Maptools
 	input the following in the text diolog
 		java -jar
 	click on the ok button and give it a second or two to start up.
-for FindScriptDirectory
-	clone this github projects to a directory, such as a Downloads folder
-	~~~~~
-#	cd /home/Downloads
-#	git clone https://github.com/S0AndS0/Debian-Kit-Mods
-	~~~~~
-	then run the FindScriptDirectory script with
-	~~~~~
-#	sh /home/Downloads/Debian-Kit-Mods/FindScriptDirectory
-	~~~~~
 for Key_Fixer
-	~~~~~
-	for Key_Fixer
-	clone this github projects to a directory, such as a Downloads folder
-	~~~~~
-#	cd /home/Downloads
-#	git clone https://github.com/S0AndS0/Debian-Kit-Mods
-	~~~~~
-	then run the Key_Fixer script with
-	~~~~~
-#	sh /home/Downloads/Debian-Kit-Mods/Key_Fixer
 	~~~~~
 	use this to fix any missing keys that maybe causing errors after manualy modifying apt-get's source list.
 	~~~~~
