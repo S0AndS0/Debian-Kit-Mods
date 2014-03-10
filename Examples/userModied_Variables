@@ -1,0 +1,39 @@
+#!/bin/bash
+echo "this example is one solution to setting variables bassed on user in put"
+exampleVar=/home/test
+echo "\$exampleVar curently is : $exampleVar"
+echo "1 - change it to /home/test1"
+echo "2 - change it to /home/test2"
+echo "3 - change it to /home/test3"
+echo "0 - exit
+echo "__________________"
+echo "the next prompt uses : read -r -p : before the desplayed text and : response : after the quots so that it can be used latter in if then statements"
+read -r -p "Which one thing would you like to do? " response
+	if [ $response = 1 ] 
+then 
+# do something
+	exampleVar=/home/test2
+	echo "\$exampleVar curently is : $exampleVar"
+	elif [ $response = 2 ] 
+then 
+# do something
+	exampleVar=/home/test3
+	echo "\$exampleVar curently is : $exampleVar"
+	elif [ $response = 3 ] 
+then 
+# do something
+	exampleVar=/home/test4
+	echo "\$exampleVar curently is : $exampleVar"
+	elif [ $response = 0 ] 
+		echo "exiting now"
+		echo exit 
+		exit 
+then 
+# do something
+	else [ $response = * ] then 
+#	 if anything else then exit 
+		echo "exiting now"
+		echo exit 
+		exit 
+	fi
+
