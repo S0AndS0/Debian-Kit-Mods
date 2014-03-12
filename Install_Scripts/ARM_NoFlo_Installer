@@ -1,5 +1,18 @@
 #!/bin/bash
-echo "This script will install node.js and NoFlo"
+echo "setting variables"
+# find the name of this script and store it to a variable
+NF_fullScriptPath="$(readlink -f $0)"
+# deleat last componit from ThisScript and store to another variable
+NF_scriptDirectory="$(dirname $NF_fullScriptPath)"
+ : ${USER?} ${HOME?} 
+# set directory variables
+NF_Path=$HOME/NoFlo
+njs_Path=$HOME/nodejs
+NF_Componit_Path=$NF_scriptDirectory/Components/NoFlo
+NF_nameScript=ARM_NoFlo_Installer
+echo "end of variable assignments"
+echo "___________________"
+echo "$NF_nameScript will install node.js and NoFlo"
 echo "to your ARM Linux OS"
 {
 # confirm with the user
@@ -16,29 +29,12 @@ case "$response" in
 esac
 }
 echo "___________________"
-echo "setting variables"
-# Next is setting some required variables
- : ${USER?} ${HOME?} 
-# set directory variables
-NF_Path=$HOME/ARM_Mod/NoFlo
-njs_Path=$HOME/ARM_Mod/nodejs
-# set web address variables
-njs_Download=http://nodejs.org/dist/v0.10.2/node-v0.10.2-linux-arm-pi.tar.gz
-# set maintenance variables
-njs_targetFile=node-v0.10.2-linux-arm-pi.tar.gz
-njs_minSize=9000
-njs_Version=v0.10.2
-njs_bashPath=$njs_Path/node-v0.10.2-linux-arm-pi
-pathinto_bashrc=$HOME/.bashrc
-NF_Componit_Path=$HOME/ARM_Mod/Install_Scripts/Components/NoFlo
-# end of variable assignments
 # make some directories for this scripts componits and for programs to be installed to
 echo "___________________"
-echo "making directories"
+echo "Making directories"
 mkdir -p $NF_Componit_Path
 mkdir -p $njs_Path
 mkdir -p $NF_Path
-# write out script componits
 echo "___________________"
 echo "writing Nodejs_Installer to $NF_Componit_Path"
 sudo cat > $NF_Componit_Path/Nodejs_Installer <<EOF
@@ -47,7 +43,7 @@ echo "deb ftp://ftp.dk.debian.org/debian/ sid main" | sudo tee /etc/apt/sources.
 echo "__________________"
 # from Crunchbang
 echo "updating keys"
-sudo apt-get update 2> /tmp/keymissing; for key in $(grep "NO_PUBKEY" /tmp/keymissing |sed "s/.*NO_PUBKEY //"); do echo -e "nProcessing key: $key"; gpg --keyserver keys.gnupgp.net --recv $key && gpg --export --armor $key | sudo apt-key add -; done
+sudo apt-get update 2> /tmp/keymissing; for key in \$(grep "NO_PUBKEY" /tmp/keymissing |sed "s/.*NO_PUBKEY //"); do echo -e "nProcessing key: \$key"; gpg --keyserver keys.gnupgp.net --recv \$key && gpg --export --armor \$key | sudo apt-key add -; done
 echo "__________________"
 echo "installing node.js"
 echo "note though that lib6-dev may cause services to re-start though upon installation"
@@ -57,13 +53,13 @@ sudo apt-get install libc6-dev
 sudo apt-get install -y nodejs
 sudo apt-get install -y npm
 echo "__________________"
-echo "removing sid.list"
+echo "removing sid.list from the etc/apt/sources.list.d directory"
 sudo rm -rI /etc/apt/sources.list.d/sid.list
 EOF
 echo "___________________"
 echo "writing NoFlow_Installer to $NF_Componit_Path"
 sudo cat > $NF_Componit_Path/NoFlow_Installer <<EOF
-# use npm to install NoFlo to $NF_Path
+echo "using npm to install NoFlo to $NF_Path"
 cd $NF_Path
 npm install -g noflo
 cd ~
@@ -125,13 +121,3 @@ sh $NF_Componit_Path/Script_Runner
 esac
 }
 # end of script
-# credits
-# auther of this script
-# https://github.com/S0AndS0
-# sources of information that where helpful in writing this script
-# for node.js
-# http://joshondesign.com/2013/10/23/noderpi
-# for NoFlo
-# https://plus.google.com/100751105859582805241/posts/iDbvbUJXHsN
-# for automaticly trying to download node.js if it fails the first time
-# http://stackoverflow.com/questions/5920333/how-to-check-size-of-a-file
