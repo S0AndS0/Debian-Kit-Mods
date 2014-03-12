@@ -104,7 +104,7 @@ then
 	elif [ $response = 6 ] 
 then 
 		echo "this has yet to be tested"
-		sh $LM_ScriptDirectory/$NF_nameScript
+		sh $LM_runPath/$NF_nameScript
 		echo "exiting now"
 		echo exit 
 	elif [ $response = 7 ] 
