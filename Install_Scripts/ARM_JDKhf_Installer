@@ -91,7 +91,7 @@ esac
 } 
 echo "moving on to copying java to $JDKhf_Destanation and extracting there"
 echo "Finding and Copying Java tarball from the $JDK7hf_downloadPath directory to your $JDKhf_Destanation directory"
-find $JDK7hf_downloadPath -type f -iname '$JDKhf_Version*' -print0 | xargs -0 sudo cp --interactive --verbose --target-directory=$JDKsf_Destanation 
+find $JDK7hf_downloadPath -type f -iname '$JDKhf_Version*' -print0 | xargs -0 sudo cp --interactive --verbose --target-directory=$JDKsf_Destanation
 echo "Finding and changing ownership of Java tarball in your $JDKhf_Destanation directory"
 find $JDKhf_Destanation -type f -iname '$JDKhf_Version*' -print0 | xargs -0 sudo chown $USER:$USER
 echo "Finding and changing permissions of Java tarball in $JDKhf_Destanation directory to read write and execute for $USER"
@@ -99,7 +99,7 @@ find $JDKhf_Destanation -type f -iname '$JDKhf_Version*' -print0 | xargs -0 sudo
 sudo cd $JDKhf_Destanation
 find $JDKhf_Destanation -type f -iname '$JDKhf_Version*' -print0 | xargs -0 sudo tar -vxpzf
 # --verbose --extract --gunzip --file=
-sudo ln -s JDKhf_ShortcutVersion java-7-oracle
+sudo ln -s $JDKhf_ShortcutVersion java-7-oracle
 cd ~
 EOF
 # Create a list of alternatives to install for JDK tools
@@ -202,7 +202,7 @@ sudo cat > $JDK7hf_componitPath/Download_Prompter <<EOF
 echo "listing contents of : $JDK7hf_downloadPath"
 ls $JDK7hf_downloadPath
 echo "At the next prompt answer yes if you nead to run the $JD_nameScript first"
-echo "and select option 4 when promted"
+echo "and select option 3 when promted"
 echo "otherwise answer no to continue with the installation prosess"
 {
 # alert to what's about to happen
@@ -258,6 +258,7 @@ echo "restarting $LM_nameScript to give options to install Java dependent softwa
 cd $JDK7hf_ScriptDirectory
 cd ..
 sh $LM_nameScript
+cd ~
 echo "_________________"
 # set +x
 set +e
