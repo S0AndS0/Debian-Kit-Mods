@@ -160,5 +160,13 @@ Note you can use the following link to remove repos and their keys
 http://www.sourceslist.eu/?download=remove-apt-repository
 if you find that you don’t want that repo anymore
 Note2 the site is in Italian so use google translate if you need directions
+	~~~~~~
+for ARM_NoFlo_Installer
+sources of information that where helpful in writing this script
+for node.js
+http://joshondesign.com/2013/10/23/noderpi
+for NoFlo
+https://plus.google.com/100751105859582805241/posts/iDbvbUJXHsN
+for automaticly trying to download node.js if it fails the first time
+http://stackoverflow.com/questions/5920333/how-to-check-size-of-a-file
 ~~~~~~
-
