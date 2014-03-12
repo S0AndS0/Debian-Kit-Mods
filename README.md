@@ -51,7 +51,7 @@ usage instructions
 for ARM_Maptools_Installer
 	~~~~~
 	follow the prompts and enjoy Maptools on your Android device
-if the shortcut on your desktop does't work for Maptools
+	if the shortcut on your desktop does't work for Maptools
 	right click the desktop shortcut
 	click on properties
 	click on the "open with" drop down under the general tab
