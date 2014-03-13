@@ -1,0 +1,382 @@
+#!/bin/bash
+echo "setting variables..."
+Bramble_InstallScript_Download=https://github.com/downloads/philleonard/MPICH2-Armel-Raspberry-Pi/install.py
+Bramble_RSAkeyScript_Download=https://github.com/downloads/philleonard/MPICH2-Armel-Raspberry-Pi/rsa.py
+Bramble_debPackage_Download=https://github.com/downloads/philleonard/MPICH2-Armel-Raspberry-Pi/mpich2_1.4.1p1-1_armel.deb
+Bramble_sourceFile_Download=http://www.mcs.anl.gov/research/projects/mpich2/downloads/tarballs/1.4.1p1/mpich2-1.4.1p1.tar.gz
+Bramble_test_Download=https://github.com/downloads/philleonard/MPICH2-Armel-Raspberry-Pi/cpi_test.tar.gz
+# File paths
+ : ${USER?} ${HOME?} 
+# find the name of this script and store it to a variable
+Br_fullScriptPath="$(readlink -f $0)"
+# deleat last componit from ThisScript and store to another variable
+Br_ScriptDirectory="$(dirname $Br_fullScriptPath)"
+Br_componitPath=$Br_ScriptDirectory/Components/Bramble_Installer
+Br_downloadPath=$Br_ScriptDirectory/Download
+BR_installPath=$HOME/Bramble
+# Matenance
+IP_Local=$(/sbin/ifconfig | sed -n '2 p' | awk '{print $3}')
+Br_nameScript=ARM_Bramble_Installer
+Bramble_config_YesFortran=./configure
+Bramble_config_NoFortran="./configure --disable-f77 --disable-fc"
+BrSource_targetFile=mpich2-1.4.1p1.tar.gz
+BrTest_targetFile=cp_test.tar.gz
+BrSource_minSize=9000
+BrSource_Directory=$BR_installPath/mpich2-1.4.1p1
+echo "Variables have been set."
+echo "___________________"
+echo "$Br_nameScript is about to unpack its self to : $Br_componitPath"
+{ 
+# confirm with the user 
+read -r -p "Do you wish to continue? [y/N] " response 
+case "$response" in 
+	[yY][eE][sS]|[yY]) 
+# if yes, then start risking changes 
+		;; 
+	*) 
+#		 Otherwise exit.. 
+	echo "Good Night" 
+	exit 
+	;; 
+esac
+} 
+echo "___________________"
+echo "Making directories"
+mkdir -p $Br_componitPath
+mkdir -p $Br_downloadPath
+mkdir -p $BR_installPath
+echo "___________________"
+echo "Writing script componits to : $Br_componitPath"
+echo "___________________"
+echo "Writing softFloat_Install_fromScript"
+sudo cat > $Br_componitPath/softFloat_Install_fromScript <<EOF
+echo "changing directories to : $Br_downloadPath"
+cd $Br_downloadPath
+echo "downloading script from github"
+wget $Bramble_InstallScript_Download
+echo "running install with : install.py"
+sudo python install.py
+echo "changing back to default directory"
+cd ~
+EOF
+echo "___________________"
+echo "Writing softFloat_InstallfromDeb"
+sudo cat > $Br_componitPath/softFloat_InstallfromDeb <<EOF
+echo "changing directories to : $Br_downloadPath"
+cd $Br_downloadPath
+echo "downloading deb package"
+wget $Bramble_debPackage_Download
+echo "running install with : dpkg"
+sudo dpkg -i mpich2_1.4.1p1-1_armel.deb
+echo "Changing directiories to : default"
+cd ~
+EOF
+echo "___________________"
+echo "Writing sofFloat_Install_fromSource"
+sudo cat > $Br_componitPath/sofFloat_Install_fromSource <<EOF
+echo "changing directories to : $Br_downloadPath"
+cd $Br_downloadPath
+echo "downloading source file"
+wget $Bramble_sourceFile_Download
+# check if download sucseeded and if not wait a few seconds and try again"
+	BrSource_trueSize=\$(du -b "$BrSource_targetFile" | cut -f 1)
+	if [ \$BrSource_trueSize -ge $BrSource_minSize ]; then
+		echo "seems ok, moving on to extracting"
+		echo "Changing directiories to : default"
+		cd ~
+# if not big enough try again
+		else
+		echo "oh no something did not go ok, removing partial file and trying again in a few seconds"
+		rm -rI $BrSource_targetFile
+		sleep 30 && wget $Bramble_sourceFile_Download
+		echo "hopefully that did the trick"
+		echo "Changing directiories to : default"
+		cd ~
+	fi
+echo "Changing directories to : $BR_installPath"
+cd $BR_installPath
+echo "extracting with $BrSource_targetFile : tar"
+tar -zxfv $Br_downloadPath/$BrSource_targetFile
+echo "___________________"
+echo "If you have Fortran compiler choose option 1 if not then choose option 2"
+echo "1 - run configure with : $Bramble_config_YesFortran"
+echo "2 - run configure with : $Bramble_config_NoFortran"
+echo "0 - don't run configure which will cause errors in next set of make commands"
+echo "___________________"
+read -r -p "Which configure option do you wish to run? " response
+if [ $response = 1 ] then 
+	echo "Changing directories to : $BrSource_Directory"
+	cd $BrSource_Directory
+	echo "running : $Bramble_config_YesFortran..."
+	sudo $Bramble_config_YesFortran
+	echo "Changing directiories to : default"
+	cd ~
+elif [ $response = 2 ] then
+	echo "Changing directories to : $BrSource_Directory"
+	cd $BrSource_Directory
+	echo "running : $Bramble_config_NoFortran..."
+	sudo $Bramble_config_NoFortran
+	echo "Changing directiories to : default"
+	cd ~
+elif [ $response = 0 ] then 
+	echo "exiting now"
+	echo exit 
+	exit 
+else [ $response = * ] then 
+#	 if anything else then exit 
+	echo "invalide input recived"
+	echo exit 
+	exit 
+fi
+echo "Changing directories to : $BrSource_Directory"
+cd $BrSource_Directory
+echo "running install with : make"
+sudo make
+sudo make install
+echo "Changing directiories to : default"
+cd ~
+EOF
+echo "___________________"
+echo "Writing Setup_All"
+sudo cat > $Br_componitPath/Setup_All <<EOF
+echo "Writing a file to $USER/.rhosts"
+echo 'Master $USER
+Slave $USER' sudo tee -a $USER/.rhosts
+echo "Writing a file to /root/.rhosts"
+echo 'Master root
+Slave root' sudo tee -a /root/.rhosts
+echo "Adding following line to : /etc/securety"
+echo 'rsh, rlogin, rexec, pts/0, pts/1' sudo tee -a /etc/securetty
+echo "Adding the following to : /etc/pam.d/rsh"
+echo 'auth       sufficient   /lib/security/pam_nologin.so
+auth       optional     /lib/security/pam_securetty.so
+auth       sufficient   /lib/security/pam_env.so
+auth       sufficient   /lib/security/pam_rhosts_auth.so
+account    sufficient   /lib/security/pam_stack.so service=system-auth
+session    sufficient   /lib/security/pam_stack.so service=system-auth' sudo tee -a /etc/pam.d/rsh
+EOF
+echo "___________________"
+echo "Writing Setup_Assister"
+sudo cat > $Br_componitPath/Setup_Assister <<EOF
+ifconfig
+echo "$IP_Local"
+echo "If : ifconfig : command matches \$IP_Local : $IP_Local : then it is ok to continue at the next prompt"
+{ 
+# confirm with the user 
+read -r -p "Do you wish to continue? [y/N] " response 
+case "$response" in 
+	[yY][eE][sS]|[yY]) 
+# if yes, then start risking changes 
+		;; 
+	*) 
+#		 Otherwise exit.. 
+	echo "Good Night" 
+	exit 
+	;; 
+esac
+} 
+echo "________"
+# use $IP_Local and prompts to write to these files
+echo "1 - if installing on : Master"
+echo "2 - if installing on : Slave"
+read -r -p "Which configure option do you wish to run? " response
+if [ $response = 1 ] then 
+	echo "appending the following line to : /etc/hosts"
+	echo '$IP_Local Master' sudo tee -a /etc/hosts
+	echo "appending the following line to : /etc/hosts.allow"
+	echo 'ALL+' sudo tee -a /etc/hosts.allow
+	echo "Adding : machinefile : to : $BR_installPath"
+	echo '$IP_Local' sudo tee -a $BR_installPath/machinefile
+elif [ $response = 2 ] then
+	echo "appending the following line to : /etc/hosts"
+	echo '$IP_Local Slave' sudo tee -a /etc/hosts
+	echo "appending the following line to : /etc/hosts.allow"
+	echo 'ALL+' sudo tee -a /etc/hosts.allow
+	echo "Adding : machinefile : to : $BR_installPath"
+	echo '$IP_Local' sudo tee -a $BR_installPath/machinefile
+elif [ $response = 0 ] then 
+	echo "exiting now"
+	echo exit 
+	exit 
+else [ $response = * ] then 
+#	 if anything else then exit 
+	echo "invalide input recived"
+	echo exit 
+	exit 
+fi
+# 
+echo "________"
+echo "Please open : /etc/hosts : file and input your other nodes IP like the bellow example"
+echo "192.168.0.14 Master"
+echo "192.168.0.11 Slave"
+echo "run : ifconfig : to find the IP and assosiate the IP with that devices function within the cluster"
+echo "Please open : /etc/hosts.allow : and add all IPs of other nodes or add : ALL+ : to the end of that file"
+echo "Please open on your Master device : machinefile : and add the IPs of all nodes and add the collon and number after each node like bellow example" 
+echo "192.168.0.14"
+echo "192.168.0.11:2"
+echo "Continue at next prompt when you have compleated this for any other nodes you are installing Bramble to"
+{ 
+# confirm with the user 
+read -r -p "Do you wish to continue? [y/N] " response 
+case "$response" in 
+	[yY][eE][sS]|[yY]) 
+# if yes, then start risking changes 
+		;; 
+	*) 
+#		 Otherwise exit.. 
+	echo "Good Night" 
+	exit 
+	;; 
+esac
+} 
+EOF
+echo "___________________"
+echo "Writing SSH_AutoAuthScript_Downloader"
+sudo cat > $Br_componitPath/SSH_AutoAuthScript_Downloader <<EOF
+echo "Changing directiories to : $Br_downloadPath"
+cd $Br_downloadPath
+echo "Downloading rsa.py from github"
+wget $Bramble_RSAkeyScript_Download
+echo "Running rsa.py"
+python rsa.py
+echo "Changing back to default directory"
+echo "If that didn't work there are directions that maybe helpfull at the following link"
+echo "http://steve.dynedge.co.uk/2012/05/30/logging-into-a-rasberry-pi-using-publicprivate-keys/"
+echo "Changing directiories to : default"
+cd ~
+EOF
+echo "___________________"
+echo "Writing cpiTest_Downloader"
+sudo cat > $Br_componitPath/cpiTest_Downloader <<EOF
+echo "Changing directiories to : $Br_downloadPath"
+cd $Br_downloadPath
+echo "Downloading : $BrTest_targetFile : from github"
+wget $Bramble_test_Download
+echo "Changing directories to : $BR_installPath"
+cd $BR_installPath
+echo "extracting $BrTest_targetFile with : tar : to : $BR_installPath"
+tar -zxfv $Br_downloadPath/$BrTest_targetFile
+echo "fixing permissions of : cpi_test"
+sudo chmod -R 777 cpi_test
+echo "Changing directiories to : default"
+cd ~
+echo "You may now run : mpiexec -f machinefile -n 100 ./cpi : to test you installation"
+echo "just be sure to include full file paths to : machinefile : and : ./cpi : files"
+echo "such as : mpiexec -f $BR_installPath/machinefile -n 100 ./$BR_installPath/cpi_test/cpi"
+echo "the : -f : tells mpiexec where the machinefile is"
+echo "the : -n : is the nuber of times to run the following task"
+echo "if errors pop up when using on multiple nodes then be sure that the task being performed is in the same directory path for all nodes"
+echo "If there are no errors in installation you will recieve something like the bellow two lines"
+echo "pi is approximately 3.1415926544231274, Error is 0.0000000008333343"
+echo "wall clock time \= 0.728116"
+EOF
+echo "___________________"
+echo "Writing Permission_Fixer"
+sudo cat > $Br_componitPath/Permission_Fixer <<EOF
+echo "Fixing permissions of scripts writen in : $Br_componitPath"
+ls $Br_componitPath
+sudo chmod +x $Br_componitPath/softFloat_Install_fromScript
+sudo chmod +x $Br_componitPath/softFloat_InstallfromDeb
+sudo chmod +x $Br_componitPath/sofFloat_Install_fromSource
+sudo chmod +x $Br_componitPath/Setup_All
+sudo chmod +x $Br_componitPath/Setup_Assister
+sudo chmod +x $Br_componitPath/SSH_AutoAuthScript_Downloader
+sudo chmod +x $Br_componitPath/cpiTest_Downloader
+sudo chmod +x $Br_componitPath/Script_Runner
+EOF
+echo "fixing permissions of : Permission_Fixer"
+sudo chmod +x $Br_componitPath/Permission_Fixer
+echo "___________________"
+echo "Writing Script_Runner"
+sudo cat > $Br_componitPath/Script_Runner <<EOF
+echo "1 - run : softFloat_Install_fromScript"
+echo "2 - run : softFloat_InstallfromDeb"
+echo "3 - run : sofFloat_Install_fromSource"
+echo "0 - scipt this portion of Script_Runner"
+echo "___________________"
+read -r -p "How would you like to Install Bramble? " response
+	if [ $response = 1 ] then 
+		echo "Running script from : $Br_componitPath/softFloat_Install_fromScript"
+		sh $Br_componitPath/softFloat_Install_fromScript
+	elif [ $response = 2 ] then 
+		echo "Running script from : $Br_componitPath/softFloat_InstallfromDeb"
+		sh $Br_componitPath/softFloat_InstallfromDeb
+	elif [ $response = 3 ] then 
+		echo "Running script from : $Br_componitPath/sofFloat_Install_fromSource"
+		sh $Br_componitPath/sofFloat_Install_fromSource
+	elif [ $response = 0 ] then 
+		echo "Scipping over install process"
+# do something
+	else [ $response = * ] then 
+#	 if anything else then exit 
+		echo "Invalid input recieved"
+		echo exit 
+		exit 
+	fi
+echo "Moving on to running the rest of Script_Runner for setup and configuration"
+echo "Running script from : $Br_componitPath/Setup_All"
+sh $Br_componitPath/Setup_All
+echo "Running script from : $Br_componitPath/Setup_Assister"
+sh $Br_componitPath/Setup_Assister
+echo "About to run script from : $Br_componitPath/SSH_AutoAuthScript_Downloader"
+{ 
+# confirm with the user 
+read -r -p "Do you wish to continue? [y/N] " response 
+case "$response" in 
+	[yY][eE][sS]|[yY]) 
+# if yes, then start risking changes 
+		echo "Running : SSH_AutoAuthScript_Downloader"
+		sh $Br_componitPath/SSH_AutoAuthScript_Downloader
+		;; 
+	*) 
+#		 Otherwise exit.. 
+	echo "Good Night" 
+	exit 
+	;; 
+esac
+} 
+echo "About to run script from : $Br_componitPath/cpiTest_Downloader"
+{ 
+# confirm with the user 
+read -r -p "Do you wish to continue? [y/N] " response 
+case "$response" in 
+	[yY][eE][sS]|[yY]) 
+# if yes, then start risking changes 
+		echo "Running : cpiTest_Downloader"
+		sh $Br_componitPath/cpiTest_Downloader
+		echo "running test"
+		mpiexec -f $BR_installPath/machinefile -n 10 .$BR_installPath/cpi_test/cpi
+		;; 
+	*) 
+#		 Otherwise exit.. 
+	echo "Good Night" 
+	exit 
+	;; 
+esac
+} 
+echo "Installation should now be compleat"
+echo "Enjoy and good night from $Br_nameScript"
+echo exit
+EOF
+echo "___________________"
+echo "Writing of script componits to : $Br_componitPath"
+echo "has been compleated."
+ls $Br_componitPath
+echo "___________________"
+{ 
+# confirm with the user 
+read -r -p "Do you wish to run : Script_Runner? [y/N] " response 
+case "$response" in 
+	[yY][eE][sS]|[yY]) 
+# if yes, then start risking changes 
+		sh $Br_componitPath/Script_Runner
+		;; 
+	*) 
+#		 Otherwise exit.. 
+	echo "Good Night" 
+	exit 
+	;; 
+esac
+} 
+echo "end of $Br_nameScript"
+echo exit
