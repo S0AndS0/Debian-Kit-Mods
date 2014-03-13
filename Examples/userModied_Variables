@@ -5,7 +5,7 @@ echo "\$exampleVar curently is : $exampleVar"
 echo "1 - change it to /home/test1"
 echo "2 - change it to /home/test2"
 echo "3 - change it to /home/test3"
-echo "0 - exit
+echo "0 - exit"
 echo "__________________"
 echo "the next prompt uses : read -r -p : before the desplayed text and : response : after the quots so that it can be used latter in if then statements"
 read -r -p "Which one thing would you like to do? " response
@@ -24,11 +24,10 @@ then
 # do something
 	exampleVar=/home/test4
 	echo "\$exampleVar curently is : $exampleVar"
-	elif [ $response = 0 ] 
+	elif [ $response = 0 ] then
 		echo "exiting now"
 		echo exit 
-		exit 
-then 
+		exit  
 # do something
 	else [ $response = * ] then 
 #	 if anything else then exit 
