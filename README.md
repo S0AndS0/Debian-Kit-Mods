@@ -169,4 +169,13 @@ for NoFlo
 https://plus.google.com/100751105859582805241/posts/iDbvbUJXHsN
 for automaticly trying to download node.js if it fails the first time
 http://stackoverflow.com/questions/5920333/how-to-check-size-of-a-file
+	~~~~~~
+for ARM_Bramble_Installer
+sources of information and scripts
+http://westcoastlabs.blogspot.co.uk/2012/06/parallel-processing-on-pi-bramble.html
+source of "IP_LOCAL=$(/sbin/ifconfig | sed -n '2 p' | awk '{print $3}')" command
+http://www.htmlstaff.org/ver.php?id=22346
+for more like the above command
+http://stackoverflow.com/questions/6829605/putting-ip-address-into-bash-variable-is-there-a-better-way
+
 ~~~~~~
