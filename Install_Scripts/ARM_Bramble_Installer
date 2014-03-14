@@ -104,25 +104,29 @@ echo "2 - run configure with : $Bramble_config_NoFortran"
 echo "0 - don't run configure which will cause errors in next set of make commands"
 echo "___________________"
 read -r -p "Which configure option do you wish to run? " response
-if [ $response = 1 ]; then 
+if [ $response = 1 ]
+then 
 	echo "Changing directories to : $BrSource_Directory"
 	cd $BrSource_Directory
 	echo "running : $Bramble_config_YesFortran..."
 	sudo $Bramble_config_YesFortran
 	echo "Changing directiories to : default"
 	cd ~
-elif [ $response = 2 ]; then
+elif [ $response = 2 ]
+then
 	echo "Changing directories to : $BrSource_Directory"
 	cd $BrSource_Directory
 	echo "running : $Bramble_config_NoFortran..."
 	sudo $Bramble_config_NoFortran
 	echo "Changing directiories to : default"
 	cd ~
-elif [ $response = 0 ]; then 
+elif [ $response = 0 ]
+then 
 	echo "exiting now"
 	echo exit 
 	exit 
-else [ $response = * ]; then 
+else [ $response = * ]
+then 
 #	 if anything else then exit 
 	echo "invalide input recived"
 	echo exit 
@@ -180,25 +184,29 @@ echo "________"
 echo "1 - if installing on : Master"
 echo "2 - if installing on : Slave"
 read -r -p "Which configure option do you wish to run? " response
-if [ $response = 1 ]; then 
+if [ $response = 1 ]
+then 
 	echo "appending the following line to : /etc/hosts"
 	echo '$IP_Local Master' sudo tee -a /etc/hosts
 	echo "appending the following line to : /etc/hosts.allow"
 	echo 'ALL+' sudo tee -a /etc/hosts.allow
 	echo "Adding : machinefile : to : $BR_installPath"
 	echo '$IP_Local' sudo tee -a $BR_installPath/machinefile
-elif [ $response = 2 ]; then
+elif [ $response = 2 ]
+then
 	echo "appending the following line to : /etc/hosts"
 	echo '$IP_Local Slave' sudo tee -a /etc/hosts
 	echo "appending the following line to : /etc/hosts.allow"
 	echo 'ALL+' sudo tee -a /etc/hosts.allow
 	echo "Adding : machinefile : to : $BR_installPath"
 	echo '$IP_Local' sudo tee -a $BR_installPath/machinefile
-elif [ $response = 0 ]; then 
+elif [ $response = 0 ]
+then 
 	echo "exiting now"
 	echo exit 
 	exit 
-else [ $response = * ]; then 
+else [ $response = * ]
+then 
 #	 if anything else then exit 
 	echo "invalide input recived"
 	echo exit 
@@ -295,20 +303,23 @@ echo "3 - run : sofFloat_Install_fromSource"
 echo "0 - scipt this portion of Script_Runner"
 echo "___________________"
 read -r -p "How would you like to Install Bramble? " response
-	if [ $response = 1 ]; then 
+	if [ $response = 1 ]
+then 
 		echo "Running script from : $Br_componitPath/softFloat_Install_fromScript"
 		sh $Br_componitPath/softFloat_Install_fromScript
-	elif [ $response = 2 ]; then 
+	elif [ $response = 2 ]
+then 
 		echo "Running script from : $Br_componitPath/softFloat_InstallfromDeb"
 		sh $Br_componitPath/softFloat_InstallfromDeb
-	elif [ $response = 3 ]; then 
+	elif [ $response = 3 ]
+then 
 		echo "Running script from : $Br_componitPath/sofFloat_Install_fromSource"
 		sh $Br_componitPath/sofFloat_Install_fromSource
-	elif [ $response = 0 ]; then 
+	elif [ $response = 0 ]
+then 
 		echo "Scipping over install process"
-# do something
-	else [ $response = * ]; then 
-#	 if anything else then exit 
+	else [ $response = * ]
+then 
 		echo "Invalid input recieved"
 		echo exit 
 		exit 
