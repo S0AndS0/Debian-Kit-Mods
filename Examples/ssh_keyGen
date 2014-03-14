@@ -1,0 +1,60 @@
+#!/bin/bash
+# see third party guides at following links
+# http://www.guyrutenberg.com/2007/10/05/ssh-keygen-tutorial-generating-rsa-and-dsa-keys/
+# see following link for more guidence with ssh-keygen and scp
+# http://web.archive.org/web/20090430201723/http://sial.org/howto/openssh/publickey-auth/
+# and the following link for a quicky version
+# http://www.tecmint.com/ssh-passwordless-login-using-ssh-keygen-in-5-easy-steps/
+# Start of notes compiled from these sources and results of testing done by S0AndS0 with Linux running on Android devices.
+# 
+# check version with : ssh -V
+# best practices sugest to never have root to root connections but instead to limit with a normal user that has been given sudo permissions.
+# 
+# See example command and explenation of options used
+# ssh-keygen -b 4048 -t rsa -C "home machine"
+# ssh-keygen is a program. see -h or --help or man pages for usage help.
+# option : -b : tells ssh-keygen how many bits long the keys generated should be. For rsa : default is 2048 and minimum is 768 and there is no maximum.
+# option : -t : tells ssh-keygen to use either rsa or DSA. Google it and you will find most preffer rsa dew to no limit on lingth of key where as DSA is limited to 1024 making it far easier to crack.
+# option : -C : adds a comment at the end of public key that can be read by nearly any text editer.
+# option : -f : tell ssh-keygen where to save the file and what to name it.
+# press enter twice to not set password protection on keys being generated if you don't want to be prompted on every re-conect.
+# set a password of ten or more simirandom charictars if conserned about security, some sites will even sugest 16 or more charicters too.
+# 
+# the following permission fixes should be applied to key file after it has been genorated to prevent openssh from complaining.
+# chmod go-w ~/
+# chmod 700 ~/.ssh
+# chmod go-wrx ~/.ssh/*
+# usually the public key, the part you share to other devices, can be found at the following example path.
+# ~/.ssh/id_rsa.pub
+# and usually you will want to appened the key to the other devices : authorized_keys : key file found in the following example path.
+# ~/.ssh/authorized_keys
+# 
+# to send a public key to a remote server see following example.
+# scp ~/.ssh/id_rsa.pub server.example.org
+# or this example
+# cat .ssh/id_rsa.pub | ssh sheena@192.168.1.2 'cat >> .ssh/authorized_keys'
+# in the first example the : ~/.ssh/id_rsa.pub : is the full path and name of public key that was generated and this should be modifide if the : -f : option was used in ssh-keygen command.
+# in the first example the : server.example.org : is the address to the remote device and should be modifide to reflect the true address to the remote device such as : $remote_userName@$IP_ofRemote : which looks the second example : sheena@192.168.1.2 : just be sure that you are sending this to the proper place or someone else may end up with your key and use it.
+# in the second example the : cat : is used to read the file given in : .ssh/id_rsa.pub : and pipe it out with : | : to the : ssh : command. 
+# in the second example the : ssh : is used with : | : to read what the previous : cat : command is sending it. The : sheena@192.168.1.2 : portion should be modifide to point to your remote device : $remote_userName@$IP_ofRemote : which could also look like the first examples : server.example.org : just be sure that you are sending this to the proper place or someone else may end up with your key and use it.
+# in the second example the : cat : command is used again but this time to append the file given at : .ssh/authorized_keys : note the : >> : part is used for appending and : > : would just overwrite starting with the first bite or line and also note the single quotes that are used to ensure the commands are sent to the remote command line properly.
+# 
+# on the remote device you will want to set the permissions of : authorized_keys : file to keep ssh from complaining.
+# ssh sheena@192.168.1.2 "chmod 700 .ssh; chmod 640 .ssh/authorized_keys"
+# in above example : ssh : is used to login to : sheena@192.168.1.2 : be sure to edit the login portion as already discribed to avoid un-intentinal sharing of login information.
+# in above example : chmod : is then run on the remote device to fix permissions for : .ssh : and the : .ssh/authorized_keys : files. Note the use of duble quotes to ensure that when commands are sent to the proper command line.
+# 
+# if the above example does not work then try the following series of commands on the remote device.
+# mkdir ~/.ssh
+# chmod 700 ~/.ssh
+# cat ~/id_rsa.pub >> ~/.ssh/authorized_keys
+# chmod 600 ~/.ssh/authorized_keys
+# rm ~/id_rsa.pub
+# 
+# 
+# now so long as no errors have happened you should be able to run a modified form of the following example command to login to your remote device from your local device without the need of inputting a password, unless, you set a password on the keys themseves when first running : ssh-keygen : command at the buigening of this settup.
+# ssh sheena@192.168.1.2
+# 
+# End of notes compiled from these sources and results of testing done by S0AndS0 with Linux running on Android devices.
+
+
