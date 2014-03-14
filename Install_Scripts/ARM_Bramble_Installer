@@ -15,7 +15,7 @@ Br_componitPath=$Br_ScriptDirectory/Components/Bramble_Installer
 Br_downloadPath=$Br_ScriptDirectory/Download
 BR_installPath=$HOME/Bramble
 # Matenance
-IP_Local=`sudo ifconfig  | grep -E 'inet.[0-9]' | grep -v '127.0.0.1' | awk '{ print $2}'`
+IP_Local=`/sbin/ifconfig | grep -E 'inet addr' | grep -v '127.0.0.1' | awk '{gsub("addr:","");print $2}'`
 Br_nameScript=ARM_Bramble_Installer
 Bramble_config_YesFortran=./configure
 Bramble_config_NoFortran="./configure --disable-f77 --disable-fc"
@@ -164,7 +164,7 @@ echo "Writing Setup_Assister"
 sudo cat > $Br_componitPath/Setup_Assister <<EOF
 sudo ifconfig
 echo "$IP_Local"
-echo "If : ifconfig : command matches \$IP_Local : $IP_Local : then it is ok to continue at the next prompt"
+echo "If : ifconfig : command matches \\$IP_Local : $IP_Local : then it is ok to continue at the next prompt"
 { 
 # confirm with the user 
 read -r -p "Do you wish to continue? [y/N] " response 
@@ -187,19 +187,19 @@ read -r -p "Which configure option do you wish to run? " response
 if [ $response = 1 ]
 then 
 	echo "appending the following line to : /etc/hosts"
-	echo '$IP_Local Master' sudo tee -a /etc/hosts
+	echo '$IP_Local Master' | sudo tee -a /etc/hosts
 	echo "appending the following line to : /etc/hosts.allow"
-	echo 'ALL+' sudo tee -a /etc/hosts.allow
+	echo 'ALL+' | sudo tee -a /etc/hosts.allow
 	echo "Adding : machinefile : to : $BR_installPath"
-	echo '$IP_Local' sudo tee -a $BR_installPath/machinefile
+	echo '$IP_Local' | sudo tee -a $BR_installPath/machinefile
 elif [ $response = 2 ]
 then
 	echo "appending the following line to : /etc/hosts"
-	echo '$IP_Local Slave' sudo tee -a /etc/hosts
+	echo '$IP_Local Slave' | sudo tee -a /etc/hosts
 	echo "appending the following line to : /etc/hosts.allow"
-	echo 'ALL+' sudo tee -a /etc/hosts.allow
+	echo 'ALL+' | sudo tee -a /etc/hosts.allow
 	echo "Adding : machinefile : to : $BR_installPath"
-	echo '$IP_Local' sudo tee -a $BR_installPath/machinefile
+	echo '$IP_Local' | sudo tee -a $BR_installPath/machinefile
 elif [ $response = 0 ]
 then 
 	echo "exiting now"
