@@ -15,7 +15,7 @@ Br_componitPath=$Br_ScriptDirectory/Components/Bramble_Installer
 Br_downloadPath=$Br_ScriptDirectory/Download
 BR_installPath=$HOME/Bramble
 # Matenance
-IP_Local=$(/sbin/ifconfig | sed -n '2 p' | awk '{print $3}')
+IP_Local=$(/sbin/ifconfig | grep -E 'inet.[0-9]' | grep -v '127.0.0.1' | awk '{ print $2}')
 Br_nameScript=ARM_Bramble_Installer
 Bramble_config_YesFortran=./configure
 Bramble_config_NoFortran="./configure --disable-f77 --disable-fc"
@@ -125,7 +125,7 @@ then
 	echo "exiting now"
 	echo exit 
 	exit 
-else [ $response = * ]
+elif [ $response = * ]
 then 
 #	 if anything else then exit 
 	echo "invalide input recived"
@@ -145,24 +145,24 @@ echo "Writing Setup_All"
 sudo cat > $Br_componitPath/Setup_All <<EOF
 echo "Writing a file to $USER/.rhosts"
 echo 'Master $USER
-Slave $USER' sudo tee -a $USER/.rhosts
+Slave $USER' | sudo tee -a $USER/.rhosts
 echo "Writing a file to /root/.rhosts"
 echo 'Master root
-Slave root' sudo tee -a /root/.rhosts
+Slave root' | sudo tee -a /root/.rhosts
 echo "Adding following line to : /etc/securetty"
-echo 'rsh, rlogin, rexec, pts/0, pts/1' sudo tee -a /etc/securetty
+echo 'rsh, rlogin, rexec, pts/0, pts/1' | sudo tee -a /etc/securetty
 echo "Adding the following to : /etc/pam.d/rsh"
 echo 'auth       sufficient   /lib/security/pam_nologin.so
 auth       optional     /lib/security/pam_securetty.so
 auth       sufficient   /lib/security/pam_env.so
 auth       sufficient   /lib/security/pam_rhosts_auth.so
 account    sufficient   /lib/security/pam_stack.so service=system-auth
-session    sufficient   /lib/security/pam_stack.so service=system-auth' sudo tee -a /etc/pam.d/rsh
+session    sufficient   /lib/security/pam_stack.so service=system-auth' | sudo tee -a /etc/pam.d/rsh
 EOF
 echo "___________________"
 echo "Writing Setup_Assister"
 sudo cat > $Br_componitPath/Setup_Assister <<EOF
-ifconfig
+sudo ifconfig
 echo "$IP_Local"
 echo "If : ifconfig : command matches \$IP_Local : $IP_Local : then it is ok to continue at the next prompt"
 { 
@@ -205,7 +205,7 @@ then
 	echo "exiting now"
 	echo exit 
 	exit 
-else [ $response = * ]
+elif [ $response = * ]
 then 
 #	 if anything else then exit 
 	echo "invalide input recived"
@@ -318,7 +318,7 @@ then
 	elif [ $response = 0 ]
 then 
 		echo "Scipping over install process"
-	else [ $response = * ]
+	elif [ $response = * ]
 then 
 		echo "Invalid input recieved"
 		echo exit 
