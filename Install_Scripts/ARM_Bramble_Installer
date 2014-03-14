@@ -73,7 +73,7 @@ cd ~
 EOF
 echo "___________________"
 echo "Writing sofFloat_Install_fromSource"
-sudo cat > $Br_componitPath/sofFloat_Install_fromSource <<EOF
+sudo cat > $Br_componitPath/softFloat_Install_fromSource <<EOF
 echo "changing directories to : $Br_downloadPath"
 cd $Br_downloadPath
 echo "downloading source file"
@@ -285,7 +285,7 @@ echo "Fixing permissions of scripts writen in : $Br_componitPath"
 ls $Br_componitPath
 sudo chmod +x $Br_componitPath/softFloat_Install_fromScript
 sudo chmod +x $Br_componitPath/softFloat_InstallfromDeb
-sudo chmod +x $Br_componitPath/sofFloat_Install_fromSource
+sudo chmod +x $Br_componitPath/softFloat_Install_fromSource
 sudo chmod +x $Br_componitPath/Setup_All
 sudo chmod +x $Br_componitPath/Setup_Assister
 sudo chmod +x $Br_componitPath/SSH_AutoAuthScript_Downloader
@@ -297,6 +297,7 @@ sudo chmod +x $Br_componitPath/Permission_Fixer
 echo "___________________"
 echo "Writing Script_Runner"
 sudo cat > $Br_componitPath/Script_Runner <<EOF
+sh $Br_componitPath/Permission_Fixer
 echo "1 - run : softFloat_Install_fromScript"
 echo "2 - run : softFloat_InstallfromDeb"
 echo "3 - run : sofFloat_Install_fromSource"
@@ -314,7 +315,7 @@ then
 	elif [ $response = 3 ]
 then 
 		echo "Running script from : $Br_componitPath/sofFloat_Install_fromSource"
-		sh $Br_componitPath/sofFloat_Install_fromSource
+		sh $Br_componitPath/softFloat_Install_fromSource
 	elif [ $response = 0 ]
 then 
 		echo "Scipping over install process"
@@ -326,7 +327,7 @@ then
 	fi
 echo "Moving on to running the rest of Script_Runner for setup and configuration"
 echo "Running script from : $Br_componitPath/Setup_All"
-sh $Br_componitPath/Setup_All
+# sh $Br_componitPath/Setup_All
 echo "Running script from : $Br_componitPath/Setup_Assister"
 sh $Br_componitPath/Setup_Assister
 echo "About to run script from : $Br_componitPath/SSH_AutoAuthScript_Downloader"
