@@ -299,9 +299,9 @@ echo "___________________"
 echo "Writing Script_Runner"
 sudo cat > $Br_componitPath/Script_Runner <<EOF
 sh $Br_componitPath/Permission_Fixer
-echo "1 - run : softFloat_Install_fromScript"
-echo "2 - run : softFloat_InstallfromDeb"
-echo "3 - run : softFloat_Install_fromSource"
+echo "1 - run : softFloat_Install_fromScript [Works for Raspberry Pi]"
+echo "2 - run : softFloat_InstallfromDeb [Works for Debian Kit]"
+echo "3 - run : softFloat_Install_fromSource [untested]"
 echo "0 - scipt this portion of Script_Runner"
 echo "___________________"
 read -r -p "How would you like to Install Bramble? " response
@@ -328,7 +328,7 @@ then
 	fi
 echo "Moving on to running the rest of Script_Runner for setup and configuration"
 echo "Running script from : $Br_componitPath/Setup_All"
-# sh $Br_componitPath/Setup_All
+sh $Br_componitPath/Setup_All
 echo "Running script from : $Br_componitPath/Setup_Assister"
 sh $Br_componitPath/Setup_Assister
 echo "About to run script from : $Br_componitPath/SSH_AutoAuthScript_Downloader"
