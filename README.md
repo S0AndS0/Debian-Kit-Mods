@@ -177,5 +177,12 @@ source of "IP_LOCAL=$(/sbin/ifconfig | sed -n '2 p' | awk '{print $3}')" command
 http://www.htmlstaff.org/ver.php?id=22346
 for more like the above command
 http://stackoverflow.com/questions/6829605/putting-ip-address-into-bash-variable-is-there-a-better-way
+for awk commands
+http://www.cyberciti.biz/faq/howto-delete-word-using-sed-under-unix-linux-bsd-appleosx/
+for grep commands
+http://superuser.com/questions/537619/grep-for-term-and-exclude-another-term
+for modifide example of IP_Local variable setting
+http://bash.cyberciti.biz/misc-shell/read-local-ip-address/
+
 
 ~~~~~~
