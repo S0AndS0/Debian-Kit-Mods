@@ -164,7 +164,7 @@ echo "Writing Setup_Assister"
 sudo cat > $Br_componitPath/Setup_Assister <<EOF
 sudo ifconfig
 echo "$IP_Local"
-echo "If : ifconfig : command matches \\$IP_Local : $IP_Local : then it is ok to continue at the next prompt"
+echo "If : ifconfig : command matches : $IP_Local : then it is ok to continue at the next prompt"
 { 
 # confirm with the user 
 read -r -p "Do you wish to continue? [y/N] " response 
@@ -306,24 +306,24 @@ echo "___________________"
 read -r -p "How would you like to Install Bramble? " response
 	if [ $response = 1 ]
 then 
-		echo "Running script from : $Br_componitPath/softFloat_Install_fromScript"
-		sh $Br_componitPath/softFloat_Install_fromScript
+	echo "Running script from : $Br_componitPath/softFloat_Install_fromScript"
+	sh $Br_componitPath/softFloat_Install_fromScript
 	elif [ $response = 2 ]
 then 
-		echo "Running script from : $Br_componitPath/softFloat_InstallfromDeb"
-		sh $Br_componitPath/softFloat_InstallfromDeb
+	echo "Running script from : $Br_componitPath/softFloat_InstallfromDeb"
+	sh $Br_componitPath/softFloat_InstallfromDeb
 	elif [ $response = 3 ]
 then 
-		echo "Running script from : $Br_componitPath/sofFloat_Install_fromSource"
-		sh $Br_componitPath/softFloat_Install_fromSource
+	echo "Running script from : $Br_componitPath/softFloat_Install_fromSource"
+	sh $Br_componitPath/softFloat_Install_fromSource
 	elif [ $response = 0 ]
 then 
-		echo "Scipping over install process"
+	echo "Scipping over install process"
 	elif [ $response = * ]
 then 
-		echo "Invalid input recieved"
-		echo exit 
-		exit 
+	echo "Invalid input recieved"
+	echo exit 
+	exit 
 	fi
 echo "Moving on to running the rest of Script_Runner for setup and configuration"
 echo "Running script from : $Br_componitPath/Setup_All"
