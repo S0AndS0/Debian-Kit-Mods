@@ -15,7 +15,7 @@ Br_componitPath=$Br_ScriptDirectory/Components/Bramble_Installer
 Br_downloadPath=$Br_ScriptDirectory/Download
 BR_installPath=$HOME/Bramble
 # Matenance
-IP_Local=`/sbin/ifconfig | grep -E 'inet.[0-9]' | grep -v '127.0.0.1' | awk '{ print $2}'`
+IP_Local=`sudo ifconfig  | grep -E 'inet.[0-9]' | grep -v '127.0.0.1' | awk '{ print $2}'`
 Br_nameScript=ARM_Bramble_Installer
 Bramble_config_YesFortran=./configure
 Bramble_config_NoFortran="./configure --disable-f77 --disable-fc"
@@ -72,7 +72,7 @@ echo "Changing directiories to : default"
 cd ~
 EOF
 echo "___________________"
-echo "Writing sofFloat_Install_fromSource"
+echo "Writing softFloat_Install_fromSource"
 sudo cat > $Br_componitPath/softFloat_Install_fromSource <<EOF
 echo "changing directories to : $Br_downloadPath"
 cd $Br_downloadPath
