@@ -104,7 +104,7 @@ echo "2 - run configure with : $Bramble_config_NoFortran"
 echo "0 - don't run configure which will cause errors in next set of make commands"
 echo "___________________"
 read -r -p "Which configure option do you wish to run? " response
-if [ $response = 1 ]
+if [ \$response = 1 ]
 then 
 	echo "Changing directories to : $BrSource_Directory"
 	cd $BrSource_Directory
@@ -112,7 +112,7 @@ then
 	sudo $Bramble_config_YesFortran
 	echo "Changing directiories to : default"
 	cd ~
-elif [ $response = 2 ]
+elif [ \$response = 2 ]
 then
 	echo "Changing directories to : $BrSource_Directory"
 	cd $BrSource_Directory
@@ -120,12 +120,12 @@ then
 	sudo $Bramble_config_NoFortran
 	echo "Changing directiories to : default"
 	cd ~
-elif [ $response = 0 ]
+elif [ \$response = 0 ]
 then 
 	echo "exiting now"
 	echo exit 
 	exit 
-elif [ $response = * ]
+elif [ \$response = * ]
 then 
 #	 if anything else then exit 
 	echo "invalide input recived"
@@ -168,7 +168,7 @@ echo "If : ifconfig : command matches : $IP_Local : then it is ok to continue at
 { 
 # confirm with the user 
 read -r -p "Do you wish to continue? [y/N] " response 
-case "$response" in 
+case "\$response" in 
 	[yY][eE][sS]|[yY]) 
 # if yes, then start risking changes 
 		;; 
@@ -184,7 +184,7 @@ echo "________"
 echo "1 - if installing on : Master"
 echo "2 - if installing on : Slave"
 read -r -p "Which configure option do you wish to run? " response
-if [ $response = 1 ]
+if [ \$response = 1 ]
 then 
 	echo "appending the following line to : /etc/hosts"
 	echo '$IP_Local Master' | sudo tee -a /etc/hosts
@@ -192,7 +192,7 @@ then
 	echo 'ALL+' | sudo tee -a /etc/hosts.allow
 	echo "Adding : machinefile : to : $BR_installPath"
 	echo '$IP_Local' | sudo tee -a $BR_installPath/machinefile
-elif [ $response = 2 ]
+elif [ \$response = 2 ]
 then
 	echo "appending the following line to : /etc/hosts"
 	echo '$IP_Local Slave' | sudo tee -a /etc/hosts
@@ -200,12 +200,12 @@ then
 	echo 'ALL+' | sudo tee -a /etc/hosts.allow
 	echo "Adding : machinefile : to : $BR_installPath"
 	echo '$IP_Local' | sudo tee -a $BR_installPath/machinefile
-elif [ $response = 0 ]
+elif [ \$response = 0 ]
 then 
 	echo "exiting now"
 	echo exit 
 	exit 
-elif [ $response = * ]
+elif [ \$response = * ]
 then 
 #	 if anything else then exit 
 	echo "invalide input recived"
@@ -222,11 +222,12 @@ echo "Please open : /etc/hosts.allow : and add all IPs of other nodes or add : A
 echo "Please open on your Master device : machinefile : and add the IPs of all nodes and add the collon and number after each node like bellow example" 
 echo "192.168.0.14"
 echo "192.168.0.11:2"
+echo "________"
 echo "Continue at next prompt when you have compleated this for any other nodes you are installing Bramble to"
 { 
 # confirm with the user 
 read -r -p "Do you wish to continue? [y/N] " response 
-case "$response" in 
+case "\$response" in 
 	[yY][eE][sS]|[yY]) 
 # if yes, then start risking changes 
 		;; 
@@ -300,26 +301,26 @@ sudo cat > $Br_componitPath/Script_Runner <<EOF
 sh $Br_componitPath/Permission_Fixer
 echo "1 - run : softFloat_Install_fromScript"
 echo "2 - run : softFloat_InstallfromDeb"
-echo "3 - run : sofFloat_Install_fromSource"
+echo "3 - run : softFloat_Install_fromSource"
 echo "0 - scipt this portion of Script_Runner"
 echo "___________________"
 read -r -p "How would you like to Install Bramble? " response
-	if [ $response = 1 ]
+	if [ \$response = 1 ]
 then 
 	echo "Running script from : $Br_componitPath/softFloat_Install_fromScript"
 	sh $Br_componitPath/softFloat_Install_fromScript
-	elif [ $response = 2 ]
+	elif [ \$response = 2 ]
 then 
 	echo "Running script from : $Br_componitPath/softFloat_InstallfromDeb"
 	sh $Br_componitPath/softFloat_InstallfromDeb
-	elif [ $response = 3 ]
+	elif [ \$response = 3 ]
 then 
 	echo "Running script from : $Br_componitPath/softFloat_Install_fromSource"
 	sh $Br_componitPath/softFloat_Install_fromSource
-	elif [ $response = 0 ]
+	elif [ \$response = 0 ]
 then 
 	echo "Scipping over install process"
-	elif [ $response = * ]
+	elif [ \$response = * ]
 then 
 	echo "Invalid input recieved"
 	echo exit 
@@ -334,7 +335,7 @@ echo "About to run script from : $Br_componitPath/SSH_AutoAuthScript_Downloader"
 { 
 # confirm with the user 
 read -r -p "Do you wish to continue? [y/N] " response 
-case "$response" in 
+case "\$response" in 
 	[yY][eE][sS]|[yY]) 
 # if yes, then start risking changes 
 		echo "Running : SSH_AutoAuthScript_Downloader"
@@ -351,7 +352,7 @@ echo "About to run script from : $Br_componitPath/cpiTest_Downloader"
 { 
 # confirm with the user 
 read -r -p "Do you wish to continue? [y/N] " response 
-case "$response" in 
+case "\$response" in 
 	[yY][eE][sS]|[yY]) 
 # if yes, then start risking changes 
 		echo "Running : cpiTest_Downloader"
