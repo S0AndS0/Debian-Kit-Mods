@@ -66,5 +66,38 @@
 # ssh sheena@192.168.1.2
 # 
 # End of notes compiled from these sources and results of testing done by S0AndS0 with Linux running on Android devices.
+echo "setting variables..."
+kGen_nameScript=ssh_keyGen
+# File paths
+ : ${USER?} ${HOME?} 
+# find the full path and name of $kGen_nameScript and store it to a variable
+kGen_fullScriptPath="$(readlink -f $0)"
+# deleat last componit from file path to $kGen_nameScript and store to another variable
+kGen_ScriptDirectory="$(dirname $kGen_fullScriptPath)"
+kGen_componitPath=$kGen_ScriptDirectory/Components/key_Gen
+kGen_share_ToPath=$HOME/key_Gen
+kGen_share_fromPath=$HOME/key_Gen
 
+# Matenance
+IP_Local=`/sbin/ifconfig | grep -E 'inet addr' | grep -v '127.0.0.1' | awk '{gsub("addr:","");print $2}'`
+
+echo "end of variable decleration"
+
+echo "$kGen_nameScript is about to unpack its self to : $kGen_componitPath"
+{ 
+# confirm with the user 
+read -r -p "Do you wish to continue? [y/N] " response 
+case "$response" in 
+	[yY][eE][sS]|[yY]) 
+# if yes, then start risking changes 
+		;; 
+	*) 
+#		 Otherwise exit.. 
+	echo "Good Night" 
+	exit 
+	;; 
+esac
+} 
+echo "___________________"
+echo "Making directories"
 
