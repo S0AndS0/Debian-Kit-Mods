@@ -33,6 +33,11 @@ test results
 	note though that installing libc6-dev may kick you out of xrdp and ssh connections temperaraly wile it installs, but after a minuet or two everything will restart and you can reconect.
 	options 1 and 2 are still untested as I don't have hard float running right now and the other option is for Pi soft float.
 	for NoFlo enthusiest there is a final prompt to request permition to install noflo through npm.
+03142014 findNetworking_IPs can now be used to learn about scripting for bash. Spicificly setting complex variables, saving and renaming and sending files, soon there will be a Part 3 to this script for sending files to a remote device.
+	note this is to be viewed running in a terminal window and a text editing window so you can see everything that is happening and being referanced.
+	note also that this is a test of "Scripting Lessions for Linux" searies that I plan on putting togeather in the Examples directory so people that are new to Linux and/or running Linux on Android may quickly benofit from the years of testing/learning I've done. I plan to orginize these into fully functional and usefull scripts that step the user (you the reader) through what is going on step-by-step so that the commands are understood enough that you can feel comfortable with modifying/playing-around with the examples for your own uses.
+	Mainly this is because I only found one truely fantastic source of information on the main subject of this script but that was through the "way back" machien and though it was a good recource I believe this script will do a good job of introducing people to scripting for themself. And sometimes I too nead a refresher on what can be done with the command line on Linux and how much fun it can be when things just work :-D
+	
 ~~~~~~
 usage instructions
 ~~~~~~
@@ -64,6 +69,11 @@ for Key_Fixer
 	~~~~~
 	use this to fix any missing keys that maybe causing errors after manualy modifying apt-get's source list.
 	~~~~~
+for findNetworking_IPs
+	~~~~~
+	Read the prompts as they pop up and hit : y : to continue to the next part when done reading about the previous part.
+	Read the script in a text editer wile it is running to see how some of the things that are not discribed work.
+	Write your own script for your own perpiouses and enjoy.
 ~~~~~~
 
 modification instructions
