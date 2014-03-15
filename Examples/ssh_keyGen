@@ -1,4 +1,8 @@
 #!/bin/bash
+# running this script could compermize your security and data and device.
+# Use at your own risk and without any warenty inplied by auther.
+#
+# This script is desigened to make the process of setting up ssh keys between ARM Linux devices
 # see third party guides at following links
 # http://www.guyrutenberg.com/2007/10/05/ssh-keygen-tutorial-generating-rsa-and-dsa-keys/
 # see following link for more guidence with ssh-keygen and scp
@@ -6,9 +10,11 @@
 # and the following link for a quicky version
 # http://www.tecmint.com/ssh-passwordless-login-using-ssh-keygen-in-5-easy-steps/
 # Start of notes compiled from these sources and results of testing done by S0AndS0 with Linux running on Android devices.
+# Note some Android devices on some service providers alow networking over 3G or 4G which can be of use but really is a big security risk so know that I make no clames to how secure or insecure running this script will leave your system or devices or your data.
+# Use at your own risk and discression.
 # 
-# check version with : ssh -V
-# best practices sugest to never have root to root connections but instead to limit with a normal user that has been given sudo permissions.
+# check version with : ssh -V : which if ssh is installed will result in version information being displayed.
+# best practices sugest to never have root-to-root user connections but instead to limit with a normal user that has been given sudo permissions.
 # 
 # See example command and explenation of options used
 # ssh-keygen -b 4048 -t rsa -C "home machine"
@@ -18,7 +24,7 @@
 # option : -C : adds a comment at the end of public key that can be read by nearly any text editer.
 # option : -f : tell ssh-keygen where to save the file and what to name it.
 # press enter twice to not set password protection on keys being generated if you don't want to be prompted on every re-conect.
-# set a password of ten or more simirandom charictars if conserned about security, some sites will even sugest 16 or more charicters too.
+# set a password of ten or more simi-random charictars if conserned about security, some sites will even sugest 16 or more charicters too.
 # 
 # the following permission fixes should be applied to key file after it has been genorated to prevent openssh from complaining.
 # chmod go-w ~/
@@ -50,7 +56,11 @@
 # cat ~/id_rsa.pub >> ~/.ssh/authorized_keys
 # chmod 600 ~/.ssh/authorized_keys
 # rm ~/id_rsa.pub
-# 
+# in the above example commands : mkdir : is used to make a directory called : .ssh : which because of the leading pieriod is a hiden directory.
+# in the above example commands : chmod : is used to fix the permissions of the previously chreated directory.
+# in the above example commands : cat : is used to appened the data within : id_rsa.pub : that was sent with the previos example command repeated here : scp ~/.ssh/id_rsa.pub server.example.org : when we had to send the key from the local device to the remote device. Remember the dubble : >> : tells cat to appened to the file at the following path that was given : ~/.ssh/authorized_keys : on your remote device.
+# in the above example commands : chmod : is again but to fix the file : authorized_keys : that was just modifide.
+# in the above example commands : rm : is then used on the copy of : id_rsa.pub : from your remote device that was sent from your local device with previos : scp ~/.ssh/id_rsa.pub server.example.org : command to send it to the remote device. Because this file is no longer neaded because the data within is now within the : authorized_keys : file on your remote machien.
 # 
 # now so long as no errors have happened you should be able to run a modified form of the following example command to login to your remote device from your local device without the need of inputting a password, unless, you set a password on the keys themseves when first running : ssh-keygen : command at the buigening of this settup.
 # ssh sheena@192.168.1.2
