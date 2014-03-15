@@ -1,0 +1,75 @@
+#!/bin/bash
+echo "this script shows a searies of examples of how to take the output of : ifconfig : and save one of the addresses to a variable that can latter be used"
+echo "__________________"
+echo "setting variables"
+fIP_nameScript=findaddresses_IP
+# find and set inet addr address to variable
+IP_inet_addr=`/sbin/ifconfig | grep -E 'inet addr' | grep -v '127.0.0.1' | awk '{gsub("addr:",""); print $2}'`
+IP_Bcast_addr=`/sbin/ifconfig | grep -E 'Bcast' | grep -v '127.0.0.1' | awk '{gsub("Bcast:",""); print $3}'`
+IP_Mask_addr=`/sbin/ifconfig | grep -E 'Mask' | grep -v '127.0.0.1' | awk '{gsub("Mask:",""); print $4}'`
+IP_inet6_addr=`/sbin/ifconfig | grep -E 'inet6 addr' | grep -v '127.0.0.1' | grep -v '1/128' | awk '{gsub("addr:",""); print $2}'`
+echo "end of variable decleraition"
+echo "__________________"
+echo "reading out variables to user"
+echo "__________________"
+echo "Your - inet addr - IP is : $IP_inet_addr"
+echo "Your - Bcast - IP is : $IP_Bcast_addr"
+echo "Your - Mask - IP is : $IP_Mask_addr"
+echo "Your - inet6 addr - IP is : $IP_inet6_addr"
+echo "__________________"
+echo "end of variable read out"
+{ 
+# confirm with the user 
+read -r -p "Do you wish to continue with part 1 of example? [y/N] " response 
+case "$response" in 
+	[yY][eE][sS]|[yY]) 
+# if yes, then continue with example 
+		echo "starting lesson in 3...2..1." && sleep 5
+		;; 
+	*) 
+#		 Otherwise exit.. 
+	echo "Good Night" 
+	exit 
+	;; 
+esac
+} 
+clear 
+echo "__________________"
+echo "for example if we run : /sbin/ifconfig : or : sudo ifconfig : from the command line we should see..." && sleep 15
+ifconfig && sleep 15
+echo "which gives us all sorts of information about your devices networking addresses"
+echo "__________________"
+echo "So using a combination of other commandline programs and pipes we can nerrow down what resulting information is displaid or place it in a variable"
+echo "for example if we wanted only the IP of : inet addr : then we can use a pipe out to : grep : with the : -E : option to nerrow down the results to only things with : inet addr : in the same line"
+/sbin/ifconfig | grep -E 'inet addr'
+echo "which gets us closer but there are still multiple entries and extra charicters."
+echo "so we use another pipe and another : grep : command, this time with a : -V : option, to remove lines with : 127.0.0.1 : in the same line."
+/sbin/ifconfig | grep -E 'inet addr' | grep -v '127.0.0.1' 
+echo "giving us an even more nerrowed down list of results."
+echo "So lets pipe the results so far to : awk : and only print the second by using : print \$2 : within curly braces sorounded by single quotes"
+/sbin/ifconfig | grep -E 'inet addr' | grep -v '127.0.0.1' | awk '{ print $2}'
+echo "Now we have almost got just the numbers of : inet addr : out of all the information that : ifconfig : can provide. All that is left to remove is the : addr: : bit at the beguining of the line."
+echo "And to do that we need to add some modifierers to the : awk ... print : portion of this rather complicated one liner. Adding within the curly brackets : gsub\(\"addr:\",\"\"\)\; : just before the : print command should do the trick"
+/sbin/ifconfig | grep -E 'inet addr' | grep -v '127.0.0.1' | awk '{gsub("addr:",""); print $2}'
+echo "Great, so now we have the IP and can print it out, but, to save it to a variable we will have to encapsilate the entire line with : \` : found just under the escape key and to the left of most quarty keyboards."
+echo "View $fIP_nameScript script with any text editer and you will find examples of this charicter being used for \$IP_inet_addr and \$IP_Mask_addr and so on, this special charicter is used to keep everything bound up till the variable is called"
+echo "__________________"
+{ 
+# confirm with the user 
+read -r -p "Do you wish to continue with part 2 of example? [y/N] " response 
+case "$response" in 
+	[yY][eE][sS]|[yY]) 
+# if yes, then continue with example 
+		echo "starting lesson in 3...2..1." && sleep 5
+		;; 
+	*) 
+#		 Otherwise exit.. 
+	echo "Good Night" 
+	exit 
+	;; 
+esac
+} 
+
+echo "__________________"
+echo "end of example script"
+echo exit
