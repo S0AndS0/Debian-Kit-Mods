@@ -2,12 +2,19 @@
 echo "this script shows a searies of examples of how to take the output of : ifconfig : and save one of the addresses to a variable that can latter be used"
 echo "__________________"
 echo "setting variables"
-fIP_nameScript=findaddresses_IP
-# find and set inet addr address to variable
+fIP_nameScript=findNetworking_IPs
+echo "finding and setting : inet addr : and : Bcast : and : Mask : addresses to thier own variables"
 IP_inet_addr=`/sbin/ifconfig | grep -E 'inet addr' | grep -v '127.0.0.1' | awk '{gsub("addr:",""); print $2}'`
 IP_Bcast_addr=`/sbin/ifconfig | grep -E 'Bcast' | grep -v '127.0.0.1' | awk '{gsub("Bcast:",""); print $3}'`
 IP_Mask_addr=`/sbin/ifconfig | grep -E 'Mask' | grep -v '127.0.0.1' | awk '{gsub("Mask:",""); print $4}'`
 IP_inet6_addr=`/sbin/ifconfig | grep -E 'inet6 addr' | grep -v '127.0.0.1' | grep -v '1/128' | awk '{gsub("addr:",""); print $2}'`
+echo "setting : user : and : home : paths to thier own variables"
+ : ${USER?} ${HOME?} 
+echo "setting a file path starting with your : $HOME : directory to save files to"
+fIP_savePath=$HOME/ARM_Mod/$fIP_nameScript
+echo "setting the the date to a variable and the time to another"
+todays_Date=$(date +"%m-%d-%Y")
+todays_Time=$(date +"%H%M")
 echo "end of variable decleraition"
 echo "__________________"
 echo "reading out variables to user"
@@ -16,6 +23,8 @@ echo "Your - inet addr - IP is : $IP_inet_addr"
 echo "Your - Bcast - IP is : $IP_Bcast_addr"
 echo "Your - Mask - IP is : $IP_Mask_addr"
 echo "Your - inet6 addr - IP is : $IP_inet6_addr"
+echo "the user name is : $USER : and the path to your home directory is : $HOME"
+echo "the file path that will be created and used in part 2 to save files to will be : $fIP_savePath"
 echo "__________________"
 echo "end of variable read out"
 { 
@@ -24,7 +33,7 @@ read -r -p "Do you wish to continue with part 1 of example? [y/N] " response
 case "$response" in 
 	[yY][eE][sS]|[yY]) 
 # if yes, then continue with example 
-		echo "starting lesson in 3...2..1." && sleep 5
+		echo "Clearing screen and starting part 1 of lesson in 3...2..1." && sleep 5
 		;; 
 	*) 
 #		 Otherwise exit.. 
@@ -34,7 +43,7 @@ case "$response" in
 esac
 } 
 clear 
-echo "__________________"
+echo "__________________Part_1__________________"
 echo "for example if we run : /sbin/ifconfig : or : sudo ifconfig : from the command line we should see..." && sleep 15
 ifconfig && sleep 15
 echo "which gives us all sorts of information about your devices networking addresses"
@@ -60,7 +69,7 @@ read -r -p "Do you wish to continue with part 2 of example? [y/N] " response
 case "$response" in 
 	[yY][eE][sS]|[yY]) 
 # if yes, then continue with example 
-		echo "starting lesson in 3...2..1." && sleep 5
+		echo "Clearing screen and starting part 2 of lesson in 3...2..1." && sleep 5
 		;; 
 	*) 
 #		 Otherwise exit.. 
@@ -69,6 +78,28 @@ case "$response" in
 	;; 
 esac
 } 
+clear 
+echo "__________________Part_2__________________"
+echo "So : Part 1 : of $fIP_nameScript shows us how to get a spicific block of data from a much larger block of data and print it or save the whole list of commands required to a much shorter variable"
+echo "In : Part 2 : we are going to use these variables to write this information to a few new files at the following directory : $fIP_savePath : which if you remember we set a variable to shorten it called : \$fIP_savePath"
+echo "__________________"
+echo "Making a directory path with : mkdir : and with : -p : option to tell mkdir to make the directories if any are missing"
+mkdir -p $fIP_savePath/saved
+echo "Now using : cat : and only one : > : this time because this will overwrite the data contained and that serves the function of updating the file if $fIP_nameScript is re-run. Furthermore in this example we will be using the : \EOF : command, note at the end that it has an entire line dedicated to it and this is required if you want the file to be writen out corectly"
+cat > $fIP_savePath/saved/inet_addr.txt <<EOF
+$IP_inet_addr
+EOF
+echo "Now that we have your inet address saved to : $fIP_savePath : we can read it/'s contence with another program or script with a : cat : or : echo : commands or re-named/moved with the : mv : command or even sent to another device with the : scp : command"
+echo "So lets do some of that, but first lets list the contence of the : $fIP_savePath : with the : ls : command which should show a file named : inet_addr.txt : and not much else"
+ls $fIP_savePath
+echo "Using : echo : with a less than sign : < : now to read the contence of : inet_addr.txt : file saved under : $fIP_savePath : and echo it to the command line which should match : $IP_inet_addr"
+echo < $fIP_savePath/saved/inet_addr.txt
+echo "That was fun. Let\'s make a new directory using the : \$fIP_savePath : variable for shairing these tipes of files and another directory for recieving them"
+mkdir -p $fIP_savePath/sending
+mkdir -p $fIP_savePath/reciving
+echo "Now let\'s move the : inet_addr.txt : and re-name it with the : mv : command to : inet_$IP_inet_addr_time_"
+
+# scp ~/.ssh/id_rsa.pub server.example.org
 
 echo "__________________"
 echo "end of example script"
