@@ -8,6 +8,7 @@ IP_inet_addr=`/sbin/ifconfig | grep -E 'inet addr' | grep -v '127.0.0.1' | awk '
 IP_Bcast_addr=`/sbin/ifconfig | grep -E 'Bcast' | grep -v '127.0.0.1' | awk '{gsub("Bcast:",""); print $3}'`
 IP_Mask_addr=`/sbin/ifconfig | grep -E 'Mask' | grep -v '127.0.0.1' | awk '{gsub("Mask:",""); print $4}'`
 IP_inet6_addr=`/sbin/ifconfig | grep -E 'inet6 addr' | grep -v '127.0.0.1' | grep -v '1/128' | awk '{gsub("addr:",""); print $2}'`
+IP_local=`/sbin/ifconfig | grep -E 'inet addr' | grep -E '127.0.0.1' | awk '{gsub("addr:",""); print $2}'`
 echo "setting : user : and : home : paths to thier own variables"
  : ${USER?} ${HOME?} 
 echo "setting a file path starting with your : $HOME : directory to save files to"
@@ -23,6 +24,7 @@ echo "Your - inet addr - IP is : $IP_inet_addr"
 echo "Your - Bcast - IP is : $IP_Bcast_addr"
 echo "Your - Mask - IP is : $IP_Mask_addr"
 echo "Your - inet6 addr - IP is : $IP_inet6_addr"
+echo "Your - local IP - is : $IP_local"
 echo "the user name is : $USER : and the path to your home directory is : $HOME"
 echo "the file path that will be created and used in part 2 to save files to will be : $fIP_savePath"
 echo "__________________"
@@ -44,32 +46,32 @@ esac
 } 
 clear 
 echo "Start__________________Part_1__________________Start"
-echo "for example if we run : /sbin/ifconfig : or : sudo ifconfig : from the command line we should see..." && sleep 15
-ifconfig && sleep 15
+echo "for example if we run : /sbin/ifconfig : or : sudo ifconfig : from the command line we should see..." && sleep 5
+sudo ifconfig
 echo "which gives us all sorts of information about your devices networking addresses"
-echo "__________________"
+echo "__________________" && sleep 5
 echo "So using a combination of other commandline programs and pipes we can nerrow down what resulting information is displaid or place it in a variable"
-echo "for example if we wanted only the IP of : inet addr : then we can use a pipe out to : grep : with the : -E : option to nerrow down the results to only things with : inet addr : in the same line"
+echo "for example if we wanted only the IP of : inet addr : then we can use a pipe out to : grep : with the : -E : option to nerrow down the results to only things with : inet addr : in the same line" && sleep 5
 /sbin/ifconfig | grep -E 'inet addr'
-echo "which gets us closer but there are still multiple entries and extra charicters."
-echo "so we use another pipe and another : grep : command, this time with a : -V : option, to remove lines with : 127.0.0.1 : in the same line."
+echo "which gets us closer but there are still multiple entries and extra charicters." 
+echo "so we use another pipe and another : grep : command, this time with a : -V : option, to remove lines with : 127.0.0.1 : in the same line." && sleep 10
 /sbin/ifconfig | grep -E 'inet addr' | grep -v '127.0.0.1' 
 echo "giving us an even more nerrowed down list of results."
-echo "So lets pipe the results so far to : awk : and only print the second by using : print \$2 : within curly braces sorounded by single quotes"
+echo "So lets pipe the results so far to : awk : and only print the second by using : print \$2 : within curly braces sorounded by single quotes" && sleep 5
 /sbin/ifconfig | grep -E 'inet addr' | grep -v '127.0.0.1' | awk '{ print $2}'
 echo "Now we have almost got just the numbers of : inet addr : out of all the information that : ifconfig : can provide. All that is left to remove is the : addr: : bit at the beguining of the line."
-echo "And to do that we need to add some modifierers to the : awk ... print : portion of this rather complicated one liner. Adding within the curly brackets : gsub\(\"addr:\",\"\"\)\; : just before the : print command should do the trick"
+echo "And to do that we need to add some modifierers to the : awk ... print : portion of this rather complicated one liner. Adding within the curly brackets : gsub\(\"addr:\",\"\"\)\; : just before the : print command should do the trick" && sleep 5
 /sbin/ifconfig | grep -E 'inet addr' | grep -v '127.0.0.1' | awk '{gsub("addr:",""); print $2}'
-echo "Great, so now we have the IP and can print it out, but, to save it to a variable we will have to encapsilate the entire line with : \` : found just under the escape key and to the left of most quarty keyboards."
+echo "Great, so now we have the IP and can print it out, but, to save it to a variable we will have to encapsilate the entire line with : backtick : found just under the escape key and to the left of most quarty keyboards."
 echo "View $fIP_nameScript script with any text editer and you will find examples of this charicter being used for \$IP_inet_addr and \$IP_Mask_addr and so on, this special charicter is used to keep everything bound up till the variable is called"
-echo "End__________________Part_1__________________End"
+echo "End__________________Part_1__________________End" && sleep 10
 { 
 # confirm with the user 
 read -r -p "Do you wish to continue with part 2 of example? [y/N] " response 
 case "$response" in 
 	[yY][eE][sS]|[yY]) 
 # if yes, then continue with example 
-		echo "Clearing screen and starting part 2 of lesson in 3...2..1." && sleep 5
+		echo "Clearing screen and starting part 2 of lesson in 3...2..1." && sleep 3
 		;; 
 	*) 
 #		 Otherwise exit.. 
@@ -81,30 +83,31 @@ esac
 clear 
 echo "Start__________________Part_2__________________Start"
 echo "So : Part 1 : of $fIP_nameScript shows us how to get a spicific block of data from a much larger block of data and print it or save the whole list of commands required to a much shorter variable"
-echo "In : Part 2 : we are going to use these variables to write this information to a few new files at the following directory : $fIP_savePath : which if you remember we set a variable to shorten it called : \$fIP_savePath"
+echo "In : Part 2 : we are going to use these variables to write this information to a few new files at the following directory : $fIP_savePath : which if you remember we set a variable to shorten it called : \$fIP_savePath" && sleep 5
 echo "__________________"
 echo "Making a directory path with : mkdir : and with : -p : option to tell mkdir to make the directories if any are missing"
 mkdir -p $fIP_savePath/saved
-echo "Now using : cat : and only one : > : this time because this will overwrite the data contained and that serves the function of updating the file if $fIP_nameScript is re-run. Furthermore in this example we will be using the : \EOF : command, note at the end that it has an entire line dedicated to it and this is required if you want the file to be writen out corectly"
-cat > $fIP_savePath/saved/inet_addr.txt <<EOF
-$IP_inet_addr
+echo "Now using : cat : and only one : greater than sign : this time because this will overwrite the data contained and that serves the function of updating the file if $fIP_nameScript is re-run. Furthermore in this example we will be using the : EndOfFile : command, note at the end that it has an entire line dedicated to it and this is required if you want the file to be writen out corectly" && sleep 10
+cat > $fIP_savePath/saved/local_addr.txt <<EOF
+$IP_local
 EOF
-echo "Now that we have your inet address saved to : $fIP_savePath : we can read it/'s contence with another program or script with a : cat : or : echo : commands or re-named/moved with the : mv : command or even sent to another device with the : ssh : command"
-echo "So lets do some of that, but first lets list the contence of the : $fIP_savePath : with the : ls : command which should show a file named : inet_addr.txt : and not much else"
+echo "Now that we have your IP address saved to : $fIP_savePath : we can read it/'s contence with another program or script with a : cat : or : echo : commands or re-named/moved with the : mv : command or even sent to another device with the : ssh : or : scp : commands"
+echo "So lets do some of that, but first lets list the contence of the : $fIP_savePath : with the : ls : command which should show a file named : local_addr.txt : and not much else" && sleep 5
 ls $fIP_savePath
 echo "__________________" && sleep 5
-echo "Using : echo : with a less than sign : < : now to read the contence of : inet_addr.txt : file saved under : $fIP_savePath : and echo it to the command line which should match : $IP_inet_addr"
-echo < "$fIP_savePath/saved/inet_addr.txt"
-echo "That was fun. Let\'s make a new directory using the : \$fIP_savePath : variable for shairing these tipes of files and another directory for recieving them"
+echo "Using : echo : with a : less than sign : now to read the contence of : local_addr.txt : file saved under : $fIP_savePath : and echo it to the command line which should match : $IP_local"
+echo < "$fIP_savePath/saved/local_addr.txt"
+echo "That was fun. Lets make a new directory using the : \$fIP_savePath : variable for shairing these tipes of files and another directory for recieving them" && sleep 5
 mkdir -p $fIP_savePath/sending
 mkdir -p $fIP_savePath/reciving
-echo "Now let\'s move the : inet_addr.txt : and re-name it with the : mv : command to and the two date/time variables we set at the beguining : inet_$IP_inet_addr_date\$todays_Date_time_\$todays_Time : which will look like : inet_$IP_inet_addr_date$todays_Date_time_$todays_Time : when the variables are processed"
-mv $fIP_savePath/saved/inet_addr.txt $fIP_savePath/sending/inet_$IP_inet_addr_date$todays_Date_time_$todays_Time
-echo "Now we should send this file to the machien with : ssh : but it has been re-named with date and time variables and if we use those varieables in a file path to the file we run the risk that the time or date has changed. So we will use the : find : command to search for a partial file name within the : sending : directory and heck lets put that find command into a varable so its output can be used for the : ssh : command too come latter."
-findIn_savedPath=`find $fIP_savePath/sending -type f -iname 'inet_*' -print0 | xargs -0`
-echo "so in the example : ssh ~/.ssh/id_rsa.pub $USER@$IP_inet_addr : we will use cat and a pipe to read the contence of the file under the : sending : directory and : \$fIP_savePath/sending/\$findIn_savedPath : which looks like : $fIP_savePath/sending/$findIn_savedPath : when the variables are processed for the : ~/.ssh/id_rsa.pub : portion and for the : \$USER@\$IP_inet_addr : we will use a combo of your user name variable and IP : $USER@$IP_inet_addr : which should ask you for your password and then wriet out what cat read to your : $fIP_savePath/reciving : drectory and under a new name : inet_addr_Recieved."
-cat $findIn_savedPath | ssh $USER@$IP_inet_addr 'cat >> $fIP_savePath/reciving/inet_addr_Recieved'
-echo "End__________________Part_2__________________End"
+echo "Now lets move the : local_addr.txt : and re-name it with the : mv : command and the two date/time variables we set at the beguining : local_\$IP_local_date\$todays_Date_time_\$todays_Time : which will look like : local_$IP_local_date$todays_Date_time_$todays_Time : when the variables are processed" && sleep 3
+mv $fIP_savePath/saved/local_addr.txt $fIP_savePath/sending/local_$IP_local_date$todays_Date_time_$todays_Time
+echo "Now we should send this file to the machien with : ssh : but it has been re-named with date and time variables and if we use those varieables in a file path to the file we run the risk that the time or date has changed. So we will use the : find : command to search for a partial file name within the : sending : directory and heck lets put that find command into a varable so its output can be used for the : ssh : command too come latter." && sleep 2
+findIn_savedPath=`find $fIP_savePath/sending -type f -iname 'local_*' -print0 | xargs -0`
+echo "so in the example : ssh ~/.ssh/id_rsa.pub $USER@$IP_inet_addr : we will use cat and a pipe to read the contence of the file under the : sending : directory and : \$fIP_savePath/sending/\$findIn_savedPath : which looks like : $fIP_savePath/sending/$findIn_savedPath : when the variables are processed for the : ~/.ssh/id_rsa.pub : portion and for the : \$USER@\$IP_inet_addr : we will use a combo of your user name variable and IP : $USER@$IP_local : which should ask you for your password and then wriet out what cat read to your : $fIP_savePath/reciving : drectory and under a new name : local_addr_Recieved." && sleep 4
+cat $findIn_savedPath | ssh $USER@$IP_local 'cat >> $fIP_savePath/reciving/local_addr_Recieved'
+echo "You may be wondering, why send files to the same machien, or how this might be usefull. Well if you are running Linux on top of Android like I am and this set up on both sides gives you the building blocks to send data or even commands from Android OS to Linux OS or the other way around easiely. Note though that the : scp : command is better suited to send files back and forth without the nead of a : cat : or simular command to write the file to the other device and some of the commands like : ifconfig : wont work on the Android side so we will have to learn that latter."
+echo "End__________________Part_2__________________End" && sleep 10
 
 echo "__________________"
 echo "end of example script"
