@@ -6,7 +6,9 @@ These scripts should work for any armel Linux distrobution based on debian.
 
 These scripts where written under the following usernames"
 S0AndS0
-	XDA and Maptools
+	XDA and Maptools forums
+	http://forum.xda-developers.com/showthread.php?t=2240397
+	http://forums.rptools.net/viewtopic.php?f=12&t=24082&start=0
 Michael NA
 	 Google
 To automate and make easy the processes of installing Java from source or tarball and Java dependent software.
