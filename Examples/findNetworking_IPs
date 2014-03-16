@@ -152,6 +152,13 @@ echo "__________________" && sleep 10
 # scp user@remotehost:/usr/backup/oracle_backup.dat /target_localDir/backup/remote_oracle_backup.dat
 # copy from one remote to an other remote
 # scp source_user@source_remote_host:/usr/bin/mysql_backup.sh target_user@target_remote_host:/var/tmp/
+# find the ip of a given server
+# ip=$(ping -c 1 www.google.com | gawk -F'[()]' '/PING/{print $2}')
+# echo $ip
+# example of netstat
+# netstat -alt
+# complex netstat command example
+# netstat -tn | awk '{print $5}' | egrep -v '(localhost|\*\:\*|Address|and|servers|fff|127\.0\.0)' 
 echo "__________________"
 echo "end of example script"
 echo exit
