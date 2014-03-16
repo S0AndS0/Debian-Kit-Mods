@@ -1,5 +1,5 @@
 #!/bin/bash
-echo "this script shows a searies of examples of how to take the output of : ifconfig : and save one of the addresses to a variable that can latter be used"
+echo "This script shows a searies of examples of how to take the output of : ifconfig : and save one of the addresses to a variable that can latter be used"
 echo "__________________"
 echo "setting variables"
 fIP_nameScript=findNetworking_IPs
@@ -14,7 +14,7 @@ echo "setting : user : and : home : paths to thier own variables"
 echo "setting a file path starting with your : $HOME : directory to save files to"
 fIP_savePath=$HOME/ARM_Mod/$fIP_nameScript
 echo "setting the the date to a variable and the time to another"
-todays_Date=$(date +"%m-%d-%Y")
+todays_Date=$(date +"%m%d%Y")
 todays_Time=$(date +"%H%M")
 echo "end of variable decleraition"
 echo "__________________"
@@ -105,9 +105,44 @@ mv $fIP_savePath/saved/local_addr.txt $fIP_savePath/sending/local_$IP_local_date
 echo "Now we should send this file to the machien with : ssh : but it has been re-named with date and time variables and if we use those varieables in a file path to the file we run the risk that the time or date has changed. So we will use the : find : command to search for a partial file name within the : sending : directory and heck lets put that find command into a varable so its output can be used for the : ssh : command too come latter." && sleep 2
 findIn_savedPath=`find $fIP_savePath/sending -type f -iname 'local_*' -print0 | xargs -0`
 echo "so in the example : ssh ~/.ssh/id_rsa.pub $USER@$IP_inet_addr : we will use cat and a pipe to read the contence of the file under the : sending : directory and : \$fIP_savePath/sending/\$findIn_savedPath : which looks like : $fIP_savePath/sending/$findIn_savedPath : when the variables are processed for the : ~/.ssh/id_rsa.pub : portion and for the : \$USER@\$IP_inet_addr : we will use a combo of your user name variable and IP : $USER@$IP_local : which should ask you for your password and then wriet out what cat read to your : $fIP_savePath/reciving : drectory and under a new name : local_addr_Recieved." && sleep 4
-cat $findIn_savedPath | ssh $USER@$IP_local 'cat >> $fIP_savePath/reciving/local_addr_Recieved'
+cat < $findIn_savedPath | ssh $USER@$IP_local 'cat >> $fIP_savePath/reciving/local_addr_Recieved'
 echo "You may be wondering, why send files to the same machien, or how this might be usefull. Well if you are running Linux on top of Android like I am and this set up on both sides gives you the building blocks to send data or even commands from Android OS to Linux OS or the other way around easiely. Note though that the : scp : command is better suited to send files back and forth without the nead of a : cat : or simular command to write the file to the other device and some of the commands like : ifconfig : wont work on the Android side so we will have to learn that latter."
 echo "End__________________Part_2__________________End" && sleep 10
+{ 
+# confirm with the user 
+read -r -p "Do you wish to continue with part 3 of example? [y/N] " response 
+case "$response" in 
+	[yY][eE][sS]|[yY]) 
+# if yes, then continue with example 
+		echo "Clearing screen and starting part 3 of lesson in 3...2..1." && sleep 3
+		;; 
+	*) 
+#		 Otherwise exit.. 
+	echo "Good Night" 
+	exit 
+	;; 
+esac
+} 
+clear 
+echo "Start__________________Part_3__________________Start"
+echo "To recap the variables set so far in parts 1 and 2 of $fIP_nameScript"
+echo "__________________"
+echo "Your - inet addr - IP is : $IP_inet_addr"
+echo "Your - Bcast - IP is : $IP_Bcast_addr"
+echo "Your - Mask - IP is : $IP_Mask_addr"
+echo "Your - inet6 addr - IP is : $IP_inet6_addr"
+echo "Your - local IP - is : $IP_local"
+echo "Your user name is : $USER : and the path to your home directory is : $HOME"
+echo "The file path that used for saving files to will be : $fIP_savePath"
+echo "To days date is : $todays_Date"
+echo "The time is : $todays_Time"
+echo "And the find variable should still display : local_addr.txt : when actually called : $findIn_savedPath"
+echo "__________________"
+echo "We should have a file in : $fIP_savePath/sending : called something similar to : local_$IP_local_date$todays_Date_time_$todays_Time"
+ls $fIP_savePath/sending
+echo "We should have a file in : $fIP_savePath/reciving : called something similar to : local_$IP_local_date$todays_Date_time_$todays_Time"
+ls $fIP_savePath/reciving
+echo "__________________" && sleep 10
 
 echo "__________________"
 echo "end of example script"
