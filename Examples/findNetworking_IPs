@@ -144,6 +144,14 @@ echo "We should have a file in : $fIP_savePath/reciving : called something simil
 ls $fIP_savePath/reciving
 echo "__________________" && sleep 10
 
+# full syntax
+# scp [Options] [[User@]From_Host:]Source_File [[User@]To_Host:][Destination_File]
+# copy from local to remote
+# scp filename user@remotehost:/remote/directory/
+# copy from remote to local and re-name
+# scp user@remotehost:/usr/backup/oracle_backup.dat /target_localDir/backup/remote_oracle_backup.dat
+# copy from one remote to an other remote
+# scp source_user@source_remote_host:/usr/bin/mysql_backup.sh target_user@target_remote_host:/var/tmp/
 echo "__________________"
 echo "end of example script"
 echo exit
