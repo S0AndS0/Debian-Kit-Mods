@@ -199,5 +199,7 @@ http://bash.cyberciti.biz/misc-shell/read-local-ip-address/
 for findNetworking_IPs script in Examples directory
 for date and time stamp and setting to variables
 http://www.cyberciti.biz/faq/linux-unix-formatting-dates-for-display/
+for scp examples
+http://www.folkstalk.com/2012/07/scp-command-examples-linux-unix.html
 
 ~~~~~~
