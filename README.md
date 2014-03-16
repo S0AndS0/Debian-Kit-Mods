@@ -201,5 +201,11 @@ for date and time stamp and setting to variables
 http://www.cyberciti.biz/faq/linux-unix-formatting-dates-for-display/
 for scp examples
 http://www.folkstalk.com/2012/07/scp-command-examples-linux-unix.html
+for finding the ip of a remote server
+http://superuser.com/questions/602674/ping-server-domain-and-capture-its-ip-on-linux
+for finding ip's in a range on the same network
+http://stackoverflow.com/questions/733418/how-can-i-write-a-linux-bash-script-that-tells-me-which-computer-are-on-in-my-la
+for complex netstat command
+http://www.commandlinefu.com/commands/view/12407/netstat-list-out-remote-ips-connected-to-server-only
 
 ~~~~~~
