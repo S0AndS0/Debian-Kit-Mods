@@ -207,5 +207,11 @@ for finding ip's in a range on the same network
 http://stackoverflow.com/questions/733418/how-can-i-write-a-linux-bash-script-that-tells-me-which-computer-are-on-in-my-la
 for complex netstat command
 http://www.commandlinefu.com/commands/view/12407/netstat-list-out-remote-ips-connected-to-server-only
+for getting some understanding of what netstat outputs
+http://stackoverflow.com/questions/20882/how-do-i-interpret-netstat-a-output
+and a lingthy guide to netstat
+http://www.dti.ulaval.ca/webdav/site/sit/shared/Librairie/di/operations/informatique/windows/netstat_results.htm
+for trimming strings
+http://www.shellhacks.com/en/Removing-First-and-Last-Characters-From-Strings-in-Bash
 
 ~~~~~~
