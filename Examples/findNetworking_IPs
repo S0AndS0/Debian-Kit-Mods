@@ -144,6 +144,16 @@ echo "We should have a file in : $fIP_savePath/reciving : called something simil
 ls $fIP_savePath/reciving
 echo "__________________" && sleep 10
 
+# find the IP of your router or hotspot
+# sudo route -n | grep -E 'UG' | awk '{ print $2}'
+# find the name of router if any
+# sudo route | grep -E 'UG' | awk '{ print $2}'
+# or if you prefer there is : netstat -r : which doesn't require sudo
+# find the IP of your router or hotspot with : netstat -r
+# netstat -rn | grep -E 'UG' | awk '{ print $2}'
+# remove charicter from end of string
+# rev file | cut -c 2- | rev
+
 # full syntax
 # scp [Options] [[User@]From_Host:]Source_File [[User@]To_Host:][Destination_File]
 # copy from local to remote
@@ -159,6 +169,11 @@ echo "__________________" && sleep 10
 # netstat -alt
 # complex netstat command example
 # netstat -tn | awk '{print $5}' | egrep -v '(localhost|\*\:\*|Address|and|servers|fff|127\.0\.0)' 
+# list ips that are connected to you
+# sudo arp -a
+# ping a range of ips
+# for i in {1..254} ;do (ping 192.168.1.$i -c 1 -w 5 >/dev/null && echo "192.168.1.$i" &) ;done
+
 echo "__________________"
 echo "end of example script"
 echo exit
