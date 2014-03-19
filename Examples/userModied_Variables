@@ -29,7 +29,7 @@ then
 		echo exit 
 		exit  
 # do something
-	else [ $response = * ] then 
+	elif [ $response = * ] then 
 #	 if anything else then exit 
 		echo "exiting now"
 		echo exit 

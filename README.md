@@ -213,5 +213,7 @@ and a lingthy guide to netstat
 http://www.dti.ulaval.ca/webdav/site/sit/shared/Librairie/di/operations/informatique/windows/netstat_results.htm
 for trimming strings
 http://www.shellhacks.com/en/Removing-First-and-Last-Characters-From-Strings-in-Bash
+for more trimming string expmples
+http://stackoverflow.com/questions/3323809/unix-shell-scripting-trim-last-3-characters-of-a-line-without-using-sed-or-pe
 
 ~~~~~~
