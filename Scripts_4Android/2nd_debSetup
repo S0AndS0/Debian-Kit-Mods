@@ -1,0 +1,37 @@
+#!/bin/sh
+# set variables
+curentDate=$(date +"%m%d%Y")
+curentTime=$(date +"%H%M")
+pathTo_bin=${ANDROID_DATA:-/data}/local/deb
+pathTo_mnt=${ANDROID_DATA:-/data}/local/mnt
+pathTo_SDcard=${EXTERNAL_STORAGE:-/sdcard}/
+
+# end variables
+# read out variables
+echo "\$curentDate for android is: $curentDate"
+echo "\$curentTime for android is: $curentTime"
+echo "\$pathTo_bin for android is: $pathTo_bin"
+echo "\$pathTo_mnt for android is: $pathTo_mnt"
+echo "\$pathTo_SDcard for android is: $pathTo_SDcard"
+
+# prompt to continue
+echo "This script should be run on your Android terminal emulator"
+echo "and not under the Linux terminal."
+echo "This script will handle the syncing of your Android and Linux clocks"
+echo "and install : andromize, andromize-lxde, openssh-server"
+{ 
+# confirm with the user 
+read -rp "Do you wish to continue with with setup script? [y/N] " response 
+case "$response" in 
+	[yY][eE][sS]|[yY]) 
+# if yes, then continue with example 
+echo "starting setup"
+		;; 
+	*) 
+#		 Otherwise exit.. 
+	echo "Good Night" 
+	exit 
+	;; 
+esac
+} 
+
