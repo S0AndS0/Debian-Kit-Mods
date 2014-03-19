@@ -19,19 +19,31 @@ echo "This script should be run on your Android terminal emulator"
 echo "and not under the Linux terminal."
 echo "This script will handle the syncing of your Android and Linux clocks"
 echo "and install : andromize, andromize-lxde, openssh-server"
-{ 
-# confirm with the user 
-read -rp "Do you wish to continue with with setup script? [y/N] " response 
-case "$response" in 
-	[yY][eE][sS]|[yY]) 
-# if yes, then continue with example 
-echo "starting setup"
-		;; 
-	*) 
-#		 Otherwise exit.. 
-	echo "Good Night" 
-	exit 
-	;; 
-esac
-} 
+read -r "Which one thing would you like to do? " response
+	if [ $response = 1 ] 
+then 
+# do something
+	exampleVar=/home/test2
+	echo "\$exampleVar curently is : $exampleVar"
+	elif [ $response = 2 ] 
+then 
+# do something
+	exampleVar=/home/test3
+	echo "\$exampleVar curently is : $exampleVar"
+	elif [ $response = 3 ] 
+then 
+# do something
+	exampleVar=/home/test4
+	echo "\$exampleVar curently is : $exampleVar"
+	elif [ $response = 0 ] then
+		echo "exiting now"
+		echo exit 
+		exit  
+# do something
+	elif [ $response = * ] then 
+#	 if anything else then exit 
+		echo "exiting now"
+		echo exit 
+		exit 
+	fi
 
