@@ -103,18 +103,18 @@ mkdir -p $fIP_savePath/reciving
 echo "Now lets move the : local_addr.txt : and re-name it with the : mv : command and the two date/time variables we set at the beguining : local_\$IP_local_date\$todays_Date_time_\$todays_Time : which will look like : local_$IP_local_date$todays_Date_time_$todays_Time : when the variables are processed" && sleep 3
 mv $fIP_savePath/saved/local_addr.txt $fIP_savePath/sending/local_$IP_local_date$todays_Date_time_$todays_Time
 echo "Now we should send this file to the machien with : ssh : but it has been re-named with date and time variables and if we use those varieables in a file path to the file we run the risk that the time or date has changed. So we will use the : find : command to search for a partial file name within the : sending : directory and heck lets put that find command into a varable so its output can be used for the : ssh : command too come latter." && sleep 2
-findIn_savedPath=`find $fIP_savePath/sending -type f -iname 'local_*' -print0 | xargs -0`
+findIn_savedPath_local=`find $fIP_savePath/sending -type f -iname 'local_*' -print0 | xargs -0`
 echo "so in the example : ssh ~/.ssh/id_rsa.pub $USER@$IP_inet_addr : we will use cat and a pipe to read the contence of the file under the : sending : directory and : \$fIP_savePath/sending/\$findIn_savedPath : which looks like : $fIP_savePath/sending/$findIn_savedPath : when the variables are processed for the : ~/.ssh/id_rsa.pub : portion and for the : \$USER@\$IP_inet_addr : we will use a combo of your user name variable and IP : $USER@$IP_local : which should ask you for your password and then wriet out what cat read to your : $fIP_savePath/reciving : drectory and under a new name : local_addr_Recieved." && sleep 4
-cat < $findIn_savedPath | ssh $USER@$IP_local 'cat >> $fIP_savePath/reciving/local_addr_Recieved'
+cat < $fIP_savePath/sending/$findIn_savedPath_local | ssh $USER@$IP_local 'cat >> $fIP_savePath/reciving/local_addr_Recieved'
 echo "You may be wondering, why send files to the same machien, or how this might be usefull. Well if you are running Linux on top of Android like I am and this set up on both sides gives you the building blocks to send data or even commands from Android OS to Linux OS or the other way around easiely. Note though that the : scp : command is better suited to send files back and forth without the nead of a : cat : or simular command to write the file to the other device and some of the commands like : ifconfig : wont work on the Android side so we will have to learn that latter."
 echo "End__________________Part_2__________________End" && sleep 10
 { 
 # confirm with the user 
-read -r -p "Do you wish to continue with part 3 of example? [y/N] " response 
+read -r -p "Do you wish to continue with part 3 of $fIP_nameScript? [y/N] " response 
 case "$response" in 
 	[yY][eE][sS]|[yY]) 
 # if yes, then continue with example 
-		echo "Clearing screen and starting part 3 of lesson in 3...2..1." && sleep 3
+		echo "Clearing screen and starting part 3 of $fIP_nameScript in 3...2..1." && sleep 3
 		;; 
 	*) 
 #		 Otherwise exit.. 
@@ -136,13 +136,63 @@ echo "Your user name is : $USER : and the path to your home directory is : $HOME
 echo "The file path that used for saving files to will be : $fIP_savePath"
 echo "To days date is : $todays_Date"
 echo "The time is : $todays_Time"
-echo "And the find variable should still display : local_addr.txt : when actually called : $findIn_savedPath"
+echo "And the find variable should still display : local_addr.txt : when actually called : $findIn_savedPath_local"
 echo "__________________"
 echo "We should have a file in : $fIP_savePath/sending : called something similar to : local_$IP_local_date$todays_Date_time_$todays_Time"
 ls $fIP_savePath/sending
 echo "We should have a file in : $fIP_savePath/reciving : called something similar to : local_$IP_local_date$todays_Date_time_$todays_Time"
 ls $fIP_savePath/reciving
+echo "But what about the other devices that maybe connected to the same network?"
+echo "Looks like : nmap : is the best tool for the job so we will install that next and after give you alternitives to"
 echo "__________________" && sleep 10
+{ 
+# confirm with the user 
+read -r -p "Do you wish to continue with part 3 of $fIP_nameScript? [y/N] " response 
+case "$response" in 
+	[yY][eE][sS]|[yY]) 
+# if yes, then continue with example 
+		echo "Clearing screen and continuing with part 3 of $fIP_nameScript in 3...2..1." && sleep 3
+		clear
+		sudo apt-get -y install nmap
+		echo "nmap is a very powerful tool and the man page and help pages should be read."
+		echo "For now though we are only interested in finding the IPs of other devices within your wifi network and : nmap -sP $IP_Bcast_addr : would work if we could get rid of the last three numbers and add one asterisk..." sleep 5
+		echo "There are plenty of ways to do this : sed : or : awk : both have options available to do this. Another option is : rev : with : cut : which gives us a repeatable way of removing a set number of charicters without knowing the contents"
+		echo "__________________"
+		echo "So lets use : rev : to reverce the output of \$IP_Bcast_addr and then : cut -c 4 : to knock off the first three charicters and then : rev : again to output the IP without the last three numbers"
+		echo "Revercing \$IP_Bcast_addr"
+		$IP_Bcast_addr | rev
+		echo "trimming the first three numbers off"
+		$IP_Bcast_addr | rev | cut -c 4-
+		echo "re-revercing"
+		$IP_Bcast_addr | rev | cut -c 4- | rev
+		echo "Lets save this operation to a variable so it can be used latter in this script"
+		trimedIP=`$IP_Bcast_addr | rev | cut -c 4- | rev`
+		echo "\$trimedIP is now : $trimedIP"
+		echo "Now to use nmap like so : nmap -sP $trimedIP*"
+		nmap -sP $trimedIP* && sleep 5
+		echo "Pritty cool right? Well hopefully you see something out there that is on the same network..."
+		echo "Next up, after discussing nmap alternitives, is saving your input to a variable so it can be used to make a connection to another device" && sleep 15 && clear
+		# continuing to rest of script
+		;; 
+	*) 
+#		 Otherwise exit.. 
+	echo "Good Night" 
+	exit 
+	;; 
+esac
+} 
+echo "__________________"
+echo "Most devices when connecting to a router or hotspot will have only the last three numbers change and the first three blocks remain the same for all devices within that network"
+echo "So lets take addvanage of that and learn how to scan a range of IPs with the : ping : and some : for : in : do : done : looping"
+echo "First lets trim off the last three numbers off \$IP_Bcast_addr with : sed : and save that to a new variable"
+trimIP=`$IP_Bcast_addr | sed 's/...$//'`
+echo "\$trimIP is : $trimIP : which we will use in a moment."
+echo "found here : http://www.cyberciti.biz/faq/mapping-lan-with-linux-unix-ping-command/ : and all over the help forums you ca find this one liner"
+echo "for i in \$(seq 1 254) ;do (ping 192.168.1.\$i -c 1 -w 5 >/dev/null && echo \"192.168.1.\$i\" &) ; done"
+echo "Which we will use now that we have $trimIP"
+for i in $(seq 1 254) ;do (ping $trimIP$i -c 1 -w 5 >/dev/null && echo "$trimIP$i UP" &) ; done
+echo "Hopefully you now see your IP along with your routers IP and now a few more IPs that we have not seen before"
+
 
 # find the IP of your router or hotspot
 # sudo route -n | grep -E 'UG' | awk '{ print $2}'
@@ -151,8 +201,13 @@ echo "__________________" && sleep 10
 # or if you prefer there is : netstat -r : which doesn't require sudo
 # find the IP of your router or hotspot with : netstat -r
 # netstat -rn | grep -E 'UG' | awk '{ print $2}'
-# remove charicter from end of string
+# remove one charicter from end of string
 # rev file | cut -c 2- | rev
+# install nmap because it is designed for scaning and such
+# sudo apt-get -y install nmap
+# scan an IP range for live IPs
+# nmap -sP 198.162.0.*
+
 
 # full syntax
 # scp [Options] [[User@]From_Host:]Source_File [[User@]To_Host:][Destination_File]
@@ -177,3 +232,10 @@ echo "__________________" && sleep 10
 echo "__________________"
 echo "end of example script"
 echo exit
+
+# commands that work on Android terminal similarly to Linux
+# scp : for sending, recieving, or trasfering files.
+# date : for checking the time
+# ping : be sure to use the -c option to limit how many pings are going out and : $(seq 1 254) : works to scan a range of ips using ping instead of : {1..254}
+
+
