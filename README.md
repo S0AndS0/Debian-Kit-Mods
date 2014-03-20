@@ -226,5 +226,17 @@ https://github.com/jackpal/Android-Terminal-Emulator/wiki/Android-Shell-Command-
 http://stackoverflow.com/questions/5494764/how-to-run-a-specific-android-app-using-terminal
 example to send an action with : -a : to application with : -n :
 # am start -a com.example.ACTION_NAME -n com.package.name/com.package.name.ActivityName
+	for scp command examples
+http://www.tecmint.com/scp-commands-examples/
+example : transfer "source_file_name" to user on IP at "destination_folder" with scp
+# scp source_file_name username@destination_host:destination_folder
+# example scp command : -v : is verbose ... : -p : show estemated time ... : -C : uses compression on non-compressed files ... : -P : customizes the port to be used in connnection ... : -r : When the copy process is done, at the destination server you will found a directory named “documents” with all it’s files.
+# scp -Cvp -P 22 source_file_name username@destination_host:destination_folder
+	for ssh command examples
+http://www.folkstalk.com/2012/07/ssh-command-examples-unix-linux.html?m=1
+example : login to remote with : -l : option (note you can logout with : exit )
+ssh -l username remote-server
+example : send : ls : command to remote and : -v : option is to be verbose about it
+ssh -v user@remote-host "ls test"
 
 ~~~~~~
