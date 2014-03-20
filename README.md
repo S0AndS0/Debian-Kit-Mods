@@ -216,4 +216,15 @@ http://www.shellhacks.com/en/Removing-First-and-Last-Characters-From-Strings-in-
 for more trimming string expmples
 http://stackoverflow.com/questions/3323809/unix-shell-scripting-trim-last-3-characters-of-a-line-without-using-sed-or-pe
 
+	~~~~~~
+	for 2nd_debSetup
+	setting user responces to variables on Android shell
+http://stackoverflow.com/questions/16705213/android-shell-script-read
+	for list of Android spicific shell commands
+https://github.com/jackpal/Android-Terminal-Emulator/wiki/Android-Shell-Command-Reference
+	for starting an app from the command line on Android
+http://stackoverflow.com/questions/5494764/how-to-run-a-specific-android-app-using-terminal
+example to send an action with : -a : to application with : -n :
+# am start -a com.example.ACTION_NAME -n com.package.name/com.package.name.ActivityName
+
 ~~~~~~
