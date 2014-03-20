@@ -1,49 +1,137 @@
 #!/bin/sh
-# set variables
-curentDate=$(date +"%m%d%Y")
-curentTime=$(date +"%H%M")
-pathTo_bin=${ANDROID_DATA:-/data}/local/deb
+echo "setting variables..."
+echo "...date and time..."
+curentDate=$(date +"%m %d %Y")
+curentTime=$(date +"%H %M")
+echo "...Android file paths..."
+pathTo_bin=${ANDROID_DATA:-/data}/local
 pathTo_mnt=${ANDROID_DATA:-/data}/local/mnt
-pathTo_SDcard=${EXTERNAL_STORAGE:-/sdcard}/
-
-# end variables
-# read out variables
-echo "\$curentDate for android is: $curentDate"
-echo "\$curentTime for android is: $curentTime"
+pathTo_SDcard=${EXTERNAL_STORAGE:-/sdcard}
+echo "...IP addresses..."
+IP_inet_addr=`ifconfig | grep -E 'inet addr' | grep -v '127.0.0.1' | awk '{gsub("addr:",""); print $2}'`
+IP_Bcast_addr=`ifconfig | grep -E 'Bcast' | grep -v '127.0.0.1' | awk '{gsub("Bcast:",""); print $3}'`
+IP_Mask_addr=`ifconfig | grep -E 'Mask' | grep -v '127.0.0.1' | awk '{gsub("Mask:",""); print $4}'`
+IP_inet6_addr=`ifconfig | grep -E 'inet6 addr' | grep -v '127.0.0.1' | grep -v '1/128' | awk '{gsub("addr:",""); print $2}'`
+IP_local=`ifconfig | grep -E 'inet addr' | grep -E '127.0.0.1' | awk '{gsub("addr:",""); print $2}'`
+echo "...IP scanning..."
+trimIP=`$IP_Bcast_addr | sed 's/...$//'`
+echo -n "Please state the lowest number you wish to scan (min is 1) : "
+read IPmin
+echo "$IPmin : recieved"
+echo -n "Please state the highest number you wish to scan (max is 254) : "
+read IPmax
+echo "$IPmax : recived"
+customPinger=`for ip in $(seq $IPmin $IPmax); do ping -c 1 -w 5 $trimIP$ip > /dev/null; && echo "$trimIP$ip"; done`
+# for ip in $(seq 1 254); do ping -c 1 192.168.1.$ip>/dev/null; [ $? -eq 0 ] && echo "192.168.1.$ip UP" || : ; done
+# for ip in 192.168.1.{1..10}; do ping -t 1 $ip > /dev/null && echo "${ip} is up"; done
+trimRoute=`route -n | grep -E 'UG' | awk '{print $2}'`
+echo "...web addresses..."
+SASgit_Mods=https://github.com/S0AndS0/Debian-Kit-Mods
+echo "setting user defined variables"
+echo -n "Please input your Linux username (root is ok) : "
+read linuxUser
+echo -n "Please input : local : or : remote : to choose what Linux device to send commands to (remote requires that the device have Linux with a ssh server running on the same wifi network)"
+read localRemote_IP
+if [ $localRemote_IP = local ]
+then
+	echo "$localRemote_IP : recived. Using : $IP_local : for sending commands to your Linux OS"
+	confermed_IP=$IP_local
+elif [ $localRemote_IP = remote ]
+then
+	echo "$localRemote_IP : recived. Using : $trimIP : and some clever : ping : commands to find your remote device"
+	$customPinger
+	echo "We should see your IP, the IP of your access point, and one or more IPs"
+	echo "Using : grep : clean up the list some"
+	$customPinger | grep -V '$trimRoute' | grep -V '$IP_local'
+	echo "Which should result in far fewer results"
+	echo -n "What is the exsact IP address to the device you want to connect to? "
+	read ui_IPremote
+	confermed_IP=$ui_IPremote
+	echo "$ui_IPremote : recieved and saved to : \$confermed_IP : $confermed_IP"
+# confermed_IP=	
+else [ $localRemote_IP = * ]
+	echo "recived : : which does not seem right"
+	echo "setting \$localRemote_IP to : local : by default and continuing"
+	confermed_IP=$IP_local
+fi
+linuxSSH_login=$linuxUser@$confermed_IP
+echo "end of variable assiginment"
+echo "___________________"
+echo "reading out variables"
+echo "\$curentDate for android is: $curentDate : month day year"
+echo "\$curentTime for android is: $curentTime : hour minuet"
 echo "\$pathTo_bin for android is: $pathTo_bin"
 echo "\$pathTo_mnt for android is: $pathTo_mnt"
 echo "\$pathTo_SDcard for android is: $pathTo_SDcard"
-
+echo "\$IP_inet_addr : is your IP for internet connections usually which is : $IP_inet_addr"
+echo "\$IP_Bcast_addr : is your broadcast address which is : $IP_Bcast_addr"
+echo "\$IP_Mask_addr : is your network mask which is : $IP_Mask_addr"
+echo "\$IP_inet6_addr : is your IP version 6 address which is : $IP_inet6_addr"
+echo "\$IP_local : is your devices local IP which is : $IP_local"
+echo "\$trimIP is a trimed version of your broadcast address used for pinging for other devices on your wifi network : $trimIP"
+echo "\$linuxUser : set to : $linuxUser"
+echo "\$localRemote_IP : set to : $localRemote_IP"
+echo "\$trimIP : set to : $trimIP : for scaning your network"
+echo "\$IPmin : set to : $IPmin : for scaning your network"
+echo "\$IPmax : set to : $IPmax : for scaning your network"
+echo "\$confermed_IP : set to : $confermed_IP for connecting to remote"
+echo "\$linuxSSH_login : set to : $linuxSSH_login : for sending commands"
+echo "___________________"
 # prompt to continue
 echo "This script should be run on your Android terminal emulator"
 echo "and not under the Linux terminal."
 echo "This script will handle the syncing of your Android and Linux clocks"
 echo "and install : andromize, andromize-lxde, openssh-server"
-read -r "Which one thing would you like to do? " response
-	if [ $response = 1 ] 
-then 
-# do something
-	exampleVar=/home/test2
-	echo "\$exampleVar curently is : $exampleVar"
-	elif [ $response = 2 ] 
-then 
-# do something
-	exampleVar=/home/test3
-	echo "\$exampleVar curently is : $exampleVar"
-	elif [ $response = 3 ] 
-then 
-# do something
-	exampleVar=/home/test4
-	echo "\$exampleVar curently is : $exampleVar"
-	elif [ $response = 0 ] then
-		echo "exiting now"
-		echo exit 
-		exit  
-# do something
-	elif [ $response = * ] then 
-#	 if anything else then exit 
-		echo "exiting now"
-		echo exit 
-		exit 
-	fi
+echo "and update the : hostname : file under : etc : directory"
+echo "and update the linux kernal headers if : proc/config.gz : exsists for your Android ROM to grab that info from"
+echo "___________________"
+echo "Input one of the following to run all or part of setup."
+echo "     dateTime : to only update Linux clock from Android clock"
+echo "     setUp : to only install the above listed packages to Linux : root : user"
+echo "     kernalHeaders : to only run update of Linux kernal headers if the above listed file was provided by your Android ROMs dev"
+echo "     linuxModer : to grab a script pack I am writing to make modding your Linux OS easier from : $SASgit_Mods : to your Linux user : $linuxUser"
+echo "     all : to run all available mods"
+echo -n "Please input one of the above options to continue or : q : to exit this script : "
+read Deb_Responce
+echo "$Deb_Responce recieved. Taking actions in 3...2..1. " && sleep 3
 
+echo "___________________"
+if [ $Deb_Responce = dateTime ] 
+then 
+# do something
+	echo "$Deb_Responce recieved. Taking actions in 3...2..1. " && sleep 3
+	
+elif [ $Deb_Responce = setUp ] 
+then 
+# do something
+	echo "$Deb_Responce recieved. Taking actions in 3...2..1. " && sleep 3
+	
+elif [ $Deb_Responce = kernalHeaders ] 
+then 
+# do something
+	echo "$Deb_Responce recieved. Taking actions in 3...2..1. " && sleep 3
+	
+elif [ $Deb_Responce = linuxModer ] 
+then 
+# do something
+	echo "$Deb_Responce recieved. Taking actions in 3...2..1. " && sleep 3
+	
+elif [ $Deb_Responce = all ] 
+then 
+# do something
+	echo "$Deb_Responce recieved. Taking actions in 3...2..1. " && sleep 3
+	
+elif [ $Deb_Responce = q ] then
+then
+	echo "$Deb_Responce recieved. Taking actions in 3...2..1. " && sleep 3
+	echo exit 
+	exit
+else [ $Deb_Responce = * ] 
+# if anything else then exit 
+	echo "bad input recived exiting now"
+	echo exit 
+	exit 
+fi
+echo "___________________"
+
+echo exit
