@@ -100,26 +100,47 @@ if [ $Deb_Responce = dateTime ]
 then 
 # do something
 	echo "$Deb_Responce recieved. Taking actions in 3...2..1. " && sleep 3
-	
+	echo "not writen up check back in a few hours for updates"
+	echo exit
 elif [ $Deb_Responce = setUp ] 
 then 
-# do something
 	echo "$Deb_Responce recieved. Taking actions in 3...2..1. " && sleep 3
-	
+	echo "This will send a list of commands to your : $linuxSSH_login"
+	echo "Commands being exicuted : sudo apt-get update && sudo apt-get -y upgrade && sudo apt-get -y install andromize && sudo apt-get -y install andromize-lxde && sudo apt-get -y install openssh-server && sudo apt-get -f install" && sleep 3
+	ssh -v $linuxSSH_login "sudo apt-get update && sudo apt-get -y upgrade && sudo apt-get -y install andromize && sudo apt-get -y install andromize-lxde && sudo apt-get -y install openssh-server && sudo apt-get -f install"
 elif [ $Deb_Responce = kernalHeaders ] 
 then 
 # do something
 	echo "$Deb_Responce recieved. Taking actions in 3...2..1. " && sleep 3
-	
+	echo "not writen up check back in a few hours for updates"
+	echo exit
 elif [ $Deb_Responce = linuxModer ] 
 then 
-# do something
 	echo "$Deb_Responce recieved. Taking actions in 3...2..1. " && sleep 3
-	
+	echo "This will send a list of commands to your : $linuxSSH_login"
+	echo "commands that will be run : sudo apt-get -y install git && sleep 3 && mkdir -p ARM_Mods && cd ARM_Mods && git clone https://github.com/S0AndS0/Debian-Kit-Mods && sh Debian-Kit-Mods/ARM_Linux_Moder" && sleep 3
+	ssh -v $linuxSSH_login "sudo apt-get -y install git && sleep 3 && mkdir -p ARM_Mods && cd ARM_Mods && git clone https://github.com/S0AndS0/Debian-Kit-Mods && sh Debian-Kit-Mods/ARM_Linux_Moder"
 elif [ $Deb_Responce = all ] 
 then 
 # do something
 	echo "$Deb_Responce recieved. Taking actions in 3...2..1. " && sleep 3
+	
+	echo "__________________"
+	echo "not writen up check back in a few hours for updates"
+	
+	echo "__________________"
+	echo "Running : setUp : commands"
+	echo "Commands being exicuted : sudo apt-get update && sudo apt-get -y upgrade && sudo apt-get -y install andromize && sudo apt-get -y install andromize-lxde && sudo apt-get -y install openssh-server && sudo apt-get -f install" && sleep 3
+	ssh -v $linuxSSH_login "sudo apt-get update && sudo apt-get -y upgrade && sudo apt-get -y install andromize && sudo apt-get -y install andromize-lxde && sudo apt-get -y install openssh-server && sudo apt-get -f install" && sleep 3
+	
+	echo "__________________"
+	echo "Running : kernalHeaders : commands"
+	echo "not writen up check back in a few hours for updates"
+	
+	echo "__________________"
+	echo "Running : linuxModer : commands"
+	echo "commands that will be run : sudo apt-get -y install git && sleep 3 && mkdir -p ARM_Mods && cd ARM_Mods && git clone https://github.com/S0AndS0/Debian-Kit-Mods && sh Debian-Kit-Mods/ARM_Linux_Moder" && sleep 3
+	ssh -v $linuxSSH_login "sudo apt-get -y install git && sleep 3 && mkdir -p ARM_Mods && cd ARM_Mods && git clone https://github.com/S0AndS0/Debian-Kit-Mods && sh Debian-Kit-Mods/ARM_Linux_Moder" && sleep 3
 	
 elif [ $Deb_Responce = q ] then
 then
@@ -135,3 +156,13 @@ fi
 echo "___________________"
 
 echo exit
+# example scp command
+# scp source_file_name username@destination_host:destination_folder
+# example scp command : -v : is verbose ... : -p : show estemated time ... : -C : uses compression on non-compressed files ... : -P : customizes the port to be used in connnection ... : -r : When the copy process is done, at the destination server you will found a directory named “documents” with all it’s files.
+# scp -Cvp -P 22 source_file_name username@destination_host:destination_folder
+# example : login to remote with : -l : option (note you can logout with : exit )
+# ssh -l username remote-server
+# example : send : ls : command to remote and : -v : option is to be verbose about it
+# ssh -v user@remote-host "ls test"
+
+
