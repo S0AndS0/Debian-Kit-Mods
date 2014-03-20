@@ -104,7 +104,7 @@ echo "Now lets move the : local_addr.txt : and re-name it with the : mv : comman
 mv $fIP_savePath/saved/local_addr.txt $fIP_savePath/sending/local_$IP_local_date$todays_Date_time_$todays_Time
 echo "Now we should send this file to the machien with : ssh : but it has been re-named with date and time variables and if we use those varieables in a file path to the file we run the risk that the time or date has changed. So we will use the : find : command to search for a partial file name within the : sending : directory and heck lets put that find command into a varable so its output can be used for the : ssh : command too come latter." && sleep 2
 findIn_savedPath_local=`find $fIP_savePath/sending -type f -iname 'local_*' -print0 | xargs -0`
-echo "so in the example : ssh ~/.ssh/id_rsa.pub $USER@$IP_inet_addr : we will use cat and a pipe to read the contence of the file under the : sending : directory and : \$fIP_savePath/sending/\$findIn_savedPath : which looks like : $fIP_savePath/sending/$findIn_savedPath : when the variables are processed for the : ~/.ssh/id_rsa.pub : portion and for the : \$USER@\$IP_inet_addr : we will use a combo of your user name variable and IP : $USER@$IP_local : which should ask you for your password and then wriet out what cat read to your : $fIP_savePath/reciving : drectory and under a new name : local_addr_Recieved." && sleep 4
+echo "so in the example : ssh ~/.ssh/id_rsa.pub $USER@$IP_inet_addr : we will use cat and a pipe to read the contence of the file under the : sending : directory and : \$fIP_savePath/sending/\$findIn_savedPath : which looks like : $fIP_savePath/sending/$findIn_savedPath : when the variables are processed for the : ~/.ssh/id_rsa.pub : portion and for the : \$USER@\$IP_inet_addr : we will use a combo of your user name variable and IP : $USER@$IP_local : which should ask you for your password and then wright out what cat read to your : $fIP_savePath/reciving : drectory and under a new name : local_addr_Recieved." && sleep 4
 cat < $fIP_savePath/sending/$findIn_savedPath_local | ssh $USER@$IP_local 'cat >> $fIP_savePath/reciving/local_addr_Recieved'
 echo "You may be wondering, why send files to the same machien, or how this might be usefull. Well if you are running Linux on top of Android like I am and this set up on both sides gives you the building blocks to send data or even commands from Android OS to Linux OS or the other way around easiely. Note though that the : scp : command is better suited to send files back and forth without the nead of a : cat : or simular command to write the file to the other device and some of the commands like : ifconfig : wont work on the Android side so we will have to learn that latter."
 echo "End__________________Part_2__________________End" && sleep 10
@@ -233,9 +233,9 @@ echo "__________________"
 echo "end of example script"
 echo exit
 
-# commands that work on Android terminal similarly to Linux
+# commands that work on Android terminal similarly to Linux when Debian Kit is used to have Linux running in the back-ground
 # scp : for sending, recieving, or trasfering files.
 # date : for checking the time
 # ping : be sure to use the -c option to limit how many pings are going out and : $(seq 1 254) : works to scan a range of ips using ping instead of : {1..254}
-
-
+# ifconfig : may cause other devices to reconect to access point
+# route : looks identical
