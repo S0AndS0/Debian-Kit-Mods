@@ -187,11 +187,24 @@ echo "So lets take addvanage of that and learn how to scan a range of IPs with t
 echo "First lets trim off the last three numbers off \$IP_Bcast_addr with : sed : and save that to a new variable"
 trimIP=`$IP_Bcast_addr | sed 's/...$//'`
 echo "\$trimIP is : $trimIP : which we will use in a moment."
+echo "Next we are going to set the min and max addresses to scan through and set those to variables for latter use."
+echo -n "Please state the lowest number you wish to scan (min is 1) : "
+read IPmin
+echo "$IPmin : recieved"
+echo -n "Please state the highest number you wish to scan (max is 254) : "
+read IPmax
+echo "$IPmax : recived"
+customPinger=`for ip in $(seq $IPmin $IPmax) ;do (ping -c 1 -w 5 $trimIP$ip >/dev/null && echo "$trimIP$ip" &) ; done`
+echo "Now we have something we can use to limit the addresses that are to be scaned. See bellow example of a non-modifide version of the above variable \$customPinger"
 echo "found here : http://www.cyberciti.biz/faq/mapping-lan-with-linux-unix-ping-command/ : and all over the help forums you ca find this one liner"
 echo "for i in \$(seq 1 254) ;do (ping 192.168.1.\$i -c 1 -w 5 >/dev/null && echo \"192.168.1.\$i\" &) ; done"
 echo "Which we will use now that we have $trimIP"
-for i in $(seq 1 254) ;do (ping $trimIP$i -c 1 -w 5 >/dev/null && echo "$trimIP$i UP" &) ; done
+$customPinger
 echo "Hopefully you now see your IP along with your routers IP and now a few more IPs that we have not seen before"
+echo "But we can clean up the results a little more by using grep commands to remove your IP and access point IP"
+trimRoute=`route -n | grep -E 'UG' | awk '{print $2}'`
+$customPinger | grep -v '$trimRoute' | grep -v '$IP_inet_addr'
+
 
 
 # find the IP of your router or hotspot
@@ -208,6 +221,16 @@ echo "Hopefully you now see your IP along with your routers IP and now a few mor
 # scan an IP range for live IPs
 # nmap -sP 198.162.0.*
 
+# example scp command
+# scp source_file_name username@destination_host:destination_folder
+# example scp command : -v : is verbose ... : -p : show estemated time ... : -C : uses compression on non-compressed files ... : -P : customizes the port to be used in connnection ... : -r : When the copy process is done, at the destination server you will found a directory named “documents” with all it’s files.
+# scp -Cvp -P 22 source_file_name username@destination_host:destination_folder
+# example : login to remote with : -l : option (note you can logout with : exit )
+# ssh -l username remote-server
+# example : send : ls : command to remote and : -v : option is to be verbose about it
+# ssh -v user@remote-host "ls test"
+# example file not found
+# [ -f /tmp/foo.txt ] || echo "File not found!"
 
 # full syntax
 # scp [Options] [[User@]From_Host:]Source_File [[User@]To_Host:][Destination_File]
