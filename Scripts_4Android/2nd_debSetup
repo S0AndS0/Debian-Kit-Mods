@@ -1,10 +1,11 @@
 #!/bin/sh
+echo "This script is ment to run with the : Android Terminal emulater : app and : Busybox"
 echo "setting variables..."
 echo "...date and time..."
 curentDate=$(date +"%m %d %Y")
 curentTime=$(date +"%H %M")
 echo "...Android file paths..."
-pathTo_bin=${ANDROID_DATA:-/data}/local
+pathTo_root=${ANDROID_DATA:-/data}/local
 pathTo_mnt=${ANDROID_DATA:-/data}/local/mnt
 pathTo_SDcard=${EXTERNAL_STORAGE:-/sdcard}
 echo "...IP addresses..."
@@ -14,23 +15,22 @@ IP_Mask_addr=`ifconfig | grep -E 'Mask' | grep -v '127.0.0.1' | awk '{gsub("Mask
 IP_inet6_addr=`ifconfig | grep -E 'inet6 addr' | grep -v '127.0.0.1' | grep -v '1/128' | awk '{gsub("addr:",""); print $2}'`
 IP_local=`ifconfig | grep -E 'inet addr' | grep -E '127.0.0.1' | awk '{gsub("addr:",""); print $2}'`
 echo "...IP scanning..."
-trimIP=`$IP_Bcast_addr | sed 's/...$//'`
+trimIP=`ifconfig | grep -E 'Bcast' | grep -v '127.0.0.1' | awk '{gsub("Bcast:",""); print $3}' | sed 's/...$//'`
+echo "\$trimIP is : $trimIP"
 echo -n "Please state the lowest number you wish to scan (min is 1) : "
 read IPmin
 echo "$IPmin : recieved"
 echo -n "Please state the highest number you wish to scan (max is 254) : "
 read IPmax
 echo "$IPmax : recived"
-customPinger=`for ip in $(seq $IPmin $IPmax); do ping -c 1 -w 5 $trimIP$ip > /dev/null; && echo "$trimIP$ip"; done`
-# for ip in $(seq 1 254); do ping -c 1 192.168.1.$ip>/dev/null; [ $? -eq 0 ] && echo "192.168.1.$ip UP" || : ; done
-# for ip in 192.168.1.{1..10}; do ping -t 1 $ip > /dev/null && echo "${ip} is up"; done
+customPinger=`for ip in $(seq $IPmin $IPmax) ;do (ping -c 1 -w 5 $trimIP$ip >/dev/null && echo "$trimIP$ip" &) ; done`
 trimRoute=`route -n | grep -E 'UG' | awk '{print $2}'`
 echo "...web addresses..."
 SASgit_Mods=https://github.com/S0AndS0/Debian-Kit-Mods
 echo "setting user defined variables"
 echo -n "Please input your Linux username (root is ok) : "
 read linuxUser
-echo -n "Please input : local : or : remote : to choose what Linux device to send commands to (remote requires that the device have Linux with a ssh server running on the same wifi network)"
+echo -n "Please input : local : or : remote : to choose what Linux device to send commands to (remote requires that the device have Linux with a ssh server running on the same wifi network) : "
 read localRemote_IP
 if [ $localRemote_IP = local ]
 then
@@ -60,7 +60,7 @@ echo "___________________"
 echo "reading out variables"
 echo "\$curentDate for android is: $curentDate : month day year"
 echo "\$curentTime for android is: $curentTime : hour minuet"
-echo "\$pathTo_bin for android is: $pathTo_bin"
+echo "\$pathTo_root for android is: $pathTo_root"
 echo "\$pathTo_mnt for android is: $pathTo_mnt"
 echo "\$pathTo_SDcard for android is: $pathTo_SDcard"
 echo "\$IP_inet_addr : is your IP for internet connections usually which is : $IP_inet_addr"
@@ -81,16 +81,17 @@ echo "___________________"
 echo "This script should be run on your Android terminal emulator"
 echo "and not under the Linux terminal."
 echo "This script will handle the syncing of your Android and Linux clocks"
-echo "and install : andromize, andromize-lxde, openssh-server"
+
 echo "and update the : hostname : file under : etc : directory"
-echo "and update the linux kernal headers if : proc/config.gz : exsists for your Android ROM to grab that info from"
+
 echo "___________________"
 echo "Input one of the following to run all or part of setup."
 echo "     dateTime : to only update Linux clock from Android clock"
-echo "     setUp : to only install the above listed packages to Linux : root : user"
-echo "     kernalHeaders : to only run update of Linux kernal headers if the above listed file was provided by your Android ROMs dev"
 echo "     linuxModer : to grab a script pack I am writing to make modding your Linux OS easier from : $SASgit_Mods : to your Linux user : $linuxUser"
 echo "     all : to run all available mods"
+echo "___________________"
+echo "Note to users : The options that are tabbed in are not functioning just yet. The options that are not tabbed in are ready for testing."
+echo "___________________"
 echo -n "Please input one of the above options to continue or : q : to exit this script : "
 read Deb_Responce
 echo "$Deb_Responce recieved. Taking actions in 3...2..1. " && sleep 3
@@ -102,46 +103,24 @@ then
 	echo "$Deb_Responce recieved. Taking actions in 3...2..1. " && sleep 3
 	echo "not writen up check back in a few hours for updates"
 	echo exit
-elif [ $Deb_Responce = setUp ] 
-then 
-	echo "$Deb_Responce recieved. Taking actions in 3...2..1. " && sleep 3
-	echo "This will send a list of commands to your : $linuxSSH_login"
-	echo "Commands being exicuted : sudo apt-get update && sudo apt-get -y upgrade && sudo apt-get -y install andromize && sudo apt-get -y install andromize-lxde && sudo apt-get -y install openssh-server && sudo apt-get -f install" && sleep 3
-	ssh -v $linuxSSH_login "sudo apt-get update && sudo apt-get -y upgrade && sudo apt-get -y install andromize && sudo apt-get -y install andromize-lxde && sudo apt-get -y install openssh-server && sudo apt-get -f install"
-elif [ $Deb_Responce = kernalHeaders ] 
-then 
-# do something
-	echo "$Deb_Responce recieved. Taking actions in 3...2..1. " && sleep 3
-	echo "not writen up check back in a few hours for updates"
-	echo exit
+
 elif [ $Deb_Responce = linuxModer ] 
 then 
 	echo "$Deb_Responce recieved. Taking actions in 3...2..1. " && sleep 3
 	echo "This will send a list of commands to your : $linuxSSH_login"
 	echo "commands that will be run : sudo apt-get -y install git && sleep 3 && mkdir -p ARM_Mods && cd ARM_Mods && git clone https://github.com/S0AndS0/Debian-Kit-Mods && sh Debian-Kit-Mods/ARM_Linux_Moder" && sleep 3
-	ssh -v $linuxSSH_login "sudo apt-get -y install git && sleep 3 && mkdir -p ARM_Mods && cd ARM_Mods && git clone https://github.com/S0AndS0/Debian-Kit-Mods && sh Debian-Kit-Mods/ARM_Linux_Moder"
+cat > 
+#	scp -v $linuxSSH_login "sudo apt-get -y install git && sleep 3 && mkdir -p ARM_Mods && cd ARM_Mods && git clone https://github.com/S0AndS0/Debian-Kit-Mods && sh Debian-Kit-Mods/ARM_Linux_Moder"
 elif [ $Deb_Responce = all ] 
 then 
 # do something
 	echo "$Deb_Responce recieved. Taking actions in 3...2..1. " && sleep 3
-	
-	echo "__________________"
-	echo "not writen up check back in a few hours for updates"
-	
-	echo "__________________"
-	echo "Running : setUp : commands"
-	echo "Commands being exicuted : sudo apt-get update && sudo apt-get -y upgrade && sudo apt-get -y install andromize && sudo apt-get -y install andromize-lxde && sudo apt-get -y install openssh-server && sudo apt-get -f install" && sleep 3
-	ssh -v $linuxSSH_login "sudo apt-get update && sudo apt-get -y upgrade && sudo apt-get -y install andromize && sudo apt-get -y install andromize-lxde && sudo apt-get -y install openssh-server && sudo apt-get -f install" && sleep 3
-	
-	echo "__________________"
-	echo "Running : kernalHeaders : commands"
-	echo "not writen up check back in a few hours for updates"
-	
+
 	echo "__________________"
 	echo "Running : linuxModer : commands"
 	echo "commands that will be run : sudo apt-get -y install git && sleep 3 && mkdir -p ARM_Mods && cd ARM_Mods && git clone https://github.com/S0AndS0/Debian-Kit-Mods && sh Debian-Kit-Mods/ARM_Linux_Moder" && sleep 3
-	ssh -v $linuxSSH_login "sudo apt-get -y install git && sleep 3 && mkdir -p ARM_Mods && cd ARM_Mods && git clone https://github.com/S0AndS0/Debian-Kit-Mods && sh Debian-Kit-Mods/ARM_Linux_Moder" && sleep 3
-	
+#	ssh -v $linuxSSH_login "sudo apt-get -y install git && sleep 3 && mkdir -p ARM_Mods && cd ARM_Mods && git clone https://github.com/S0AndS0/Debian-Kit-Mods && sh Debian-Kit-Mods/ARM_Linux_Moder"
+
 elif [ $Deb_Responce = q ] then
 then
 	echo "$Deb_Responce recieved. Taking actions in 3...2..1. " && sleep 3
@@ -164,5 +143,6 @@ echo exit
 # ssh -l username remote-server
 # example : send : ls : command to remote and : -v : option is to be verbose about it
 # ssh -v user@remote-host "ls test"
-
+# example file not found
+# [ -f /tmp/foo.txt ] || echo "File not found!"
 
