@@ -161,7 +161,7 @@ case "$response" in
 		echo "So lets use : rev : to reverce the output of \$IP_Bcast_addr and then : cut -c 4 : to knock off the first three charicters and then : rev : again to output the IP without the last three numbers"
 		echo "Revercing \$IP_Bcast_addr"
 		$IP_Bcast_addr | rev
-		echo "trimming the first three numbers off"
+		echo "Trimming the first three numbers off. Note to those reading along, the : -4 : option is used to remove 3 numbers/charicters, this means that where you to want to use this combo of commands for other perpioses and only wanted to remove one charicter then : -2 : would do this."
 		$IP_Bcast_addr | rev | cut -c 4-
 		echo "re-revercing"
 		$IP_Bcast_addr | rev | cut -c 4- | rev
@@ -183,11 +183,12 @@ esac
 } 
 echo "__________________"
 echo "Most devices when connecting to a router or hotspot will have only the last three numbers change and the first three blocks remain the same for all devices within that network"
-echo "So lets take addvanage of that and learn how to scan a range of IPs with the : ping : and some : for : in : do : done : looping"
+echo "So lets take advanage of that and learn how to scan a range of IPs with the : ping : and some : for : in : do : done : looping"
 echo "First lets trim off the last three numbers off \$IP_Bcast_addr with : sed : and save that to a new variable"
 trimIP=`$IP_Bcast_addr | sed 's/...$//'`
 echo "\$trimIP is : $trimIP : which we will use in a moment."
 echo "Next we are going to set the min and max addresses to scan through and set those to variables for latter use."
+echo "__________________"
 echo -n "Please state the lowest number you wish to scan (min is 1) : "
 read IPmin
 echo "$IPmin : recieved"
@@ -201,11 +202,133 @@ echo "for i in \$(seq 1 254) ;do (ping 192.168.1.\$i -c 1 -w 5 >/dev/null && ech
 echo "Which we will use now that we have $trimIP"
 $customPinger
 echo "Hopefully you now see your IP along with your routers IP and now a few more IPs that we have not seen before"
-echo "But we can clean up the results a little more by using grep commands to remove your IP and access point IP"
+echo "But we can clean up the results a little more by using grep commands to remove your IP and access point IP" && sleep 5
 trimRoute=`route -n | grep -E 'UG' | awk '{print $2}'`
 $customPinger | grep -v '$trimRoute' | grep -v '$IP_inet_addr'
+echo "Now we have a custom pinger and a cleaned up version so lets save that to a variable too"
+fLive_IPs=`$customPinger | grep -v '$trimRoute' | grep -v '$IP_inet_addr'`
+echo "\$fLive_IPs : save to do very spicific output of ping results"
+echo "Perhaps that above command did not result in anything? Repeaning here : $fLive_IPs : ... perhaps try hitting the refresh button within a browser on the remote device to refresh it\'s connection to the access point. 10 seconds to repeat..." && sleep 15
+$fLive_IPs
+echo "Hopefully we have a result on your screen. Because you are about to be prompted for the IP address of the device you wish to connect to... Note if, you are so inclined/in the know, then this is where you may input a true remote IP..."
+echo -n "What is the IP address to remote? : "
+read user_remoteIP
+echo "\$user_remoteIP : set to : $user_remoteIP" && sleep 3
+echo "So now all we nead for a login atempt is the Linux user name you wish to login as"
+echo -n  "What is your remote Linux user name? : "
+read user_remoteUsername
+echo "\$user_remoteUsername : set to $user_remoteUsername"
+echo "\$user_remoteUsername@\$user_remoteIP : now being set to a new variable for quick re-use"
+user_remoteSSH=$user_remoteUsername@$user_remoteIP
+echo "\$user_remoteSSH : set to : $user_remoteSSH"
+echo "Next up is testing this connection with : ssh -lv : command. The : -l : is the login option for ssh and : -v : option is to be verbose about it."
+echo "Just issue an : exit : command to this remote connection to be brought back here to your local comand line."
+echo "__________________" && sleep 10
+ssh -lv $user_remoteSSH
+echo "__________________"
+echo "We have come a little closer to something useful, but what a lot of typing to get all these costom options on the fly, so lets write out a compact script with all the relovent prompts and commands and none of this extra help diologs."
+echo "Making a new directory for working example scripts to be saved to : $fIP_savePath/runableExamples"
+mkdir -p $fIP_savePath/runableExamples
+cat > $fIP_savePath/runableExamples/AssistedSSH.sh <<EOF
+#!/bin/bash
+aSSH_nameScript=AssistedSSH.sh
+IP_inet_addr=`/sbin/ifconfig | grep -E 'inet addr' | grep -v '127.0.0.1' | awk '{gsub("addr:",""); print \$2}'`
+IP_Bcast_addr=`/sbin/ifconfig | grep -E 'Bcast' | grep -v '127.0.0.1' | awk '{gsub("Bcast:",""); print \$3}'`
+IP_Mask_addr=`/sbin/ifconfig | grep -E 'Mask' | grep -v '127.0.0.1' | awk '{gsub("Mask:",""); print \$4}'`
+IP_inet6_addr=`/sbin/ifconfig | grep -E 'inet6 addr' | grep -v '127.0.0.1' | grep -v '1/128' | awk '{gsub("addr:",""); print \$2}'`
+IP_local=`/sbin/ifconfig | grep -E 'inet addr' | grep -E '127.0.0.1' | awk '{gsub("addr:",""); print \$2}'`
+trimIP=`\$IP_Bcast_addr | sed 's/...$//'`
+ : \${USER?} \${HOME?} 
+echo -n "Please state the lowest number you wish to scan (min is 1) : "
+read IPmin
+echo -n "Please state the highest number you wish to scan (max is 254) : "
+read IPmax
+customPinger=`for ip in \$(seq \$IPmin \$IPmax) ;do (ping -c 1 -w 5 \$trimIP\$ip >/dev/null && echo "\$trimIP\$ip" &) ; done`
+fLive_IPs=`\$customPinger | grep -v '\$trimRoute' | grep -v '\$IP_inet_addr'` 
+echo "__________________"
+echo "Your - inet addr - IP is : \$IP_inet_addr"
+echo "Your - Bcast - IP is : \$IP_Bcast_addr"
+echo "Your - Mask - IP is : \$IP_Mask_addr"
+echo "Your - inet6 addr - IP is : \$IP_inet6_addr"
+echo "Your - local IP - is : \$IP_local"
+echo "The - Live IPs - are : \$fLive_IPs"
+echo "__________________"
+echo -n "What is the IP address that you wish to connect to? : "
+read user_remoteIP
+echo -n  "What is your remote Linux user name? : "
+read user_remoteUsername
+linuxSSH_login=\$user_remoteUsername@\$user_remoteIP
+{ 
+# confirm with the user 
+read -r -p "Do you wish to continue loging into \$linuxSSH_login? [y/N] " response 
+case "$response" in 
+	[yY][eE][sS]|[yY]) 
+# if yes, then continue with example 
+		ssh -vl \$linuxSSH_login
+		echo "loged out from \$linuxSSH_login"
+		;; 
+	*) 
+#		 Otherwise exit.. 
+	echo "Good Night" 
+	exit 
+	;; 
+esac
+} 
+echo "exiting AssistedSSH.sh now..." && echo exit
+EOF
+echo "__________________"
+echo "We should now have a new script saved in : $fIP_savePath/runableExamples : named : AssistedSSH.sh : next line should print that using the : ls : command."
+ls $fIP_savePath/runableExamples
+echo "Next we will use the : chmod : to modify permissions so it can be run as an executable with the : +x : option"
+chmod +x $fIP_savePath/runableExamples/AssistedSSH.sh
+echo "Now this script can be called from the commandline with : sh $fIP_savePath/runableExamples/AssistedSSH.sh : and it will assist in loging in to your other Linux enabled devices"
+echo "There is plenty still more to explore and explore we shall in the next part on how to tell a remote device to run a task and how to transfer files between devices over the network"
+echo "End__________________Part_3__________________End"
+{ 
+# confirm with the user 
+read -r -p "Do you wish to continue with part 4 of $fIP_nameScript? [y/N] " response 
+case "$response" in 
+	[yY][eE][sS]|[yY]) 
+# if yes, then continue with example 
+		echo "Clearing screen and starting part 4 of $fIP_nameScript in 3...2..1." && sleep 3
+		;; 
+	*) 
+#		 Otherwise exit.. 
+	echo "Good Night" 
+	exit 
+	;; 
+esac
+} 
+clear 
+echo "Start__________________Part_4__________________Start"
+echo "Excelent, you have kept up so far. Now to get into some really useful commands."
+echo "Here in Part 4 we will be making use of : ssh : and : scp : commands."
+echo "ssh : will be used for sending commands to a given user and IP address"
+echo "scp : will be used for trasfering files over the network" 
+echo "We are also going to be constructing : if than : staitments a bit differently so follow along in a text editer to see what is going on..." && sleep 5
+echo "__________________"
+echo "$linuxSSH_login : already set by Part 3 of : $fIP_nameScript"
+{ 
+read -r -p "Do you wish to change it? [y/N] " response 
+case "$response" in 
+	[yY][eE][sS]|[yY]) 
+# if yes, then prompt user for new IP to scan and re-set variable tree
+		echo -n "Please input a new IP to be used : "
+		read user_remoteIP
+		echo -n  "What is your remote Linux user name? : "
+		read user_remoteUsername
+		linuxSSH_login=$user_remoteUsername@$user_remoteIP
+		echo "Login now set to : $linuxSSH_login"
+		;; 
+	*) 
+#		 Otherwise move on.. 
+	echo "Continuing with $fIP_nameScript"
+	;; 
+esac
+} 
+echo "__________________"
 
-
+echo "__________________"
 
 # find the IP of your router or hotspot
 # sudo route -n | grep -E 'UG' | awk '{ print $2}'
@@ -256,7 +379,7 @@ echo "__________________"
 echo "end of example script"
 echo exit
 
-# commands that work on Android terminal similarly to Linux when Debian Kit is used to have Linux running in the back-ground
+# commands that work on Android terminal similarly to Linux when BusyBox is installed and its path is set to an export path
 # scp : for sending, recieving, or trasfering files.
 # date : for checking the time
 # ping : be sure to use the -c option to limit how many pings are going out and : $(seq 1 254) : works to scan a range of ips using ping instead of : {1..254}
