@@ -30,7 +30,7 @@ SASgit_Mods=https://github.com/S0AndS0/Debian-Kit-Mods
 echo "setting user defined variables"
 echo -n "Please input your Linux username (root is ok) : "
 read linuxUser
-echo -n "Please input : local : or : remote : to choose what Linux device to send commands to (remote requires that the device have Linux with a ssh server running on the same wifi network) : "
+echo -n "Please input : local : or : remote : to choose what Linux device to send files to (remote requires that the device have Linux with a ssh server running on the same wifi network) : "
 read localRemote_IP
 if [ $localRemote_IP = local ]
 then
@@ -38,7 +38,7 @@ then
 	confermed_IP=$IP_local
 elif [ $localRemote_IP = remote ]
 then
-	echo "$localRemote_IP : recived. Using : $trimIP : and some clever : ping : commands to find your remote device"
+	echo "$localRemote_IP : recived. Using : $trimIP : and some clever : ping : commands to find your remote device..."
 	$customPinger
 	echo "We should see your IP, the IP of your access point, and one or more IPs"
 	echo "Using : grep : clean up the list some"
@@ -50,7 +50,7 @@ then
 	echo "$ui_IPremote : recieved and saved to : \$confermed_IP : $confermed_IP"
 # confermed_IP=	
 else [ $localRemote_IP = * ]
-	echo "recived : : which does not seem right"
+	echo "recived : $localRemote_IP : which does not seem right"
 	echo "setting \$localRemote_IP to : local : by default and continuing"
 	confermed_IP=$IP_local
 fi
