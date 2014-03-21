@@ -136,6 +136,20 @@ for FindScriptDirectory
 	 Perpios of this script example is to save the directory that it is running from into a variable that can be use latter,
 	 reason why this is useful; allows script componits to find one another no matter where they may have been downloaded from. 
 	~~~~~
+for 2nd_debSetup
+	This script should be run on the Android terminal and [b]not[/b] on your Linux terminal
+	If you recieve errors or blank lines where there should be usefull info, then likely you do not have the Android Terminal app found at the following link;
+	https://github.com/jackpal/Android-Terminal-Emulator
+	I'll be adding links into this script to both the above source and Google Market Place link so users know the requirements.
+	Note though that once the app is installed; the commands/programs that come with it can be accessed with other Android terminal apps, such as ROM Toolbox.
+	...eventually, when I figure out the "am" command on Android, you will see a script that runs on Linux to preform similar and new tasks; opening an app, rebooting, backing up a file, saving and running a script, remotely or localy but from the Linux commandline to controle your Android device...
+If you have issues with this script after installing BusyBox, then likely you'll want to edit the inital commands for your terminal emulator to point to the "xbin" directory that the BusyBox installer installs to by default. See bellow example of what I'm running on my tablet to get the "ifconfig" and other fetures of this script to function.
+	__________
+	export PATH=/data/local/bin:$PATH
+	export PATH=/system/xbin:$PATH
+	__________
+	Now your command line interface has many more fetures.
+	~~~~~
 ~~~~~~
 
 Sources that where used to construct these scripts
@@ -226,6 +240,8 @@ https://github.com/jackpal/Android-Terminal-Emulator/wiki/Android-Shell-Command-
 http://stackoverflow.com/questions/5494764/how-to-run-a-specific-android-app-using-terminal
 example to send an action with : -a : to application with : -n :
 # am start -a com.example.ACTION_NAME -n com.package.name/com.package.name.ActivityName
+# or from : https://sites.google.com/site/learncodesnow/
+# am start -a android.intent.action.MAIN -n com.iftitah.android.contact/com.iftitah.android.contact.Contact
 	for scp command examples
 http://www.tecmint.com/scp-commands-examples/
 example : transfer "source_file_name" to user on IP at "destination_folder" with scp
@@ -238,5 +254,18 @@ example : login to remote with : -l : option (note you can logout with : exit )
 ssh -l username remote-server
 example : send : ls : command to remote and : -v : option is to be verbose about it
 ssh -v user@remote-host "ls test"
+	for example file not found
+http://stackoverflow.com/questions/638975/how-do-i-tell-if-a-file-does-not-exist-in-bash
+# [ -f /tmp/foo.txt ] || echo "File not found!"
+more examples at
+http://tldp.org/LDP/Bash-Beginners-Guide/html/sect_07_01.html
+	exolution of fast custom pinger. Winner is on top... set : $IPmin $IPmax : and : $trimIP : with help from examples in this script or set manualy with litiral numbers. Note true min is "1" and true max is "254" if setting manualy.
+	customPinger=`for ip in $(seq $IPmin $IPmax) ;do (ping -c 1 -w 5 $trimIP$ip >/dev/null && echo "$trimIP$ip" &) ; done`
+	source of winning example
+http://stackoverflow.com/questions/14038606/fastest-way-to-ping-a-network-range-and-return-responsive-hosts
+# for ip in $(seq 1 254); do ping -c 1 192.168.1.$ip>/dev/null; [ $? -eq 0 ] && echo "192.168.1.$ip UP" || : ; done
+# for ip in 192.168.1.{1..10}; do ping -t 1 $ip > /dev/null && echo "${ip} is up"; done
+# for i in \$(seq 1 254) ;do (ping 192.168.1.\$i -c 1 -w 5 >/dev/null && echo \"192.168.1.\$i\" &) ; done
+# for i in {1..254} ;do (ping 192.168.1.$i -c 1 -w 5 >/dev/null && echo "192.168.1.$i" &) ;done
 
 ~~~~~~
