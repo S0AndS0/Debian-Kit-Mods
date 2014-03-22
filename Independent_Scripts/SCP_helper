@@ -4,7 +4,7 @@ PATH=/bin:/usr/bin:/usr/local/bin ; export PATH
 umask 022 		# Files that the script creates will have 755 permission.
 # 				Thanks to Ian D. Allen, for this tip.
 # un-comment xbin PATH variable if running on Android
-aSCP_nameScript=AssistedSCP.sh
+aSCP_nameScript=SCP_Helper.sh
 IP_inet_addr=`/sbin/ifconfig | grep -E 'inet addr' | grep -v '127.0.0.1' | awk '{gsub("addr:",""); print $2}'`
 IP_Bcast_addr=`/sbin/ifconfig | grep -E 'Bcast' | grep -v '127.0.0.1' | awk '{gsub("Bcast:",""); print $3}'`
 IP_Mask_addr=`/sbin/ifconfig | grep -E 'Mask' | grep -v '127.0.0.1' | awk '{gsub("Mask:",""); print $4}'`
