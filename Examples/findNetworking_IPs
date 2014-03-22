@@ -521,6 +521,12 @@ echo "Be sure to check out : Example 24-4. Passing an indirect reference to a fu
 echo "__________________5.0.2__________________"
 echo "Functions have some special rules and workaround required to make them work the way we want here,"
 echo "so lets start off with how to grab the input from the commandline at the time the script was run"
+echo "To be clear the syntax of this new script will be : sh newScript -ips 0.0.0.1 -ps 22 -sf /dir/source_file -sT 10 -ipr 0.0.0.2 -pr 22 -rd /downloads/dup_file : which is similar to the commandline programs we've already been using"
+echo "We'll also enbed checks that run sections of the set-up wizard if any/all information is missing before adtempting to send files."
+echo "And we'll add reading/writing of config files that can be set on a scedual for automating the transfering of files over your network."
+echo ""
+echo "	Note to readers/users of $fIP_nameScript : at the time of writing this script's draft version, I (known as S0AndS0 on github, xda-developers, and rptools), have only a ruff idea on how to acomplish this and will be learning much on the fly."
+echo "	if you're new to scripting or Linux this should help you see what sorts of projects you can accomplish without any previos knowlage, just a whole lot of time and Googling, because that's how I've done much of this and you can too!!!"
 echo "__________________"
 echo ""
 
