@@ -30,5 +30,31 @@ http://stackoverflow.com/questions/14038606/fastest-way-to-ping-a-network-range-
 # for i in \$(seq 1 254) ;do (ping 192.168.1.\$i -c 1 -w 5 >/dev/null && echo \"192.168.1.\$i\" &) ; done
 # for i in {1..254} ;do (ping 192.168.1.$i -c 1 -w 5 >/dev/null && echo "192.168.1.$i" &) ;done
 
+For ls commands
+List Files using ls with no option
+# ls
+Show file or directory, size, modified date and time, file or folder name and owner of file and it’s permission
+# ls -l
+View Hidden Files
+# ls -a
+List Files with Human Readable Format
+# ls -lh
+List Files and Directories with ‘/’ Character at the end
+# ls -F
+List Files in Reverse Order
+# ls -r
+Recursively list Sub-Directories
+# ls -R
+combination of -ltr will show latest modification file or directory date as last.
+# ls -lrt
+With combination of -lS displays file size in order, will display big in size first.
+# ls -lS
+Display Inode number of File or Directory
+ls -i
+With ls -l command list files under directory /tmp. Wherein with -ld parameters displays information of /tmp directory.
+# ls -l /tmp
+# ls -ld /tmp/
+To display UID and GID of files and directories. use option -n with ls command.
+# ls -n
 
 
