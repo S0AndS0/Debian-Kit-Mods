@@ -237,7 +237,7 @@ IP_Bcast_addr=`/sbin/ifconfig | grep -E 'Bcast' | grep -v '127.0.0.1' | awk '{gs
 IP_Mask_addr=`/sbin/ifconfig | grep -E 'Mask' | grep -v '127.0.0.1' | awk '{gsub("Mask:",""); print \$4}'`
 IP_inet6_addr=`/sbin/ifconfig | grep -E 'inet6 addr' | grep -v '127.0.0.1' | grep -v '1/128' | awk '{gsub("addr:",""); print \$2}'`
 IP_local=`/sbin/ifconfig | grep -E 'inet addr' | grep -E '127.0.0.1' | awk '{gsub("addr:",""); print \$2}'`
-trimIP=`\$IP_Bcast_addr | sed 's/...$//'`
+trimIP=`\$IP_Bcast_addr | sed 's/...\$//'`
  : \${USER?} \${HOME?} 
 echo -n "Please state the lowest number you wish to scan (min is 1) : "
 read IPmin
@@ -261,7 +261,7 @@ linuxSSH_login=\$user_remoteUsername@\$user_remoteIP
 { 
 # confirm with the user 
 read -r -p "Do you wish to continue loging into \$linuxSSH_login? [y/N] " response 
-case "$response" in 
+case "\$response" in 
 	[yY][eE][sS]|[yY]) 
 # if yes, then continue with example 
 		ssh -vl \$linuxSSH_login
@@ -327,6 +327,122 @@ case "$response" in
 esac
 } 
 echo "__________________"
+echo "At some point these commands may hang : Ctrl+d : will usually exit out of something much like killing an app"
+echo "Using : $linuxSSH_login : to send a : mkdir -p : command to that device" &7 sleep 3
+ssh -v $linuxSSH_login "mkdir -p ARM_Mod/recieving"
+echo "Now lets transfer that handy script for finding IPs and logging in over to : $linuxSSH_login : with the : scp : command"
+echo "By default port : 22 : is used for these commands : ssh and scp : but we can set one now if you like to further modify this next variable tree."
+echo -n "What port would you like to use? : "
+read user_remotePort
+echo "For this example port : $user_remotePort : is being used."
+mod_scpOptions=Cvp
+mod_scpsourceFile=$fIP_savePath/runableExamples/AssistedSSH.sh
+mod_scpdestinationDir=ARM_Mod/recieving
+echo "An unmodifide example of this command can be found bellow"
+echo "scp -Cvp -P 22 source_file_name username@destination_host:destination_folder"
+echo "The : -Cvp : options stand for : compress, verbose, progress"
+echo "The : -P : stands for what port to use. Note the compress option will, inteligently, only compress non-compressed files before sending"
+echo "The modifide version of the above example with the curent varibles assigned is bellow"
+echo "scp -$mod_scpOptions -P $user_remotePort $mod_scpsourceFile $linuxSSH_login:$mod_scpdestinationDir"
+mod_scp_LtoR=`scp -$mod_scpOptions -P $user_remotePort $mod_scpsourceFile $linuxSSH_login:$mod_scpdestinationDir`
+echo "Which has been saved to a variable called : \$mod_scp_LtoR : so it can be called easier in this script"
+echo "But we can modify that variable so it sends a different file if you so choose..."
+{ 
+read -r -p "Do you wish to change the source file and destination directory? [y/N] " response 
+case "$response" in 
+	[yY][eE][sS]|[yY]) 
+# if yes, then prompt user for new IP to scan and re-set variable tree
+		echo -n "Please input a new source file : "
+		read user_scpsourceFile
+		echo -n  "What is your remote Linux destination directory? : "
+		read user_scpdestinationDir
+		echo -n "What port would you like to use? : "
+		read user_remotePort
+		user_scp_LtoR=`scp -$mod_scpOptions -P $user_remotePort $user_scpsourceFile $linuxSSH_login:$user_scpdestinationDir`
+		mod_scp_LtoR=$user_scp_LtoR
+		echo "\$mod_scp_LtoR : set to : $mod_scp_LtoR"
+		;; 
+	*) 
+#		 Otherwise move on.. 
+	echo "Continuing with $fIP_nameScript"
+	;; 
+esac
+} 
+echo "__________________"
+echo "\$mod_scp_LtoR : is set to : $mod_scp_LtoR : and running in 3...2..1." && sleep 3
+$mod_scp_LtoR
+echo "One of the neet things we can do with the : scp : command is specify the source file on another device to yet another remote device. So lets save another script to make the transfering of files a little easier and save it to both this device and the remote we just sent to..."
+echo "... But last time we used the : cat : command with the : End-of-File : acronem in part 3."
+echo "So here in Part 4 we will see another method of writing files using : echo : piped to a combo of : sudo tee : which will use root permissions to write the file. Note if you add the : -a : option : sudo tee -a : this will append to the end of a file if it already exsists."
+echo "Your terminal window should ask you for a password in a moment, you should enter the password you use for loging into $USER"
+echo '#!/bin/bash
+aSCP_nameScript=AssistedSCP.sh
+IP_inet_addr=`/sbin/ifconfig | grep -E 'inet addr' | grep -v '127.0.0.1' | awk '{gsub("addr:",""); print \$2}'`
+IP_Bcast_addr=`/sbin/ifconfig | grep -E 'Bcast' | grep -v '127.0.0.1' | awk '{gsub("Bcast:",""); print \$3}'`
+IP_Mask_addr=`/sbin/ifconfig | grep -E 'Mask' | grep -v '127.0.0.1' | awk '{gsub("Mask:",""); print \$4}'`
+IP_inet6_addr=`/sbin/ifconfig | grep -E 'inet6 addr' | grep -v '127.0.0.1' | grep -v '1/128' | awk '{gsub("addr:",""); print \$2}'`
+IP_local=`/sbin/ifconfig | grep -E 'inet addr' | grep -E '127.0.0.1' | awk '{gsub("addr:",""); print \$2}'`
+trimIP=`\$IP_Bcast_addr | sed 's/...\$//'`
+ : \${USER?} \${HOME?} 
+echo -n "Please state the lowest number you wish to scan (min is 1) : "
+read IPmin
+echo -n "Please state the highest number you wish to scan (max is 254) : "
+read IPmax
+customPinger=`for ip in \$(seq \$IPmin \$IPmax) ;do (ping -c 1 -w 5 \$trimIP\$ip >/dev/null && echo "\$trimIP\$ip" &) ; done`
+fLive_IPs=`\$customPinger | grep -v '\$trimRoute' | grep -v '\$IP_inet_addr'` 
+echo "__________________"
+echo "Your - inet addr - IP is : \$IP_inet_addr"
+echo "Your - Bcast - IP is : \$IP_Bcast_addr"
+echo "Your - Mask - IP is : \$IP_Mask_addr"
+echo "Your - inet6 addr - IP is : \$IP_inet6_addr"
+echo "Your - local IP - is : \$IP_local"
+echo "The - Live IPs - are : \$fLive_IPs"
+echo "__________________"
+echo -n "What is the IP address that you wish to connect/send to? : "
+read remote_reciveIP
+echo -n  "What is your Linux user name for $user_remote_reciveIP? : "
+read remote_reciveUsername
+SSH_login_Reciving=\$remote_reciveUsername@\$remote_reciveIP
+echo -n "What port would you like to use for \$SSH_login_Reciving? : "
+read remote_recivingPort
+echo "__________________"
+echo -n "What is the IP that you are sending files from (Note if sending from local input : \$IP_inet_addr) : "
+read remote_sendIP
+echo -n "What is the Linux user name for for \$remote_sendIP? "
+read remote_sendUsername
+SSH_login_Sending=\$remote_sendUsername@\$remote_sendIP
+echo -n "What port would you like to use for \$SSH_login_Sending? : "
+read remote_sendPort
+echo "__________________"
+echo -n "Please input a source file directory and name (Without spaces please) : "
+read sourceFile
+echo -n  "What is your remote Linux destination directory? : "
+read destinationDir
+echo -n "What options would you like to use for this transfer? (Note best results are with : Cvp : for : compress, verbose, progress : if you add : r : then this operation will be recursive and copy directories to a new directory on the recieving device into a directory named : documents) : "
+read mod_scpOptions
+scp_fullCommand=`scp -\$mod_scpOptions -P \$remote_sendPort \$SSH_login_Sending:\$sourceFile -P \$remote_recivingPort \$SSH_login_Reciving:\$destinationDir`
+echo "__________________"
+echo "About to run the following command..."
+echo "\$scp_fullCommand"
+echo "__________________"
+{ 
+read -r -p "Do you wish to continue with \$aSCP_nameScript? [y/N] " response 
+case "\$response" in 
+	[yY][eE][sS]|[yY]) 
+# if yes, then continue with script 
+		echo "... Running command now..."
+		;; 
+	*) 
+#		 Otherwise exit.. 
+	echo "Good Night" 
+	exit 
+	;; 
+esac
+} 
+\$scp_fullCommand
+echo "__________________"
+echo "Exiting \$aSCP_nameScript now..."
+echo exit' | sudo tee $fIP_savePath/runableExamples/AssistedSCP.sh
 
 echo "__________________"
 
@@ -379,7 +495,7 @@ echo "__________________"
 echo "end of example script"
 echo exit
 
-# commands that work on Android terminal similarly to Linux when BusyBox is installed and its path is set to an export path
+# commands that work on Android terminal similarly to Linux when BusyBox is installed and its path is set to an export path variable.
 # scp : for sending, recieving, or trasfering files.
 # date : for checking the time
 # ping : be sure to use the -c option to limit how many pings are going out and : $(seq 1 254) : works to scan a range of ips using ping instead of : {1..254}
