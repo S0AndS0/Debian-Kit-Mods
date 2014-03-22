@@ -13,6 +13,9 @@ Michael NA
 	 Google
 To automate and make easy the processes of installing Java from source or tarball and Java dependent software.
 Such as Maptools and jMonkey which wouldn't normally be able to run on ARM CPUs. But running Linux on Raspberry Pi or Android mobile devices bypasses much or all the nead to re-write a program to run happielly on ARM.
+
+Modification instructions can be found under the "docs" directory.
+
 ###
 # warning of pairale
 # This is offered freely and without warranty
@@ -78,78 +81,7 @@ for findNetworking_IPs
 	Write your own script for your own perpiouses and enjoy.
 ~~~~~~
 
-modification instructions
-~~~~~~
-for ARM_Java_JDK7_Istaller
-	lines 49-51 have variales set up to easly modify between jdk versions
-	~~~~~~
-49	javaVersion=jdk-7u21
-50	javaFind=$HOME/Downloads
-51	javaShortcutVersion=jdk1.7.0_21
-	~~~~~~
-	use these to modify the script so that it finds and sets up Java corectly on your device.
-	for example, bellow, the sugested modds to the script would change things so java version 7u45 would be installed and find would be pointed to your external sdcard for finding the source .tar file.
-	~~~~~~
-49	javaVersion=jdk-7u45
-50	javaFind=/sdcard/downloads
-51	javaShortcutVersion=jdk1.7.0_45
-	~~~~~~
-for ARM_Maptools_Installer
-	lines 23-28 have variables set up to easly modify for different builds of maptools.
-	~~~~~~
-23	pathFinderversion=MT1.3.87.06_DnD35_Pathfinder.cmpgn
-24	MT_buildVersion=maptool-1.3.b87
-25	MT_shortcutVersion=maptool-1.3.b87.jar
-26	MT_findVersion=maptool
-27	MT_downloadVersion=http://www.rptools.net/download/zip/maptool-1.3.b87.zip
-28	Download_DnD35_Pathfinder=https://www.sugarsync.com/pf/D356388_6189570_977596?directDownload=true
-	~~~~~~
-	use thes to download and install the version that your GM is using.
-	for example, bellow, the sugested modds the the script would download and install build 89 of maptools instead
-	~~~~~~
-23	pathFinderversion=MT1.3.87.06_DnD35_Pathfinder.cmpgn
-24	MT_buildVersion=maptool-1.3.b89
-25	MT_shortcutVersion=maptool-1.3.b89.jar
-26	MT_findVersion=maptool
-27	MT_downloadVersion=http://www.rptools.net/download/zip/maptool-1.3.b89.zip
-28	Download_DnD35_Pathfinder=https://www.sugarsync.com/pf/D356388_6189570_977596?directDownload=true
-	~~~~~~
-for FindScriptDirectory
-	~~~~~
-	$ThisScript and $PathTo_ThisScript can be modifide for other uses or encorperation into other scripts.
-	if using within a script that writes out its componits such as the ones found in this branch then the following lines;
-3	ThisScript="$(readlink -f $0)"
-	and
-5	PathTo_ThisScript="$(dirname $ThisScript)"
-	and
-8	echo "The name of this script is : $ThisScript"
-9	echo "The path to this script is : $PathTo_ThisScript"
-	should be modifide to;
-3	ThisScript="\$(readlink -f \$0)"
-	and
-5	PathTo_ThisScript="\$(dirname \$ThisScript)"
-	and
-8	echo "The name of this script is : \$ThisScript"
-9	echo "The path to this script is : \$PathTo_ThisScript"
-	in the "host script" so the variables are not prossessed during the writing out portion.
-	This example will be used latter to modify some of the curent scripts and the new ones to come.
-	 Perpios of this script example is to save the directory that it is running from into a variable that can be use latter,
-	 reason why this is useful; allows script componits to find one another no matter where they may have been downloaded from. 
-	~~~~~
-for 2nd_debSetup
-	This script should be run on the Android terminal and [b]not[/b] on your Linux terminal
-	If you recieve errors or blank lines where there should be usefull info, then likely you do not have the Android Terminal app found at the following link;
-	https://github.com/jackpal/Android-Terminal-Emulator
-	I'll be adding links into this script to both the above source and Google Market Place link so users know the requirements.
-	Note though that once the app is installed; the commands/programs that come with it can be accessed with other Android terminal apps, such as ROM Toolbox.
-	...eventually, when I figure out the "am" command on Android, you will see a script that runs on Linux to preform similar and new tasks; opening an app, rebooting, backing up a file, saving and running a script, remotely or localy but from the Linux commandline to controle your Android device...
-If you have issues with this script after installing BusyBox, then likely you'll want to edit the inital commands for your terminal emulator to point to the "xbin" directory that the BusyBox installer installs to by default. See bellow example of what I'm running on my tablet to get the "ifconfig" and other fetures of this script to function.
-	__________
-	export PATH=/data/local/bin:$PATH
-	export PATH=/system/xbin:$PATH
-	__________
-	Now your command line interface has many more fetures.
-	~~~~~
+
 ~~~~~~
 
 Sources that where used to construct these scripts
@@ -238,34 +170,17 @@ http://stackoverflow.com/questions/16705213/android-shell-script-read
 https://github.com/jackpal/Android-Terminal-Emulator/wiki/Android-Shell-Command-Reference
 	for starting an app from the command line on Android
 http://stackoverflow.com/questions/5494764/how-to-run-a-specific-android-app-using-terminal
-example to send an action with : -a : to application with : -n :
-# am start -a com.example.ACTION_NAME -n com.package.name/com.package.name.ActivityName
-# or from : https://sites.google.com/site/learncodesnow/
-# am start -a android.intent.action.MAIN -n com.iftitah.android.contact/com.iftitah.android.contact.Contact
 	for scp command examples
 http://www.tecmint.com/scp-commands-examples/
-example : transfer "source_file_name" to user on IP at "destination_folder" with scp
-# scp source_file_name username@destination_host:destination_folder
-# example scp command : -v : is verbose ... : -p : show estemated time ... : -C : uses compression on non-compressed files ... : -P : customizes the port to be used in connnection ... : -r : When the copy process is done, at the destination server you will found a directory named “documents” with all it’s files.
-# scp -Cvp -P 22 source_file_name username@destination_host:destination_folder
 	for ssh command examples
 http://www.folkstalk.com/2012/07/ssh-command-examples-unix-linux.html?m=1
-example : login to remote with : -l : option (note you can logout with : exit )
-ssh -l username remote-server
-example : send : ls : command to remote and : -v : option is to be verbose about it
-ssh -v user@remote-host "ls test"
 	for example file not found
 http://stackoverflow.com/questions/638975/how-do-i-tell-if-a-file-does-not-exist-in-bash
-# [ -f /tmp/foo.txt ] || echo "File not found!"
 more examples at
 http://tldp.org/LDP/Bash-Beginners-Guide/html/sect_07_01.html
-	exolution of fast custom pinger. Winner is on top... set : $IPmin $IPmax : and : $trimIP : with help from examples in this script or set manualy with litiral numbers. Note true min is "1" and true max is "254" if setting manualy.
+	fast custom pinger. Set : $IPmin $IPmax : and : $trimIP : with help from examples in this script or set manualy with litiral numbers. Note true min is "1" and true max is "254" if setting manualy.
 	customPinger=`for ip in $(seq $IPmin $IPmax) ;do (ping -c 1 -w 5 $trimIP$ip >/dev/null && echo "$trimIP$ip" &) ; done`
 	source of winning example
 http://stackoverflow.com/questions/14038606/fastest-way-to-ping-a-network-range-and-return-responsive-hosts
-# for ip in $(seq 1 254); do ping -c 1 192.168.1.$ip>/dev/null; [ $? -eq 0 ] && echo "192.168.1.$ip UP" || : ; done
-# for ip in 192.168.1.{1..10}; do ping -t 1 $ip > /dev/null && echo "${ip} is up"; done
-# for i in \$(seq 1 254) ;do (ping 192.168.1.\$i -c 1 -w 5 >/dev/null && echo \"192.168.1.\$i\" &) ; done
-# for i in {1..254} ;do (ping 192.168.1.$i -c 1 -w 5 >/dev/null && echo "192.168.1.$i" &) ;done
 
 ~~~~~~

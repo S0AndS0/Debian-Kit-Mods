@@ -1,0 +1,34 @@
+	for starting an app from the command line on Android
+http://stackoverflow.com/questions/5494764/how-to-run-a-specific-android-app-using-terminal
+example to send an action with : -a : to application with : -n :
+# am start -a com.example.ACTION_NAME -n com.package.name/com.package.name.ActivityName
+# or from : https://sites.google.com/site/learncodesnow/
+# am start -a android.intent.action.MAIN -n com.iftitah.android.contact/com.iftitah.android.contact.Contact
+	for scp command examples
+http://www.tecmint.com/scp-commands-examples/
+example : transfer "source_file_name" to user on IP at "destination_folder" with scp
+# scp source_file_name username@destination_host:destination_folder
+# example scp command : -v : is verbose ... : -p : show estemated time ... : -C : uses compression on non-compressed files ... : -P : customizes the port to be used in connnection ... : -r : When the copy process is done, at the destination server you will found a directory named “documents” with all it’s files.
+# scp -Cvp -P 22 source_file_name username@destination_host:destination_folder
+	for ssh command examples
+http://www.folkstalk.com/2012/07/ssh-command-examples-unix-linux.html?m=1
+example : login to remote with : -l : option (note you can logout with : exit )
+ssh -l username remote-server
+example : send : ls : command to remote and : -v : option is to be verbose about it
+ssh -v user@remote-host "ls test"
+	for example file not found
+http://stackoverflow.com/questions/638975/how-do-i-tell-if-a-file-does-not-exist-in-bash
+# [ -f /tmp/foo.txt ] || echo "File not found!"
+more examples at
+http://tldp.org/LDP/Bash-Beginners-Guide/html/sect_07_01.html
+	exolution of fast custom pinger. Winner is on top... set : $IPmin $IPmax : and : $trimIP : with help from examples in this script or set manualy with litiral numbers. Note true min is "1" and true max is "254" if setting manualy.
+	customPinger=`for ip in $(seq $IPmin $IPmax) ;do (ping -c 1 -w 5 $trimIP$ip >/dev/null && echo "$trimIP$ip" &) ; done`
+	source of winning example
+http://stackoverflow.com/questions/14038606/fastest-way-to-ping-a-network-range-and-return-responsive-hosts
+# for ip in $(seq 1 254); do ping -c 1 192.168.1.$ip>/dev/null; [ $? -eq 0 ] && echo "192.168.1.$ip UP" || : ; done
+# for ip in 192.168.1.{1..10}; do ping -t 1 $ip > /dev/null && echo "${ip} is up"; done
+# for i in \$(seq 1 254) ;do (ping 192.168.1.\$i -c 1 -w 5 >/dev/null && echo \"192.168.1.\$i\" &) ; done
+# for i in {1..254} ;do (ping 192.168.1.$i -c 1 -w 5 >/dev/null && echo "192.168.1.$i" &) ;done
+
+
+
