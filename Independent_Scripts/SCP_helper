@@ -1,0 +1,72 @@
+#!/bin/bash
+PATH=/bin:/usr/bin:/usr/local/bin ; export PATH 
+# PATH=/bin:/usr/bin:/usr/local/xbin ; export PATH 
+umask 022 		# Files that the script creates will have 755 permission.
+# 				Thanks to Ian D. Allen, for this tip.
+# un-comment xbin PATH variable if running on Android
+aSCP_nameScript=AssistedSCP.sh
+IP_inet_addr=`/sbin/ifconfig | grep -E 'inet addr' | grep -v '127.0.0.1' | awk '{gsub("addr:",""); print $2}'`
+IP_Bcast_addr=`/sbin/ifconfig | grep -E 'Bcast' | grep -v '127.0.0.1' | awk '{gsub("Bcast:",""); print $3}'`
+IP_Mask_addr=`/sbin/ifconfig | grep -E 'Mask' | grep -v '127.0.0.1' | awk '{gsub("Mask:",""); print $4}'`
+IP_inet6_addr=`/sbin/ifconfig | grep -E 'inet6 addr' | grep -v '127.0.0.1' | grep -v '1/128' | awk '{gsub("addr:",""); print $2}'`
+IP_local=`/sbin/ifconfig | grep -E 'inet addr' | grep -E '127.0.0.1' | awk '{gsub("addr:",""); print $2}'`
+trimIP=`$IP_Bcast_addr | sed 's/...$//'`
+echo -n "Please state the lowest number you wish to scan (min is 1) : "
+read IPmin
+echo -n "Please state the highest number you wish to scan (max is 254) : "
+read IPmax
+customPinger=`for ip in $(seq $IPmin $IPmax) ;do (ping -c 1 -w 5 $trimIP$ip >/dev/null && echo "$trimIP$ip" &) ; done`
+fLive_IPs=`$customPinger | grep -v '$trimRoute' | grep -v '$IP_inet_addr'` 
+echo "__________________"
+echo "Your - inet addr - IP is : $IP_inet_addr"
+echo "Your - Bcast - IP is : $IP_Bcast_addr"
+echo "Your - Mask - IP is : $IP_Mask_addr"
+echo "Your - inet6 addr - IP is : $IP_inet6_addr"
+echo "Your - local IP - is : $IP_local"
+echo "The - Live IPs - are : $fLive_IPs"
+echo "__________________"
+echo -n "What is the IP address that you wish to connect/send to? : "
+read remote_reciveIP
+echo -n  "What is your Linux user name for $user_remote_reciveIP? : "
+read remote_reciveUsername
+SSH_login_Reciving=$remote_reciveUsername@$remote_reciveIP
+echo -n "What port would you like to use for $SSH_login_Reciving? : "
+read remote_recivingPort
+echo "__________________"
+echo -n "What is the IP that you are sending files from (Note if sending from local input : $IP_inet_addr) : "
+read remote_sendIP
+echo -n "What is the Linux user name for for $remote_sendIP? "
+read remote_sendUsername
+SSH_login_Sending=$remote_sendUsername@$remote_sendIP
+echo -n "What port would you like to use for $SSH_login_Sending? : "
+read remote_sendPort
+echo "__________________"
+echo -n "Please input a source file directory and name (Without spaces please) : "
+read sourceFile
+echo -n  "What is your remote Linux destination directory? : "
+read destinationDir
+echo -n "What options would you like to use for this transfer? (Note best results are with : Cvp : for : compress, verbose, progress : if you add : r : then this operation will be recursive and copy directories to a new directory on the recieving device into a directory named : documents) : "
+read mod_scpOptions
+scp_fullCommand=`scp -$mod_scpOptions -P $remote_sendPort $SSH_login_Sending:$sourceFile -P $remote_recivingPort $SSH_login_Reciving:$destinationDir`
+echo "__________________"
+echo "About to run the following command..."
+echo "$scp_fullCommand"
+echo "__________________"
+{ 
+read -r -p "Do you wish to continue with $aSCP_nameScript? [y/N] " response 
+case "$response" in 
+	[yY][eE][sS]|[yY]) 
+# if yes, then continue with script 
+		echo "... Running command now..."
+		;; 
+	*) 
+#		 Otherwise exit.. 
+	echo "Good Night" 
+	exit 
+	;; 
+esac
+} 
+$scp_fullCommand
+echo "__________________"
+echo "Exiting $aSCP_nameScript now..."
+echo exit
