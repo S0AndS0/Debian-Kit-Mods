@@ -161,6 +161,8 @@ for trimming strings
 http://www.shellhacks.com/en/Removing-First-and-Last-Characters-From-Strings-in-Bash
 for more trimming string expmples
 http://stackoverflow.com/questions/3323809/unix-shell-scripting-trim-last-3-characters-of-a-line-without-using-sed-or-pe
+for ls examples
+http://www.tecmint.com/15-basic-ls-command-examples-in-linux/
 
 	~~~~~~
 	for 2nd_debSetup
