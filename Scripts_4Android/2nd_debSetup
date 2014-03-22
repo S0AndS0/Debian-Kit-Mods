@@ -1,4 +1,8 @@
 #!/bin/sh
+PATH=/bin:/usr/bin:/usr/local/bin ; export PATH 
+PATH=/bin:/usr/bin:/usr/local/xbin ; export PATH 
+umask 022 		# Files that the script creates will have 755 permission.
+# Thanks to Ian D. Allen, for this tip.
 echo "This script is ment to run with the : Android Terminal emulater : app and : Busybox"
 echo "setting variables..."
 echo "...date and time..."
