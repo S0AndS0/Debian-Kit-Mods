@@ -184,5 +184,6 @@ http://tldp.org/LDP/Bash-Beginners-Guide/html/sect_07_01.html
 	customPinger=`for ip in $(seq $IPmin $IPmax) ;do (ping -c 1 -w 5 $trimIP$ip >/dev/null && echo "$trimIP$ip" &) ; done`
 	source of winning example
 http://stackoverflow.com/questions/14038606/fastest-way-to-ping-a-network-range-and-return-responsive-hosts
-
+	for functions quickly/clearly explained
+http://stackoverflow.com/questions/6212219/passing-parameters-to-a-bash-function
 ~~~~~~
