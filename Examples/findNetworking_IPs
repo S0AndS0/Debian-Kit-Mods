@@ -469,15 +469,68 @@ echo "Furthermore we've learned how to scan/connect to a remote device on the sa
 echo "and login or send commands or trasfer files between those devices."
 echo "We've also learned how to take the output of one program and \"pipe\" it to an other program and how to save those complex operations to cutom variables."
 echo "Which seems to be popular questions on the Q and A forums, so hopefully someone new to bash, linux, networking, or writing scripts finds this script usefull."
-echo "End__________________Part_3__________________End"
+echo "End__________________Part_4__________________End"
 echo "Comming up in part 5 will be : learning to scan for open ports because 22 isn't always the best/used port and guessing at it is bad."
 echo "And reading user input and passing that as commands/variables/options to the new scripts we will be writing."
 echo "We'll also be covering the process of back and restore your Linux OS $USER's programs and settings to a remote device, that way we can do a restore after a re-install of OS incase anything happens latter to corupt your install"
 echo "	Note this will not be a \"bare metel\" restorable backup but a selective backup"
-echo "Then we'll cover how to set that to a scedual and only run if the old back-up is much smaller than what the new one would be"
-
+echo "Then we'll cover how to set that to a schedual and only run if the old back-up is much smaller than what the new one would be."
+{ 
+# confirm with the user 
+read -r -p "Do you wish to continue with part 5 of $fIP_nameScript? [y/N] " response 
+case "$response" in 
+	[yY][eE][sS]|[yY]) 
+# if yes, then continue with example 
+		echo "Clearing screen and starting part 5 of $fIP_nameScript in 3...2..1." && sleep 3
+		;; 
+	*) 
+#		 Otherwise exit.. 
+	echo "Good Night" 
+	exit 
+	;; 
+esac
+} 
+clear 
+echo "Start__________________Part_5__________________Start"
+echo ls -lh $fIP_savePath/runableExamples
+echo "Above we have two scripts, one owned by root and another owned by &USER, one can be run with or without : sudo : and the one owned by root must be run with : sudo"
+echo "These two scripts have many built in variables to make them easy to run and maintain as stand alone scripts."
+echo "But to write scripts that run adaptivly, meaning that we run them with options in the same line as the command to use them, instead of filling out the options after the target script has been started... see bellow two lines..."
+echo "__________________"
+echo "Without options \"ls\""
+echo "With options \"ls -l\""
+echo "__________________"
+echo "... then we have : functions : to learn about and what \$1, \$2.. mean to the Linux command line"
+echo "__________________5.0.1__________________" && sleep 10
+echo "Functions are really usefull and you can find links that I found useful for examples and understanding in the readme file of this github project"
+echo "Bellow you will see a quick and useful example I found for how to construct functions"
+echo "__________________"
+echo '#!/bin/sh
+foo 1 
+# the above will fail because foo has not been declared yet.
+foo() {
+	echo "Parameter #1 is $1" 
+} 
+foo 2 
+# the above will work because it has been set now.' && echo echo "__________________"
+echo "The soure of this above wonderful example can be found bellow or in the readme file mentioned before"
+echo "http://stackoverflow.com/questions/6212219/passing-parameters-to-a-bash-function"
+echo "Which also recomends the following link for an advanced/in-depth explanation of of functions"
+echo "http://tldp.org/LDP/abs/html/complexfunct.html"
+echo "Be sure to check out : Example 24-4. Passing an indirect reference to a function : and : Example 36-18. Return value trickery : and : Example 36-20. Passing and returning arrays : of the above link that has also been added as is in the : examleCommands.txt : file here."
+echo "__________________5.0.2__________________"
+echo "Functions have some special rules and workaround required to make them work the way we want here,"
+echo "so lets start off with how to grab the input from the commandline at the time the script was run"
+echo "__________________"
+echo ""
 
 echo "__________________"
+
+
+echo "__________________5.0.3__________________"
+
+echo "__________________"
+
 
 # find the IP of your router or hotspot
 # sudo route -n | grep -E 'UG' | awk '{ print $2}'
