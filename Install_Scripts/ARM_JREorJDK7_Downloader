@@ -25,7 +25,8 @@ javajreSF_targetFile=ejre-7u51-fcs-b13-linux-arm-vfp-sflt-client_headful-18_dec_
 javajdkHF_targetFile=jdk-7u51-linux-arm-vfp-hflt.tar.gz
 javajdkSF_targetFile=jdk-7u51-linux-arm-vfp-sflt.tar.gz
 java_minSize=70000000
-javaCookie=gpw_e24\=https%3A%2F%2Fedelivery.oracle.com
+# gpw_e24\=https%3A%2F%2Fedelivery.oracle.com
+javaCookie=oraclelicense=accept-securebackup-cookie
 wgetModifiers="-N --no-check-certificate --no-cookies --header"
 # script name variables
 JD_nameScript=ARM_JREorJDK_Installer
