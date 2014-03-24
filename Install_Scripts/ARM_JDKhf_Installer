@@ -96,7 +96,7 @@ echo "Finding and changing ownership of Java tarball in your $JDKhf_Destanation 
 find $JDKhf_Destanation -type f -iname '$JDKhf_Version*' -print0 | xargs -0 sudo chown $USER:$USER
 echo "Finding and changing permissions of Java tarball in $JDKhf_Destanation directory to read write and execute for $USER"
 find $JDKhf_Destanation -type f -iname '$JDKhf_Version*' -print0 | xargs -0 sudo chmod --changes --recursive 755
-sudo cd $JDKhf_Destanation
+cd $JDKhf_Destanation
 find $JDKhf_Destanation -type f -iname '$JDKhf_Version*' -print0 | xargs -0 sudo tar -vxpzf
 # --verbose --extract --gunzip --file=
 sudo ln -s $JDKhf_ShortcutVersion java-7-oracle
@@ -148,7 +148,7 @@ sudo update-alternatives --quiet --install /usr/bin/xjc xjc /usr/lib/jvm/java-7-
 EOF
 echo "Creating script to compile the JRE/JDK description file named .java-7-oracle.jinfo to use with update-java-alternatives"
 sudo cat > $JDK7hf_componitPath/JRE_JDK_Descriptions <<EOF
-sudo cd $JDKhf_Destanation
+cd $JDKhf_Destanation
 echo 'alias=java-7-oracle 
 priority=100 
 section=non-free
