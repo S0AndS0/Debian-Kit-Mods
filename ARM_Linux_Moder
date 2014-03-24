@@ -13,6 +13,7 @@ RM_nameScript=ARM_Repo_Moder
 nJS_nameScript=ARM_NodeJS_Installer
 Br_nameScript=ARM_Bramble_Installer
 fIP_nameScript=findNetworking_IPs
+SCP_nameScript=SCP_helper
 echo "$LM_nameScript is running"
 echo "variables for user and home directories" 
  : ${USER?} ${HOME?} 
@@ -74,7 +75,7 @@ echo "Input - NF - to run $NF_nameScript [working]"
 echo "_________Linux-Dependent-Programs_________"
 echo "Input - Br - to run $Br_nameScript [Option 2 works for Debian Kit app users]"
 echo "_________Tutorials_________"
-echo "Input - 1 - to run Script that demonstraites scripting, networking, and remote file transfer among many other helpful tips"
+echo "Input - 1 - to run $fIP_nameScript that demonstraites scripting, networking, and remote file transfer among many other helpful tips"
 echo "Input - 2 - run $LM_nameScript mod instructions [unwritten]"
 echo "_________Extras_________"
 echo "Input - KF - to run $KF_nameScript [untested]"
