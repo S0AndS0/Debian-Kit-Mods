@@ -93,7 +93,7 @@ find $JDKsf_Destanation -type f -iname '$JDKsf_Version*' -print0 | xargs -0 sudo
 echo "Finding and changing permissions of Java tarball in $JDKsf_Destanation directory to read write and execute for $USER"
 find $JDKsf_Destanation -type f -iname '$JDKsf_Version*' -print0 | xargs -0 sudo chmod --changes --recursive 755
 echo "Changing directories temperaraly to $JDKsf_Destanation for extraction process"
-sudo cd $JDKsf_Destanation
+cd $JDKsf_Destanation
 find $JDKsf_Destanation -type f -iname '$JDKsf_Version*' -print0 | xargs -0 sudo tar -vxpzf
 # --verbose --extract --gunzip --file=
 echo "Creating a symbolic link in $JDKsf_Destanation named java-7-oracle"
@@ -147,7 +147,7 @@ EOF
 echo "Creating script to compile the JRE/JDK description file named .java-7-oracle.jinfo to use with update-java-alternatives under : $JDK7sf_componitPath/JRE_JDK_Descriptions"
 echo "which when run will write the contents to : $JDKsf_Destanation/.java-7-oracle.jinfo"
 sudo cat > $JDK7sf_componitPath/JRE_JDK_Descriptions <<EOF
-sudo cd $JDKsf_Destanation
+cd $JDKsf_Destanation
 echo 'alias=java-7-oracle 
 priority=100 
 section=non-free
