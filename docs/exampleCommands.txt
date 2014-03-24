@@ -144,7 +144,7 @@ http://tldp.org/LDP/abs/html/assortedtips.html#MULTIPLICATION
 
 Pass_Array () 
 { 
-	local passed_array 			# 	Local variable! 
+	local passed_array 				# Local variable! 
 	passed_array=( `echo "$1"` ) 
 	echo "${passed_array[@]}" 
 	# List all the elements of the new array 
