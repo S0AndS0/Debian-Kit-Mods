@@ -1,0 +1,26 @@
+#!/bin/bash
+PATH=/bin:/usr/bin:/usr/local/bin ; export PATH 
+umask 022 		# Files that the script creates will have 755 permission.
+# 				Thanks to Ian D. Allen, for this tip.
+
+# function for grabbing user input at time of running
+CMDoptions_grabber () { 
+#	until [ -z "$1" ] 		# Until uses up arguments passed... 
+#	do 
+	echo "$1"
+#		shift
+#	done
+} 
+# use the new function to display what $1 is
+CMDoptions_grabber
+
+
+
+# CMDoptions_grabber () { 
+#	until [ -z "$1" ] 		# Until uses up arguments passed... 
+#	do 
+		
+		
+#		shift
+#	done
+# } 
