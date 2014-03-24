@@ -1,7 +1,7 @@
 #!/bin/bash
 JDK7hf_nameScript=ARM_JDKhf_Installer
 JD_nameScript=ARM_JREorJDK7_Downloader
-LM_nameScript=ARM_Linux_Modder
+LM_nameScript=ARM_Linux_Moder
 echo "$JDK7hf_nameScript is running"
  : ${USER?} ${HOME?} 
 echo "user is : $USER"
