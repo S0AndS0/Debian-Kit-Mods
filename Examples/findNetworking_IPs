@@ -502,7 +502,7 @@ echo "With options \"ls -l\""
 echo "__________________"
 echo "... then we have : functions : to learn about and what \$1, \$2.. mean to the Linux command line"
 echo "__________________5.0.1__________________" && sleep 10
-echo "Functions are really usefull and you can find links that I found useful for examples and understanding in the readme file of this github project"
+echo "Functions are really usefull and you can find links that I found for examples and understanding in the readme file of this github project"
 echo "Bellow you will see a quick and useful example I found for how to construct functions"
 echo "__________________"
 echo '#!/bin/sh
@@ -524,16 +524,75 @@ echo "so lets start off with how to grab the input from the commandline at the t
 echo "To be clear the syntax of this new script will be : sh newScript -ips 0.0.0.1 -ps 22 -sf /dir/source_file -sT 10 -ipr 0.0.0.2 -pr 22 -rd /downloads/dup_file : which is similar to the commandline programs we've already been using"
 echo "We'll also enbed checks that run sections of the set-up wizard if any/all information is missing before adtempting to send files."
 echo "And we'll add reading/writing of config files that can be set on a scedual for automating the transfering of files over your network."
-echo ""
 echo "	Note to readers/users of $fIP_nameScript : at the time of writing this script's draft version, I (known as S0AndS0 on github, xda-developers, and rptools), have only a ruff idea on how to acomplish this and will be learning much on the fly."
 echo "	if you're new to scripting or Linux this should help you see what sorts of projects you can accomplish without any previos knowlage, just a whole lot of time and Googling, because that's how I've done much of this and you can too!!!"
+echo "__________________" && sleep 10
+echo "So lets write a small test script that will grab user input entered after the script's name."
+echo "For example we will be sending the following command to this script : sh $fIP_savePath/testFunction_runTime_variables.sh one two three four : Note : sh : tells bash to run the following file as a sh executable, then we have the file to run : testFunction_runTime_variables : and the options/runtime variables we are passing : one two three four : which we want our script to process as internal commands"
+echo "Writing the following with the : tee : command so we can see it in the terminal too"
 echo "__________________"
-echo ""
+echo '#!/bin/bash
+PATH=/bin:/usr/bin:/usr/local/bin ; export PATH 
+umask 022 		# Files that the script creates will have 755 permission.
+# 				Thanks to Ian D. Allen, for this tip.
 
-echo "__________________"
-
-
+# function for grabbing user input at time of running
+CMDoptions_grabber () { 
+	echo "\$#"
+	echo "\$1"
+	echo "\$2"
+	echo "\$3"
+	echo "\$4"
+	echo "\$?"
+} 
+# use the new function to display what \$1-\$4 is
+CMDoptions_grabber \$# \$1 \$2 \$3 \$4 \$?' | tee $fIP_savePath/testFunction_runTime_variables.sh
+echo "__________________" && sleep 5
+echo "Now running this new script with the above mentioned command"
+echo "sh $fIP_savePath/testFunction_runTime_variables.sh one two three four"
+sh $fIP_savePath/testFunction_runTime_variables.sh one two three four
+echo "Note we used the : tee : command this time without having to use : sudo : this is because we are writing to a folder ownded by your $USER and becuase we don't want to have to use sudo every time we want to write, read, or exicute the file being writen."
+ls -l $fIP_savePath
+echo "__________________" && sleep 5
+echo "Now to explain what is going on above."
+echo "	The : \$1-\$4 : are default variables in bash that we can use to quickly grab \"words\"/arguments out of a command, we've already used this a great deal with the : awk : commands for grabbing individual IP addresses in our : \$IP_inet_addr : and other complex variables."
+echo "	The : \$# : is yet another useful bash default variable that we can use without having to previously assigin, this one is being used to count/display how many arguments where given to the command line"
+echo "	The : \$? : is a bash default variable for displaying the \"exit status\" of the command(s) being run"
+echo "When we ran the above : sh : command we passed a total of six arguments to the commandline : first- \"sh\", second- \"testFunction_runTime_variables.sh\", third- \"one\", fourth- \"two\", fifth- \"three\", sixth- \"four\" : which the : \$# : variable counted as \"6\"
+echo "	Within the function named : CMDoptions_grabber : we assigne : echo : commands to each of the above listed variables. This causes the script to assigne all those things with \"\$\" symbles to actual values."
+echo "	We then call the function and restate those variables ouside of the function to make them display on the terminal (known as \"stdout\") which will alow us to grab them latter when we add to this script."
+echo "Now that we know how to grab a spicific number of commands sent to a script and we can grab those commands, place them in a function, and pull them back out we can do something a bit more usefull than echoing back a command." && sleep 3
+echo "	But I forgot to to show one of the other usefull defaults we can call on : \$@ : this will print all the commands : one - four : so lets cover how to modify exsisting files real quick so we can fix these errors without rewriting the whole thing..."
 echo "__________________5.0.3__________________"
+echo "Here we'll be modifying an exsisting file with a few usefull command line programs : sed, tee : and some pipes"
+echo "	so lets start with : sed : and get a line count of : testFunction_runTime_variables : by piping it to grep and only disply the line numbers."
+echo "	we'll be using : sed = $fIP_savePath/testFunction_runTime_variables.sh : to print out every line with it's number above and before we see it, pipe it to : grep -E \"^[1-9]\" : to clean out just the line numbers and display that to the terminal. The : -E \"^[1-9]\" : part tells grep to search for the given pattern, without the : ^ : before the : [] : this would have printed the numbered variables too : \$1-\$4 : and all the lines that those are contained in."
+echo "sed = $fIP_savePath/testFunction_runTime_variables.sh | grep -E \"^[1-9]\""
+sed = $fIP_savePath/testFunction_runTime_variables.sh | grep -E "^[1-9]"
+echo "and : sed : should say we have sixteen lines in total"
+echo "__________________"
+echo "So lets : use the : sed : command a few ways to add some lines/functionality to our script and its functions"
+echo "Using sed to insert : echo \"\$@\" : just befor line 8 : echo "\$#" : with the following command"
+echo "sed '8 i\	echo \"\$@\"'\$fIP_savePath/testFunction_runTime_variables.sh"
+echo "	note above if reading in a text editer, I had to \"escape\" the dubble quotes and variables to ensure they printed corectly for you with : echo : but when running on your own you can do without many or all of the forward slashes"
+sed '8 i\	echo "\$@"'$fIP_savePath/testFunction_runTime_variables.sh
+echo "	see? I only had to escape the tab and variable that time... Now rerunning the line count commands to show that the script increeced by one line"
+sed = $fIP_savePath/testFunction_runTime_variables.sh | grep -E "^[1-9]"
+echo "But how to add : \$@ : within the command found on line 17 (was line 16)?" && sleep 3
+echo "	sed 's@CMDoptions_grabber@&\$@\@g' \$fIP_savePath/testFunction_runTime_variables.sh"
+echo "would get us close but it would add : \$@ : to line seven and that would have undesirable effects..."
+echo "Thankfully : sed : can accept line numbers to nerow down the peramiters we're using..."
+echo "	sed -e '17s@CMDoptions_grabber@&\$@\@g' \$fIP_savePath/testFunction_runTime_variables.sh"
+echo "	Note how we had to add the number : 17 : to the command, we could also do a range of lines with something like : 1,10 : to perform this task on lines 1 - 10 \"globaly\""
+echo "	to un-set the \"global\" option used in this example and only perfor the operation on the : first : occurance then remove the : @g : option."
+echo "	Wile I'm explaining things, that : s@ : part stands for substitution and I'm using the : @ : symble to keep from having to escap file path's back slashes with forward slashes."
+echo "		Most examples on the web will use : s/ : and : /g : and escape them but the : @ : symble was found to allow for ragular : / : to be used, however : , : will still nead to be escaped"
+
+
+echo "__________________"
+
+
+echo "__________________5.0.4__________________"
 
 echo "__________________"
 
