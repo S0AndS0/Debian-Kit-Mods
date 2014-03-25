@@ -16,6 +16,13 @@ Br_downloadPath=$Br_ScriptDirectory/Download
 BR_installPath=$HOME/Bramble
 # Matenance
 IP_Local=`/sbin/ifconfig | grep -E 'inet addr' | grep -v '127.0.0.1' | awk '{gsub("addr:","");print $2}'`
+IP_inet_addr=`/sbin/ifconfig | grep -E 'inet addr' | grep -v '127.0.0.1' | awk '{gsub("addr:",""); print $2}'`
+IPmin=1
+IPmax=254
+trimIP=`$IP_Bcast_addr | sed 's/...$//'`
+customPinger=`for ip in $(seq $IPmin $IPmax) ;do (ping -c 1 -w 5 $trimIP$ip >/dev/null && echo "$trimIP$ip" &) ; done`
+trimRoute=`route -n | grep -E 'UG' | awk '{print $2}'`
+fLive_IPs=`$customPinger | grep -v '$trimRoute' | grep -v '$IP_inet_addr'`
 Br_nameScript=ARM_Bramble_Installer
 Bramble_config_YesFortran=./configure
 Bramble_config_NoFortran="./configure --disable-f77 --disable-fc"
@@ -180,26 +187,41 @@ case "\$response" in
 esac
 } 
 echo "________"
-# use $IP_Local and prompts to write to these files
-echo "1 - if installing on : Master"
-echo "2 - if installing on : Slave"
+echo "Bellow you will find your local device's local IP, this can be used to make local connections on your local device."
+$IP_Local
+echo "________"
+echo "Bellow you will find your local device's inet IP, this you can use to make remote connections to your local device."
+$IP_inet_addr
+echo "________"
+echo "Bellow you will find IP addresses of other devices on your network (minus your access point and your local devices IPs)."
+$fLive_IPs
+echo -n "What is the IP of the master node? "
+read masterIP
+echo -n "What is the IP of the slave node (one only at this time) and if none use your local IP? "
+read slaveIP
+echo "________"
+echo "1 - if installing on : Master : node"
+echo "2 - if installing on : Slave : node"
 read -r -p "Which configure option do you wish to run? " response
 if [ \$response = 1 ]
 then 
 	echo "appending the following line to : /etc/hosts"
-	echo '$IP_Local Master' | sudo tee -a /etc/hosts
+	echo '$masterIP Master
+	$slaveIP Slave' | sudo tee -a /etc/hosts
 	echo "appending the following line to : /etc/hosts.allow"
 	echo 'ALL+' | sudo tee -a /etc/hosts.allow
 	echo "Adding : machinefile : to : $BR_installPath"
-	echo '$IP_Local' | sudo tee -a $BR_installPath/machinefile
+	echo '$masterIP
+	$slaveIP:2' | sudo tee -a $BR_installPath/machinefile
 elif [ \$response = 2 ]
 then
 	echo "appending the following line to : /etc/hosts"
-	echo '$IP_Local Slave' | sudo tee -a /etc/hosts
+	echo '$masterIP Master
+	$slaveIP Slave' | sudo tee -a /etc/hosts
 	echo "appending the following line to : /etc/hosts.allow"
 	echo 'ALL+' | sudo tee -a /etc/hosts.allow
 	echo "Adding : machinefile : to : $BR_installPath"
-	echo '$IP_Local' | sudo tee -a $BR_installPath/machinefile
+	echo '$slaveIP' | sudo tee -a $BR_installPath/machinefile
 elif [ \$response = 0 ]
 then 
 	echo "exiting now"
@@ -212,7 +234,6 @@ then
 	echo exit 
 	exit 
 fi
-# 
 echo "________"
 echo "Please open : /etc/hosts : file and input your other nodes IP like the bellow example"
 echo "192.168.0.14 Master"
@@ -223,13 +244,12 @@ echo "Please open on your Master device : machinefile : and add the IPs of all n
 echo "192.168.0.14"
 echo "192.168.0.11:2"
 echo "________"
-echo "Continue at next prompt when you have compleated this for any other nodes you are installing Bramble to"
+echo "Input : y : or : yes : when done adding to those files on your own..."
 { 
-# confirm with the user 
 read -r -p "Do you wish to continue? [y/N] " response 
 case "\$response" in 
 	[yY][eE][sS]|[yY]) 
-# if yes, then start risking changes 
+# if yes, then move on
 		;; 
 	*) 
 #		 Otherwise exit.. 
@@ -261,6 +281,8 @@ echo "Changing directiories to : $Br_downloadPath"
 cd $Br_downloadPath
 echo "Downloading : $BrTest_targetFile : from github"
 wget $Bramble_test_Download
+echo "fixing permissions of : $BrTest_targetFile"
+sudo chmod -R 777 $Br_downloadPath/$BrTest_targetFile
 echo "Changing directories to : $BR_installPath"
 cd $BR_installPath
 echo "extracting $BrTest_targetFile with : tar : to : $BR_installPath"
@@ -357,6 +379,19 @@ case "\$response" in
 # if yes, then start risking changes 
 		echo "Running : cpiTest_Downloader"
 		sh $Br_componitPath/cpiTest_Downloader
+		echo -n "Do you need help with transfering this file to other nodes? "
+		read ui_scpHelper
+		if [ \$ui_scpHelper = y ]
+		then 
+			cd $Br_ScriptDirectory
+			cd .. && cd Independent_Scripts
+			sh SCP_helper
+			else
+		elif [ \$ui_scpHelper = * ]
+		then 
+			echo "Invalid input recieved"
+			echo "...contining anyway..."
+		fi
 		echo "running test"
 		mpiexec -f $BR_installPath/machinefile -n 10 .$BR_installPath/cpi_test/cpi
 		;; 
