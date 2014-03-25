@@ -576,10 +576,13 @@ echo "Using sed to insert : echo \"\$@\" : just befor line 8 : echo "\$#" : with
 echo "sed '8 i\	echo \"\$@\"'\$fIP_savePath/testFunction_runTime_variables.sh"
 echo "	note above if reading in a text editer, I had to \"escape\" the dubble quotes and variables to ensure they printed corectly for you with : echo : but when running on your own you can do without many or all of the forward slashes"
 sed '8 i\	echo "\$@"'$fIP_savePath/testFunction_runTime_variables.sh
+echo "__________________"
+cat $fIP_savePath/testFunction_runTime_variables.sh
+echo "__________________"
 echo "	see? I only had to escape the tab and variable that time... Now rerunning the line count commands to show that the script increeced by one line"
 sed = $fIP_savePath/testFunction_runTime_variables.sh | grep -E "^[1-9]"
 echo "But how to add : \$@ : within the command found on line 17 (was line 16)?" && sleep 3
-echo "	sed 's@CMDoptions_grabber@&\$@\@g' \$fIP_savePath/testFunction_runTime_variables.sh"
+echo "	sed 's@CMDoptions_grabber@&\$\@@g' \$fIP_savePath/testFunction_runTime_variables.sh"
 echo "would get us close but it would add : \$@ : to line seven and that would have undesirable effects..."
 echo "Thankfully : sed : can accept line numbers to nerow down the peramiters we're using..."
 echo "	sed -e '17s@CMDoptions_grabber@&\$@\@g' \$fIP_savePath/testFunction_runTime_variables.sh"
@@ -587,6 +590,11 @@ echo "	Note how we had to add the number : 17 : to the command, we could also do
 echo "	to un-set the \"global\" option used in this example and only perfor the operation on the : first : occurance then remove the : @g : option."
 echo "	Wile I'm explaining things, that : s@ : part stands for substitution and I'm using the : @ : symble to keep from having to escap file path's back slashes with forward slashes."
 echo "		Most examples on the web will use : s/ : and : /g : and escape them but the : @ : symble was found to allow for ragular : / : to be used, however : , : will still nead to be escaped"
+sed -e '17s@CMDoptions_grabber@&\$\@@g' $fIP_savePath/testFunction_runTime_variables.sh
+echo "__________________"
+cat $fIP_savePath/testFunction_runTime_variables.sh
+echo "__________________"
+
 
 
 echo "__________________"
