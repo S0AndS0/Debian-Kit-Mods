@@ -28,25 +28,33 @@ Modification instructions can be found under the "docs" directory.
 test results
 ~~~~~~
 02152014 ARM_Java_JDK7_Istaller works again. (renamed to ARM_JDK7sf_Installer in preperation for other versions for hardfloat to be made)
+
 02172014 ARM_Maptools_Installer works again.
+
 02242014 ARM_Java7_Downloader now exsists and works.
+
 02272014 FindScriptDirectory works as an example of what's to come
+
 03012014 ARM_Linux_Moder now functions to run any of the scripts from this github project
 	furthermore; the three new versions of ARM_Java_JDK7_Istaller, ARM_Maptools_Installer, and ARM_Java7_Downloader under the Install_Scripts 
 	should all function corectly
+
 03082014 ARM_NodeJS_Installer now works for Debian Kit; use option 3 to install through apt-get.
 	note though that installing libc6-dev may kick you out of xrdp and ssh connections temperaraly wile it installs, but after a minuet or two everything will restart and you can reconect.
 	options 1 and 2 are still untested as I don't have hard float running right now and the other option is for Pi soft float.
 	for NoFlo enthusiest there is a final prompt to request permition to install noflo through npm.
+
 03142014 findNetworking_IPs can now be used to learn about scripting for bash. Spicificly setting complex variables, saving and renaming and sending files, soon there will be a Part 3 to this script for sending files to a remote device.
 	note this is to be viewed running in a terminal window and a text editing window so you can see everything that is happening and being referanced.
 	note also that this is a test of "Scripting Lessions for Linux" searies that I plan on putting togeather in the Examples directory so people that are new to Linux and/or running Linux on Android may quickly benofit from the years of testing/learning I've done. I plan to orginize these into fully functional and usefull scripts that step the user (you the reader) through what is going on step-by-step so that the commands are understood enough that you can feel comfortable with modifying/playing-around with the examples for your own uses.
 	Mainly this is because I only found one truely fantastic source of information on the main subject of this script but that was through the "way back" machien and though it was a good recource I believe this script will do a good job of introducing people to scripting for themself. And sometimes I too nead a refresher on what can be done with the command line on Linux and how much fun it can be when things just work :-D
+
+03242014 ARM_Repo_Moder can now be used to add lots of repositories for installing software ouside of the Debian Squeeze distro
+	running this will also make it un advisable to run an "apt-get upgrade" command because you'll likell break something in you Linux OS if your device's wifi cuts out.
 	
 ~~~~~~
 usage instructions
 ~~~~~~
-##
 	clone this github projects to a directory, such as a Downloads folder
 	~~~~~
 #	cd /home/Downloads
@@ -57,7 +65,7 @@ usage instructions
 #	sh /home/Downloads/Debian-Kit-Mods/ARM_Linux_Moder
 	~~~~~
 	follow the prompts and choose which source file you wish to have downloaded or installed
-##
+
 for ARM_Maptools_Installer
 	~~~~~
 	follow the prompts and enjoy Maptools on your Android device
@@ -74,6 +82,7 @@ for Key_Fixer
 	~~~~~
 	use this to fix any missing keys that maybe causing errors after manualy modifying apt-get's source list.
 	~~~~~
+
 for findNetworking_IPs
 	~~~~~
 	Read the prompts as they pop up and hit : y : to continue to the next part when done reading about the previous part.
@@ -97,19 +106,24 @@ http://stackoverflow.com/questions/10268583/how-to-automate-download-and-instala
 	for Alternatives_Install_list I compiled this list from
 http://www.calxeda.com/trystack/gettingstarted/
 	~~~~~~
+
 for FindScriptDirectory
 http://stackoverflow.com/questions/59895/can-a-bash-script-tell-what-directory-its-stored-in
 http://www.cyberciti.biz/faq/unix-linux-appleosx-bsd-bash-script-find-what-directory-itsstoredin/
 	~~~~~~
+
 for Key_Fixer
 http://www.mepis.org/docs/en/index.php?title=Public_key_not_available_error
 	~~~~~~
+
 for ARM_NodeJS_Installer
 	easy script to cross compile for multiple versions of ARM
 https://github.com/itwars/Nodejs-ARM-builder
+
 	for sources of pre-compiled nodejs binaries
 https://gist.github.com/adammw/3245130
 	~~~~~~
+
 for ARM_Repo_Moder
 chef Opscode
 # Secure APT - wget -O- http://apt.opscode.com/packages@opscode.com.gpg.key | sudo apt-key add -
@@ -119,6 +133,7 @@ http://www.sourceslist.eu/?download=remove-apt-repository
 if you find that you don’t want that repo anymore
 Note2 the site is in Italian so use google translate if you need directions
 	~~~~~~
+
 for ARM_NoFlo_Installer
 sources of information that where helpful in writing this script
 for node.js
@@ -128,6 +143,7 @@ https://plus.google.com/100751105859582805241/posts/iDbvbUJXHsN
 for automaticly trying to download node.js if it fails the first time
 http://stackoverflow.com/questions/5920333/how-to-check-size-of-a-file
 	~~~~~~
+
 for ARM_Bramble_Installer
 sources of information and scripts
 http://westcoastlabs.blogspot.co.uk/2012/06/parallel-processing-on-pi-bramble.html
@@ -142,6 +158,7 @@ http://superuser.com/questions/537619/grep-for-term-and-exclude-another-term
 for modifide example of IP_Local variable setting
 http://bash.cyberciti.biz/misc-shell/read-local-ip-address/
 	~~~~~~
+
 for findNetworking_IPs script in Examples directory
 for date and time stamp and setting to variables
 http://www.cyberciti.biz/faq/linux-unix-formatting-dates-for-display/
@@ -163,6 +180,13 @@ for more trimming string expmples
 http://stackoverflow.com/questions/3323809/unix-shell-scripting-trim-last-3-characters-of-a-line-without-using-sed-or-pe
 for ls examples
 http://www.tecmint.com/15-basic-ls-command-examples-in-linux/
+	for sed and related command examples
+http://unix.stackexchange.com/questions/78306/sh-and-grep-numbers-only
+http://www.thegeekstuff.com/2009/11/unix-sed-tutorial-append-insert-replace-and-count-file-lines/
+http://www.thegeekstuff.com/2009/10/unix-sed-tutorial-advanced-sed-substitution-examples/
+http://www.unix.com/shell-programming-scripting/53476-can-sed-substitute-word-specific-line.html
+	for positinal peramiters
+http://www.thegeekstuff.com/2010/05/bash-shell-positional-parameters/
 
 	~~~~~~
 	for 2nd_debSetup
@@ -186,12 +210,5 @@ http://tldp.org/LDP/Bash-Beginners-Guide/html/sect_07_01.html
 http://stackoverflow.com/questions/14038606/fastest-way-to-ping-a-network-range-and-return-responsive-hosts
 	for functions quickly/clearly explained
 http://stackoverflow.com/questions/6212219/passing-parameters-to-a-bash-function
-	for sed and related command examples
-http://unix.stackexchange.com/questions/78306/sh-and-grep-numbers-only
-http://www.thegeekstuff.com/2009/11/unix-sed-tutorial-append-insert-replace-and-count-file-lines/
-http://www.thegeekstuff.com/2009/10/unix-sed-tutorial-advanced-sed-substitution-examples/
-http://www.unix.com/shell-programming-scripting/53476-can-sed-substitute-word-specific-line.html
-	for positinal peramiters
-http://www.thegeekstuff.com/2010/05/bash-shell-positional-parameters/
 
 ~~~~~~
