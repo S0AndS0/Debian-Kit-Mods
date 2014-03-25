@@ -79,7 +79,7 @@ echo "Input - 1 - to run $fIP_nameScript that demonstraites scripting, networkin
 echo "Input - 2 - run $LM_nameScript mod instructions [unwritten]"
 echo "_________Extras_________"
 echo "Input - KF - to run $KF_nameScript [untested]"
-echo "Input - RM - run $RM_nameScript [untested]"
+echo "Input - RM - run $RM_nameScript [tested - use with care]"
 
 echo "Choose and input a number to continue"
 echo "or input no to abort $LM_nameScript"
