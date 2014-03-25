@@ -186,4 +186,12 @@ http://tldp.org/LDP/Bash-Beginners-Guide/html/sect_07_01.html
 http://stackoverflow.com/questions/14038606/fastest-way-to-ping-a-network-range-and-return-responsive-hosts
 	for functions quickly/clearly explained
 http://stackoverflow.com/questions/6212219/passing-parameters-to-a-bash-function
+	for sed and related command examples
+http://unix.stackexchange.com/questions/78306/sh-and-grep-numbers-only
+http://www.thegeekstuff.com/2009/11/unix-sed-tutorial-append-insert-replace-and-count-file-lines/
+http://www.thegeekstuff.com/2009/10/unix-sed-tutorial-advanced-sed-substitution-examples/
+http://www.unix.com/shell-programming-scripting/53476-can-sed-substitute-word-specific-line.html
+	for positinal peramiters
+http://www.thegeekstuff.com/2010/05/bash-shell-positional-parameters/
+
 ~~~~~~
