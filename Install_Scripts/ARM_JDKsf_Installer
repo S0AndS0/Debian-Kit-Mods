@@ -93,13 +93,11 @@ find $JDKsf_Destanation -type f -iname '$JDKsf_Version*' -print0 | xargs -0 sudo
 echo "Finding and changing permissions of Java tarball in $JDKsf_Destanation directory to read write and execute for $USER"
 find $JDKsf_Destanation -type f -iname '$JDKsf_Version*' -print0 | xargs -0 sudo chmod --changes --recursive 755
 echo "Changing directories temperaraly to $JDKsf_Destanation for extraction process"
-cd $JDKsf_Destanation
-find $JDKsf_Destanation -type f -iname '$JDKsf_Version*' -print0 | xargs -0 sudo tar -vxpzf
+find $JDKsf_Destanation -type f -iname '$JDKsf_Version*' -print0 | xargs -0 sudo tar -vxpzf $JDKsf_Destanation
 # --verbose --extract --gunzip --file=
 echo "Creating a symbolic link in $JDKsf_Destanation named java-7-oracle"
-sudo ln -s $JDKsf_ShortcutVersion java-7-oracle
+sudo ln -s $JDKsf_Destanation/$JDKsf_ShortcutVersion java-7-oracle
 echo "Reverting to default working directory"
-cd ~
 EOF
 echo "creating a list of alternatives to install for JDK tools to your system under : $JDK7sf_componitPath/Alternatives_Install_list"
 sudo cat > $JDK7sf_componitPath/Alternatives_Install_list <<EOF
@@ -147,7 +145,6 @@ EOF
 echo "Creating script to compile the JRE/JDK description file named .java-7-oracle.jinfo to use with update-java-alternatives under : $JDK7sf_componitPath/JRE_JDK_Descriptions"
 echo "which when run will write the contents to : $JDKsf_Destanation/.java-7-oracle.jinfo"
 sudo cat > $JDK7sf_componitPath/JRE_JDK_Descriptions <<EOF
-cd $JDKsf_Destanation
 echo 'alias=java-7-oracle 
 priority=100 
 section=non-free
@@ -190,8 +187,7 @@ jdk schemagen /usr/lib/jvm/java-7-oracle/bin/schemagen
 jdk serialver /usr/lib/jvm/java-7-oracle/bin/serialver
 jdk wsgen /usr/lib/jvm/java-7-oracle/bin/wsgen
 jdk wsimport /usr/lib/jvm/java-7-oracle/bin/wsimport
-jdk xjc /usr/lib/jvm/java-7-oracle/bin/xjc' | sudo tee .java-7-oracle.jinfo
-cd ~
+jdk xjc /usr/lib/jvm/java-7-oracle/bin/xjc' | sudo tee $JDKsf_Destanation.java-7-oracle.jinfo
 EOF
 echo "Now writing Java7_Activator to : $JDK7sf_componitPath/Java7_Activator"
 sudo cat > $JDK7sf_componitPath/Java7_Activator <<EOF
