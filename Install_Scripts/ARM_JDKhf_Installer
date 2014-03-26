@@ -103,7 +103,7 @@ esac
 sudo tar -vxpzf $JDK7hf_downloadPath/$javajdkHF_targetFile -C $JDKhf_Destanation
 sudo chmod --changes --recursive 755 $JDKhf_Destanation/$JDKhf_ShortcutVersion
 sudo chown -Rc $USER:$USER $JDKhf_Destanation/$JDKhf_ShortcutVersion
-sudo ln -s $JDKhf_Destanation/$JDKhf_ShortcutVersion java-7-oracle
+sudo ln -s $JDKhf_Destanation/$JDKhf_ShortcutVersion $JDKhf_Destanation/java-7-oracle
 EOF
 # Create a list of alternatives to install for JDK tools
 echo "creating a list of alternatives to install for JDK tools to your system"

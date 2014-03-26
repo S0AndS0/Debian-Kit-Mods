@@ -101,7 +101,7 @@ esac
 sudo tar -vxpzf $JDK7sf_downloadPath/$javajdkSF_targetFile -C $JDKsf_Destanation
 sudo chmod --changes --recursive 755 $JDKsf_Destanation/$JDKsf_ShortcutVersion
 sudo chown -Rc $USER:$USER $JDKsf_Destanation/$JDKsf_ShortcutVersion
-sudo ln -s $JDKsf_Destanation/$JDKsf_ShortcutVersion java-7-oracle
+sudo ln -s $JDKsf_Destanation/$JDKsf_ShortcutVersion $JDKsf_Destanation/java-7-oracle
 EOF
 echo "creating a list of alternatives to install for JDK tools to your system under : $JDK7sf_componitPath/Alternatives_Install_list"
 sudo cat > $JDK7sf_componitPath/Alternatives_Install_list <<EOF
@@ -191,7 +191,7 @@ jdk schemagen /usr/lib/jvm/java-7-oracle/bin/schemagen
 jdk serialver /usr/lib/jvm/java-7-oracle/bin/serialver
 jdk wsgen /usr/lib/jvm/java-7-oracle/bin/wsgen
 jdk wsimport /usr/lib/jvm/java-7-oracle/bin/wsimport
-jdk xjc /usr/lib/jvm/java-7-oracle/bin/xjc' | sudo tee $JDKsf_Destanation.java-7-oracle.jinfo
+jdk xjc /usr/lib/jvm/java-7-oracle/bin/xjc' | sudo tee $JDKsf_Destanation/.java-7-oracle.jinfo
 EOF
 echo "Now writing Java7_Activator to : $JDK7sf_componitPath/Java7_Activator"
 sudo cat > $JDK7sf_componitPath/Java7_Activator <<EOF
