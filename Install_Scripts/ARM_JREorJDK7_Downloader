@@ -62,7 +62,7 @@ echo "___________________"
 echo "respond with 0 to download nothing and quit"
 echo "respond with 1 to download $javajreHF_targetFile [Untested]"
 echo "respond with 2 to download $javajreSF_targetFile [Untested]"
-echo "respond with 3 to download $javajdkHF_targetFile and run $JDK7hf_nameScript [Untested]"
+echo "respond with 3 to download $javajdkHF_targetFile and run $JDK7hf_nameScript [Tested and works]"
 echo "respond with 4 to download $javajdkSF_targetFile and run $JDK7sf_nameScript [Tested and works]"
 echo "___________________"
 read -r -p "Which one thing would you like to do? " response
@@ -113,7 +113,7 @@ then
 		else
 		echo "oh no something did not go ok, removing parial file and trying again in a few seconds"
 		rm -rI $java_Path/$javajdkHF_targetFile
-		sleep 30 && wget $wgetModifiers "Cookie: $javaCookie" $armJDK_HFdownload
+		sleep 30 && sudo wget $wgetModifiers "Cookie: $javaCookie" $armJDK_HFdownload
 		sh $PathTo_JD_Directory/$JDK7hf_nameScript
 	fi
 	cd ~
