@@ -90,20 +90,10 @@ case "\$response" in
 	;;
 esac
 } 
-# echo "moving on to copying java to $JDKhf_Destanation and extracting there"
-# echo "Finding and Copying Java tarball from the $JDK7hf_downloadPath directory to your $JDKhf_Destanation directory"
-# find $JDK7hf_downloadPath -type f -iname '$JDKhf_Version*' -print0 | xargs -0 sudo cp --interactive --verbose --target-directory=$JDKsf_Destanation
-# echo "Finding and changing ownership of Java tarball in your $JDKhf_Destanation directory"
-# find $JDKhf_Destanation -type f -iname '$JDKhf_Version*' -print0 | xargs -0 sudo chown $USER:$USER
-# echo "Finding and changing permissions of Java tarball in $JDKhf_Destanation directory to read write and execute for $USER"
-# find $JDKhf_Destanation -type f -iname '$JDKhf_Version*' -print0 | xargs -0 sudo chmod --changes --recursive 755
-# find $JDKhf_Destanation -type f -iname '$JDKhf_Version*' -print0 | xargs -0 sudo tar -vxpzf $JDKhf_Destanation
-# --verbose --extract --gunzip --file=
-# sudo ln -s $JDKhf_Destanation/$JDKhf_ShortcutVersion java-7-oracle
 sudo tar -vxpzf $JDK7hf_downloadPath/$javajdkHF_targetFile -C $JDKhf_Destanation
 sudo chmod --changes --recursive 755 $JDKhf_Destanation/$JDKhf_ShortcutVersion
-sudo chown -Rc $USER:$USER $JDKhf_Destanation/$JDKhf_ShortcutVersion
-sudo ln -s $JDKhf_Destanation/$JDKhf_ShortcutVersion $JDKhf_Destanation/java-7-oracle
+sudo chown -R $USER:$USER $JDKhf_Destanation/$JDKhf_ShortcutVersion
+sudo ln -s $JDKhf_Destanation/$JDKhf_ShortcutVersion /usr/lib/jvm/java-7-oracle
 EOF
 # Create a list of alternatives to install for JDK tools
 echo "creating a list of alternatives to install for JDK tools to your system"

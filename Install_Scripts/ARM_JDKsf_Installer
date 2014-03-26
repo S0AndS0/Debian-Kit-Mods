@@ -86,22 +86,10 @@ case "\$response" in
 	;;
 esac
 } 
-# echo "moving on to copying java to $JDKsf_Destanation and extracting there"
-# echo "Finding and Copying Java tarball from the $JDK7sf_downloadPath directory to your $JDKsf_Destanation directory"
-# find $JDK7sf_downloadPath -type f -iname '$JDKsf_Version*' -print0 | xargs -0 sudo cp --interactive --verbose --target-directory=$JDKsf_Destanation
-# echo "Finding and changing ownership of Java tarball in your $JDKsf_Destanation directory"
-# find $JDKsf_Destanation -type f -iname '$JDKsf_Version*' -print0 | xargs -0 sudo chown $USER:$USER
-# echo "Finding and changing permissions of Java tarball in $JDKsf_Destanation directory to read write and execute for $USER"
-# find $JDKsf_Destanation -type f -iname '$JDKsf_Version*' -print0 | xargs -0 sudo chmod --changes --recursive 755
-# echo "Changing directories temperaraly to $JDKsf_Destanation for extraction process"
-# find $JDKsf_Destanation -type f -iname '$JDKsf_Version*' -print0 | xargs -0 sudo tar -vxpzf $JDKsf_Destanation
-# --verbose --extract --gunzip --file=
-# echo "Creating a symbolic link in $JDKsf_Destanation named java-7-oracle"
-# sudo ln -s $JDKsf_Destanation/$JDKsf_ShortcutVersion java-7-oracle
 sudo tar -vxpzf $JDK7sf_downloadPath/$javajdkSF_targetFile -C $JDKsf_Destanation
 sudo chmod --changes --recursive 755 $JDKsf_Destanation/$JDKsf_ShortcutVersion
-sudo chown -Rc $USER:$USER $JDKsf_Destanation/$JDKsf_ShortcutVersion
-sudo ln -s $JDKsf_Destanation/$JDKsf_ShortcutVersion $JDKsf_Destanation/java-7-oracle
+sudo chown -R $USER:$USER $JDKsf_Destanation/$JDKsf_ShortcutVersion
+sudo ln -s $JDKsf_Destanation/$JDKsf_ShortcutVersion /usr/lib/jvm/java-7-oracle
 EOF
 echo "creating a list of alternatives to install for JDK tools to your system under : $JDK7sf_componitPath/Alternatives_Install_list"
 sudo cat > $JDK7sf_componitPath/Alternatives_Install_list <<EOF
