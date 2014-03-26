@@ -98,9 +98,9 @@ esac
 # --verbose --extract --gunzip --file=
 # echo "Creating a symbolic link in $JDKsf_Destanation named java-7-oracle"
 # sudo ln -s $JDKsf_Destanation/$JDKsf_ShortcutVersion java-7-oracle
-sudo chmod --changes --recursive 755 $JDK7sf_downloadPath/$javajdkSF_targetFile
-sudo chown -Rc $USER:$USER $JDK7sf_downloadPath/$javajdkSF_targetFile
 sudo tar -vxpzf $JDK7sf_downloadPath/$javajdkSF_targetFile $JDKsf_Destanation
+sudo chmod --changes --recursive 755 $JDKsf_Destanation/$JDKsf_ShortcutVersion
+sudo chown -Rc $USER:$USER $JDKsf_Destanation/$JDKsf_ShortcutVersion
 sudo ln -s $JDKsf_Destanation/$JDKsf_ShortcutVersion java-7-oracle
 EOF
 echo "creating a list of alternatives to install for JDK tools to your system under : $JDK7sf_componitPath/Alternatives_Install_list"
