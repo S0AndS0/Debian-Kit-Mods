@@ -151,7 +151,6 @@ sudo update-alternatives --quiet --install /usr/bin/xjc xjc /usr/lib/jvm/java-7-
 EOF
 echo "Creating script to compile the JRE/JDK description file named .java-7-oracle.jinfo to use with update-java-alternatives"
 sudo cat > $JDK7hf_componitPath/JRE_JDK_Descriptions <<EOF
-cd $JDKhf_Destanation
 echo 'alias=java-7-oracle 
 priority=100 
 section=non-free
@@ -194,8 +193,7 @@ jdk schemagen /usr/lib/jvm/java-7-oracle/bin/schemagen
 jdk serialver /usr/lib/jvm/java-7-oracle/bin/serialver
 jdk wsgen /usr/lib/jvm/java-7-oracle/bin/wsgen
 jdk wsimport /usr/lib/jvm/java-7-oracle/bin/wsimport
-jdk xjc /usr/lib/jvm/java-7-oracle/bin/xjc' | sudo tee .java-7-oracle.jinfo
-cd ~
+jdk xjc /usr/lib/jvm/java-7-oracle/bin/xjc' | sudo tee $JDKhf_Destanation/.java-7-oracle.jinfo
 EOF
 echo "Now writing Java7_Activator"
 sudo cat > $JDK7hf_componitPath/Java7_Activator <<EOF
