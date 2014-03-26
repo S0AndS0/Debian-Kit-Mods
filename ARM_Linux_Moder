@@ -14,6 +14,7 @@ nJS_nameScript=ARM_NodeJS_Installer
 Br_nameScript=ARM_Bramble_Installer
 fIP_nameScript=findNetworking_IPs
 SCP_nameScript=SCP_helper
+lbs_nameScript=LilDebi_setUp.sh
 echo "$LM_nameScript is running"
 echo "variables for user and home directories" 
  : ${USER?} ${HOME?} 
