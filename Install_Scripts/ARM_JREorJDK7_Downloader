@@ -96,7 +96,7 @@ then
 		else
 		echo "oh no something did not go ok, removing partial file and trying again in a few seconds"
 		rm -rI $java_Path/$javajreSF_targetFile
-		sleep 30 && wget $wgetModifiers "Cookie: $javaCookie" $armjre_SFdownload
+		sleep 7 && wget $wgetModifiers "Cookie: $javaCookie" $armjre_SFdownload
 #		sh $PathTo_JD_Directory/$jre7SF_nameScript
 	fi
 	cd ~
@@ -113,7 +113,7 @@ then
 		else
 		echo "oh no something did not go ok, removing parial file and trying again in a few seconds"
 		rm -rI $java_Path/$javajdkHF_targetFile
-		sleep 30 && sudo wget $wgetModifiers "Cookie: $javaCookie" $armJDK_HFdownload
+		sleep 7 && sudo wget $wgetModifiers "Cookie: $javaCookie" $armJDK_HFdownload
 		sh $PathTo_JD_Directory/$JDK7hf_nameScript
 	fi
 	cd ~
@@ -130,7 +130,7 @@ then
 	else
 		echo "oh no something did not go ok, removing parial file and trying again in a few seconds"
 		rm -rI $java_Path/$javajdkSF_targetFile
-		sleep 30 && wget $wgetModifiers "Cookie: $javaCookie" $armJDK_SFdownload
+		sleep 7 && wget $wgetModifiers "Cookie: $javaCookie" $armJDK_SFdownload
 		echo "running $JDK7sf_nameScript"
 		sh $PathTo_JD_Directory/$JDK7sf_nameScript
 	fi
