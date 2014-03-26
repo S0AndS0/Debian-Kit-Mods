@@ -29,6 +29,8 @@ Software that has been installed under root:
 2. xrdp (not working)
 3. lxde (400+MB of space but should fix xrdp errors didn't fix xrdp but fixed vnc)
 4. 
+
+dirname, cut, du, 
 ~~~~
 
 Software that has been installed under sudo user:
@@ -43,7 +45,6 @@ nead to get ...
 4. Maptools
 5. 
 
-dirname, cut, du, 
 ~~~~
 Permissions that had to be modifide
 ~~~~
@@ -67,6 +68,11 @@ vncserver -kill :1
 #	you can also set the color to output with " -pixelformat rgb<NNN> (or bgr<NNN>) "
 #	the " -clean " option can be used with the kill option to help re-boot your GUI
 #	by default tightvncserver will use ports 5901 or 5801
+
+# list processes
+ps
+# kill processes by
+
 ~~~~
 
 # notes on xrdp errors on fresh install
