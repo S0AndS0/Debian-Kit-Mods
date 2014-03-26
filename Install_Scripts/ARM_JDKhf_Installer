@@ -101,7 +101,7 @@ esac
 # --verbose --extract --gunzip --file=
 # sudo ln -s $JDKhf_Destanation/$JDKhf_ShortcutVersion java-7-oracle
 sudo chmod --changes --recursive 755 $JDK7hf_downloadPath/$javajdkHF_targetFile
-sudo chown $USER:$USER $JDK7hf_downloadPath/$javajdkHF_targetFile
+sudo chown -Rc $USER:$USER $JDK7hf_downloadPath/$javajdkHF_targetFile
 sudo tar -vxpzf $JDK7hf_downloadPath/$javajdkHF_targetFile $JDKhf_Destanation
 sudo ln -s $JDKhf_Destanation/$JDKhf_ShortcutVersion java-7-oracle
 EOF
