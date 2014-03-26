@@ -10,9 +10,17 @@ Distro info:
 Linux OS = Stable Hard Float 2047MB
 Android OS = Cynogenmod 10 (4.2.2)
 	Note : BusyBox had to be installed and linked to default terminal emulator on Android
+https://play.google.com/store/apps/details?id=com.jrummy.busybox.installer
 	for example I had to add the second line to the defaults for ROM Toolbox Pro
 	export PATH=/data/local/bin:$PATH
 	export PATH=/system/xbin:$PATH
+~~~~
+
+Apps that had to be installed to Android
+~~~~
+VNC Viewer
+https://play.google.com/store/apps/details?id=com.realvnc.viewer.android
+
 ~~~~
 
 Software that has been installed under root: 
