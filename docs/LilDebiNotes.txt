@@ -1,1 +1,75 @@
-these note are for the lildebi app and not the debien kit app
+Notes on LilDebi Android App
+https://play.google.com/store/apps/details?id=info.guardianproject.lildebi
+
+~~~~ Please re-set Password for root user with
+passwd
+~~~~
+
+Distro info:
+~~~~
+Linux OS = Stable Hard Float 2047MB
+Android OS = Cynogenmod 10 (4.2.2)
+	Note : BusyBox had to be installed and linked to default terminal emulator on Android
+	for example I had to add the second line to the defaults for ROM Toolbox Pro
+	export PATH=/data/local/bin:$PATH
+	export PATH=/system/xbin:$PATH
+~~~~
+
+Software that has been installed under root: 
+~~~~
+1. sudo
+2. xrdp (not working)
+3. lxde (400+MB of space but should fix xrdp errors)
+4. 
+~~~~
+
+Software that has been installed under sudo user:
+~~~~
+1. git
+# used : git clone https://github.com/S0AndS0/Debian-Kit-Mods : to grab a copy
+2. Debian-Kit-Mods (script pack)
+nead to get ...
+# used : sh Debian-Kit-Mods/ARM_Linux_Moder : and chose option to download JDKhf which auto-starts the installer script too
+3. Java JDK
+4. Maptools
+5. 
+~~~~
+
+Commands list: 
+~~~~
+# start vncserver syntax example
+vncserver -geometry <width>x<hight> -depth <8 to 32> :<display#>
+# start vncserver with values example
+vncserver -geometry 1280x730 -depth 32 :1
+# kill vncserver with values example
+vncserver -kill :1
+# notes on vncserver;
+#	dont forget to kill your connections befor unmounting/shutting-down Linux
+#	dont forget to use the " : " colon for numbering the connection you want to kill/start
+#	you can also set the color to output with " -pixelformat rgb<NNN> (or bgr<NNN>) "
+#	the " -clean " option can be used with the kill option to help re-boot your GUI
+#	by default tightvncserver will use ports 5901 or 5801
+~~~~
+
+# notes on xrdp errors on fresh install
+## error recevied ##
+Xsession: unable to start X session --- no '/home/serial/.xsession
+file, no "/home/serial/.Xsession" file, no session managers, no window
+manager, and no terminal emulators found; abording"
+## solution to errors
+from 	:	https://groups.google.com/forum/#!topic/comp.os.linux.x/usf8clUHxQl
+# put following file in : $HOME/.xsession
+#	this is likely unessisary if using " lxde " installed through apt-get
+#	when done testing you may change : twm : to something else
+~~~
+#!/bin/sh
+xterm &
+exec twm
+~~~
+# to write this file from your terminal, run the following
+#	this is likely unessisary if using " lxde " installed through apt-get
+echo '#!/bin/sh
+xterm &
+exec twm' | tee -a $HOME/.xsession
+~~~
+
