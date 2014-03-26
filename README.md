@@ -95,7 +95,7 @@ for findNetworking_IPs
 
 Sources that where used to construct these scripts
 ~~~~~~
-for ARM_Java_JDK7_Istaller
+for ARM_Java_JDK7_Installer
 	for Depends_Install_List I compiled this list from
 http://www.oracle.com/technetwork/java/javase/downloads/jdk7-downloads-1880260.html
 http://www.calxeda.com/trystack/gettingstarted/
@@ -105,6 +105,8 @@ http://www.savagehomeautomation.com/pi-jdk
 http://stackoverflow.com/questions/10268583/how-to-automate-download-and-instalation-of-java-jdk-on-linux
 	for Alternatives_Install_list I compiled this list from
 http://www.calxeda.com/trystack/gettingstarted/
+	for " tar " command examples
+http://www.tecmint.com/18-tar-command-examples-in-linux/
 	~~~~~~
 
 for FindScriptDirectory
