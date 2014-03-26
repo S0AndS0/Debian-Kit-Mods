@@ -29,6 +29,7 @@ echo "$JDKsf_Destanation"
 echo "setting matenance variables are"
 echo "$JDKsf_Version for Java JDK soft float version"
 echo "and $JDKsf_ShortcutVersion for creating a symbolic link"
+javajdkSF_targetFile=jdk-7u51-linux-arm-vfp-sflt.tar.gz
 # end of variable assignment
 echo "__________________"
 echo "This script is written in the hopes that it will be found useful" 
@@ -85,19 +86,22 @@ case "\$response" in
 	;;
 esac
 } 
-echo "moving on to copying java to $JDKsf_Destanation and extracting there"
-echo "Finding and Copying Java tarball from the $JDK7sf_downloadPath directory to your $JDKsf_Destanation directory"
-find $JDK7sf_downloadPath -type f -iname '$JDKsf_Version*' -print0 | xargs -0 sudo cp --interactive --verbose --target-directory=$JDKsf_Destanation
-echo "Finding and changing ownership of Java tarball in your $JDKsf_Destanation directory"
-find $JDKsf_Destanation -type f -iname '$JDKsf_Version*' -print0 | xargs -0 sudo chown $USER:$USER
-echo "Finding and changing permissions of Java tarball in $JDKsf_Destanation directory to read write and execute for $USER"
-find $JDKsf_Destanation -type f -iname '$JDKsf_Version*' -print0 | xargs -0 sudo chmod --changes --recursive 755
-echo "Changing directories temperaraly to $JDKsf_Destanation for extraction process"
-find $JDKsf_Destanation -type f -iname '$JDKsf_Version*' -print0 | xargs -0 sudo tar -vxpzf $JDKsf_Destanation
+# echo "moving on to copying java to $JDKsf_Destanation and extracting there"
+# echo "Finding and Copying Java tarball from the $JDK7sf_downloadPath directory to your $JDKsf_Destanation directory"
+# find $JDK7sf_downloadPath -type f -iname '$JDKsf_Version*' -print0 | xargs -0 sudo cp --interactive --verbose --target-directory=$JDKsf_Destanation
+# echo "Finding and changing ownership of Java tarball in your $JDKsf_Destanation directory"
+# find $JDKsf_Destanation -type f -iname '$JDKsf_Version*' -print0 | xargs -0 sudo chown $USER:$USER
+# echo "Finding and changing permissions of Java tarball in $JDKsf_Destanation directory to read write and execute for $USER"
+# find $JDKsf_Destanation -type f -iname '$JDKsf_Version*' -print0 | xargs -0 sudo chmod --changes --recursive 755
+# echo "Changing directories temperaraly to $JDKsf_Destanation for extraction process"
+# find $JDKsf_Destanation -type f -iname '$JDKsf_Version*' -print0 | xargs -0 sudo tar -vxpzf $JDKsf_Destanation
 # --verbose --extract --gunzip --file=
-echo "Creating a symbolic link in $JDKsf_Destanation named java-7-oracle"
+# echo "Creating a symbolic link in $JDKsf_Destanation named java-7-oracle"
+# sudo ln -s $JDKsf_Destanation/$JDKsf_ShortcutVersion java-7-oracle
+sudo chmod --changes --recursive 755 $JDK7sf_downloadPath/$javajdkSF_targetFile
+sudo chown $USER:$USER $JDK7sf_downloadPath/$javajdkSF_targetFile
+sudo tar -vxpzf $JDK7sf_downloadPath/$javajdkSF_targetFile $JDKsf_Destanation
 sudo ln -s $JDKsf_Destanation/$JDKsf_ShortcutVersion java-7-oracle
-echo "Reverting to default working directory"
 EOF
 echo "creating a list of alternatives to install for JDK tools to your system under : $JDK7sf_componitPath/Alternatives_Install_list"
 sudo cat > $JDK7sf_componitPath/Alternatives_Install_list <<EOF

@@ -29,6 +29,7 @@ JDKhf_Version=jdk-7u51
 JDKhf_ShortcutVersion=jdk1.7.0_51
 echo "$JDKhf_Version for Java JDK soft float version"
 echo "and $JDKhf_ShortcutVersion for creating a symbolic link"
+javajdkHF_targetFile=jdk-7u51-linux-arm-vfp-hflt.tar.gz
 # end of variable assignment
 echo "__________________"
 echo "This script is written in the hopes that it will be found useful" 
@@ -89,15 +90,19 @@ case "\$response" in
 	;;
 esac
 } 
-echo "moving on to copying java to $JDKhf_Destanation and extracting there"
-echo "Finding and Copying Java tarball from the $JDK7hf_downloadPath directory to your $JDKhf_Destanation directory"
-find $JDK7hf_downloadPath -type f -iname '$JDKhf_Version*' -print0 | xargs -0 sudo cp --interactive --verbose --target-directory=$JDKsf_Destanation
-echo "Finding and changing ownership of Java tarball in your $JDKhf_Destanation directory"
-find $JDKhf_Destanation -type f -iname '$JDKhf_Version*' -print0 | xargs -0 sudo chown $USER:$USER
-echo "Finding and changing permissions of Java tarball in $JDKhf_Destanation directory to read write and execute for $USER"
-find $JDKhf_Destanation -type f -iname '$JDKhf_Version*' -print0 | xargs -0 sudo chmod --changes --recursive 755
-find $JDKhf_Destanation -type f -iname '$JDKhf_Version*' -print0 | xargs -0 sudo tar -vxpzf $JDKhf_Destanation
+# echo "moving on to copying java to $JDKhf_Destanation and extracting there"
+# echo "Finding and Copying Java tarball from the $JDK7hf_downloadPath directory to your $JDKhf_Destanation directory"
+# find $JDK7hf_downloadPath -type f -iname '$JDKhf_Version*' -print0 | xargs -0 sudo cp --interactive --verbose --target-directory=$JDKsf_Destanation
+# echo "Finding and changing ownership of Java tarball in your $JDKhf_Destanation directory"
+# find $JDKhf_Destanation -type f -iname '$JDKhf_Version*' -print0 | xargs -0 sudo chown $USER:$USER
+# echo "Finding and changing permissions of Java tarball in $JDKhf_Destanation directory to read write and execute for $USER"
+# find $JDKhf_Destanation -type f -iname '$JDKhf_Version*' -print0 | xargs -0 sudo chmod --changes --recursive 755
+# find $JDKhf_Destanation -type f -iname '$JDKhf_Version*' -print0 | xargs -0 sudo tar -vxpzf $JDKhf_Destanation
 # --verbose --extract --gunzip --file=
+# sudo ln -s $JDKhf_Destanation/$JDKhf_ShortcutVersion java-7-oracle
+sudo chmod --changes --recursive 755 $JDK7hf_downloadPath/$javajdkHF_targetFile
+sudo chown $USER:$USER $JDK7hf_downloadPath/$javajdkHF_targetFile
+sudo tar -vxpzf $JDK7hf_downloadPath/$javajdkHF_targetFile $JDKhf_Destanation
 sudo ln -s $JDKhf_Destanation/$JDKhf_ShortcutVersion java-7-oracle
 EOF
 # Create a list of alternatives to install for JDK tools
