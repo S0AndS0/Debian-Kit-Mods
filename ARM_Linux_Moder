@@ -14,7 +14,7 @@ nJS_nameScript=ARM_NodeJS_Installer
 Br_nameScript=ARM_Bramble_Installer
 fIP_nameScript=findNetworking_IPs
 SCP_nameScript=SCP_helper
-lbs_nameScript=LilDebi_setUp.sh
+lds_nameScript=LilDebi_setUp.sh
 echo "$LM_nameScript is running"
 echo "variables for user and home directories" 
  : ${USER?} ${HOME?} 
@@ -80,7 +80,9 @@ echo "Input - 1 - to run $fIP_nameScript that demonstraites scripting, networkin
 echo "Input - 2 - run $LM_nameScript mod instructions [unwritten]"
 echo "_________Extras_________"
 echo "Input - KF - to run $KF_nameScript [untested]"
-echo "Input - RM - run $RM_nameScript [tested - use with care]"
+echo "Input - RM - to run $RM_nameScript [tested - use with care]"
+echo "Input - SCP - to run $SCP_nameScript [untested]"
+echo "Input - lds - to run $lds_nameScript [untested]"
 
 echo "Choose and input a number to continue"
 echo "or input no to abort $LM_nameScript"
@@ -145,6 +147,19 @@ then
 then 
 		echo "this has yet to be fully tested but option 2 within worked for Debian Kit on Android"
 		sh $LM_runPath/$Br_nameScript
+		echo "exiting now"
+		echo exit 
+		
+	elif [ $response = SCP ] 
+then 
+		echo "this has yet to be fully tested"
+		sh $LM_independentPath/$SCP_nameScript
+		echo "exiting now"
+		echo exit 
+	elif [ $response = lds ] 
+then 
+		echo "this has yet to be fully tested"
+		sh $LM_independentPath/$lds_nameScript
 		echo "exiting now"
 		echo exit 
 	elif [ $response = 1 ] 
