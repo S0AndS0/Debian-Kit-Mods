@@ -120,7 +120,11 @@ preOpenStack_01 () {
 } 
 
 OpenStack_computeNode () { 
-	
+#	apt-get $aptOptions ntp
+#	apt-get $aptOptions python-mysqldb
+#	apt-get $aptOptions python-argparse
+#	apt-get $aptOptions $apt_MQserver_install
+
 
 } 
 
