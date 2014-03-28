@@ -9,20 +9,26 @@ else
 	ROOT=1 
 fi
 
-# Will we need to be rerun as root? RERUN=0
+# Will we need to be rerun as root? 
+RERUN=0
 
-# The location of the trusted keyring. APT_TRUSTED=/etc/apt/trusted.gpg
+# The location of the trusted keyring. 
+APT_TRUSTED=/etc/apt/trusted.gpg
 
-# The location of the Release files. APT_LISTS=/var/lib/apt/lists
+# The location of the Release files. 
+APT_LISTS=/var/lib/apt/lists
 
-# Get a list of repositories for which we have downloaded a Release File REPOSITORIES=`ls $APT_LISTS | grep Release$`
+# Get a list of repositories for which we have downloaded a Release File 
+REPOSITORIES=`ls $APT_LISTS | grep Release$`
 
-# For each repository look for a matching Release.gpg signature for repo in $REPOSITORIES do 
-		echo Checking $repo 
-		RELEASE=$APT_LISTS/$repo 
-		GPG='' 
-		if [ -s $RELEASE.gpg ] 
-		then 
+# For each repository look for a matching Release.gpg signature 
+for repo in $REPOSITORIES 
+do 
+	echo Checking $repo 
+	RELEASE=$APT_LISTS/$repo 
+	GPG='' 
+	if [ -s $RELEASE.gpg ] 
+	then 
 		GPG=$RELEASE.gpg 
 	else 
 		if [ -s $APT_LISTS/partial/$repo.gpg ] 
