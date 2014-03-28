@@ -1,0 +1,179 @@
+#!/bin/bash
+PATH=/bin:/usr/bin:/usr/local/bin ; export PATH 
+umask 022 		# Files that the script creates will have 755 permission.
+# Thanks to Ian D. Allen, for this tip.
+
+echo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
+# variables auto
+ : ${USER?} ${HOME?} 
+# find the name of this script and store it to a variable
+osCN_fullScriptPath="$(readlink -f $0)"
+# deleat last componit from ThisScript and store to another variable
+osCN_ScriptDirectory="$(dirname $osCN_fullScriptPath)"
+
+
+IP_inet_addr=`/sbin/ifconfig | grep -E 'inet addr' | grep -v '127.0.0.1' | awk '{gsub("addr:",""); print $2}'`
+IP_Bcast_addr=`/sbin/ifconfig | grep -E 'Bcast' | grep -v '127.0.0.1' | awk '{gsub("Bcast:",""); print $3}'`
+IP_Mask_addr=`/sbin/ifconfig | grep -E 'Mask' | grep -v '127.0.0.1' | awk '{gsub("Mask:",""); print $4}'`
+IP_inet6_addr=`/sbin/ifconfig | grep -E 'inet6 addr' | grep -v '127.0.0.1' | grep -v '1/128' | awk '{gsub("addr:",""); print $2}'`
+IP_local=`/sbin/ifconfig | grep -E 'inet addr' | grep -E '127.0.0.1' | awk '{gsub("addr:",""); print $2}'`
+trimIP=`$IP_Bcast_addr | sed 's/...$//'`
+
+
+trimRoute=`route -n | grep -E 'UG' | awk '{print $2}'`
+IPmin=1
+IPmax=254
+customPinger=`for ip in $(seq $IPmin $IPmax) ;do (ping -c 1 -w 5 $trimIP$ip >/dev/null && echo "$trimIP$ip" &) ; done`
+fLive_IPs=`$customPinger | grep -v '$trimRoute' | grep -v '$IP_inet_addr'`
+
+echo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
+# variables user set
+
+echo -n "Are you ready to move to Wheeze Sid or use Wheeze backports - [Sid/backports]? "
+read ui_sourceList
+echo "\$ui_sourceList is set to : $ui_sourceList"
+
+echo -n "Install : Compute Node : services? [y/N]
+read ui_computeInstall_yN
+echo "\$ui_computeInstallyN is set to : $ui_computeInstall_yN"
+
+
+
+echo -n "Would you like to run : apt-get : commands quietly/normaly and or with auto-yes [qy/nn or qn/ny]? "
+read ui_aptbase
+	if [ $ui_aptbase = qy ]
+	then
+		echo "Setting options to quite and with auto-yes enabled."
+		aptOptions=`-qy install`
+	elif [ $ui_aptbase = nn ]
+	then
+		echo "Setting options to normal with auto-yes dissabled."
+		aptOptions=`install`
+	elif [ $ui_aptbase = qn ]
+	then
+		echo "Setting options to quite with auto-yes dissabled."
+		aptOptions=`-q install`
+	elif [ $ui_aptbase = ny ]
+	then
+		echo "Setting options to normal with auto-yes enabled."
+		aptOptions=`-y install`
+	elif [ $ui_aptbase = * ]
+	then
+		echo "invalid input recived, using quiete without auto-yes enabled"
+		aptOptions=`install`
+	fi
+	echo "\$aptOptions set to : $aptOptions"
+echo -n "The suggested is Messaging queue Server : RabbitMQ : but you may atempt [ RabbitMQ or Qpid or ZeroMQ or 0MQ ] which would you like? "
+read ui_MQserver_install
+	if [ ui_MQserver_install = RabbitMQ ]
+	then
+		echo "Setting : RabbitMQ : as the Messaging queue Server to install"
+		apt_MQserver_install=rabbitmq-server
+#	elif[ ui_MQserver_install = Qpid ]
+#	then
+#		echo "Setting : Qpid : as the Messaging queue Server to install"
+#		
+#	elif[ ui_MQserver_install = ZeroMQ ]
+#	then
+#		echo "Setting : ZeroMQ : as the Messaging queue Server to install"
+#		
+#	elif[ ui_MQserver_install = 0MQ ]
+#	then
+#		echo "Setting : 0MQ : as the Messaging queue Server to install"
+#		
+	elif[ ui_MQserver_install = * ]
+	then
+		echo "invalid input recived"
+		echo "Setting : RabbitMQ : as the Messaging queue Server to install"
+		apt_MQserver_install=rabbitmq-server
+	fi
+	echo "\$apt_MQserver_install set to : $apt_MQserver_install"
+
+
+echo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
+# Functions for script
+
+preOpenStack_01 () { 
+	# modify source lists baced off user input and upgrade the distro
+	if [ $ui_sourceList = Sid ]
+	then
+		echo "Adding : sid_openstack.list : file to : /etc/apt/sources.list.d/ : directory"
+		echo 'deb http://archive.gplhost.com/debian havana main' | tee -a /etc/apt/sources.list.d/sid_openstack.list
+		echo "moving on to updating your keyring"
+	elif [ $ui_sourceList = backports ]
+	then
+		echo "Adding : backports_openstack.list : file to : /etc/apt/sources.list.d/ : directory"
+		echo 'deb http://archive.gplhost.com/debian havana-backports main' | tee -a /etc/apt/sources.list.d/backports_openstack.list
+		echo "moving on to updating your keyring"
+	elif [ $ui_sourceList = * ]
+	then
+		echo "Invallid input recieved... Exiting now"
+		echo exit
+	fi
+	apt-get update && apt-get install gplhost-archive-keyring
+	echo "updating the apt-get lists again and upgrading your distrobution"
+	apt-get update && apt-get dist-upgrade
+	echo "reboot of your Linux OS is suggested, if the next command fails then reboot manually and come back to this script and choose : Part2 : to pick up where we left off."
+	echo "	note for ARM Linux on Android with Debian Kit, running the following command under Android's terminal will do the same as the above mentioned reboot command."
+	echo "	deb u; deb u && deb k && echo "Shut down compleat..Re-starting now..." && deb"
+	reboot
+} 
+
+OpenStack_computeNode () { 
+	
+
+} 
+
+
+
+# script start
+echo "This script should be run under root Linux user and was writen for Debian Wheeze"
+
+
+
+# notes and credits
+# used PDF from following location
+# http://docs.openstack.org/havana/install-guide/install/apt-debian/content/
+# p 1-18 start
+# the pdf guide sugests : ntp : to sync services and time between other nodes. The controller node is usually used as refferance to all other nodes.
+# the pdf guide states that : mysql database : be installed on the controller node and mysql client software be installed to any nodes that access mysql. So Open Stack services can store informantion
+#+	Furthermore it is sugested to answer : yes : to all prompts unless you've a good reason not to...
+# on other nodes that don't host a mysql data base then : apt-get install ?mysql client and python library? : ...
+# to install openstack : Havana : two options are listed : backports or moving to sid : see next four lines
+# use backports for wheeze
+# echo 'deb http://archive.gplhost.com/debian havana-backports main' | tee -a /etc/apt/sources.list.d/backports_openstack.list
+# move to sid for Havana 
+# echo 'deb http://archive.gplhost.com/debian havana main' | tee -a /etc/apt/sources.list.d/sid_openstack.list
+#+ then update and add keys with following command
+# apt-get update && apt-get install gplhost-archive-keyring
+#+	then update the package list again and upgrade your distro and reboot with following commands
+# apt-get update && apt-get dist-upgrade
+# reboot 	# note for ARM Linux on Android running the following command under Android's terminal will do the same as the above reboot
+# 			deb u; deb u && deb k && echo "Shut down compleat..Re-starting now..." && deb
+# p 1-18 end
+# p 19-
+# dew to the way Wheeze backports vs sid python version and argparse is handeled it is advised to run the following command on all openstack nodes/devices
+# apt-get install python-argparse
+# on the controller node, for a Messaging queue Server install either : RabbitMQ or Qpid or ZeroMQ or 0mq : rabbitmq-server : is the suggested one in the pdf so thats what'll be used bellow (which is also available on squeeze)
+# apt-get install rabbitmq-server
+
+
+
+# package list
+# apt-get $aptOptions 
+
+# for controller node
+# apt-get $aptOptions ntp
+# apt-get $aptOptions python-mysqldb && apt-get install 
+
+# apt-get $aptOptions $apt_MQserver_install
+
+
+# for all other nodes
+# if no_mysqlData then apt-get install ?mysql client and python library?
+
+
+# for all nodes incuding controller
+# apt-get $aptOptions python-argparse
+
+
