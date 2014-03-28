@@ -90,29 +90,28 @@ echo "__________________"
 read -r -p "Which one thing would you like to do? " response
 	if [ $response = JD ] 
 then 
-		echo "this has yet to be tested"
+		echo "Running : $LM_runPath/$JD_nameScript"
 		sh $LM_runPath/$JD_nameScript
 		echo "exiting now"
 		echo exit 
 	elif [ $response = JDK7sf ] 
 then 
-		echo "this has yet to be tested"
+		echo "Running : $LM_runPath/$JDK7sf_nameScript"
 		sh $LM_runPath/$JDK7sf_nameScript
 		echo "exiting now"
 		echo exit 
 	elif [ $response = JDK7hf ] 
 then 
-		echo "this has yet to be tested"
+		echo "Running : sh $LM_runPath/$JDK7hf_nameScript"
 		sh $LM_runPath/$JDK7hf_nameScript
 		echo "exiting now"
 		echo exit 
 	elif [ $response = MT ] 
 then 
-		echo "this has yet to be tested"
+		echo "Running : $LM_runPath/$MT_nameScript"
 		sh $LM_runPath/$MT_nameScript
 		echo "exiting now"
 		echo exit 
-
 	elif [ $response = jM ] 
 then 
 		echo "this has yet to be tested"
@@ -121,14 +120,14 @@ then
 		echo exit 
 	elif [ $response = NF ] 
 then 
-		echo "this has yet to be tested"
+		echo "Running : $LM_runPath/$NF_nameScript"
 		sh $LM_runPath/$NF_nameScript
 		echo "exiting now"
 		echo exit 
 	elif [ $response = KF ] 
 then 
 		echo "this has yet to be tested"
-		sh $LM_ScriptDirectory/$KF_nameScript
+		sh $LM_independentPath/$KF_nameScript
 		echo "exiting now"
 		echo exit 
 	elif [ $response = RM ] 
@@ -139,7 +138,7 @@ then
 		echo exit 
 	elif [ $response = nJS ] 
 then 
-		echo "this has yet to be tested"
+		echo "Running : $LM_runPath/$nJS_nameScript"
 		sh $LM_runPath/$nJS_nameScript
 		echo "exiting now"
 		echo exit 
@@ -152,7 +151,7 @@ then
 		
 	elif [ $response = SCP ] 
 then 
-		echo "this has yet to be fully tested"
+		echo "Running : $LM_independentPath/$SCP_nameScript"
 		sh $LM_independentPath/$SCP_nameScript
 		echo "exiting now"
 		echo exit 
