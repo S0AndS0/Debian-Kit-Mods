@@ -1,0 +1,46 @@
+# notes and credits
+# used PDF from following location
+# http://docs.openstack.org/havana/install-guide/install/apt-debian/content/
+# p 1-18 start
+# the pdf guide sugests : ntp : to sync services and time between other nodes. The controller node is usually used as refferance to all other nodes.
+# the pdf guide states that : mysql database : be installed on the controller node and mysql client software be installed to any nodes that access mysql. So Open Stack services can store informantion
+#+	Furthermore it is sugested to answer : yes : to all prompts unless you've a good reason not to...
+# on other nodes that don't host a mysql data base then : apt-get install ?mysql client and python library? : ...
+# to install openstack : Havana : two options are listed : backports or moving to sid : see next four lines
+# use backports for wheeze
+# echo 'deb http://archive.gplhost.com/debian havana-backports main' | tee -a /etc/apt/sources.list.d/backports_openstack.list
+# move to sid for Havana 
+# echo 'deb http://archive.gplhost.com/debian havana main' | tee -a /etc/apt/sources.list.d/sid_openstack.list
+#+ then update and add keys with following command
+# apt-get update && apt-get install gplhost-archive-keyring
+#+	then update the package list again and upgrade your distro and reboot with following commands
+# apt-get update && apt-get dist-upgrade
+# reboot 	# note for ARM Linux on Android running the following command under Android's terminal will do the same as the above reboot
+# 			deb u; deb u && deb k && echo "Shut down compleat..Re-starting now..." && deb
+# p 1-18 end
+# p 19-
+# dew to the way Wheeze backports vs sid python version and argparse is handeled it is advised to run the following command on all openstack nodes/devices
+# apt-get install python-argparse
+# on the controller node, for a Messaging queue Server install either : RabbitMQ or Qpid or ZeroMQ or 0mq : rabbitmq-server : is the suggested one in the pdf so thats what'll be used bellow (which is also available on squeeze)
+# apt-get install rabbitmq-server
+
+
+
+# package list
+# apt-get $aptOptions 
+
+# for controller node
+# apt-get $aptOptions ntp
+# apt-get $aptOptions python-mysqldb && apt-get install 
+
+# apt-get $aptOptions $apt_MQserver_install
+
+
+# for all other nodes
+# if no_mysqlData then apt-get install ?mysql client and python library?
+
+
+# for all nodes incuding controller
+# apt-get $aptOptions python-argparse
+
+
