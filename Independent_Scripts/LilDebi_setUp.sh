@@ -13,42 +13,42 @@ echo "Your Linux user is : $USER : Your home directory is : $HOME"
 echo "The directory that this script lives in is : $ldS_ScriptDirectory"
 echo "The name of this script is : $lbs_nameScript"
 echo "__________________"
-echo -n "Are you using LilDebi app from the Android Marketplace? "
+echo -n "Are you using LilDebi app from the Android Marketplace? [y/N] "
 read yN_lilDebi
 if [ $yN_lilDebi = y ]
 then
 	echo "Excelent, moving on to user prompts..."
-elif [ $yN_lilDebi = * ]
-then
+else
 	echo "Unfortunetly LilDebi is what this was desigend for..."
 	echo exit
+	exit
 fi
 echo "__________________"
 echo "Running prompts for what to set up..."
 echo "__________________"
-echo -n "Are you running as root linux user? "
+echo -n "Are you running as root linux user? [y/N] "
 read yN_root
-echo -n "Do you plan to use other scripts in this github clone? "
+echo -n "Do you plan to use other scripts in this github clone? [y/N] "
 read yN_dependancies
-echo -n "Do you plan on using VNC or Xrdp to reach your GUI? "
+echo -n "Do you plan on using VNC or Xrdp to reach your GUI? [y/N] "
 read yN_gui
 echo "__________________"
 echo "Running commands bassed off your inputs..."
 echo "__________________"
-echo "\$yN_root = $yN_root"
+echo "\$yN_root is set to : $yN_root"
 if [ $yN_root = y ]
 then
 	echo "Running : apt-get update : and : apt-get upgrade : quietly
 	apt-get -q update && apt-get -qy upgrade
 	echo "Running : apt-get install sudo : to ensure you have that installed"
 	apt-get -qy install sudo
-elif [ $yN_root = * ]
-then
+else
 	echo "Please re-start this script under the root Linux user for your system"
 	echo exit
+	exit
 fi
 echo "__________________"
-echo "\$yN_dependancies = $yN_dependancies"
+echo "\$yN_dependancies is set to : $yN_dependancies"
 echo "__________________"
 if [ $yN_dependancies = y ]
 then
@@ -58,20 +58,18 @@ then
 	apt-get -qy install dirname
 	apt-get -qy install cut
 	apt-get -qy install du
-elif [ $yN_dependancies = * ]
-then
+else
 	echo "That's ok, moving on to other checks..."
 fi
 echo "__________________"
-echo "\$yN_gui = $yN_gui"
+echo "\$yN_gui is set to : $yN_gui"
 echo "__________________"
 if [ $yN_gui = y ]
 then
 	echo "Installing the following list of packages through apt-get"
 	echo "lxde"
 	apt-get -qy install lxde
-elif [ $yN_gui = * ]
-then
+else
 	echo "That's ok, moving on to other checks..."
 fi
 echo "__________________"
