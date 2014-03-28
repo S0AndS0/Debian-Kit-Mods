@@ -24,7 +24,7 @@ else
 	exit
 fi
 echo "__________________"
-echo "Running prompts for what to set up..."
+echo "Running prompts for what to set up.."
 echo "__________________"
 echo -n "Are you running as root linux user? [y/N] "
 read yN_root
@@ -33,23 +33,26 @@ read yN_dependancies
 echo -n "Do you plan on using VNC or Xrdp to reach your GUI? [y/N] "
 read yN_gui
 echo "__________________"
-echo "Running commands bassed off your inputs..."
+echo "Modifying functions of this script bassed off your inputs..."
 echo "__________________"
+ifRoot () { 
 echo "\$yN_root is set to : $yN_root"
 if [ $yN_root = y ]
 then
 	echo "Running : apt-get update : and : apt-get upgrade : quietly
 	apt-get -q update && apt-get -qy upgrade
-	echo "Running : apt-get install sudo : to ensure you have that installed"
+	echo "Running : apt-get install sudo : and : apt-utils : to ensure you have that installed"
+	apt-get -qy install apt-utils
 	apt-get -qy install sudo
 else
 	echo "Please re-start this script under the root Linux user for your system"
 	echo exit
 	exit
 fi
+} 
 echo "__________________"
+ifDependancies () { 
 echo "\$yN_dependancies is set to : $yN_dependancies"
-echo "__________________"
 if [ $yN_dependancies = y ]
 then
 	echo "Installing the following list of packages through apt-get"
@@ -59,9 +62,11 @@ then
 	apt-get -qy install cut
 	apt-get -qy install du
 else
-	echo "That's ok, moving on to other checks..."
+	echo "That is ok, moving on to other checks.."
 fi
+} 
 echo "__________________"
+ifGUI () { 
 echo "\$yN_gui is set to : $yN_gui"
 echo "__________________"
 if [ $yN_gui = y ]
@@ -70,9 +75,16 @@ then
 	echo "lxde"
 	apt-get -qy install lxde
 else
-	echo "That's ok, moving on to other checks..."
+	echo "That is ok, moving on to other checks.."
 fi
+} 
 echo "__________________"
-echo "...end of curently selected mods"
+echo "Running scrip\'s functions"
+ifRoot
+ifDependancies
+ifGUI
+echo "..end of curently selected mods"
 echo "__________________"
-echo exit
+echo "exiting now"
+exit
+
