@@ -15,8 +15,8 @@ echo "The name of this script is : $lbs_nameScript"
 echo "__________________"
 echo -n "Are you using LilDebi app from the Android Marketplace? "
 read yN_lilDebi
-if
-then [ $yN_lilDebi = y ]
+if [ $yN_lilDebi = y ]
+then
 	echo "Excelent, moving on to user prompts..."
 elif [ $yN_lilDebi = * ]
 then
