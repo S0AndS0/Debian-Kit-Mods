@@ -8,13 +8,9 @@ bL_fullScriptPath="$(readlink -f $0)"
 bL_ScriptDirectory="$(dirname $bL_fullScriptPath)"
 echo "Your curent working directory is : $PWD" 
 echo "The directory that this script is stored in is : $bL_ScriptDirectory"
-
 echo " By default the following directories will be excluded from your Linux backup : proc sys dev/pts backups sdcard : which you can changed before conferming the backup process."
 echo -n "What directories do you want to exclude in addition? Just seperate with a space and please do not lead with \"/\" charicter or that directory will still be backed-up. "
 read ui_excludeDir
-
-
-
 echo -n "You may choose : working : or : script : to save or restore backups. [w/s]? "
 read ui_tarDir
 if [ $ui_tarDir = w ]
@@ -58,7 +54,10 @@ backup_Linux () {
 	dev/pts
 	$tarDir/Backup_Linux
 	sdcard
-	mnt' | tee -a $tarDir/exclude.txt
+	mnt
+	
+	
+	' | tee -a $tarDir/exclude.txt
 	echo "Adding your exclusions to : $tarDir/exclude.txt"
 	$ui_excludeDir | tr ' ' '\n' >> $tarDir/exclude.txt
 	echo "_________"
@@ -155,7 +154,6 @@ echo "Input - restore - to restore to the : / : directory from : $tarDir/linuxba
 echo "Input - exit - to : exit : and not perform any actions"
 echo -n "Which opperation do you wish to perform? "
 read ui_BorR
-
 if [ $ui_BorR = backup ]
 then
 	backup_Linux
@@ -171,8 +169,6 @@ else [ $ui_BorR = * ]
 	echo "Exiting now..."
 	exit
 fi
-
-
 echo "End of script"
 echo "exiting now..."
 exit
