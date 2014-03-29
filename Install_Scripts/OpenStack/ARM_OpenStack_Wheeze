@@ -29,6 +29,9 @@ fLive_IPs=`$customPinger | grep -v '$trimRoute' | grep -v '$IP_inet_addr'`
 echo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
 # variables user set
 
+echo -n "Is this the first or second time you've run this script [1/2]? "
+read ui_firstSecond_run
+
 echo -n "Are you ready to move to Wheeze Sid or use Wheeze backports - [Sid/backports]? "
 read ui_sourceList
 echo "\$ui_sourceList is set to : $ui_sourceList"
@@ -119,14 +122,34 @@ preOpenStack_01 () {
 	reboot
 } 
 
-OpenStack_computeNode () { 
-#	apt-get $aptOptions ntp
-#	apt-get $aptOptions python-mysqldb
-#	apt-get $aptOptions python-argparse
-#	apt-get $aptOptions $apt_MQserver_install
-
-
+OpenStack_computeNode02 () { 
+	apt-get $aptOptions ntp
+	apt-get $aptOptions python-mysqldb
+	apt-get $aptOptions python-argparse
+	apt-get $aptOptions $apt_MQserver_install
+	
 } 
+
+OpenStack_debconfig03 () { 
+	echo "The : debconfig : package allows for programs to be updated or installed with preserved configurations."
+	echo "To modify a package's configurations after installation : dpkg-reconfigure PackageName : and replace the PackageName part with the package you need to modify."
+	echo "Tipicaly a \"-common\" package will install it's config files too and by default upon installation you will be prompted for configuration options that are of a \"critical\" nature."
+	echo "Most config option promts can be turned off with the following example command"
+	echo "DEBIAN_FRONTEND=noninteractive apt-get install nova-api"
+	echo "However, if we install OpenStack either without user prompts or with the default of only showing critical configurations options, then we miss out on many of the options to set"
+	echo "	so we'll run a command to edit the defaults for debian so you can set it to \"medium\" and be prompted whenever a configuration option is available to be set"
+	dpkg-reconfigure debconf
+	echo "___________"
+	echo "By default the following package to be installed : dbconfig-common : will use SQLite3 for OpenStack services"
+	echo "	and will not provide access to database servers over a network but by default only provide you with UNIX sockets"
+	echo "	so we'll run the install and config commands so you have the option to set something else up instead of : SQLite3 : if you so choose, and, perhaps enable networked databases"
+	apt-get install dbconfig-common && dpkg-reconfigure dbconfig-common
+	
+	
+} 
+
+
+
 
 
 
@@ -135,16 +158,11 @@ echo "This script should be run under root Linux user and was writen for Debian 
 
 
 
-# notes and credits
-# used PDF from following location
-# http://docs.openstack.org/havana/install-guide/install/apt-debian/content/
-# p 19-
-# dew to the way Wheeze backports vs sid python version and argparse is handeled it is advised to run the following command on all openstack nodes/devices
-# apt-get install python-argparse
-# on the controller node, for a Messaging queue Server install either : RabbitMQ or Qpid or ZeroMQ or 0mq : rabbitmq-server : is the suggested one in the pdf so thats what'll be used bellow (which is also available on squeeze)
-# apt-get install rabbitmq-server
 
 
+# script end
+echo exit
+exit
 
 # package list
 # apt-get $aptOptions 
