@@ -3,26 +3,11 @@ PATH=/bin:/usr/bin:/usr/local/bin ; export PATH
 # Variables assignment start
  : ${USER?} ${HOME?} 
 sourceList_dir=/etc/apt
-
 # Variables assignment end
-
-# example of sed syntax
-#- sed 'ADDRESSs/REGEXP/REPLACEMENT/FLAGS' filename
-# Find word squeeze and replace with wheezy
-#- sed 's/squeeze/wheezy/g' $sourceList_dir
-# commands that then need to be issued
-#- apt-get update
-#- apt-get upgrade
-#- apt-get dist-upgrade
-# reboot linux then varify with following commands
-#+	varify
-#- lsb_release -a
-#+	check kernal
-#- uname -mrs
-#+	check logfile for errors
-#- tail -f /var/log/messages
-#- egrep -i --color 'err|warn|crit' /var/log/fileName
-
+echo "This script likely should not be run without first doing a backup of your Linux OS"
+echo "However if undetured by the above warning you may use this script to"
+echo "Upgrade your distrobution from squeeze to wheezy"
+echo "You should be logged in as your root Linux user when running this script"
 { 
 # confirm with the user 
 read -r -p "Do you wish to continue? [y/N] " response 
@@ -60,14 +45,6 @@ esac
 } 
 echo "end of script, exiting now..."
 exit
-
-
-
-
-
-
-
-
 # credits
 # http://www.cyberciti.biz/faq/howto-debian-linux-upgrade-6-squeeze-to-7-wheezy/
 # http://www.thegeekstuff.com/2009/09/unix-sed-tutorial-replace-text-inside-a-file-using-substitute-command/
