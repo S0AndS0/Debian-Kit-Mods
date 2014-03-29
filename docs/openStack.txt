@@ -23,6 +23,13 @@
 # apt-get install python-argparse
 # on the controller node, for a Messaging queue Server install either : RabbitMQ or Qpid or ZeroMQ or 0mq : rabbitmq-server : is the suggested one in the pdf so thats what'll be used bellow (which is also available on squeeze)
 # apt-get install rabbitmq-server
+# the config files for "-common" packages : glance, cinder, nova, heat : will all nead to be configured with the : dpkg-reconfigure PackageName : command for proper set up options to be available
+# the default for debian is to only prompt for "critical" config options to show up for users to set, however, for OpenStack to be properly installed this neads to be set to "medium" or you will miss out on setting config options.
+# dpkg-reconfigure debconf
+#+	will allow us to set that to medium with a prompt screen
+# databases : dbconfig-common : package by default will use SQLite3 and only allow for UNIX socket files to be accessable.
+#	to modify this behaviour and allow for other methods than SCLite3 or networked databases to be added; run the following command.
+# apt-get install dbconfig-common && dpkg-reconfigure dbconfig-common
 
 
 
