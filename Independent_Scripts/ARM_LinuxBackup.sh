@@ -53,3 +53,15 @@ dpkg --get-selections | awk '{ ; print $1}' > $tarDir/insalledPackages_backup.lo
 } 
 
 
+
+
+# examples and credits
+
+# http://www.linuxquestions.org/questions/linux-newbie-8/using-tar-how-to-exclude-list-of-directories-893787/
+# exclude directories from tar command with a file that lists the directories to exclude (one per line)
+# --exclude-from=/PATH_TO/exclude.txt
+
+# http://www.unix.com/shell-programming-scripting/67831-replace-space-new-line.html
+# replace spaces with new line
+# tr ' ' '\n' < myFile
+
