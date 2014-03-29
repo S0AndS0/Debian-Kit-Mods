@@ -566,7 +566,7 @@ echo "	But I forgot to to show one of the other usefull defaults we can call on 
 echo "__________________5.0.3__________________"
 echo "Here we'll be modifying an exsisting file with a few usefull command line programs : sed, tee : and some pipes"
 echo "	so lets start with : sed : and get a line count of : testFunction_runTime_variables : by piping it to grep and only disply the line numbers."
-echo "	we'll be using : sed = $fIP_savePath/testFunction_runTime_variables.sh : to print out every line with it's number above and before we see it, pipe it to : grep -E \"^[1-9]\" : to clean out just the line numbers and display that to the terminal. The : -E \"^[1-9]\" : part tells grep to search for the given pattern, without the : ^ : before the : [] : this would have printed the numbered variables too : \$1-\$4 : and all the lines that those are contained in."
+echo "	we'll be using : sed = \$fIP_savePath/testFunction_runTime_variables.sh : to print out every line with it's number above and before we see it, pipe it to : grep -E \"^[1-9]\" : to clean out just the line numbers and display that to the terminal. The : -E \"^[1-9]\" : part tells grep to search for the given pattern, without the : ^ : before the : [] : this would have printed the numbered variables too : \$1-\$4 : and all the lines that those are contained in."
 echo "sed = $fIP_savePath/testFunction_runTime_variables.sh | grep -E \"^[1-9]\""
 sed = $fIP_savePath/testFunction_runTime_variables.sh | grep -E "^[1-9]"
 echo "and : sed : should say we have sixteen lines in total"
