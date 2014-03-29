@@ -19,15 +19,17 @@ echo -n "You may choose : working : or : script : to save or restore backups. [w
 read ui_tarDir
 if [ $ui_tarDir = w ]
 than
-	tarDir=$PWD 
+	SorR_tarDir=$PWD 
 elif [ $ui_tarDir = s ]
 than
-	tarDir=$bL_ScriptDirectory 
+	SorR_tarDir=$bL_ScriptDirectory
 else
 exit
 fi
 echo "\$tarDir set to : $tarDir"
-mkdir -p $tarDir/Backup_Linux
+mkdir -p $SorR_tarDir/Backup_Linux
+tarDir=$SorR_tarDir/Backup_Linux
+
 
 # Variables end
 
@@ -63,29 +65,29 @@ backup_Linux () {
 	echo "Writing a list of packages that are curently installed to : $tarDir/insalledPackages_backup.log"
 	dpkg --get-selections | awk '{ ; print $1}' > $tarDir/insalledPackages_backup.log
 	echo "_________"
-	echo "Writing a file to aid in un-packing your backup when it is needed"
+	echo "Writing a file to aid in un-packing your backup when it is needed named : restore.sh"
 	echo '#!/bin/bash
 	PATH=/bin:/usr/bin:/usr/local/bin ; export PATH 
 	umask 022 
 	# Files that the script creates will have 755 permission.
 	# Thanks to Ian D. Allen, for this tip.
 	# Variables start
-	bL_fullScriptPath="$(readlink -f $0)"
-	bL_ScriptDirectory="$(dirname $bL_fullScriptPath)"
-	echo "Your curent working directory is : $PWD" 
-	echo "The directory that this script is stored in is : $bL_ScriptDirectory"
+	bL_fullScriptPath="\$(readlink -f \$0)"
+	bL_ScriptDirectory="\$(dirname \$bL_fullScriptPath)"
+	echo "Your curent working directory is : \$PWD" 
+	echo "The directory that this script is stored in is : \$bL_ScriptDirectory"
 	echo -n "You may choose : working : or : script : to save or restore backups. [w/s]? "
 	read ui_tarDir
-	if [ $ui_tarDir = w ]
+	if [ \$ui_tarDir = w ]
 	than
 		tarDir=$PWD 
-	elif [ $ui_tarDir = s ]
+	elif [ \$ui_tarDir = s ]
 	than
-		tarDir=$bL_ScriptDirectory 
+		tarDir=\$bL_ScriptDirectory 
 	else
 	exit
 	fi
-	echo "\$tarDir set to : $tarDir"
+	echo "\$tarDir set to : \$tarDir"
 	echo "About to restore your system from : \$tarDir/Backup_Linux/"
 	{ 
 		read -r -p "Are you sure? [Y/n] " response
@@ -101,17 +103,15 @@ backup_Linux () {
 		esac
 	}
 	echo "_________"
-	echo "Proceeding with restore..."
-	cd ~
-	tar -zxvpf $tarDir/Backup_Linux/linuxbackup.tar.gz
-	echo "_________"
-	for packageName in `cat $tarDir/insalledPackages_backup.log`
+	for packageName in `cat \$tarDir/insalledPackages_backup.log`
 	do
-		echo "Running : apt-get install $packageName"
-		apt-get install $packageName
+		echo "Running : apt-get install \$packageName"
+		apt-get install \$packageName
 	done
-	
-	' | tee -a $tarDir/restore.sh
+	echo "_________"
+	echo "Restore should now be compleat"
+	echo "exiting now..."
+	exit' | tee -a $tarDir/restore.sh
 	echo "_________"
 	echo "Sending tar commands momenteraly which will make a file in : $tarDir/Backup_Linux"
 	echo "You may try using \"crtl+d\" to stop now or do nothing and let the following command run which may take some time to compleat"
@@ -123,13 +123,14 @@ backup_Linux () {
 } 
 restore_Linux () { 
 	echo "_________"
+	cd /
 	echo "Reading default directory for files to restore..."
 	ls $tarDir
 	echo "Reading : Backup_Linux : directory for tar file"
-	ls $tarDir/Backup_Linux
+	zgrep $tarDir/linuxbackup.tar.gz | ls 
 	echo "_________"
 		{ 
-		read -r -p "Do we have the following files : restore.sh , insalledPackages_backup.log : and directory : Backup_Linux ? [Y/n] " response
+		read -r -p "Do we have the following files : restore.sh , insalledPackages_backup.log : and directory : Backup_Linux? [Y/n] " response
 		case "$response" in
 		[yY][eE][sS]|[yY])
 		# if yes, then start risking changes
@@ -141,11 +142,39 @@ restore_Linux () {
 		;;
 		esac
 	}
-
+	echo "_________"
+	echo "Proceeding with restore..."
+	tar -zxvpf $tarDir/Backup_Linux/linuxbackup.tar.gz
+	sh restore.sh
+	echo "_________"
 }
+# start of script
+echo "This script should be run under your root user on a Linux terminal"
+echo "Input - backup - to backup to : $tarDir/Backup_Linux/linuxbackup.tar.gz"
+echo "Input - restore - to restore to the : / : directory from : $tarDir/linuxbackup.tar.gz"
+echo "Input - exit - to : exit : and not perform any actions"
+echo -n "Which opperation do you wish to perform? "
+read ui_BorR
+
+if [ $ui_BorR = backup ]
+then
+	backup_Linux
+elif [ $ui_BorR = restore ]
+then
+	restore_Linux
+elif [ $ui_BorR = exit ]
+then
+	echo "Exiting now..."
+	exit
+else [ $ui_BorR = * ]
+	echo "Invalid input recived"
+	echo "Exiting now..."
+	exit
+fi
 
 
-echo " exiting now"
+echo "End of script"
+echo "exiting now..."
 exit
 # examples and credits
 
@@ -171,3 +200,7 @@ exit
 #   echo $WORD
 #   command $WORD > $WORD
 #done
+
+# http://www.unix.com/shell-programming-scripting/75038-grep-inside-zip-file.html
+# grep for patterns within a compressed file without having to un-compress it first.
+# zgrep 'meter number' file*.zip
