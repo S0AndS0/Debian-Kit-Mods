@@ -1,0 +1,2 @@
+Because running Linux on Android can be trublesome for new and seasoned users.
+I will be compiling some helpfull tips on how to interact with Linux localy on Android.
