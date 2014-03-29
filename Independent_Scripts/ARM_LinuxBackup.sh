@@ -16,14 +16,14 @@ read ui_excludeDir
 
 
 
-echo -n "You may choose : working : or : script : to save or restore backups too. [w/s]? "
+echo -n "You may choose : working : or : script : to save or restore backups. [w/s]? "
 read ui_tarDir
 if [ $ui_tarDir = w ]
 than
-tarDir=$PWD 
+	tarDir=$PWD 
 elif [ $ui_tarDir = s ]
 than
-tarDir=$bL_ScriptDirectory 
+	tarDir=$bL_ScriptDirectory 
 else
 exit
 fi
@@ -34,23 +34,22 @@ mkdir -p $tarDir/Backup_Linux
 
 echo "This script will atempt to make a very compact backup of your Linux OS"
 { 
-read -r -p "Are you sure? [Y/n] " response
-case "$response" in
-[yY][eE][sS]|[yY])
+	read -r -p "Are you sure? [Y/n] " response
+	case "$response" in
+	[yY][eE][sS]|[yY])
 # if yes, then start risking changes
-;;
-*)
+	;;
+	*)
 #	 Otherwise exit..
-echo "Try again? exiting.."
-exit 
-;;
-esac
+	echo "Try again? exiting.."
+	exit 
+	;;
+	esac
 }
 
 # wrie functions for script
 
-backup () { 
-# write a list of all installed packages
+backup_Linux () { 
 	echo "_________"
 	echo "Writing default exclusions to : $tarDir/exclude.txt"
 	echo 'proc
@@ -64,13 +63,38 @@ backup () {
 	echo "Writing a list of packages that are curently installed to : $tarDir/insalledPackages_backup.log"
 	dpkg --get-selections | awk '{ ; print $1}' > $tarDir/insalledPackages_backup.log
 	echo "_________"
+	echo "Writing a file to aid in un-packing your backup when it is needed"
+	echo '#!/bin/bash
+	cd ~
+	echo "About to restore your system from : \$tarDir/Backup_Linux/"
+	{ 
+		read -r -p "Are you sure? [Y/n] " response
+		case "\$response" in
+		[yY][eE][sS]|[yY])
+		# if yes, then start risking changes
+		;;
+		*)
+	#	 Otherwise exit..
+		echo "Try again? exiting.."
+		exit 
+		;;
+		esac
+	}
+	tar -zxvpf \$tarDir/Backup_Linux/linuxbackup.tar.gz' | tee -a $tarDir/restore.sh
+	echo "_________"
 	echo "Sending tar commands momenteraly which will make a file in : $tarDir/Backup_Linux"
-	echo "You may try using \"crtl+d\" to stop now or do nothing and let the following command run"
+	echo "You may try using \"crtl+d\" to stop now or do nothing and let the following command run which may take some time to compleat"
 	echo "tar -zcvpf \$tarDir/Backup_Linux/linuxbackup.tar.gz --directory=/ --exclude-from=\$tarDir/exclude.txt . " && sleep 5
 	tar -zcvpf $tarDir/Backup_Linux/linuxbackup.tar.gz --directory=/ --exclude-from=$tarDir/exclude.txt . 
-	
+	echo "_________"
+	echo "should be done, now you may transfer : linuxbackup.tar.gz : to another device for safe keeping."
+	ls $tarDir/Backup_Linux
 } 
-
+restore_Linux () { 
+	echo "_________"
+	
+	
+}
 
 
 
