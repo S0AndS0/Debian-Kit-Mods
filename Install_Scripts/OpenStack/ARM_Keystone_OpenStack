@@ -110,9 +110,18 @@ part06_configKeystonerc () {
 	echo "export OS_TENANT_NAME=admin"
 	echo "export OS_AUTH_URL=http://127.0.0.1:35357/v2.0"
 	echo "_________06.4"
+	echo "Opening : /etc/keystone/.keystonerc : for you to edit..."
+	vim /etc/keystone/.keystonerc
+	echo "starting : .keystonerc " now..."
+	. /etc/keystone/.keystonerc
+	echo "_________06.5"
+} 
+part07_configTenant () { 
+	echo "_________07.1"
 	
 	
 } 
+
 
 
 
