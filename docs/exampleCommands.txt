@@ -217,3 +217,34 @@ exit 0
 
 Count only line numbers of a file
 sed = $fIP_savePath/testFunction_runTime_variables.sh | grep -E "^[1-9]"
+
+# examples and credits
+
+# http://www.linuxquestions.org/questions/linux-newbie-8/using-tar-how-to-exclude-list-of-directories-893787/
+# exclude directories from tar command with a file that lists the directories to exclude (one per line)
+# --exclude-from=/PATH_TO/exclude.txt
+
+# http://www.unix.com/shell-programming-scripting/67831-replace-space-new-line.html
+# replace spaces with new line
+# tr ' ' '\n' < myFile
+
+# http://www.aboutdebian.com/tar-backup.htm
+# backup everything but excluded directories to a file named : fullbackup.tar.gz
+# tar -zcvpf /backups/fullbackup.tar.gz --directory=/ --exclude=proc --exclude=sys --exclude=dev/pts --exclude=backups .
+# restore that backup 
+# tar -zxvpf /fullbackup.tar.gz
+#+	note when backing up and restoring: be sure to be in the same directory tree level on the restoring system.
+
+# http://stackoverflow.com/questions/1605232/use-bash-to-read-a-file-and-then-execute-a-command-from-the-words-extracted
+# take a list of words/comands from a file with each on a new line and run them with a command and or save to a new file for latter running.
+#for WORD in `cat FILE`
+#do
+#   echo $WORD
+#   command $WORD > $WORD
+#done
+
+# http://www.unix.com/shell-programming-scripting/75038-grep-inside-zip-file.html
+# grep for patterns within a compressed file without having to un-compress it first.
+# zgrep 'meter number' file*.zip
+
+
