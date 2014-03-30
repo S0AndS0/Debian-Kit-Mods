@@ -24,6 +24,14 @@ fLive_IPs=`$customPinger | grep -v '$trimRoute' | grep -v '$IP_inet_addr'`
 
 
 # variables user set
+echo -n "Please set an : ADMIN_PASS : password for keystone, this should be long and very difficult to guess."
+read ADMIN_PASS
+echo -n "Please set an : ADMIN_TOKEN : password for keystone, this should be long and very difficult to guess."
+read ADMIN_TOKEN
+echo -n " Please set an : KEYSTONE_DBPASS : password for keystone, this should be long and very difficult to guess."
+read KEYSTONE_DBPASS
+echo -n " Please provide Keystone with an email : admin@example.com"
+read iu_email
 
 # package list
 # openstack-utils openstack-keystone mysql-server
@@ -51,12 +59,12 @@ part02_configKeystone () {
 	echo "Opening : /etc/keystone/keystone.conf : with vim so you can edit that file so it looks like bellow example"
 	echo "_________02.2"
 	echo "[DEFAULT]"
-	echo "admin_token = ADMIN_TOKEN"
+	echo "admin_token = $ADMIN_TOKEN"
 	echo "."
 	echo "."
 	echo "."
 	echo "[sql]"
-	echo "connection = mysql://keystone:KEYSTONE_DBPASS@controller/keystone"
+	echo "connection = mysql://keystone:$KEYSTONE_DBPASS@controller/keystone"
 	echo "Note that ADMIN_TOKEN and KEYSTONE_DBPASS should be long and difficult to guess."
 	echo "	Remember that ADMIN_TOKEN is the almighty token which will have full access to create and destroy users and services."
 	echo "_________02.3"
@@ -71,9 +79,9 @@ part03_configMySQL () {
 	mysql_secure_installation
 	echo "_________03.2"
 	echo "Now we need to create the required database and tables for Keystone to work. The command below will do that for us."
-	echo "openstack-db --service keystone --init --password KEYSTONE_DBPASS"
+	echo "openstack-db --service keystone --init --password \$KEYSTONE_DBPASS"
 	echo "It will ask us for root password to create the keystone use and the database."
-	openstack-db --service keystone --init --password KEYSTONE_DBPASS
+	openstack-db --service keystone --init --password $KEYSTONE_DBPASS
 	echo "_________03.3"
 } 
 part04_certsKeys () { 
@@ -103,10 +111,10 @@ part06_configKeystonerc () {
 	echo "The - live IPs - on your network are : $fLive_IPs"
 	echo "_________06.3"
 	echo "See bellow example from above linked guide to see how to modify the following file when given the option."
-	echo "export OS_SERVICE_TOKEN=ADMIN_TOKEN"
+	echo "export OS_SERVICE_TOKEN=\$ADMIN_TOKEN"
 	echo "export OS_SERVICE_ENDPOINT=http://127.0.0.1:35357/v2.0"
 	echo "export OS_USERNAME=admin"
-	echo "export OS_PASSWORD=ADMIN_PASS"
+	echo "export OS_PASSWORD=\$ADMIN_PASS"
 	echo "export OS_TENANT_NAME=admin"
 	echo "export OS_AUTH_URL=http://127.0.0.1:35357/v2.0"
 	echo "_________06.4"
@@ -123,7 +131,7 @@ part07_configTenant () {
 	keystone tenant-create --name=admin --description="Admin Tenant"
 	echo "_________07.2"
 	echo "Creating admin user"
-	keystone user-create --name=admin --pass=ADMIN_PASS --email=admin@example.com
+	keystone user-create --name=admin --pass=$ADMIN_PASS --email=$iu_email
 	echo "_________07.3"
 	echo "Creating and adding admin user to admin role"
 	keystone role-create --name=admin
@@ -132,15 +140,19 @@ part07_configTenant () {
 	echo "Creating Keystone service and endpoint"
 	keystone service-create --name=keystone --type=identity --description="Keystone Identity Service"
 	echo "_________07.5"
-	echo "Copy the id from the command above and use it in the command below"
-	keystone endpoint-create --service-id=c3dbb8aa4b27492f9c4a663cce0961a3 --publicurl=http://127.0.0.1:5000/v2.0 --internalurl=http://127.0.0.1:5000/v2.0 --adminurl=http://127.0.0.1:35357/v2.0
+	echo "Use the command above and to fill in the prompts for the command below"
+	
+	echo -n "Please enter the : id"
+	read ui_ID
+	
+	keystone endpoint-create --service-id=$ui_ID --publicurl=http://127.0.0.1:5000/v2.0 --internalurl=http://127.0.0.1:5000/v2.0 --adminurl=http://127.0.0.1:35357/v2.0
 	echo "_________07.6"
 } 
 part08_testKeystone () { 
 	echo "_________08.1"
 	echo "Testing the keystone service..."
 	unset OS_SERVICE_TOKEN OS_SERVICE_ENDPOINT
-	keystone --os-username=admin --os-password=ADMIN_PASS --os-auth-url=http://127.0.0.1:35357/v2.0 token-get
+	keystone --os-username=admin --os-password=$ADMIN_PASS --os-auth-url=http://127.0.0.1:35357/v2.0 token-get
 	echo "_________08.2"
 	echo "A token with id, validity and other information will be returned. Keystone is up and running."
 	echo "_________08.3"
@@ -167,9 +179,4 @@ exit
 # Save file with vim
 # http://www.cyberciti.biz/faq/save-file-in-vi-vim-linux-apple-macos-unix-bsd/
 
-# notes
-
-# package list
-step 1
-# yum install openstack-utils openstack-keystone mysql-server
 
