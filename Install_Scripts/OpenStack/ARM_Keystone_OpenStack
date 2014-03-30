@@ -80,7 +80,11 @@ part04_certsKeys () {
 	echo "Creating the signing keys and certificates for the tokens with the following command"
 	echo "keystone-manage pki_setup --keystone-user keystone --keystone-group keystone"
 	keystone-manage pki_setup --keystone-user keystone --keystone-group keystone
-	
+	echo "_________04.2"
+} 
+part05_setOwner () { 
+	echo "Set the file owners, just in case something messed up befor starting the service.
+	chown -R keystone:keystone /etc/keystone/* /var/log/keystone/keystone.log
 } 
 
 
@@ -88,6 +92,9 @@ part04_certsKeys () {
 
 # script start
 
+# for part five
+# service openstack-keystone start
+# chkconfig openstack-keystone on
 
 echo "End of script. Exiting now..."
 exit
