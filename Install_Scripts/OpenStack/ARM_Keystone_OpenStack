@@ -26,15 +26,83 @@ fLive_IPs=`$customPinger | grep -v '$trimRoute' | grep -v '$IP_inet_addr'`
 # variables user set
 
 # package list
+# openstack-utils openstack-keystone mysql-server
+
+# Start of functions for script
+#+ Write a function to display at start of running script
+part00_readme () { 
+	echo "_________00.1"
+	echo "This script was made posible thanks to the following two links..."
+	echo "http://docs.openstack.org/havana/install-guide/install/apt-debian/content/"
+	echo "http://blog.adityapatawari.com/2014/01/openstack-101-how-to-setup-openstack.html"
+	echo "	This script is desined to run on ARM Linux OS's wheeze on up."
+	echo "Use it to install and configure Keystone properly"
+	echo "_________00.2"
+} 
+part01_installPackages () { 
+	echo "_________01.1"
+	apt-get install openstack-utils
+	apt-get install openstack-keystone
+	apt-get install mysql-server
+	echo "_________01.2"
+} 
+part02_configKeystone () { 
+	echo "_________02.1"
+	echo "Opening : /etc/keystone/keystone.conf : with vim so you can edit that file so it looks like bellow example"
+	echo "_________02.2"
+	echo "[DEFAULT]"
+	echo "admin_token = ADMIN_TOKEN"
+	echo "."
+	echo "."
+	echo "."
+	echo "[sql]"
+	echo "connection = mysql://keystone:KEYSTONE_DBPASS@controller/keystone"
+	echo "Note that ADMIN_TOKEN and KEYSTONE_DBPASS should be long and difficult to guess. Remember that ADMIN_TOKEN is the almighty token which will have full access to create and destroy users and services."
+	echo "_________02.3"
+	echo "	to exit from vi/vim saving changes, press [Esc], : (colon) and type wq."
+	vim /etc/keystone/keystone.conf
+	echo "_________02.4"
+} 
+part03_configMySQL () { 
+	echo "_________03.1"
+	echo "About to run : mysql_secure_installation : which is only required for the first run of MySQL"
+	echo "	This will ask you to set root password."
+	mysql_secure_installation
+	echo "_________03.2"
+	echo "Now we need to create the required database and tables for Keystone to work. The command below will do that for us."
+	echo "openstack-db --service keystone --init --password KEYSTONE_DBPASS"
+	echo "It will ask us for root password to create the keystone use and the database."
+	openstack-db --service keystone --init --password KEYSTONE_DBPASS
+	echo "_________03.3"
+} 
+part04_certsKeys () { 
+	echo "_________04.1"
+	echo "Creating the signing keys and certificates for the tokens with the following command"
+	echo "keystone-manage pki_setup --keystone-user keystone --keystone-group keystone"
+	keystone-manage pki_setup --keystone-user keystone --keystone-group keystone
+	
+} 
+
+
+
 
 # script start
 
 
+echo "End of script. Exiting now..."
+exit
 # script end
 
 # notes and credits
 # used PDF from following location
 # http://docs.openstack.org/havana/install-guide/install/apt-debian/content/
 # http://blog.adityapatawari.com/2014/01/openstack-101-how-to-setup-openstack.html
+# Save file with vim
+# http://www.cyberciti.biz/faq/save-file-in-vi-vim-linux-apple-macos-unix-bsd/
 
+# notes
+
+# package list
+step 1
+# yum install openstack-utils openstack-keystone mysql-server
 
