@@ -4,6 +4,7 @@ umask 022
 # Files that the script creates will have 755 permission.
 # Thanks to Ian D. Allen, for this tip.
 # Variables start
+debPruner_ls=`ls -a | grep -v '.etc.debian-android' | grep -v '.root.debian-android' | grep -v '.sbin.debian-android' | grep -v 'bin' | grep -v 'boot' | grep -v 'home' | grep -v 'lib' | grep -v 'media' | grep -v 'selinux' | grep -v 'srv' | grep -v 'tmp' | grep -v 'usr' | grep -v 'var'`
 bL_fullScriptPath="$(readlink -f $0)"
 bL_ScriptDirectory="$(dirname $bL_fullScriptPath)"
 echo "Your curent working directory is : $PWD" 
@@ -55,19 +56,43 @@ excludeList_Populator () {
 	
 	if [ $ui_chOrschRoot = l ]
 	then
-		echo "Using grep to remove Linux system files from that list"
-		ls -a | grep -v '127.0.0.1'
-		
-		echo '
-		
-		' | tee -a $tarDir/exclude.txt
+		echo "Writting a file to be sure we don't backup Android system files."
+		echo '.
+		..
+		acct
+		cache
+		config
+		d
+		data
+		default.prop
+		dev
+		etc
+		init
+		init.cm.rc
+		init.goldfish.rc
+		init.latte.rc
+		init.rc
+		init.superuser.rc
+		init.trace.rc
+		init.usb.rc
+		init.victory.rc
+		init.victory.usb.rc
+		lpm.rc
+		mnt
+		proc
+		root
+		sbin
+		sd-ext
+		sdcard
+		sys
+		system
+		ueventd.goldfish.rc
+		ueventd.latte.rc
+		ueventd.rc
+		vendor' | tee -a $tarDir/exclude.txt
 	elif [ $ui_chOrschRoot = d ]
 	then
-		
-		
-		echo '
-		
-		' | tee -a $tarDir/exclude.txt
+		$debPruner_ls >> cat $tarDir/exclude.txt
 	else [ $ui_chOrschRoot = * ]
 	then
 		echo "exiting now..."
@@ -80,11 +105,7 @@ excludeList_Populator () {
 	echo "Adding your exclusions to : $tarDir/exclude.txt"
 	$ui_excludeDir | tr ' ' '\n' >> $tarDir/exclude.txt
 	echo "_________"
-	
-	
 } 
-
-
 backup_Linux () { 
 	echo "Writing a list of packages that are curently installed to : $tarDir/insalledPackages_backup.log"
 	dpkg --get-selections | awk '{ ; print $1}' > $tarDir/insalledPackages_backup.log
@@ -183,7 +204,7 @@ if [ $ui_BorR = backup ]
 then
 	echo "Writing default exclusions to : $tarDir/exclude.txt"
 	excludeList_Populator
-	
+	echo "Running backup commands using above safeties"
 	backup_Linux
 elif [ $ui_BorR = restore ]
 then
@@ -200,154 +221,4 @@ fi
 echo "End of script"
 echo "exiting now..."
 exit
-# examples and credits
-
-# http://www.linuxquestions.org/questions/linux-newbie-8/using-tar-how-to-exclude-list-of-directories-893787/
-# exclude directories from tar command with a file that lists the directories to exclude (one per line)
-# --exclude-from=/PATH_TO/exclude.txt
-
-# http://www.unix.com/shell-programming-scripting/67831-replace-space-new-line.html
-# replace spaces with new line
-# tr ' ' '\n' < myFile
-
-# http://www.aboutdebian.com/tar-backup.htm
-# backup everything but excluded directories to a file named : fullbackup.tar.gz
-# tar -zcvpf /backups/fullbackup.tar.gz --directory=/ --exclude=proc --exclude=sys --exclude=dev/pts --exclude=backups .
-# restore that backup 
-# tar -zxvpf /fullbackup.tar.gz
-#+	note when backing up and restoring: be sure to be in the same directory tree level on the restoring system.
-
-# http://stackoverflow.com/questions/1605232/use-bash-to-read-a-file-and-then-execute-a-command-from-the-words-extracted
-# take a list of words/comands from a file with each on a new line and run them with a command and or save to a new file for latter running.
-#for WORD in `cat FILE`
-#do
-#   echo $WORD
-#   command $WORD > $WORD
-#done
-
-# http://www.unix.com/shell-programming-scripting/75038-grep-inside-zip-file.html
-# grep for patterns within a compressed file without having to un-compress it first.
-# zgrep 'meter number' file*.zip
-
-# directories and files to sort out from lildebi
-.
-..
-acct
-bin
-boot.txt
-cache
-config
-d
-data
-debian
-default.prop
-dev
-etc
-init
-init.cm.rc
-init.goldfish.rc
-init.rc
-init.superuser.rc
-init.trace.rc
-init.usb.rc
-init.victory.rc
-init.victory.usb.rc
-lpm.rc
-mnt
-proc
-sbin
-sdcard
-storage
-sys
-system
-ueventd.goldfish.rc
-ueventd.rc
-ueventd.victory.rc
-vendor
-		
-# folders and files with debian kit running
-.
-..
-.etc.debian-android
-.root.debian-android
-.sbin.debian-android
-acct
-bin
-boot
-cache
-config
-d
-data
-default.prop
-dev
-etc
-home
-init
-init.goldfish.rc
-init.latte.rc
-init.rc
-lib
-media
-mnt
-opt
-proc
-root
-sbin
-sd-ext
-sdcard
-selinux
-srv
-sys
-system
-tmp
-ueventd.goldfish.rc
-ueventd.latte.rc
-ueventd.rc
-usr
-var
-vendor
-
-# folders and files without debian kit running
-.
-..
-acct
-cache
-config
-d
-data
-default.prop
-dev
-etc
-init
-init.goldfish.rc
-init.latte.rc
-init.rc
-mnt
-proc
-root
-sbin
-sd-ext
-sdcard
-sys
-system
-ueventd.goldfish.rc
-ueventd.latte.rc
-ueventd.rc
-vendor
-
-# differances
-.etc.debian-android
-.root.debian-android
-.sbin.debian-android
-bin
-boot
-home
-lib
-media
-selinux
-srv
-tmp
-usr
-var
-
 
