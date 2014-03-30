@@ -52,13 +52,19 @@ excludeList_Populator () {
 	echo "Showing list of all directories under : / : directory"
 	cd ~
 	ls -a
+	
 	if [ $ui_chOrschRoot = l ]
 	then
+		echo "Using grep to remove Linux system files from that list"
+		ls -a | grep -v '127.0.0.1'
+		
 		echo '
 		
 		' | tee -a $tarDir/exclude.txt
 	elif [ $ui_chOrschRoot = d ]
 	then
+		
+		
 		echo '
 		
 		' | tee -a $tarDir/exclude.txt
@@ -223,32 +229,125 @@ exit
 # grep for patterns within a compressed file without having to un-compress it first.
 # zgrep 'meter number' file*.zip
 
-# directories and files to sort out
+# directories and files to sort out from lildebi
+.
+..
+acct
+bin
+boot.txt
+cache
+config
+d
+data
+debian
+default.prop
+dev
+etc
+init
+init.cm.rc
+init.goldfish.rc
+init.rc
+init.superuser.rc
+init.trace.rc
+init.usb.rc
+init.victory.rc
+init.victory.usb.rc
+lpm.rc
+mnt
 proc
-		sys
-		dev/pts
-		$tarDir/Backup_Linux
-		mnt
-		acct
-		bin
-		cache
-		config
-		d
-		data
-		dev
-		etc
-		proc
-		sbin
-		sdcard
-		storage
-		sys
-		system
-		vendor
-		boot.txt
-		default.prop
-		init
-		init.cm.rc
-		init.goldfish.rc
-		init.rc
-		init.superuser.rc
-		init.trace
+sbin
+sdcard
+storage
+sys
+system
+ueventd.goldfish.rc
+ueventd.rc
+ueventd.victory.rc
+vendor
+		
+# folders and files with debian kit running
+.
+..
+.etc.debian-android
+.root.debian-android
+.sbin.debian-android
+acct
+bin
+boot
+cache
+config
+d
+data
+default.prop
+dev
+etc
+home
+init
+init.goldfish.rc
+init.latte.rc
+init.rc
+lib
+media
+mnt
+opt
+proc
+root
+sbin
+sd-ext
+sdcard
+selinux
+srv
+sys
+system
+tmp
+ueventd.goldfish.rc
+ueventd.latte.rc
+ueventd.rc
+usr
+var
+vendor
+
+# folders and files without debian kit running
+.
+..
+acct
+cache
+config
+d
+data
+default.prop
+dev
+etc
+init
+init.goldfish.rc
+init.latte.rc
+init.rc
+mnt
+proc
+root
+sbin
+sd-ext
+sdcard
+sys
+system
+ueventd.goldfish.rc
+ueventd.latte.rc
+ueventd.rc
+vendor
+
+# differances
+.etc.debian-android
+.root.debian-android
+.sbin.debian-android
+bin
+boot
+home
+lib
+media
+selinux
+srv
+tmp
+usr
+var
+
+
