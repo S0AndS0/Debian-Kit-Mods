@@ -118,8 +118,32 @@ part06_configKeystonerc () {
 } 
 part07_configTenant () { 
 	echo "_________07.1"
-	
-	
+	echo "Creating the tenants, users and the Keystone service with endpoint."
+	echo "Creating tenant"
+	keystone tenant-create --name=admin --description="Admin Tenant"
+	echo "_________07.2"
+	echo "Creating admin user"
+	keystone user-create --name=admin --pass=ADMIN_PASS --email=admin@example.com
+	echo "_________07.3"
+	echo "Creating and adding admin user to admin role"
+	keystone role-create --name=admin
+	keystone user-role-add --user=admin --tenant=admin --role=admin 
+	echo "_________07.4"
+	echo "Creating Keystone service and endpoint"
+	keystone service-create --name=keystone --type=identity --description="Keystone Identity Service"
+	echo "_________07.5"
+	echo "Copy the id from the command above and use it in the command below"
+	keystone endpoint-create --service-id=c3dbb8aa4b27492f9c4a663cce0961a3 --publicurl=http://127.0.0.1:5000/v2.0 --internalurl=http://127.0.0.1:5000/v2.0 --adminurl=http://127.0.0.1:35357/v2.0
+	echo "_________07.6"
+} 
+part08_testKeystone () { 
+	echo "_________08.1"
+	echo "Testing the keystone service..."
+	unset OS_SERVICE_TOKEN OS_SERVICE_ENDPOINT
+	keystone --os-username=admin --os-password=ADMIN_PASS --os-auth-url=http://127.0.0.1:35357/v2.0 token-get
+	echo "_________08.2"
+	echo "A token with id, validity and other information will be returned. Keystone is up and running."
+	echo "_________08.3"
 } 
 
 
