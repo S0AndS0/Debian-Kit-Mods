@@ -14,8 +14,8 @@ IP_Bcast_addr=`/sbin/ifconfig | grep -E 'Bcast' | grep -v '127.0.0.1' | awk '{gs
 IP_Mask_addr=`/sbin/ifconfig | grep -E 'Mask' | grep -v '127.0.0.1' | awk '{gsub("Mask:",""); print $4}'`
 IP_inet6_addr=`/sbin/ifconfig | grep -E 'inet6 addr' | grep -v '127.0.0.1' | grep -v '1/128' | awk '{gsub("addr:",""); print $2}'`
 IP_local=`/sbin/ifconfig | grep -E 'inet addr' | grep -E '127.0.0.1' | awk '{gsub("addr:",""); print $2}'`
-trimIP=`$IP_Bcast_addr | sed 's/...$//'`
 
+trimIP=`$IP_Bcast_addr | sed 's/...$//'`
 trimRoute=`route -n | grep -E 'UG' | awk '{print $2}'`
 IPmin=1
 IPmax=254
@@ -57,7 +57,8 @@ part02_configKeystone () {
 	echo "."
 	echo "[sql]"
 	echo "connection = mysql://keystone:KEYSTONE_DBPASS@controller/keystone"
-	echo "Note that ADMIN_TOKEN and KEYSTONE_DBPASS should be long and difficult to guess. Remember that ADMIN_TOKEN is the almighty token which will have full access to create and destroy users and services."
+	echo "Note that ADMIN_TOKEN and KEYSTONE_DBPASS should be long and difficult to guess."
+	echo "	Remember that ADMIN_TOKEN is the almighty token which will have full access to create and destroy users and services."
 	echo "_________02.3"
 	echo "	to exit from vi/vim saving changes, press [Esc], : (colon) and type wq."
 	vim /etc/keystone/keystone.conf
@@ -83,8 +84,34 @@ part04_certsKeys () {
 	echo "_________04.2"
 } 
 part05_setOwner () { 
+	echo "_________05.1"
 	echo "Set the file owners, just in case something messed up befor starting the service.
 	chown -R keystone:keystone /etc/keystone/* /var/log/keystone/keystone.log
+	echo "_________05.2"
+} 
+part06_configKeystonerc () { 
+	echo "_________06.1"
+	echo "Setup the required environment variables."
+	echo "This will save the effort of supplying all the information every time a Keystone command is executed."
+	echo "Note that by default the Keystone admin port is 35357."
+	echo "_________06.2"
+	echo "Your - inernet IPv4 - is : $IP_inet_addr"
+	echo "Your - broadcast IP - is : $IP_Bcast_addr"
+	echo "Your - mask IP - is : $IP_Mask_addr"
+	echo "Your - internet IPv6 - is : $IP_inet6_addr"
+	echo "Your - local IP - is : $IP_local"
+	echo "The - live IPs - on your network are : $fLive_IPs"
+	echo "_________06.3"
+	echo "See bellow example from above linked guide to see how to modify the following file when given the option."
+	echo "export OS_SERVICE_TOKEN=ADMIN_TOKEN"
+	echo "export OS_SERVICE_ENDPOINT=http://127.0.0.1:35357/v2.0"
+	echo "export OS_USERNAME=admin"
+	echo "export OS_PASSWORD=ADMIN_PASS"
+	echo "export OS_TENANT_NAME=admin"
+	echo "export OS_AUTH_URL=http://127.0.0.1:35357/v2.0"
+	echo "_________06.4"
+	
+	
 } 
 
 
