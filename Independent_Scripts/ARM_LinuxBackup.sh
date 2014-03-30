@@ -4,6 +4,7 @@ umask 022
 # Files that the script creates will have 755 permission.
 # Thanks to Ian D. Allen, for this tip.
 # Variables start
+BorR_nameScript=ARM_LinuxBackup.sh
 debPruner_ls=`ls -a | grep -v '.etc.debian-android' | grep -v '.root.debian-android' | grep -v '.sbin.debian-android' | grep -v 'bin' | grep -v 'boot' | grep -v 'home' | grep -v 'lib' | grep -v 'media' | grep -v 'selinux' | grep -v 'srv' | grep -v 'tmp' | grep -v 'usr' | grep -v 'var'`
 bL_fullScriptPath="$(readlink -f $0)"
 bL_ScriptDirectory="$(dirname $bL_fullScriptPath)"

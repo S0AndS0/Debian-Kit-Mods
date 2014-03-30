@@ -15,6 +15,7 @@ Br_nameScript=ARM_Bramble_Installer
 fIP_nameScript=findNetworking_IPs
 SCP_nameScript=SCP_helper
 lds_nameScript=LilDebi_setUp.sh
+BorR_nameScript=ARM_LinuxBackup.sh
 echo "$LM_nameScript is running"
 echo "variables for user and home directories" 
  : ${USER?} ${HOME?} 
@@ -83,6 +84,8 @@ echo "Input - KF - to run $KF_nameScript [untested]"
 echo "Input - RM - to run $RM_nameScript [tested - use with care]"
 echo "Input - SCP - to run $SCP_nameScript [untested]"
 echo "Input - lds - to run $lds_nameScript [untested]"
+echo "_________Experimental-or-Dangerious_________"
+echo "Input - BorR - to run $BorR_nameScript [untested]"
 
 echo "Choose and input a number to continue"
 echo "or input no to abort $LM_nameScript"
@@ -159,6 +162,12 @@ then
 then 
 		echo "this has yet to be fully tested"
 		sh $LM_independentPath/$lds_nameScript
+		echo "exiting now"
+		echo exit 
+	elif [ $response = BorR ] 
+then 
+		echo "this has yet to be fully tested"
+		sh $LM_independentPath/$BorR_nameScript
 		echo "exiting now"
 		echo exit 
 	elif [ $response = 1 ] 
