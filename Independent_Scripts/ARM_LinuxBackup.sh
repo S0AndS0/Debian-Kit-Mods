@@ -26,6 +26,8 @@ echo "\$tarDir set to : $tarDir"
 mkdir -p $SorR_tarDir/Backup_Linux
 tarDir=$SorR_tarDir/Backup_Linux
 
+echo -n "Are you running Linux with LilDebi or Debian Kit [l/d]? "
+read ui_chOrschRoot
 
 # Variables end
 
@@ -46,21 +48,38 @@ echo "This script will atempt to make a very compact backup of your Linux OS"
 
 # wrie functions for script
 
-backup_Linux () { 
+excludeList_Populator () { 
+	echo "Showing list of all directories under : / : directory"
+	cd ~
+	ls -a
+	if [ $ui_chOrschRoot = l ]
+	then
+		echo '
+		
+		' | tee -a $tarDir/exclude.txt
+	elif [ $ui_chOrschRoot = d ]
+	then
+		echo '
+		
+		' | tee -a $tarDir/exclude.txt
+	else [ $ui_chOrschRoot = * ]
+	then
+		echo "exiting now..."
+		exit
+	else [ $ui_chOrschRoot = * ]
+		echo "Invalid input recieved. Exiting now..."
+		exit
+	fi
 	echo "_________"
-	echo "Writing default exclusions to : $tarDir/exclude.txt"
-	echo 'proc
-	sys
-	dev/pts
-	$tarDir/Backup_Linux
-	sdcard
-	mnt
-	
-	
-	' | tee -a $tarDir/exclude.txt
 	echo "Adding your exclusions to : $tarDir/exclude.txt"
 	$ui_excludeDir | tr ' ' '\n' >> $tarDir/exclude.txt
 	echo "_________"
+	
+	
+} 
+
+
+backup_Linux () { 
 	echo "Writing a list of packages that are curently installed to : $tarDir/insalledPackages_backup.log"
 	dpkg --get-selections | awk '{ ; print $1}' > $tarDir/insalledPackages_backup.log
 	echo "_________"
@@ -156,6 +175,9 @@ echo -n "Which opperation do you wish to perform? "
 read ui_BorR
 if [ $ui_BorR = backup ]
 then
+	echo "Writing default exclusions to : $tarDir/exclude.txt"
+	excludeList_Populator
+	
 	backup_Linux
 elif [ $ui_BorR = restore ]
 then
@@ -200,3 +222,33 @@ exit
 # http://www.unix.com/shell-programming-scripting/75038-grep-inside-zip-file.html
 # grep for patterns within a compressed file without having to un-compress it first.
 # zgrep 'meter number' file*.zip
+
+# directories and files to sort out
+proc
+		sys
+		dev/pts
+		$tarDir/Backup_Linux
+		mnt
+		acct
+		bin
+		cache
+		config
+		d
+		data
+		dev
+		etc
+		proc
+		sbin
+		sdcard
+		storage
+		sys
+		system
+		vendor
+		boot.txt
+		default.prop
+		init
+		init.cm.rc
+		init.goldfish.rc
+		init.rc
+		init.superuser.rc
+		init.trace
