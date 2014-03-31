@@ -53,7 +53,7 @@ part01_installPackages () {
 part02_diskSpace () { 
 	echo "_________02.1"
 	echo "There are two options avaiable for dedicating space for swift to use for storage."
-	echo "Option 1 sets up a partition in your : /dev : directory named : sdb"
+	echo "Option 1 sets up a partition in your : /dev : directory named : sdb : and likely is best if you've set up a large partition for Linux originaly."
 	echo "Option 2 sets up a file in your temp directory and is best for \"proof-of-consept\" progects"
 	echo "_________02.2"
 	echo -n "Which would you like to preform? [1/2] "
@@ -87,6 +87,7 @@ part03_replicateRsync () {
 	echo "_________03.1"
 	echo "Setup rsync to replicate the objects."
 	echo "In case replication or redundancy is not required, then this step can be skipped."
+	echo "However if setting up for something permenat is sugested."
 	{ 
 		read -r -p "Do you wish to set up rsync? [Y/n]" response
 		case "$response" in
@@ -95,6 +96,8 @@ part03_replicateRsync () {
 				echo "_________03.2"
 				echo "please edit the following file to include the following line"
 				echo "RSYNC_ENABLE = true"
+				echo "Note that there can be multiple account, container and object sections if you wish to use multiple disks or partitions."
+				echo "Further more if you have USB OTG on your Android device and proper cable adapters, you may set this up on an external USB drive."
 				vim /etc/default/rsync
 				echo "_________03.3"
 				service rsync start
@@ -109,6 +112,25 @@ part03_replicateRsync () {
 	echo "_________03.5"
 } 
 part04_proxy () { 
+	echo "_________04.1"
+	Opening : /etc/swift/proxy-server.conf : so you may edit the [filter:authtoken] as shown below:"
+	echo "Keep in mind that the admin token, admin_tenant_name and admin_user should be same which was used while setting up Keystone."
+	echo "_________"
+	echo "	[filter:authtoken]"
+	echo "	paste.filter_factory = keystoneclient.middleware.auth_token:filter_factory"
+	echo "	admin_tenant_name = admin"
+	echo "	admin_user = admin"
+	echo "	admin_password = ADMIN_PASS"
+	echo "	auth_host = 127.0.0.1"
+	echo "	auth_port = 35357"
+	echo "	auth_protocol = http"
+	echo "	signing_dir = /tmp/keystone-signing-swift"
+	echo "_________"
+	echo "_________04.2"
+	vim /etc/swift/proxy-server.conf
+	echo "_________04.3"
+} 
+part05_rings () { 
 	
 	
 } 
@@ -124,4 +146,61 @@ part04_proxy () {
 # http://docs.openstack.org/havana/install-guide/install/apt-debian/content/
 # http://blog.adityapatawari.com/2014/01/openstack-101-how-to-setup-openstack_12.html?m=1
 
+
+# part 5
+echo "_________05.1"
+echo "Rings are mappings between the storage node components and the actual physical drive."
+echo "	Note that the create commands below has 3 numeric parameters in the end."
+echo "	The first parameter signifies the number of the swift partitions (not same as the disk partitions)."
+echo "	Higher number of partitions ensure even distribution but also higher number of partitions put higher strain on the server."
+echo "	So we have to find a good trade off. The rule of thumb is to create about 100 swift partitions per drive."
+echo "	For that the first numeric parameter would be 7 which is (2^7=128, closest to 100)."
+echo "	The second parameter defines the number of copies to create for the sake of replication."
+echo "	For a small instance with no rsync, set it to one but recommended is three."
+echo "	Last number is the time in hours before a specific partition can be moved in succession."
+echo "	Set it to a low number for testing but 24 is recommended for production instances."
+echo "_________05.2"
+echo "The defaults for testing are:"
+echo "swift-ring-builder account.builder create 7 1 1"
+echo "swift-ring-builder container.builder create 7 1 1"
+echo "swift-ring-builder object.builder create 7 1 1"
+echo -n "Please set the number of the swift partitions [First number] : "
+read ui_partitions
+echo -n "Please set the number of copies to create for the sake of replication [Second number] : "
+read ui_replication
+echo -n "Please set the time in hours before a specific partition can be moved in succession [Third number] : "
+read ui_experation
+cd /etc/swift
+swift-ring-builder account.builder create $ui_partitions $ui_replication $ui_experation
+swift-ring-builder container.builder create $ui_partitions $ui_replication $ui_experation
+swift-ring-builder object.builder create $ui_partitions $ui_replication $ui_experation
+
+
+echo "Add the device created above to the ring:"
+echo "The defaults given fron the guide are:"
+echo "swift-ring-builder account.builder add z1-127.0.0.1:6002/partition1 100"
+echo "swift-ring-builder container.builder add z1-127.0.0.1:6001/partition1 100"
+echo "swift-ring-builder object.builder add z1-127.0.0.1:6000/partition1 100"
+
+echo -n "What is the name of the partition that you have made for swift? "
+read ui_partitionName
+
+echo -n "What IP would you like to set for account.builder? "
+read ui_accountBuilderIP
+echo -n "What port would you like to set for account.builder? "
+read ui_accountBuilderPort
+
+
+
+# swift-ring-builder account.builder add z1-127.0.0.1:6002/partition1 100
+# swift-ring-builder container.builder add z1-127.0.0.1:6001/partition1 100
+# swift-ring-builder object.builder add z1-127.0.0.1:6000/partition1 100
+
+Rebalance the ring. This will ensure even distribution and minimal partition moves.
+# swift-ring-builder account.builder rebalance
+# swift-ring-builder container.builder rebalance
+# swift-ring-builder object.builder rebalance
+
+Set the owner and the group for the partitions
+# chown -R swift:swift /etc/swift /srv/node/partition1
 
