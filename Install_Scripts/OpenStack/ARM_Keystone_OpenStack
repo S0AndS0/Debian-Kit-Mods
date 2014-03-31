@@ -8,43 +8,36 @@ umask 022 		# Files that the script creates will have 755 permission.
 osCN_fullScriptPath="$(readlink -f $0)"
 # deleat last componit from ThisScript and store to another variable
 osCN_ScriptDirectory="$(dirname $osCN_fullScriptPath)"
-
 IP_inet_addr=`/sbin/ifconfig | grep -E 'inet addr' | grep -v '127.0.0.1' | awk '{gsub("addr:",""); print $2}'`
 IP_Bcast_addr=`/sbin/ifconfig | grep -E 'Bcast' | grep -v '127.0.0.1' | awk '{gsub("Bcast:",""); print $3}'`
 IP_Mask_addr=`/sbin/ifconfig | grep -E 'Mask' | grep -v '127.0.0.1' | awk '{gsub("Mask:",""); print $4}'`
 IP_inet6_addr=`/sbin/ifconfig | grep -E 'inet6 addr' | grep -v '127.0.0.1' | grep -v '1/128' | awk '{gsub("addr:",""); print $2}'`
 IP_local=`/sbin/ifconfig | grep -E 'inet addr' | grep -E '127.0.0.1' | awk '{gsub("addr:",""); print $2}'`
-
 trimIP=`$IP_Bcast_addr | sed 's/...$//'`
 trimRoute=`route -n | grep -E 'UG' | awk '{print $2}'`
 IPmin=1
 IPmax=254
 customPinger=`for ip in $(seq $IPmin $IPmax) ;do (ping -c 1 -w 5 $trimIP$ip >/dev/null && echo "$trimIP$ip" &) ; done`
 fLive_IPs=`$customPinger | grep -v '$trimRoute' | grep -v '$IP_inet_addr'`
-
-
 # variables user set
+echo "Setting some of many user input variables..."
 echo -n "Please set an : ADMIN_PASS : password for keystone, this should be long and very difficult to guess."
 read ADMIN_PASS
 echo -n "Please set an : ADMIN_TOKEN : password for keystone, this should be long and very difficult to guess."
 read ADMIN_TOKEN
 echo -n " Please set an : KEYSTONE_DBPASS : password for keystone, this should be long and very difficult to guess."
 read KEYSTONE_DBPASS
-echo -n " Please provide Keystone with an email : admin@example.com"
+echo -n " Please provide Keystone with an email : admin@example.com : - "
 read iu_email
 
-# package list
-# openstack-utils openstack-keystone mysql-server
-
-# Start of functions for script
-#+ Write a function to display at start of running script
+echo "Setting up functions for this script..."
 part00_readme () { 
 	echo "_________00.1"
 	echo "This script was made posible thanks to the following two links..."
 	echo "http://docs.openstack.org/havana/install-guide/install/apt-debian/content/"
 	echo "http://blog.adityapatawari.com/2014/01/openstack-101-how-to-setup-openstack.html"
 	echo "	This script is desined to run on ARM Linux OS's wheeze on up."
-	echo "Use it to install and configure Keystone properly"
+	echo "Use it to install and configure Keystone properly for your admin user"
 	echo "_________00.2"
 } 
 part01_installPackages () { 
@@ -96,6 +89,9 @@ part05_setOwner () {
 	echo "Set the file owners, just in case something messed up befor starting the service.
 	chown -R keystone:keystone /etc/keystone/* /var/log/keystone/keystone.log
 	echo "_________05.2"
+	service openstack-keystone start
+	chkconfig openstack-keystone on
+	echo "_________05.3"
 } 
 part06_configKeystonerc () { 
 	echo "_________06.1"
@@ -114,15 +110,16 @@ part06_configKeystonerc () {
 	echo "export OS_SERVICE_TOKEN=\$ADMIN_TOKEN"
 	echo "export OS_SERVICE_ENDPOINT=http://127.0.0.1:35357/v2.0"
 	echo "export OS_USERNAME=admin"
-	echo "export OS_PASSWORD=\$ADMIN_PASS"
+	echo "export OS_PASSWORD=$ADMIN_PASS"
 	echo "export OS_TENANT_NAME=admin"
 	echo "export OS_AUTH_URL=http://127.0.0.1:35357/v2.0"
 	echo "_________06.4"
 	echo "Opening : /etc/keystone/.keystonerc : for you to edit..."
 	vim /etc/keystone/.keystonerc
+	echo "_________06.5"
 	echo "starting : .keystonerc " now..."
 	. /etc/keystone/.keystonerc
-	echo "_________06.5"
+	echo "_________06.6"
 } 
 part07_configTenant () { 
 	echo "_________07.1"
@@ -141,42 +138,59 @@ part07_configTenant () {
 	keystone service-create --name=keystone --type=identity --description="Keystone Identity Service"
 	echo "_________07.5"
 	echo "Use the command above and to fill in the prompts for the command below"
-	
+	echo "_________07.6"
 	echo -n "Please enter the : id"
 	read ui_ID
-	
-	keystone endpoint-create --service-id=$ui_ID --publicurl=http://127.0.0.1:5000/v2.0 --internalurl=http://127.0.0.1:5000/v2.0 --adminurl=http://127.0.0.1:35357/v2.0
-	echo "_________07.6"
+	echo -n "The default for : --publicurl : is : http://127.0.0.1:5000/v2.0 : you may change this now or input the default - "
+	read ui_publicurl
+	echo -n "The default for : --internalurl : is : http://127.0.0.1:5000/v2.0 : you may change this now or input the default - "
+	read ui_internalurl
+	echo -n "The default for : --adminurl : is : http://127.0.0.1:35357/v2.0 : you may change this now or input the default - "
+	read ui_adminurl
+	keystone endpoint-create --service-id=$ui_ID --publicurl=$ui_publicurl --internalurl=$ui_internalurl --adminurl=$ui_adminurl
+	echo "_________07.7"
 } 
 part08_testKeystone () { 
 	echo "_________08.1"
+	echo -n "The default for : --os-auth-url : is : http://127.0.0.1:35357/v2.0 : you may change this now or input the default - "
+	read ui_osauthurl
 	echo "Testing the keystone service..."
 	unset OS_SERVICE_TOKEN OS_SERVICE_ENDPOINT
-	keystone --os-username=admin --os-password=$ADMIN_PASS --os-auth-url=http://127.0.0.1:35357/v2.0 token-get
+	keystone --os-username=admin --os-password=$ADMIN_PASS --os-auth-url=$ui_osauthurl token-get
 	echo "_________08.2"
 	echo "A token with id, validity and other information will be returned. Keystone is up and running."
 	echo "_________08.3"
 } 
-
-
-
-
-
-# script start
-
-# for part five
-# service openstack-keystone start
-# chkconfig openstack-keystone on
-
+echo "Starting script..."
+{ 
+read -r -p "Do you wish to proced? [Y/n] " response
+case "$response" in
+	[yY][eE][sS]|[yY])
+ # if yes, then start risking changes
+		part00_readme
+		part01_installPackages
+		part02_configKeystone
+		part03_configMySQL
+		part04_certsKeys
+		part05_setOwner
+		part06_configKeystonerc
+		part07_configTenant
+		part08_testKeystone
+		;;
+	*)
+ #		 Otherwise exit..
+	echo "Try again? exiting.."
+	exit 
+	;;
+esac
+} 
 echo "End of script. Exiting now..."
 exit
 # script end
-
 # notes and credits
 # used PDF from following location
 # http://docs.openstack.org/havana/install-guide/install/apt-debian/content/
 # http://blog.adityapatawari.com/2014/01/openstack-101-how-to-setup-openstack.html
 # Save file with vim
 # http://www.cyberciti.biz/faq/save-file-in-vi-vim-linux-apple-macos-unix-bsd/
-
 
