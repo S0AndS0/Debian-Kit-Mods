@@ -1,6 +1,7 @@
 #!/bin/bash
 PATH=/bin:/usr/bin:/usr/local/bin ; export PATH 
-umask 022 		# Files that the script creates will have 755 permission.
+umask 022 		
+# Files that the script creates will have 755 permission.
 # Thanks to Ian D. Allen, for this tip.
 # variables auto
  : ${USER?} ${HOME?} 
@@ -22,10 +23,96 @@ IPmax=254
 customPinger=`for ip in $(seq $IPmin $IPmax) ;do (ping -c 1 -w 5 $trimIP$ip >/dev/null && echo "$trimIP$ip" &) ; done`
 fLive_IPs=`$customPinger | grep -v '$trimRoute' | grep -v '$IP_inet_addr'`
 
-
 # variables user set
 
-# package list
+
+# functions
+part00_readme () { 
+	echo "_________00.1"
+	echo "This script was made possible by the following links"
+	echo "http://blog.adityapatawari.com/2014/01/openstack-101-how-to-setup-openstack_12.html?m=1"
+	echo "http://docs.openstack.org/havana/install-guide/install/apt-debian/content/"
+	echo "_________00.2"
+	echo "Swift can be used to store data with high redundancy. The nodes in Swift can be broadly classified in two categories:"
+	echo "	Proxy Node: This is a public facing node. It handles all the http request for various Swift operations like uploading, managing and modifying metadata. We can setup multiple proxy nodes and then load balance them using a standard load balancer."
+	echo "	Storage Node: This node actually stores data. It is recommended to make this node private, only accessible via proxy node but not directly. Other than storage service, this node also houses container service and account service which are used for managing mapping of containers and accounts respectively. "
+	echo "For a small scale setup, both proxy and storage node can reside on the same machine but avoid doing so for a bigger setup."
+	echo "_________00.3"
+	
+} 
+part01_installPackages () { 
+	echo "_________01.1"
+	apt-get install openstack-swift
+	apt-get install openstack-swift-proxy
+	apt-get install openstack-swift-account
+	apt-get install openstack-swift-container
+	apt-get install openstack-swift-object
+	apt-get install memcached
+	echo "_________01.2"
+} 
+part02_diskSpace () { 
+	echo "_________02.1"
+	echo "There are two options avaiable for dedicating space for swift to use for storage."
+	echo "Option 1 sets up a partition in your : /dev : directory named : sdb"
+	echo "Option 2 sets up a file in your temp directory and is best for \"proof-of-consept\" progects"
+	echo "_________02.2"
+	echo -n "Which would you like to preform? [1/2] "
+	read ui_swiftStorage
+	if [ $ui_swiftStorage = 1 ]
+	then
+		echo "_________02.2a"
+		fdisk /dev/sdb
+		mkfs.xfs /dev/sdb1
+		echo "/dev/sdb1 /srv/node/partition1 xfs noatime,nodiratime,nobarrier,logbufs=8 0 0" >> /etc/fstab
+		mkdir -p /srv/node/partition1
+		mount /srv/node/partition1
+		echo "_________02.3a"
+	elif [ $ui_swiftStorage = 2 ]
+	then 
+		echo "_________02.2b"
+		echo -n "How much space are you dedicating to swift, be sure to include letters? [1G/512MB] "
+		read ui_storageSize
+		echo "_________02.3b"
+		truncate --size=$ui_storageSize /tmp/swiftstorage
+		DEVICE=$(losetup --show -f /tmp/swiftstorage)
+		mkfs.ext4 $DEVICE
+		mkdir -p /srv/node/partition1
+		mount $DEVICE /srv/node/partition1 -t ext4 -o noatime,nodiratime,nobarrier,user_xattr
+		echo "_________02.4b"
+	else [ $ui_swiftStorage = * ]
+	echo "Invalid input recived."
+	exit
+} 
+part03_replicateRsync () { 
+	echo "_________03.1"
+	echo "Setup rsync to replicate the objects."
+	echo "In case replication or redundancy is not required, then this step can be skipped."
+	{ 
+		read -r -p "Do you wish to set up rsync? [Y/n]" response
+		case "$response" in
+			[yY][eE][sS]|[yY])
+		# if yes, then start risking changes
+				echo "_________03.2"
+				echo "please edit the following file to include the following line"
+				echo "RSYNC_ENABLE = true"
+				vim /etc/default/rsync
+				echo "_________03.3"
+				service rsync start
+				echo "_________03.4"
+				;;
+			*)
+		#		 Otherwise exit..
+			echo "moving on then."
+			;;
+		esac
+		} 
+	echo "_________03.5"
+} 
+part04_proxy () { 
+	
+	
+} 
+
 
 # script start
 
