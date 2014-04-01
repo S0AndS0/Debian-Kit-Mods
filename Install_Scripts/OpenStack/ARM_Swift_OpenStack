@@ -16,21 +16,16 @@ IP_Mask_addr=`/sbin/ifconfig | grep -E 'Mask' | grep -v '127.0.0.1' | awk '{gsub
 IP_inet6_addr=`/sbin/ifconfig | grep -E 'inet6 addr' | grep -v '127.0.0.1' | grep -v '1/128' | awk '{gsub("addr:",""); print $2}'`
 IP_local=`/sbin/ifconfig | grep -E 'inet addr' | grep -E '127.0.0.1' | awk '{gsub("addr:",""); print $2}'`
 trimIP=`$IP_Bcast_addr | sed 's/...$//'`
-
 trimRoute=`route -n | grep -E 'UG' | awk '{print $2}'`
 IPmin=1
 IPmax=254
 customPinger=`for ip in $(seq $IPmin $IPmax) ;do (ping -c 1 -w 5 $trimIP$ip >/dev/null && echo "$trimIP$ip" &) ; done`
 fLive_IPs=`$customPinger | grep -v '$trimRoute' | grep -v '$IP_inet_addr'`
-
-# variables user set
-
-
-# functions
+echo "Setting up functions for this script..."
 part00_readme () { 
 	echo "_________00.1"
 	echo "This script was made possible by the following links"
-	echo "http://blog.adityapatawari.com/2014/01/openstack-101-how-to-setup-openstack_12.html?m=1"
+	echo "http://blog.adityapatawari.com/2014/01/openstack-101-how-to-setup-openstack_12.html"
 	echo "http://docs.openstack.org/havana/install-guide/install/apt-debian/content/"
 	echo "_________00.2"
 	echo "Swift can be used to store data with high redundancy. The nodes in Swift can be broadly classified in two categories:"
@@ -131,76 +126,144 @@ part04_proxy () {
 	echo "_________04.3"
 } 
 part05_rings () { 
-	
-	
+	echo "_________05.1"
+	echo "Rings are mappings between the storage node components and the actual physical drive."
+	echo "	Note that the create commands below has 3 numeric parameters in the end."
+	echo "	The first parameter signifies the number of the swift partitions (not same as the disk partitions)."
+	echo "	Higher number of partitions ensure even distribution but also higher number of partitions put higher strain on the server."
+	echo "	So we have to find a good trade off. The rule of thumb is to create about 100 swift partitions per drive."
+	echo "	For that the first numeric parameter would be 7 which is (2^7=128, closest to 100)."
+	echo "	The second parameter defines the number of copies to create for the sake of replication."
+	echo "	For a small instance with no rsync, set it to one but recommended is three."
+	echo "	Last number is the time in hours before a specific partition can be moved in succession."
+	echo "	Set it to a low number for testing but 24 is recommended for production instances."
+	echo "_________05.2"
+	echo "The defaults for testing are:"
+	echo "_________"
+	echo "swift-ring-builder account.builder create 7 1 1"
+	echo "swift-ring-builder container.builder create 7 1 1"
+	echo "swift-ring-builder object.builder create 7 1 1"
+	echo "_________"
+	echo -n "Please set the number of the swift partitions [First number] : "
+	read ui_partitions
+	echo -n "Please set the number of copies to create for the sake of replication [Second number] : "
+	read ui_replication
+	echo -n "Please set the time in hours before a specific partition can be moved in succession [Third number] : "
+	read ui_experation
+	echo "_________05.3"
+	cd /etc/swift
+	swift-ring-builder account.builder create $ui_partitions $ui_replication $ui_experation
+	swift-ring-builder container.builder create $ui_partitions $ui_replication $ui_experation
+	swift-ring-builder object.builder create $ui_partitions $ui_replication $ui_experation
+	echo "_________05.4"
+	echo "Add the device created above to the ring:"
+	echo "The defaults given fron the guide are:"
+	echo "_________"
+	echo "swift-ring-builder account.builder add z1-127.0.0.1:6002/partition1 100"
+	echo "swift-ring-builder container.builder add z1-127.0.0.1:6001/partition1 100"
+	echo "swift-ring-builder object.builder add z1-127.0.0.1:6000/partition1 100"
+	echo "_________"
+	echo "_________05.5"
+	echo "Your - inernet IPv4 - is : $IP_inet_addr"
+	echo "Your - broadcast IP - is : $IP_Bcast_addr"
+	echo "Your - mask IP - is : $IP_Mask_addr"
+	echo "Your - internet IPv6 - is : $IP_inet6_addr"
+	echo "Your - local IP - is : $IP_local"
+	echo "The - live IPs - on your network are : $fLive_IPs"
+	echo -n "How many swift partitions have you set up? "
+	read ui_swiftPartitions
+	echo "_________05.6"
+	echo -n "What IP would you like to set for account.builder? "
+	read ui_accountBuilderIP
+	echo -n "What port would you like to set for account.builder? "
+	read ui_accountBuilderPort
+	echo "_________05.7"
+	echo -n "What IP would you like to set for container.builder? "
+	read ui_containerBuilderIP
+	echo -n "What port would you like to set for container.builder? "
+	read ui_containerBuilderPort
+	echo "_________05.8"
+	echo -n "What IP would you like to set for object.builder? "
+	read ui_objectBuilderIP
+	echo -n "What port would you like to set for object.builder? "
+	read ui_objectBuilderPort
+	echo "_________05.9"
+	swift-ring-builder account.builder add z1-$ui_accountBuilderIP:$ui_accountBuilderPort/partition1 $ui_swiftPartitions
+	swift-ring-builder container.builder add z1-$ui_containerBuilderIP:$ui_containerBuilderPort/partition1 $ui_swiftPartitions
+	swift-ring-builder object.builder add z1-$ui_objectBuilderIP:$ui_objectBuilderPort/partition1 $ui_swiftPartitions
+	echo "_________05.10"
+	echo "Rebalancing the ring. This will ensure even distribution and minimal partition moves."
+	swift-ring-builder account.builder rebalance
+	swift-ring-builder container.builder rebalance
+	swift-ring-builder object.builder rebalance
+	echo "_________05.11"
+	echo "Setting the owner and the group for the partitions"
+	chown -R swift:swift /etc/swift /srv/node/partition1
+	echo "_________05.12"
 } 
-
-
-# script start
-
-
-
-
+part06_endPoint () { 
+	echo "_________06.1"
+	echo "Creating the service and end point using Keystone."
+	keystone service-create --name=swift --type=object-store --description="Object Store Service"
+	echo "_________06.2"
+	echo "Populating : keystone endpoint-create : command with your input..."
+	echo -n "What is the ID in the above output? "
+	read ui_keystoneID
+	echo -n "The default for : --publicurl : is : http://127.0.0.1:8080/v1 : you may change this now or input the default - "
+	read ui_publicurl
+	echo -n "The default for : --adminurl : is : http://127.0.0.1:8080/v1 : you may change this now or input the default - "
+	read ui_adminurl
+	echo -n "The default for : --internalurl : is : http://127.0.0.1:8080/v1 : you may change this now or input the default - "
+	read ui_internalurl
+	echo "_________06.3"
+	keystone endpoint-create --region RegionOne --service_id $ui_keystoneID --publicurl "$ui_publicurl/v1/AUTH_\$(tenant_id)s" --adminurl $ui_adminurl --internalurl $ui_internalurl
+	echo "_________06.4"
+} 
+part07_service_testStart () { 
+	echo "_________07.1"
+	echo "Starting the services and testing it"
+	echo "_________07.2"
+	echo "Populating the following commands with your input..."
+	echo -n "The default for : swift -V 2.0 -A : is : http://127.0.0.1:5000/v2.0 : you may change this now or input the default - "
+	read ui_swift_adminIP
+	echo -n "The default for : swift -V 2.0 -A $ui_swift_adminIP -U : is : admin : you may change this now or input the default - "
+	read ui_adminName
+	echo "_________07.3"
+	service memcached start
+	for srv in account container object proxy  ; do sudo service openstack-swift-$srv start ; done
+	swift -V 2.0 -A $ui_swift_adminIP -U $ui_adminName -K pass stat
+	echo "_________07.4"
+	echo "Uploading a file : abc.txt : to a Swift container : myfiles like this:"
+	echo "swift -V 2.0 -A $ui_swift_adminIP -U $ui_adminName -K pass upload myfiles abc.txt"
+	swift -V 2.0 -A $ui_swift_adminIP -U $ui_adminName -K pass upload myfiles abc.txt
+	echo "_________07.5"
+} 
+echo "Starting script..."
+{ 
+read -r -p "Do you wish to proced? [Y/n] " response
+case "$response" in
+	[yY][eE][sS]|[yY])
+ # if yes, then start risking changes
+		part00_readme
+		part01_installPackages
+		part02_diskSpace
+		part03_replicateRsync
+		part04_proxy
+		part05_rings
+		part06_endPoint
+		part07_service_testStart
+		;;
+	*)
+ #		 Otherwise exit..
+	echo "Try again? exiting.."
+	exit 
+	;;
+esac
+} 
+echo "End of script. Exiting now..."
+exit
 # notes and credits
 # used PDF from following location
 # http://docs.openstack.org/havana/install-guide/install/apt-debian/content/
 # http://blog.adityapatawari.com/2014/01/openstack-101-how-to-setup-openstack_12.html?m=1
-
-
-# part 5
-echo "_________05.1"
-echo "Rings are mappings between the storage node components and the actual physical drive."
-echo "	Note that the create commands below has 3 numeric parameters in the end."
-echo "	The first parameter signifies the number of the swift partitions (not same as the disk partitions)."
-echo "	Higher number of partitions ensure even distribution but also higher number of partitions put higher strain on the server."
-echo "	So we have to find a good trade off. The rule of thumb is to create about 100 swift partitions per drive."
-echo "	For that the first numeric parameter would be 7 which is (2^7=128, closest to 100)."
-echo "	The second parameter defines the number of copies to create for the sake of replication."
-echo "	For a small instance with no rsync, set it to one but recommended is three."
-echo "	Last number is the time in hours before a specific partition can be moved in succession."
-echo "	Set it to a low number for testing but 24 is recommended for production instances."
-echo "_________05.2"
-echo "The defaults for testing are:"
-echo "swift-ring-builder account.builder create 7 1 1"
-echo "swift-ring-builder container.builder create 7 1 1"
-echo "swift-ring-builder object.builder create 7 1 1"
-echo -n "Please set the number of the swift partitions [First number] : "
-read ui_partitions
-echo -n "Please set the number of copies to create for the sake of replication [Second number] : "
-read ui_replication
-echo -n "Please set the time in hours before a specific partition can be moved in succession [Third number] : "
-read ui_experation
-cd /etc/swift
-swift-ring-builder account.builder create $ui_partitions $ui_replication $ui_experation
-swift-ring-builder container.builder create $ui_partitions $ui_replication $ui_experation
-swift-ring-builder object.builder create $ui_partitions $ui_replication $ui_experation
-
-
-echo "Add the device created above to the ring:"
-echo "The defaults given fron the guide are:"
-echo "swift-ring-builder account.builder add z1-127.0.0.1:6002/partition1 100"
-echo "swift-ring-builder container.builder add z1-127.0.0.1:6001/partition1 100"
-echo "swift-ring-builder object.builder add z1-127.0.0.1:6000/partition1 100"
-
-echo -n "What is the name of the partition that you have made for swift? "
-read ui_partitionName
-
-echo -n "What IP would you like to set for account.builder? "
-read ui_accountBuilderIP
-echo -n "What port would you like to set for account.builder? "
-read ui_accountBuilderPort
-
-
-
-# swift-ring-builder account.builder add z1-127.0.0.1:6002/partition1 100
-# swift-ring-builder container.builder add z1-127.0.0.1:6001/partition1 100
-# swift-ring-builder object.builder add z1-127.0.0.1:6000/partition1 100
-
-Rebalance the ring. This will ensure even distribution and minimal partition moves.
-# swift-ring-builder account.builder rebalance
-# swift-ring-builder container.builder rebalance
-# swift-ring-builder object.builder rebalance
-
-Set the owner and the group for the partitions
-# chown -R swift:swift /etc/swift /srv/node/partition1
 
