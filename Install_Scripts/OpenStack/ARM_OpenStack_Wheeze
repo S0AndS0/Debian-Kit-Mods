@@ -145,9 +145,21 @@ OpenStack_debconfig03 () {
 	echo "	so we'll run the install and config commands so you have the option to set something else up instead of : SQLite3 : if you so choose, and, perhaps enable networked databases"
 	apt-get install dbconfig-common && dpkg-reconfigure dbconfig-common
 	
-	
 } 
 
+OpenStack_keystoneConfig () { 
+	echo "Configuring keystone is invalved enough that it warented writing another script and resorcing a very well written guide."
+	echo "I sugest opening the linked in guides in a brouser and going over that wile the script runs if you get stuck."
+	echo "Starting : ARM_Keystone_OpenStack : script now..."
+	sh $osCN_ScriptDirectory/ARM_Keystone_OpenStack
+	echo "Now that that is done, moving on."
+} 
+
+OpenStack_remoteAccess () { 
+	
+	
+	
+} 
 
 
 
