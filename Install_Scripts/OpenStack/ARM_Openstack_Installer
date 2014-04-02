@@ -79,8 +79,60 @@ part01_prepareDebian () {
 	echo "root: $ui_email.ch" >>/etc/aliases
 	newaliases
 	/etc/init.d/postfix reload
-	
-	
+	echo "Removing unneeded software"
+	dpkg --purge nfs-common rpcbind
+	echo "Installing some useful tools"
+	apt-get install ethtool tcpdump
+	echo "Activating VLAN’s"
+	apt-get install vlan
+	echo "
+	# vlan's
+	8021q
+	" >> /etc/modules
+	modprobe 8021q
+	echo "Enabling injection"
+	echo "	To enable key-file, network & metadata injection into instances images."
+	echo "nbd max_part=65" >> /etc/modules
+	modprobe nbd max_part=65
+	echo "Installing ntp service"
+	apt-get install -y ntp
+	echo "	Checking if ntp is working"
+	ntpq -pn
+} 
+part02_networking () { 
+	echo "Only one NIC should be reachable from the internet."
+	echo "This is where the customers will access the webinterface horizon.
+	echo "In the guide is used eth1. But it could also be a bond interface (bond0) or a vlan (vla100) or both bond0.100."
+	echo "For my usage I'll be looking to wifi , bluetooth , and USB connection options."
+	echo "So edit /etc/network/interfaces with some help from the bellow example..."
+	echo "__________"
+	echo "Not public available (used for OpenStack management and iscsi)"
+	echo "__________"
+	echo "	auto eth0"
+	echo "	iface eth0 inet static"
+	echo "	address 10.10.10.51"
+	echo "	netmask 255.255.255.0"
+	echo "__________"
+	echo "For Exposing OpenStack API over the internet If you want to use your controller node as network node as well, you have to add an interface for your floating (public) ip addresses. If your floating ip addresses are on the same subnet as your OpenStack API (Horizon), you could use this interface."
+	echo "__________"
+	echo "	auto eth1"
+	echo "	iface eth1 inet static"
+	echo "	address 192.168.100.51"
+	echo "	netmask 255.255.255.0"
+	echo "	gateway 192.168.100.1"
+	echo "	dns-nameservers 8.8.8.8"
+	echo "__________"
+	vim /etc/network/interfaces
+	echo "Restarting the networking service"
+	nohup sh -c "/etc/init.d/networking stop; sleep 2; /etc/init.d/networking start"
 } 
 
+
+
+
+
+
+# credits and notes
+# pdf for comupte node install instuctions for debian
+http://www.google.com/url?sa=t&rct=j&q=&esrc=s&source=web&cd=19&ved=0CGoQFjAIOAo&url=ftp%3A%2F%2Fftp.pku.edu.cn%2Fopen%2Fcloud%2FOpenStack%2Fdoc%2Fbk-compute-adminguide-folsom.pdf&ei=tXE7U97HCeqGyAGAwoH4BQ&usg=AFQjCNEZJ19zrHUfb4c31Pj0vl_fFQyShQ&sig2=RJI9KRwdvhVGbE0GiDPydQ&bvm=bv.63934634,d.aWc
 
