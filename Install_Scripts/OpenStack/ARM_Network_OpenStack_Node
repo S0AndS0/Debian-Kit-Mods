@@ -24,6 +24,8 @@ echo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
 part00_readme () { 
 	echo "This script was made posible by the following links:"
 	echo "https://github.com/reusserl/OpenStack-Install-Guide/blob/master/OpenStack_Havana_Debian_Wheezy_Install_Guide.rst"
+	echo "	the above link realy should get most of the creadit for this version of the script."
+	echo "	as I gain greater understanding of installing Openstack these scripts will become more automated."
 	echo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
 	echo "This script will atempt to make the process of installing and configuring Openstack an easier one."
 	echo "Your - inernet IPv4 - is : $IP_inet_addr"
@@ -99,12 +101,193 @@ part01_prepareDebian () {
 	ntpq -pn
 } 
 part02_IP_Forwarding () { 
+	echo "Enabeling IP forwarding with the following command"
+	echo "sed -i 's/#net.ipv4.ip_forward=1/net.ipv4.ip_forward=1/' /etc/sysctl.conf"
 	sed -i 's/#net.ipv4.ip_forward=1/net.ipv4.ip_forward=1/' /etc/sysctl.conf
 } 
-part03_
-
-
-
-
-
+part03_nicks () { 
+	echo "3 NICs must be present, for example:"
+	echo "	in : /etc/network/interfaces"
+	echo "	# OpenStack management"
+	echo "	auto eth0"
+	echo "	iface eth0 inet static"
+	echo "	address 10.10.10.52"
+	echo "	netmask 255.255.255.0"
+	echo ""
+	echo "	# VM Configuration"
+	echo "	auto eth1"
+	echo "	iface eth1 inet static"
+	echo "	address 10.20.20.52"
+	echo "	netmask 255.255.255.0"
+	echo ""
+	echo "	# VM internet Access"
+	echo "	auto eth2"
+	echo "	iface eth2 inet static"
+	echo "	address 192.168.100.52"
+	echo "	netmask 255.255.255.0"
+	vim /etc/network/interfaces
+} 
+part04_openVSwitch () { 
+	echo "Installing the openVSwitch"
+	apt-get install -y openvswitch-switch openvswitch-datapath-dkms
+	echo "__________"
+	echo "Creating the bridges"
+	echo "br-int will be used for VM integration"
+	ovs-vsctl add-br br-int
+	echo "br-ex is used to make to VM accessible from the internet"
+	ovs-vsctl add-br br-ex
+	echo "Displaying modifications to ovs-vsctl..."
+	ovs-vsctl show
+} 
+part05_Neutron1 () { 
+	echo "Installing the Neutron openvswitch agent, l3 agent and dhcp agent"
+	echo "	Remember : Name of the region to be used by the metadata server: RegionOne : Unless you changed it for some reason."
+	apt-get -y install neutron-plugin-openvswitch-agent neutron-dhcp-agent neutron-l3-agent neutron-metadata-agent
+	echo "Edit /etc/neutron/api-paste.ini as shown bellow"
+	echo "	Note if running Controler node on a seperat device you'll likely want to referance your notes on that node for the following fealds"
+	echo "__________"
+	echo "	[filter:authtoken]"
+	echo "	paste.filter_factory = keystoneclient.middleware.auth_token:filter_factory"
+	echo "	auth_host = 10.10.10.51"
+	echo "	auth_port = 35357"
+	echo "	auth_protocol = http"
+	echo "	admin_tenant_name = service"
+	echo "	admin_user = neutron"
+	echo "	admin_password = servicePass123"
+	echo "__________"
+	vim /etc/neutron/api-paste.ini
+	echo "Edit the OVS plugin configuration file /etc/neutron/plugins/openvswitch/ovs_neutron_plugin.ini with the following examples"
+	echo "	Note the following values will nead editing on your part"
+	echo "	tunnel_id_ranges , local_ip"
+	echo "__________"
+	echo "	#Under the database section"
+	echo "	[DATABASE]"
+	echo "	sql_connection = mysql://neutronUser:neutronPass@10.10.10.51/neutron"
+	echo ""
+	echo "	#Under the OVS section"
+	echo "	[OVS]"
+	echo "	tenant_network_type = gre"
+	echo "	tunnel_id_ranges = 1:1000"
+	echo "	integration_bridge = br-int"
+	echo "	tunnel_bridge = br-tun"
+	echo "	local_ip = 10.20.20.52"
+	echo "	enable_tunneling = True"
+	echo ""
+	echo "	#Firewall driver for realizing neutron security group function"
+	echo "	[SECURITYGROUP]"
+	echo "	firewall_driver = neutron.agent.linux.iptables_firewall.OVSHybridIptablesFirewallDriver"
+	echo "__________"
+	vim /etc/neutron/plugins/openvswitch/ovs_neutron_plugin.ini
+	echo "Update /etc/neutron/metadata_agent.ini with the following example"
+	echo "	Note the following values will nead to be edited by you:"
+	echo "	auth_url (both the IP and port) , auth_region (if it was changed) , admin_password , nova_metadata_ip , metadata_proxy_shared_secret"
+	echo "__________"
+	echo "	# The neutron user information for accessing the neutron API."
+	echo "	auth_url = http://10.10.10.51:35357/v2.0"
+	echo "	auth_region = RegionOne"
+	echo "	admin_tenant_name = service"
+	echo "	admin_user = neutron"
+	echo "	admin_password = servicePass123"
+	echo ""
+	echo "	# IP address used by Nova metadata server"
+	echo "	nova_metadata_ip = 10.10.10.51"
+	echo ""
+	echo "	# TCP Port used by Nova metadata server"
+	echo "	nova_metadata_port = 8775"
+	echo ""
+	echo "metadata_proxy_shared_secret = helloOpenStack123"
+	echo "__________"
+	vim /etc/neutron/metadata_agent.ini
+	echo "Make sure that your rabbitMQ IP in /etc/neutron/neutron.conf is set to the controller node with the following example"
+	echo "	Note the following values will nead your editing"
+	echo "	rabbit_host , auth_host , auth_port , admin_password"
+	echo "__________"
+	echo "	rabbit_host = 10.10.10.51"
+	echo "	notification_driver = neutron.openstack.common.notifier.rabbit_notifier"
+	echo "	allow_overlapping_ips = True"
+	echo ""
+	echo "	#And update the keystone_authtoken section"
+	echo ""
+	echo "	[keystone_authtoken]"
+	echo "	auth_host = 10.10.10.51"
+	echo "	auth_port = 35357"
+	echo "	auth_protocol = http"
+	echo "	admin_tenant_name = service"
+	echo "	admin_user = neutron"
+	echo "	admin_password = servicePass123"
+	echo "	signing_dir = /var/lib/neutron/keystone-signing"
+	echo "__________"
+	vim /etc/neutron/neutron.conf
+	echo "Edit dhcp_agent.ini under : /etc/neutron? as shown"
+	echo "__________"
+	echo "	interface_driver = neutron.agent.linux.interface.OVSInterfaceDriver"
+	echo "__________"
+	vim /etc/neutron/dhcp_agent.ini
+	echo "Edit /etc/sudoers.d/neutron_sudoers to give it full access like this (This is unfortunatly mandatory) as shown"
+	echo "__________"
+	echo "	visudo -f /etc/sudoers.d/neutron_sudoers"
+	echo ""
+	echo "	#Modify the neutron user"
+	echo "	neutron ALL=NOPASSWD: ALL"
+	echo "__________"
+	vim /etc/sudoers.d/neutron_sudoers
+	echo "Restarting all the services"
+	cd /etc/init.d/; for i in $( ls neutron-* ); do sudo service $i restart; done; cd -
+} 
+part06_Neutron2 () { 
+	echo "Edit the eth2 in /etc/network/interfaces as shown"
+	echo "__________"
+	echo "	# VM internet Access"
+	echo "	auto eth2"
+	echo "	iface eth2 inet manual"
+	echo "	   up ifconfig $IFACE 0.0.0.0 up"
+	echo "	   up ip link set $IFACE promisc on"
+	echo "	   down ip link set $IFACE promisc off"
+	echo "	   down ifconfig $IFACE down"
+	echo "__________"
+	vim /etc/network/interfaces
+	echo "Add the eth2 to the br-ex as shown"
+	echo "__________"
+	echo "	Internet connectivity will be lost after this step but this won't affect OpenStack's work"
+	ovs-vsctl add-port br-ex eth2
+	echo ""
+	echo "Now check if the port eth1.950 was added to br-ex"
+	ovs-vsctl show
+	echo ""
+	echo "If you want to get internet connection back, you can assign the eth2 IP address to the br-ex interface manually"
+	echo "	ifconfig br-ex 192.168.100.51 netmask 255.255.255.0 up"
+	echo ""
+	echo "To keep it permanent, add the following lines to /etc/rc.local"
+	echo "	/sbin/ifconfig br-ex up"
+	echo "	/sbin/ip addr add 192.168.100.51/24 dev br-ex"
+	echo "	# optional # /sbin/ip route add default via 192.168.100.1"
+	echo ""
+	echo "Configuring this address in /etc/network/interfaces will not work, because openvswitch creates the br-ex interface and not brctl."
+	echo "__________"
+	echo "Giving you the option to add the above lines to /etc/rc.local"
+	vim /etc/rc.local
+} 
+echo "Default variables set and functions assigned, starting script now..."
+{ 
+read -r -p "Do you wish to proced? [Y/n] " response
+case "$response" in
+	[yY][eE][sS]|[yY])
+ # if yes, then start risking changes
+		part00_readme
+		part01_prepareDebian
+		part02_IP_Forwarding
+		part03_nicks
+		part04_openVSwitch
+		part05_Neutron1
+		part06_Neutron2
+		;;
+	*)
+ #		 Otherwise exit..
+	echo "Try again? exiting.."
+	exit 
+	;;
+esac
+} 
+echo "End of script. Exiting now..."
+exit
 
