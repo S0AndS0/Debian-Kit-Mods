@@ -305,58 +305,100 @@ part07_Nova () {
 part08_VM () { 
 	echo "To start your first VM, we first need to create a new tenant, user and internal network."
 	echo "	HINT: Replace <id> with the id of your command output"
-	
-	
+	echo "__________"
+	echo "Prompting for ID so this can be automated, however, you'll still be prompted throughout so keep you device handy..."
+	echo -n "What do you want to name your first project? "
+	read ui_VMProjectName
+	echo -n "What username would you like to set for this VM? "
+	read ui_VMuserName
+	echo -n "What password would you like set for $ui_VMuserName? "
+	read ui_VMuserPasswd
+	echo -n "What email : user_one@domain.com : would you like to set for $ui_VMuserName? "
+	read ui_VMuserEmail
+	echo -n "What would you like to name your router? "
+	read ui_routerName
+	echo "For your subnet..."
+	echo -n "What do you want to set as the start of IP allocation pool (Default was : 192.168.100.102)? "
+	read ui_VMIPallocationMin
+	echo -n "What do you want to set as the end of IP allocation pool (Default was : 192.168.100.126)? "
+	read ui_VMIPallocationMax
+	echo -n "What IP do you want to set for your : gateway : (Default was : 192.168.100.1)? "
+	read ui_VMIPgateway
+	echo -n "What IP do you want to set for your : ext_net : (Default was 192.168.100.0/24)? "
+	read uiVMIPext_net
+	echo -n "What do you want to name your image file? "
+	read ui_VMimageName
+	echo -n "What would you like to name your first VM? "
+	read ui_VMnameVM
+	echo "__________"
 	echo "Create a new tenant"
-	# keystone tenant-create --name project_one
-	# export put_id_of_project_one=<id>
-	
+	keystone tenant-create --name $ui_VMProjectName
+	echo -n "What do you want to set for ID for your project? "
+	read ui_VMprogectID
+	export put_id_of_project_one=$ui_VMprogectID
+	echo "__________"
 	echo "Create a new user and assign the member role to it in the new tenant (keystone role-list to get the appropriate id)"
-	# keystone user-create --name=user_one --pass=user_one --tenant-id $put_id_of_project_one --email=user_one@domain.com
-	# export put_id_of_user_one=<id>
-	
-	echo "Get ID of member role"
-	echo "Write down id of role \"Member\"."
-	# export put_id_of_member_role=594dad7afd8e473db41dfadcfc3c88c1
-	echo "Assign \"Member\" role to new user in project_one:"
-	# keystone user-role-add --tenant-id $put_id_of_project_one --user-id $put_id_of_user_one --role-id $put_id_of_member_role
-	
+	keystone user-create --name=$ui_VMuserName --pass=$ui_VMuserPasswd --tenant-id $put_id_of_project_one --email=$ui_VMuserEmail
+	echo -n "What do you want to set for ID for your user? "
+	read ui_VMuserID
+	export put_id_of_user_one=$ui_VMuserID
+	echo "__________"
+	echo "Getting ID of member role"
+	keystone role-list
+	echo -n "What is the ID of role \"Member\"."
+	read ui_VMuserMemberID
+	export put_id_of_member_role=$ui_VMuserMemberID
+	echo "Assign \"Member\" role to new user in $ui_VMProjectName:"
+	keystone user-role-add --tenant-id $put_id_of_project_one --user-id $put_id_of_user_one --role-id $put_id_of_member_role
+	echo "__________"
 	echo "Create a new network for the tenant"
-	# neutron net-create --tenant-id $put_id_of_project_one net_proj_one
-	
-	echo "Create a new subnet inside the new tenant network"
-	# neutron subnet-create --tenant-id $put_id_of_project_one net_proj_one 50.50.1.0/24 --dns_nameservers list=true 8.8.8.7 8.8.8.8
-	# export put_subnet_id_here=<id>
-	
+	neutron net-create --tenant-id $put_id_of_project_one net_proj_one
+	echo "__________"
+	echo "Creating a new subnet inside the new tenant network"
+	neutron subnet-create --tenant-id $put_id_of_project_one net_proj_one 50.50.1.0/24 --dns_nameservers list=true 8.8.8.7 8.8.8.8
+	echo -n "What do you want to set for ID for your subnet? "
+	read ui_VMsubnetID
+	export put_subnet_id_here=$ui_VMsubnetID
+	echo "__________"
 	echo "Create a router for the new tenant"
-	# neutron router-create --tenant-id $put_id_of_project_one router_proj_one
-	# export put_router_proj_one_id_here=<id>
-	
+	neutron router-create --tenant-id $put_id_of_project_one router_proj_one
+	echo -n "What do you want to set for ID for your router? "
+	read ui_VMrouterID
+	export put_router_proj_one_id_here=$ui_VMrouterID
+	echo "__________"
 	echo "Add the router to the running l3 agent (if it wasn't automatically added)"
-	# neutron agent-list (to get the l3 agent ID)
-	# export l3_agent_ID=<id>
-	# neutron l3-agent-router-add $l3_agent_ID router_proj_one
-	
+	echo "	using : neutron agent-list : to get the l3 agent ID"
+	neutron agent-list
+	echo -n "What do you want to set for ID for l3? "
+	read ui_VMl3ID
+	export l3_agent_ID=$ui_VMl3ID
+	neutron l3-agent-router-add $l3_agent_ID $ui_routerName
+	echo "__________"
 	echo "Add the router to the subnet"
-	# neutron router-interface-add $put_router_proj_one_id_here $put_subnet_id_here
-	
+	neutron router-interface-add $put_router_proj_one_id_here $put_subnet_id_here
+	echo "__________"
 	echo "Restarting all neutron services"
 	cd /etc/init.d/; for i in $( ls neutron-* ); do sudo service $i restart; done; cd -
-	
+	echo "__________"
 	echo "Create an external network with the tenant id belonging to the admin tenant (keystone tenant-list to get the appropriate id)"
-	# keystone tenant-list
-	# export put_id_of_admin_tenant=<id>
-	# neutron net-create --tenant-id $put_id_of_admin_tenant ext_net --router:external=True
-	# export put_id_of_ext_net_here=<id>
-	
-	echo "Create a subnet for the floating ips"
-	# neutron subnet-create --tenant-id $put_id_of_admin_tenant --allocation-pool start=192.168.100.102,end=192.168.100.126 --gateway 192.168.100.1 ext_net 192.168.100.0/24 --enable_dhcp=False
-	
-	echo "Set your router's gateway to the external network"
-	# neutron router-gateway-set $put_router_proj_one_id_here $put_id_of_ext_net_here
-	
-	echo "Source creds relative to your project one tenant now"
-	echo "	vi creds_proj_one
+	keystone tenant-list
+	echo -n "What is your admin ID? "
+	read ui_VMadminID
+	export put_id_of_admin_tenant=$ui_VMadminID
+	echo "__________"
+	neutron net-create --tenant-id $put_id_of_admin_tenant ext_net --router:external=True
+	echo -n "What is your external net ID? "
+	read ui_VMext_netID
+	export put_id_of_ext_net_here=$ui_VMext_netID
+	echo "__________"
+	echo "Creating a subnet for the floating ips"
+	neutron subnet-create --tenant-id $put_id_of_admin_tenant --allocation-pool start=$ui_VMIPallocationMin,end=$ui_VMIPallocationMax --gateway $ui_VMIPgateway ext_net $uiVMIPext_net --enable_dhcp=False
+	echo "Setting your router's gateway to the external network"
+	neutron router-gateway-set $put_router_proj_one_id_here $put_id_of_ext_net_here
+	echo "__________"
+	echo "Source creds relative to your project and tenant should now look similarly too..."
+	echo "__________"
+	echo "	# vi creds_proj_one
 	echo ""
 	echo "	#Paste the following:"
 	echo "	export OS_TENANT_NAME=project_one"
@@ -365,29 +407,35 @@ part08_VM () {
 	echo "	export OS_AUTH_URL=\"http://192.168.100.51:5000/v2.0/\""
 	echo ""
 	echo "	source creds_proj_one"
-	
-	echo "Add this security rules to make your VMs pingable"
-	# nova --no-cache secgroup-add-rule default icmp -1 -1 0.0.0.0/0
-	# nova --no-cache secgroup-add-rule default tcp 22 22 0.0.0.0/0
-	
-	echo "Start by allocating a floating ip to the project one tenant"
-	# neutron floatingip-create ext_net
-	# export put_id_floating_ip=<id>
-	
-	echo "Start a VM"
-	# nova --no-cache boot --image myFirstImage --flavor 1 my_first_vm
-	
+	echo "__________"
+	echo "giving you the option to make the above modifications..."
+	vim creds_proj_one
+	echo "__________"
+	echo "Adding security rules to make your VMs pingable"
+	nova --no-cache secgroup-add-rule default icmp -1 -1 0.0.0.0/0
+	nova --no-cache secgroup-add-rule default tcp 22 22 0.0.0.0/0
+	echo "__________"
+	echo "Allocating a floating ip to the project one tenant"
+	neutron floatingip-create ext_net
+	echo -n "What is your floating IP ID? "
+	read ui_VMFloatingIPID
+	export put_id_floating_ip=$ui_VMFloatingIPID
+	echo "__________"
+	echo "Starting your first VM"
+	nova --no-cache boot --image $ui_VMimageName --flavor 1 $ui_VMnameVM
+	echo "__________"
 	echo "Pick the id of the port corresponding to your VM"
 	echo "	The first entry is our DHCP Server, the second entry is our router and the third entry is our first vm."
-	echo "	(I removed the subnet id to fit the screen.)"
-	echo "	export put_id_vm_port=<id> # f217fea3-217b-45fc-a2d4-bcd394666bfc in my case."
+	echo "neutron port-list"
+	echo "for example : export put_id_vm_port=<id> # f217fea3-217b-45fc-a2d4-bcd394666bfc : in the guides case."
 	neutron port-list
-	
+	echo -n "What is you VM's port ID? "
+	read ui_VMportID
+	echo "__________"
 	echo "Associate the floating IP to your VM"
-	# neutron floatingip-associate $put_id_floating_ip $put_id_vm_port
-	
+	neutron floatingip-associate $put_id_floating_ip $put_id_vm_port
+	echo "__________"
 	echo "That's it! ping your VM and enjoy OpenStack"
-	
 } 
 
 echo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
@@ -405,7 +453,7 @@ case "$response" in
 		part05_OpenVSwitch
 		part06_Neutron
 		part07_Nova
-		# part08_VM
+		part08_VM
 		;;
 	*)
  #		 Otherwise exit..
