@@ -1,0 +1,608 @@
+#!/bin/bash
+PATH=/bin:/usr/bin:/usr/local/bin ; export PATH 
+umask 022 		# Files that the script creates will have 755 permission.
+# Thanks to Ian D. Allen, for this tip.
+echo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
+# variables auto
+ : ${USER?} ${HOME?} 
+# find the name of this script and store it to a variable
+osCN_fullScriptPath="$(readlink -f $0)"
+# deleat last componit from ThisScript and store to another variable
+osCN_ScriptDirectory="$(dirname $osCN_fullScriptPath)"
+IP_inet_addr=`/sbin/ifconfig | grep -E 'inet addr' | grep -v '127.0.0.1' | awk '{gsub("addr:",""); print $2}'`
+IP_Bcast_addr=`/sbin/ifconfig | grep -E 'Bcast' | grep -v '127.0.0.1' | awk '{gsub("Bcast:",""); print $3}'`
+IP_Mask_addr=`/sbin/ifconfig | grep -E 'Mask' | grep -v '127.0.0.1' | awk '{gsub("Mask:",""); print $4}'`
+IP_inet6_addr=`/sbin/ifconfig | grep -E 'inet6 addr' | grep -v '127.0.0.1' | grep -v '1/128' | awk '{gsub("addr:",""); print $2}'`
+IP_local=`/sbin/ifconfig | grep -E 'inet addr' | grep -E '127.0.0.1' | awk '{gsub("addr:",""); print $2}'`
+trimIP=`$IP_Bcast_addr | sed 's/...$//'`
+trimRoute=`route -n | grep -E 'UG' | awk '{print $2}'`
+IPmin=1
+IPmax=254
+customPinger=`for ip in $(seq $IPmin $IPmax) ;do (ping -c 1 -w 5 $trimIP$ip >/dev/null && echo "$trimIP$ip" &) ; done`
+fLive_IPs=`$customPinger | grep -v '$trimRoute' | grep -v '$IP_inet_addr'`
+echo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
+part00_readme () { 
+	echo "This script was made posible by the following links:"
+	echo "https://github.com/reusserl/OpenStack-Install-Guide/blob/master/OpenStack_Havana_Debian_Wheezy_Install_Guide.rst"
+	echo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
+	echo "This script will atempt to make the process of installing and configuring Openstack an easier one."
+	echo "Your - inernet IPv4 - is : $IP_inet_addr"
+	echo "Your - broadcast IP - is : $IP_Bcast_addr"
+	echo "Your - mask IP - is : $IP_Mask_addr"
+	echo "Your - internet IPv6 - is : $IP_inet6_addr"
+	echo "Your - local IP - is : $IP_local"
+	echo "The - live IPs - on your network are : $fLive_IPs"
+	echo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
+} 
+
+part01_prepareDebian () { 
+	echo "Adding Havana repositories."
+	echo "deb http://havana.pkgs.enovance.com/debian havana main
+	deb http://archive.gplhost.com/debian havana-backports main" > /etc/apt/sources.list.d/openstack.list
+	echo "adding gplhost key"
+	apt-get install -y gplhost-archive-keyring
+	echo "adding enovance key"
+	wget -qO - http://havana.pkgs.enovance.com/debian/dists/havana/pubkey.gpg | apt-key add -
+	apt-key list
+	echo "Updating and upgrading your system"
+	apt-get update && apt-get dist-upgrade -y
+	echo "Prompting for user input for : DNS Resolution : an example is presented bellow."
+	echo "_________"
+	echo "domain yourdomain.ch"
+	echo "nameserver 8.8.8.8"
+	echo "nameserver 8.8.4.4"
+	echo "_________"
+	echo -n "Please input : yourdomain : for : /etc/resolv.conf"
+	read ui_domain
+	echo -n "Please input a : nameserver : for : /etc/resolv.conf"
+	read ui_nameserver
+	echo -n "Please input the first : IP : for : /etc/resolv.conf"
+	read ui_nameserverIP1
+	echo -n "Please input the second : IP : for : /etc/resolv.conf"
+	read ui_nameserverIP2
+	echo 'domain $ui_domain.ch
+	$ui_nameserver $ui_nameserverIP1
+	$ui_nameserver $ui_nameserverIP2' > /etc/resolv.conf
+	echo "Appending : /root/.bashrc : with the following:"
+	echo '
+	HISTSIZE=1000000
+	HISTFILESIZE=9999999
+	HISTTIMEFORMAT=(%d.%m.%Y) %H:%M
+	export HISTSIZE HISTFILESIZE HISTTIMEFORMAT' >> /root/.bashrc
+	echo "Removing Exim and installing Postfix"
+	apt-get install postfix -y
+	dpkg --purge exim4 exim4-base exim4-config exim4-daemon-light
+	echo "Activaing mail forwarding"
+	echo -n "Please enter your full email address"
+	read ui_email
+	echo "root: $ui_email.ch" >>/etc/aliases
+	newaliases
+	/etc/init.d/postfix reload
+	echo "Removing unneeded software"
+	dpkg --purge nfs-common rpcbind
+	echo "Installing some useful tools"
+	apt-get install ethtool tcpdump
+	echo "Activating VLAN’s"
+	apt-get install vlan
+	echo "
+	# vlan's
+	8021q
+	" >> /etc/modules
+	modprobe 8021q
+	echo "Enabling injection"
+	echo "	To enable key-file, network & metadata injection into instances images."
+	echo "nbd max_part=65" >> /etc/modules
+	modprobe nbd max_part=65
+	echo "Installing ntp service"
+	apt-get install -y ntp
+	echo "	Checking if ntp is working"
+	ntpq -pn
+} 
+part02_networking () { 
+	echo "Only one NIC should be reachable from the internet."
+	echo "This is where the customers will access the webinterface horizon.
+	echo "In the guide eth1 is used. But it could also be a bond interface (bond0) or a vlan (vla100) or both bond0.100."
+	echo "For my usage I'll be looking to wifi , bluetooth , and USB connection options."
+	echo "So edit /etc/network/interfaces with some help from the bellow example..."
+	echo "__________"
+	echo "Not public available (used for OpenStack management and iscsi)"
+	echo "__________"
+	echo "	auto eth0"
+	echo "	iface eth0 inet static"
+	echo "	address 10.10.10.51"
+	echo "	netmask 255.255.255.0"
+	echo "__________"
+	echo "For Exposing OpenStack API over the internet If you want to use your controller node as network node as well, you have to add an interface for your floating (public) ip addresses."
+	echo "	If your floating ip addresses are on the same subnet as your OpenStack API (Horizon), you could use this interface."
+	echo "__________"
+	echo "	auto eth1"
+	echo "	iface eth1 inet static"
+	echo "	address 192.168.100.51"
+	echo "	netmask 255.255.255.0"
+	echo "	gateway 192.168.100.1"
+	echo "	dns-nameservers 8.8.8.8"
+	echo "__________"
+	vim /etc/network/interfaces
+	echo "Restarting the networking service"
+	nohup sh -c "/etc/init.d/networking stop; sleep 2; /etc/init.d/networking start"
+} 
+part03_MySQL () { 
+	echo "Installing MySQL"
+	echo "	enter a good mysql root password when prompted and don't forget it we'll nead it latter..."
+	apt-get install -y mysql-server python-mysqldb
+	mysql_secure_installation
+	echo "Configuring mysql to accept all incoming requests on our management network"
+	echo "___________"
+	echo "	sed -i 's/127.0.0.1/10.10.10.51/g' /etc/mysql/my.cnf"
+	echo "___________"
+	echo -n "What is the IP address you want set for the above example? "
+	read ui_managementIP
+	sed -i 's/127.0.0.1/$ui_managementIP/g' /etc/mysql/my.cnf
+	service mysql restart
+	netstat -tulpen| grep 3306
+} 
+part04_RabbitMQ () { 
+	echo "Installing RabbitMQ"
+	apt-get install -y rabbitmq-server
+	echo "Create these databases using the following example"
+	echo "___________"
+	echo "	mysql -u root -p"
+	echo ""
+	echo "	#mysql>"
+	echo ""
+	echo "	#Keystone"
+	echo "	CREATE DATABASE keystone;"
+	echo "	GRANT ALL ON keystone.* TO 'keystoneUser'@'%' IDENTIFIED BY 'keystonePass357';"
+	echo ""
+	echo "	#Glance"
+	echo "	CREATE DATABASE glance;"
+	echo "	GRANT ALL ON glance.* TO 'glanceUser'@'%' IDENTIFIED BY 'glancePass357';"
+	echo ""
+	echo "	#Neutron"
+	echo "	CREATE DATABASE neutron;"
+	echo "	GRANT ALL ON neutron.* TO 'neutronUser'@'%' IDENTIFIED BY 'neutronPass357';"
+	echo ""
+	echo "	#Nova"
+	echo "	CREATE DATABASE nova;"
+	echo "	GRANT ALL ON nova.* TO 'novaUser'@'%' IDENTIFIED BY 'novaPass357';"
+	echo ""
+	echo "	#Cinder"
+	echo "	CREATE DATABASE cinder;"
+	echo "	GRANT ALL ON cinder.* TO 'cinderUser'@'%' IDENTIFIED BY 'cinderPass357';"
+	echo ""
+	echo "	quit;"
+	echo "___________"
+	echo "Starting : mysql -u root -p : so you can modify as shown"
+	mysql -u root -p
+	echo "Prompting for Pass'es for latter use"
+	echo -n "What have you set for : keystonePass357? "
+	read ui_keystonePass
+	echo -n "What have you set for : glancePass357? "
+	read ui_glancePass
+	echo -n "What have you set for : neutronPass357? "
+	read ui_neutronPass
+	echo -n "What have you set for : novaPass357? "
+	read ui_novaPass
+	echo -n "What have you set for : cinderPass357? "
+	read ui_cinderPass
+} 
+part05_others () { 
+	echo "Installing other services"
+	apt-get install -y bridge-utils
+	echo "Enabling IP_Forwarding"
+	sed -i 's/#net.ipv4.ip_forward=1/net.ipv4.ip_forward=1/' /etc/sysctl.conf
+	echo "To save you from rebooting, we'll perform the following"
+	echo "sysctl net.ipv4.ip_forward=1"
+	sysctl net.ipv4.ip_forward=1
+} 
+part06_Keystone () { 
+	echo "Installing keystone packages"
+	echo "___________"
+	echo "When prompted see bellow examples for how to configure"
+	echo "	Set up database for Keystone: No"
+	echo "	Password: $ui_keystonePass  (Service Token)"
+	echo "	Register administration tenants: No"
+	echo "	Register keystone endpoints: No"
+	echo "___________"
+	apt-get install -y keystone
+	echo "Adapt the connection attribute in the /etc/keystone/keystone.conf to the new database"
+	echo "Opening : /etc/keystone/keystone.conf : so you may add the following line"
+	echo "	connection = mysql://keystoneUser:ui_keystonePass@$ui_managementIP/keystone"
+	vim /etc/keystone/keystone.conf
+	echo "Restarting the identity service then synchronize the database"
+	service keystone restart
+	keystone-manage db_sync
+	echo "Getting admin_token from config file"
+	export OS_SERVICE_TOKEN=`grep ^admin_token /etc/keystone/keystone.conf | cut -d" " -f3`
+	echo "To fill up the keystone database we'll be using the two scripts available in the `Scripts folder <https://github.com/reusserl/OpenStack-Install-Guide/tree/KeystoneScripts>`_ of that git repository"
+	echo "Then we'll modify the **HOST_IP** and **EXT_HOST_IP** variables before executing the scripts"
+	wget https://raw.github.com/reusserl/OpenStack-Install-Guide/master/KeystoneScripts/keystone_basic.sh
+	wget https://raw.github.com/reusserl/OpenStack-Install-Guide/master/KeystoneScripts/keystone_endpoints_basic.sh
+	chmod +x keystone_basic.sh keystone_endpoints_basic.sh
+	echo "___________"
+	echo -n "What is the Admin Password? "
+	read ui_AdminPass
+	echo -n "What is the Service Password? "
+	read ui_ServicePass
+	echo "___________"
+	echo "Modifying keystone_basic.sh"
+	sed -i 's/10.10.10.51/$ui_managementIP' keystone_basic.sh
+	sed -i 's/-SuperAdminPass123/$ui_AdminPass' keystone_basic.sh
+	sed -i 's/-servicePass123/$ui_ServicePass' keystone_basic.sh
+	echo "___________"
+	echo -n "What is your External IP? "
+	read ui_EXTip
+	echo -n "What is your user name that you set for MySQL? "
+	read ui_MySQLuser
+	echo "___________"
+	echo "Modifying keystone_endpoints_basic.sh"
+	sed -i 's/10.10.10.51/$ui_managementIP' keystone_endpoints_basic.sh
+	sed -i 's/192.168.100.51/$ui_EXTip' keystone_endpoints_basic.sh
+	sed -i 's/keystoneUser/$ui_MySQLuser' keystone_endpoints_basic.sh
+	sed -i 's/keystonePass55!!/$ui_keystonePass' keystone_endpoints_basic.sh
+	echo "___________"
+	echo "Running keystone_basic.sh and keystone_endpoints_basic.sh"
+	./keystone_basic.sh
+	./keystone_endpoints_basic.sh
+	echo "___________"
+	echo "Modifing bashrc file so we won't be bothered later"
+	echo -n "What is your admin user name? "
+	read ui_adminUser
+	echo "export OS_TENANT_NAME=$ui_adminUser
+	export OS_USERNAME=$ui_adminUser
+	export OS_PASSWORD='$ui_AdminPass'
+	export OS_AUTH_URL=http://$ui_EXTip:5000/v2.0/" >> ~/.bashrc
+	source ~/.bashrc
+	echo "To test Keystone, we'll use a simple CLI command"
+	keystone user-list
+} 
+part07_glance () { 
+	echo "Moving onto Glance installation"
+	echo "Use the bellow examples when prompted..."
+	echo "Set up a database for Glance? No"
+	echo "IP address of your RabbitMQ host: localhost"
+	echo "Username for connection to the RabbitMQ server: guest"
+	echo "Password for connection to the RabbitMQ server: guest"
+	echo "Pipeline flavor: keystone"
+	echo "Authentication server hostname: 127.0.0.1"
+	echo "Authentication server password: $ui_keystonePass"
+	echo "Register Glance in the Keystone endpoint catalog? No"
+	apt-get install -y glance
+	echo "___________"
+	echo "Updating /etc/glance/glance-api-paste.ini"
+	echo -n "What is the port you wish to use for OpenStack? "
+	read ui_authPort
+	echo "___________"
+	sed -i 's/10.10.10.51/$ui_managementIP' /etc/glance/glance-api-paste.ini
+	sed -i 's/35357/$ui_authPort' /etc/glance/glance-api-paste.ini
+	sed -i 's/servicePass123/$ui_AdminPass' /etc/glance/glance-api-paste.ini
+	echo "___________"
+	echo "Updating the /etc/glance/glance-registry-paste.ini"
+	sed -i 's/10.10.10.51/$ui_managementIP' /etc/glance/glance-registry-paste.ini
+	sed -i 's/35357/$ui_authPort' /etc/glance/glance-registry-paste.ini
+	sed -i 's/servicePass123/$ui_AdminPass' /etc/glance/glance-registry-paste.ini
+	echo "___________"
+	echo "Updating /etc/glance/glance-api.conf"
+	echo -n "What is the user name for glance? "
+	read ui_glanceUser
+	echo -n "What is your password for glance? "
+	read ui_glancePass
+	echo "Please edit the : sql_connection : variable as shown bellow."
+	echo "___________"
+	echo "	sql_connection = mysql://$ui_glanceUser:$ui_glancePass@$ui_managementIP/glance"
+	echo "	[paste_deploy]"
+	echo "	flavor = keystone"
+	vim /etc/glance/glance-api.conf"
+	echo "___________"
+	echo "Updating the /etc/glance/glance-registry.conf"
+	echo "Please edit the : sql_connection : variable as shown bellow."
+	echo "___________"
+	echo "	sql_connection = mysql://$ui_glanceUser:$ui_glancePass@$ui_managementIP/glance"
+	echo "	[paste_deploy]"
+	echo "	flavor = keystone"
+	vim /etc/glance/glance-registry.conf
+	echo "___________"
+	echo "Restarting the glance-api and glance-registry services"
+	service glance-api restart; service glance-registry restart
+	echo "Synchronizing the glance database"
+	glance-manage db_sync
+	echo "Testing Glance, by uploading the cirros cloud image directly from the internet"
+	glance image-create --name myFirstImage --is-public true --container-format bare --disk-format qcow2 --location http://download.cirros-cloud.net/0.3.1/cirros-0.3.1-arm-uec.targ.gz
+#	 http://download.cirros-cloud.net/0.3.1/cirros-0.3.1-x86_64-disk.img
+	echo "Listing the image to see what you have just uploaded"
+	glance image-list
+} 
+part08_neutron () { 
+	echo "Installing the Neutron server and the OpenVSwitch package collection"
+	echo "When promted use the bellow examples for the diologs..."
+	echo "___________"
+	echo "	Set up a database for Neutron? No"
+	echo "	IP address of your RabbitMQ host: $ui_managementIP"
+	echo "	Username for connection to the RabbitMQ server: guest"
+	echo "	Password for connection to the RabbitMQ server: guest"
+	echo "	Authentication server hostname: $ui_managementIP"
+	echo "	Authentication server password: $ui_AdminPass"
+	echo "	Neutron plugin: OpenVSwitch"
+	echo "	Type of network to allocate for tenant networks: gre"
+	echo "	Enable tunneling? yes"
+	echo "	Tunnel id ranges: 1:1000"
+	echo "	Local IP address of this hypervisor: $ui_managementIP"
+	echo "	Register Neutron in the Keystone endpoint catalog? no"
+	echo "___________"
+	apt-get install -y neutron-server
+	echo "___________"
+	echo -n "What is your neutron user name? "
+	read ui_neutronUser
+	echo "Edit and check the OVS plugin configuration file /etc/neutron/plugins/openvswitch/ovs_neutron_plugin.ini with the following examples"
+	echo "___________"
+	echo "	#Under the database section"
+	echo "	[DATABASE]"
+	echo "	sql_connection = mysql://$ui_neutronUser:$ui_neutronPass@$ui_managementIP/neutron"
+	echo ""
+	echo "	#Under the OVS section"
+	echo "	[OVS]"
+	echo "	tenant_network_type = gre"
+	echo "	tunnel_id_ranges = 1:1000"
+	echo "	enable_tunneling = True"
+	echo "	local_ip = $ui_managementIP"
+	echo ""
+	echo "	#Firewall driver for realizing neutron security group function"
+	echo "	[SECURITYGROUP]"
+	echo "	firewall_driver = neutron.agent.linux.iptables_firewall.OVSHybridIptablesFirewallDriver"
+	echo "___________"
+	echo "use the following command to check your config"
+	echo "grep -v ^$ /etc/neutron/plugins/openvswitch/ovs_neutron_plugin.ini | grep -v ^#"
+	vim /etc/neutron/plugins/openvswitch/ovs_neutron_plugin.ini
+	echo "Displaying /etc/neutron/plugins/openvswitch/ovs_neutron_plugin.ini"
+	grep -v ^$ /etc/neutron/plugins/openvswitch/ovs_neutron_plugin.ini | grep -v ^#
+	echo "___________"
+	echo "Edit /etc/neutron/api-paste.ini with the following examples..."
+	echo "	[filter:authtoken]"
+	echo "	paste.filter_factory = keystoneclient.middleware.auth_token:filter_factory"
+	echo "	auth_host = $ui_managementIP"
+	echo "	auth_port = $ui_authPort"
+	echo "	auth_protocol = http"
+	echo "	admin_tenant_name = service"
+	echo "	admin_user = neutron"
+	echo "	admin_password = $ui_AdminPass"
+	echo "___________"
+	vim /etc/neutron/api-paste.ini
+	echo "___________"
+	echo "Update the /etc/neutron/neutron.conf with the following examples..."
+	echo "___________"
+	echo "	[DEFAULT]"
+	echo "	rabbit_host = 147.87.239.108"
+	echo "	rabbit_password = guest"
+	echo "	rabbit_userid = guest"
+	echo ""
+	echo "	[keystone_authtoken]"
+	echo "	auth_host = $ui_managementIP"
+	echo "	auth_port = $ui_authPort"
+	echo "	auth_protocol = http"
+	echo "	admin_tenant_name = service"
+	echo "	admin_user = neutron"
+	echo "	admin_password = $ui_AdminPass"
+	echo "	signing_dir = /var/lib/neutron/keystone-signing"
+	echo ""
+	echo "	[database]"
+	echo "	connection = mysql://$ui_neutronUser:$ui_neutronPass@$ui_managementIP/neutron"
+	echo "___________"
+	vim /etc/neutron/neutron.conf
+	echo "___________"
+	echo "Restarting the neutron server"
+	service neutron-server restart
+	echo "and checking the log"
+	less /var/log/neutron/neutron-server.log
+	echo "You can ignore the following error message:"
+	echo "	ERROR neutron.common.legacy [-] Skipping unknown group key: firewall_driver"
+} 
+part09_nova () { 
+	echo "Installing nova components"
+	echo "When prompted use the bellow examples..."
+	echo "___________"
+	echo "	Set up a database for Nova? no"
+	echo "	IP address of your RabbitMQ host: $ui_managementIP"
+	echo "	Username for connection to the RabbitMQ server: guest"
+	echo "	Password for connection to the RabbitMQ server: guest"
+	echo "	Authentication server hostname: $ui_managementIP"
+	echo "	Authentication server password: $ui_AdminPass"
+	echo "	Start nova services at boot? yes"
+	echo "	API to activate: [ ] ec2, [ ] osapi_compute, [ ] metadata"
+	echo "	Value for my_ip: $ui_managementIP"
+	echo "	Register Nova in the keystone endpoint catalog? No"
+	echo "___________"
+	apt-get install -y nova-api nova-cert novnc nova-consoleauth nova-scheduler nova-novncproxy nova-doc nova-conductor
+	echo -n "What is your nova user name? "
+	read ui_novaUser
+	echo "Now modify authtoken section in the /etc/nova/api-paste.ini file with the following examples..."
+	echo "___________"
+	echo "	[filter:authtoken]"
+	echo "	paste.filter_factory = keystoneclient.middleware.auth_token:filter_factory"
+	echo "	auth_host = $ui_managementIP"
+	echo "	auth_port = $ui_authPort"
+	echo "	auth_protocol = http"
+	echo "	admin_tenant_name = service"
+	echo "	admin_user = nova"
+	echo "	admin_password = $ui_AdminPass"
+	echo "	signing_dirname = /tmp/keystone-signing-nova"
+	echo "	# Workaround for https://bugs.launchpad.net/nova/+bug/1154809"
+	echo "	auth_version = v2.0"
+	echo "___________"
+	vim /etc/nova/api-paste.ini
+	echo "Now modify authtoken section in the /etc/nova/nova.conf file with the following examples..."
+	echo "	note your input for : neutron_metadata_proxy_shared_secret = helloOpenStack123 " this script will ask for it in a moment"
+	echo "___________"
+	echo "	[DEFAULT]"
+	echo "	logdir=/var/log/nova"
+	echo "	state_path=/var/lib/nova"
+	echo "	lock_path=/run/lock/nova"
+	echo "	verbose=True"
+	echo "	api_paste_config=/etc/nova/api-paste.ini"
+	echo "	compute_scheduler_driver=nova.scheduler.simple.SimpleScheduler"
+	echo "	rabbit_host=$ui_managementIP"
+	echo "	nova_url=http://$ui_managementIP:8774/v1.1/"
+	echo "	sql_connection=mysql://$ui_novaUser:$ui_novaPass@$ui_managementIP/nova"
+	echo "	root_helper=sudo nova-rootwrap /etc/nova/rootwrap.conf"
+	echo ""
+	echo "	# Auth"
+	echo "	auth_strategy=keystone"
+	echo ""
+	echo "	# Imaging service"
+	echo "	glance_api_servers=$ui_managementIP:9292"
+	echo "	image_service=nova.image.glance.GlanceImageService"
+	echo ""
+	echo "	# Vnc configuration"
+	echo "	novnc_enabled=true"
+	echo "	novncproxy_base_url=http://192.168.100.51:6080/vnc_auto.html"
+	echo "	novncproxy_port=6080"
+	echo "	vncserver_proxyclient_address=$ui_managementIP"
+	echo "	vncserver_listen=0.0.0.0"
+	echo ""
+	echo "	# Network settings"
+	echo "	network_api_class=nova.network.neutronv2.api.API"
+	echo "	neutron_url=http://$ui_managementIP:9696"
+	echo "	neutron_auth_strategy=keystone"
+	echo "	neutron_admin_tenant_name=service"
+	echo "	neutron_admin_username=neutron"
+	echo "	neutron_admin_password=$ui_ServicePass"
+	echo "	neutron_admin_auth_url=http://$ui_managementIP:35357/v2.0"
+	echo "	libvirt_vif_driver=nova.virt.libvirt.vif.LibvirtHybridOVSBridgeDriver"
+	echo "	linuxnet_interface_driver=nova.network.linux_net.LinuxOVSInterfaceDriver"
+	echo "	#If you want neutron + Nova Security groups"
+	echo "	firewall_driver=nova.virt.firewall.NoopFirewallDriver"
+	echo "	security_group_api=neutron"
+	echo "	#If you want Nova Security groups only, comment the two lines above and uncomment line -1-."
+	echo "	#-1-firewall_driver=nova.virt.libvirt.firewall.IptablesFirewallDriver"
+	echo ""
+	echo "	#Metadata"
+	echo "	service_neutron_metadata_proxy = True"
+	echo "	neutron_metadata_proxy_shared_secret = helloOpenStack123"
+	echo ""
+	echo "	# Compute #"
+	echo "	#compute_driver=libvirt.LibvirtDriver"
+	echo ""
+	echo "	# Cinder #"
+	echo "	#volume_api_class=nova.volume.cinder.API"
+	echo "	#osapi_volume_listen_port=5900"
+	echo "___________"
+	vim /etc/nova/nova.conf
+	echo -n "What is your neutron_metadata_proxy_shared_secret? "
+	read ui_neutron_metadata_proxy_shared_secret
+	echo "___________"
+	echo "Synchronizing your database"
+	nova-manage db sync
+	echo "Restarting nova-\* services"
+	cd /etc/init.d/; for i in $( ls nova-* ); do sudo service $i restart; done; cd -
+	echo "Check for the smiling faces on nova-\* services to confirm your installation"
+	nova-manage service list
+} 
+part10_cinder () { 
+	echo "Installing the required packages use the following examples when prompted..."
+	echo "___________"
+	echo "	Set up a database for Cinder? No
+	echo "	IP address of your RabbitMQ host: $ui_managementIP"
+	echo "	Username for connection to the RabbitMQ server: guest"
+	echo "	Password for connection to the RabbitMQ server: guest"
+	echo "	Authentication server hostname: $ui_managementIP"
+	echo "	Authentication server password: $ui_ServicePass"
+	echo "	Start cinter services at boot? yes"
+	echo "	Cinder volume group: cinder-volumes"
+	echo "	Register Cinder in the Keystone endpoint catalog? No"
+	echo "___________"
+	apt-get install -y cinder-api cinder-scheduler cinder-volume iscsitarget open-iscsi iscsitarget-dkms
+	echo -n "What is your cinder user name? "
+	read ui_cinderUser
+	echo "___________"
+	echo "Configure the iscsi services with the following command:"
+	echo "sed -i 's/false/true/g' /etc/default/iscsitarget"
+	sed -i 's/false/true/g' /etc/default/iscsitarget
+	echo "Restarting the services"
+	service iscsitarget start
+	service open-iscsi start
+	echo "Configure /etc/cinder/api-paste.ini like the following:"
+	echo "___________"
+	echo "	[filter:authtoken]"
+	echo "	paste.filter_factory = keystoneclient.middleware.auth_token:filter_factory"
+	echo "	service_protocol = http"
+	echo "	service_host = 192.168.100.51"
+	echo "	service_port = 5000"
+	echo "	auth_host = $ui_managementIP"
+	echo "	auth_port = $ui_authPort"
+	echo "	auth_protocol = http"
+	echo "	admin_tenant_name = service"
+	echo "	admin_user = cinder"
+	echo "	admin_password = $ui_ServicePass"
+	echo "	signing_dir = /var/lib/cinder"
+	echo "___________"
+	vim /etc/cinder/api-paste.ini
+	echo "Edit the /etc/cinder/cinder.conf to as shown:"
+	echo "___________"
+	echo "	[DEFAULT]"
+	echo "	rootwrap_config=/etc/cinder/rootwrap.conf"
+	echo "	sql_connection = mysql://$ui_cinderUser:$ui_cinderPass@$ui_managementIP/cinder
+	echo "	api_paste_config = /etc/cinder/api-paste.ini"
+	echo "	iscsi_helper=ietadm"
+	echo "	volume_name_template = volume-%s"
+	echo "	volume_group = cinder-volumes"
+	echo "	verbose = True"
+	echo "	auth_strategy = keystone"
+	echo "	iscsi_ip_address=$ui_managementIP"
+	echo "___________"
+	vim /etc/cinder/cinder.conf
+	echo "synchronizing your database"
+	cinder-manage db sync
+	########
+echo '
+# Finally, don't forget to create a volumegroup and name it cinder-volumes
+
+#  TODO: volume groups should be created before this step'
+	########
+	echo "Restarting the cinder services"
+	cd /etc/init.d/; for i in $( ls cinder-* ); do sudo service $i restart; done; cd -
+	echo "Verify if cinder services are running"
+	cd /etc/init.d/; for i in $( ls cinder-* ); do sudo service $i status; done
+	
+} 
+part11_horizon () { 
+	echo "Installing Horizon, when prompted use the following examples"
+	echo "___________"
+	echo "	Activate Dashboard and disable default VirtualHost? yes"
+	echo "	Should the Dashboard use HTTPS? yes"
+	apt-get install -y openstack-dashboard memcached python-argparse
+	echo "___________"
+	echo "Check OpenStack Dashboard at https://192.168.100.51 We can login with the $ui_adminUser / $ui_AdminPass"
+} 
+echo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
+echo "Functions written, and default variables set, script starting now..."
+{ 
+read -r -p "Do you wish to proced? [Y/n] " response
+case "$response" in
+	[yY][eE][sS]|[yY])
+ # if yes, then start risking changes
+		part00_readme
+		part01_prepareDebian
+		part02_networking
+		part03_MySQL
+		part04_RabbitMQ
+		part05_others
+		part06_Keystone
+		part07_glance
+		part08_neutron
+		part09_nova
+		part10_cinder
+		part11_horizon
+		;;
+	*)
+ #		 Otherwise exit..
+	echo "Try again? exiting.."
+	exit 
+	;;
+esac
+} 
+echo "End of script. Exiting now..."
+exit
+# credits and notes
+# pdf for controller node install instuctions for debian
+https://github.com/reusserl/OpenStack-Install-Guide/blob/master/OpenStack_Havana_Debian_Wheezy_Install_Guide.rst
+http://www.google.com/url?sa=t&rct=j&q=&esrc=s&source=web&cd=19&ved=0CGoQFjAIOAo&url=ftp%3A%2F%2Fftp.pku.edu.cn%2Fopen%2Fcloud%2FOpenStack%2Fdoc%2Fbk-compute-adminguide-folsom.pdf&ei=tXE7U97HCeqGyAGAwoH4BQ&usg=AFQjCNEZJ19zrHUfb4c31Pj0vl_fFQyShQ&sig2=RJI9KRwdvhVGbE0GiDPydQ&bvm=bv.63934634,d.aWc
+
