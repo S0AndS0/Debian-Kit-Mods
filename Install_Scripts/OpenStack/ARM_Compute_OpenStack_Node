@@ -1,0 +1,412 @@
+#!/bin/bash
+PATH=/bin:/usr/bin:/usr/local/bin ; export PATH 
+umask 022 		# Files that the script creates will have 755 permission.
+# Thanks to Ian D. Allen, for this tip.
+echo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
+# variables auto
+ : ${USER?} ${HOME?} 
+# find the name of this script and store it to a variable
+osCN_fullScriptPath="$(readlink -f $0)"
+# deleat last componit from ThisScript and store to another variable
+osCN_ScriptDirectory="$(dirname $osCN_fullScriptPath)"
+IP_inet_addr=`/sbin/ifconfig | grep -E 'inet addr' | grep -v '127.0.0.1' | awk '{gsub("addr:",""); print $2}'`
+IP_Bcast_addr=`/sbin/ifconfig | grep -E 'Bcast' | grep -v '127.0.0.1' | awk '{gsub("Bcast:",""); print $3}'`
+IP_Mask_addr=`/sbin/ifconfig | grep -E 'Mask' | grep -v '127.0.0.1' | awk '{gsub("Mask:",""); print $4}'`
+IP_inet6_addr=`/sbin/ifconfig | grep -E 'inet6 addr' | grep -v '127.0.0.1' | grep -v '1/128' | awk '{gsub("addr:",""); print $2}'`
+IP_local=`/sbin/ifconfig | grep -E 'inet addr' | grep -E '127.0.0.1' | awk '{gsub("addr:",""); print $2}'`
+trimIP=`$IP_Bcast_addr | sed 's/...$//'`
+trimRoute=`route -n | grep -E 'UG' | awk '{print $2}'`
+IPmin=1
+IPmax=254
+customPinger=`for ip in $(seq $IPmin $IPmax) ;do (ping -c 1 -w 5 $trimIP$ip >/dev/null && echo "$trimIP$ip" &) ; done`
+fLive_IPs=`$customPinger | grep -v '$trimRoute' | grep -v '$IP_inet_addr'`
+echo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
+part00_readme () { 
+	echo "This script was made posible by the following links:"
+	echo "https://github.com/reusserl/OpenStack-Install-Guide/blob/master/OpenStack_Havana_Debian_Wheezy_Install_Guide.rst"
+	echo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
+	echo "This script will atempt to make the process of installing and configuring Openstack an easier one."
+	echo "Your - inernet IPv4 - is : $IP_inet_addr"
+	echo "Your - broadcast IP - is : $IP_Bcast_addr"
+	echo "Your - mask IP - is : $IP_Mask_addr"
+	echo "Your - internet IPv6 - is : $IP_inet6_addr"
+	echo "Your - local IP - is : $IP_local"
+	echo "The - live IPs - on your network are : $fLive_IPs"
+	echo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
+} 
+
+part01_prepareDebian () { 
+	echo "Adding Havana repositories."
+	echo "deb http://havana.pkgs.enovance.com/debian havana main
+	deb http://archive.gplhost.com/debian havana-backports main" > /etc/apt/sources.list.d/openstack.list
+	echo "adding gplhost key"
+	apt-get install -y gplhost-archive-keyring
+	echo "adding enovance key"
+	wget -qO - http://havana.pkgs.enovance.com/debian/dists/havana/pubkey.gpg | apt-key add -
+	apt-key list
+	echo "Updating and upgrading your system"
+	apt-get update && apt-get dist-upgrade -y
+	echo "Prompting for user input for : DNS Resolution : an example is presented bellow."
+	echo "_________"
+	echo "domain yourdomain.ch"
+	echo "nameserver 8.8.8.8"
+	echo "nameserver 8.8.4.4"
+	echo "_________"
+	echo -n "Please input : yourdomain : for : /etc/resolv.conf"
+	read ui_domain
+	echo -n "Please input a : nameserver : for : /etc/resolv.conf"
+	read ui_nameserver
+	echo -n "Please input the first : IP : for : /etc/resolv.conf"
+	read ui_nameserverIP1
+	echo -n "Please input the second : IP : for : /etc/resolv.conf"
+	read ui_nameserverIP2
+	echo 'domain $ui_domain.ch
+	$ui_nameserver $ui_nameserverIP1
+	$ui_nameserver $ui_nameserverIP2' > /etc/resolv.conf
+	echo "Appending : /root/.bashrc : with the following:"
+	echo '
+	HISTSIZE=1000000
+	HISTFILESIZE=9999999
+	HISTTIMEFORMAT=(%d.%m.%Y) %H:%M
+	export HISTSIZE HISTFILESIZE HISTTIMEFORMAT' >> /root/.bashrc
+	echo "Removing Exim and installing Postfix"
+	apt-get install postfix -y
+	dpkg --purge exim4 exim4-base exim4-config exim4-daemon-light
+	echo "Activaing mail forwarding"
+	echo -n "Please enter your full email address"
+	read ui_email
+	echo "root: $ui_email.ch" >>/etc/aliases
+	newaliases
+	/etc/init.d/postfix reload
+	echo "Removing unneeded software"
+	dpkg --purge nfs-common rpcbind
+	echo "Installing some useful tools"
+	apt-get install ethtool tcpdump
+	echo "Activating VLAN’s"
+	apt-get install vlan
+	echo "
+	# vlan's
+	8021q
+	" >> /etc/modules
+	modprobe 8021q
+	echo "Enabling injection"
+	echo "	To enable key-file, network & metadata injection into instances images."
+	echo "nbd max_part=65" >> /etc/modules
+	modprobe nbd max_part=65
+	echo "Installing ntp service"
+	apt-get install -y ntp
+	echo "	Checking if ntp is working"
+	ntpq -pn
+} 
+part02_IP_Forwarding () { 
+	echo "Enableling IP forwarding with the following command"
+	echo "	sed -i 's/#net.ipv4.ip_forward=1/net.ipv4.ip_forward=1/' /etc/sysctl.conf"
+	sed -i 's/#net.ipv4.ip_forward=1/net.ipv4.ip_forward=1/' /etc/sysctl.conf
+	echo "To save you from rebooting, we'll perform the following"
+	echo "	sysctl net.ipv4.ip_forward=1"
+	sysctl net.ipv4.ip_forward=1
+} 
+part03_Networking () { 
+	echo "Perform the following under /etc/network/interfaces"
+	echo "__________"
+	echo "	# OpenStack management"
+	echo "	auto eth0"
+	echo "	iface eth0 inet static"
+	echo "	address 10.10.10.53"
+	echo "	netmask 255.255.255.0"
+	echo ""
+	echo "	# VM Configuration"
+	echo "	auto eth1"
+	echo "	iface eth1 inet static"
+	echo "	address 10.20.20.53"
+	echo "	netmask 255.255.255.0"
+	echo "__________"
+	echo "note you'll want to referance your notes on your controller node setup to fill in the following feelds:"
+	echo "	eth0 (and eth1 if you set then to other network interfaces) , address 10.10.10.53 (should match the IP you used on other nodes) "
+	vim /etc/network/interfaces
+} 
+part04_KVM () { 
+	echo "Installing libvirt-bin pm-utils"
+	apt-get install -y kvm libvirt-bin pm-utils
+	echo "Edit the cgroup_device_acl array in the /etc/libvirt/qemu.conf file to match the following example"
+	echo "__________"
+	echo "	cgroup_device_acl = ["
+	echo "	\"/dev/null\", \"/dev/full\", \"/dev/zero\","
+	echo "	\"/dev/random\", \"/dev/urandom\","
+	echo "	\"/dev/ptmx\", \"/dev/kvm\", \"/dev/kqemu\","
+	echo "	\"/dev/rtc\", \"/dev/hpet\",\"/dev/net/tun\""
+	echo "	]"
+	echo "__________"
+	vim /etc/libvirt/qemu.conf
+	echo "Deleting default virtual bridge"
+	virsh net-destroy default
+	virsh net-undefine default
+	echo "Enable live migration by updating /etc/libvirt/libvirtd.conf file with the following example"
+	echo "__________"
+	echo "	listen_tls = 0"
+	echo "	listen_tcp = 1"
+	echo "	auth_tcp = \"none\""
+	echo "__________"
+	vim /etc/libvirt/libvirtd.conf
+	echo "Edit /etc/default/libvirt-bin file as shown"
+	echo "__________"
+	echo "	libvirtd_opts=\"-d -l\""
+	echo "__________"
+	vim /etc/default/libvirt-bin
+	echo "Restarting the libvirt service and dbus to load the new values"
+	service dbus restart && service libvirt-bin restart
+} 
+part05_OpenVSwitch () { 
+	echo "Installing openvswitch-switch openvswitch-datapath-dkms"
+	apt-get install -y openvswitch-switch openvswitch-datapath-dkms
+	echo "Creating the bridges"
+	echo "br-int will be used for VM integration"
+	ovs-vsctl add-br br-int
+} 
+part06_Neutron () { 
+	echo "Installing the Neutron openvswitch agent"
+	apt-get -y install neutron-plugin-openvswitch-agent
+	echo "Edit the OVS plugin configuration file /etc/neutron/plugins/openvswitch/ovs_neutron_plugin.ini as shown bellow"
+	echo "__________"
+	echo "	#Under the database section"
+	echo "	[DATABASE]"
+	echo "	sql_connection = mysql://neutronUser:neutronPass@10.10.10.51/neutron"
+	echo ""
+	echo "	#Under the OVS section"
+	echo "	[OVS]"
+	echo "	tenant_network_type = gre"
+	echo "	tunnel_id_ranges = 1:1000"
+	echo "	integration_bridge = br-int"
+	echo "	tunnel_bridge = br-tun"
+	echo "	local_ip = 10.20.20.53"
+	echo "	enable_tunneling = True"
+	echo ""
+	echo "	#Firewall driver for realizing neutron security group function"
+	echo "	[SECURITYGROUP]"
+	echo "	firewall_driver = neutron.agent.linux.iptables_firewall.OVSHybridIptablesFirewallDriver"
+	echo "__________"
+	echo "Note the following fealds will nead editing bassed off your notes for the controller node:"
+	echo "sql_connection (the neutronUser , neutronPass , 10.10.10.51) , local_ip , and if edited previously : tenant_network_type , tunnel_id_ranges , integration_bridge , tunnel_bridge : will also nead modification too"
+	vim /etc/neutron/plugins/openvswitch/ovs_neutron_plugin.ini
+	echo "ensure that your rabbitMQ IP in /etc/neutron/neutron.conf is set to the controller node like the following example"
+	echo "__________"
+	echo "	rabbit_host = 10.10.10.51"
+	echo ""
+	echo "	#And update the keystone_authtoken section"
+	echo ""
+	echo "	[keystone_authtoken]"
+	echo "	auth_host = 10.10.10.51"
+	echo "	auth_port = 35357"
+	echo "	auth_protocol = http"
+	echo "	admin_tenant_name = service"
+	echo "	admin_user = neutron"
+	echo "	admin_password = servicePass123"
+	echo "	signing_dir = /var/lib/neutron/keystone-signing"
+	echo "__________"
+	vim /etc/neutron/neutron.conf
+	echo "Restarting all the services"
+	service neutron-plugin-openvswitch-agent restart
+} 
+part07_Nova () { 
+	echo "Installing nova's required components for the compute node"
+	echo "When prompted during install respond:"
+	echo "__________"
+	echo "	Create or update supermin appliance now? no"
+	echo "__________"
+	apt-get install -y nova-compute-kvm
+	echo "Modify authtoken section in the /etc/nova/api-paste.ini file as shown bellow"
+	echo "__________"
+	echo "	[filter:authtoken]"
+	echo "	paste.filter_factory = keystoneclient.middleware.auth_token:filter_factory"
+	echo "	auth_host = 10.10.10.51"
+	echo "	auth_port = 35357"
+	echo "	auth_protocol = http"
+	echo "	admin_tenant_name = service"
+	echo "	admin_user = nova"
+	echo "	admin_password = servicePass123"
+	echo "	signing_dirname = /tmp/keystone-signing-nova"
+	echo "	# Workaround for https://bugs.launchpad.net/nova/+bug/1154809"
+	echo "	auth_version = v2.0"
+	echo "__________"
+	vim /etc/nova/api-paste.ini
+	echo "Edit /etc/nova/nova-compute.conf file as shown"
+	echo "__________"
+	echo "	[DEFAULT]"
+	echo "	libvirt_type=kvm"
+	echo "	libvirt_ovs_bridge=br-int"
+	echo "	libvirt_vif_type=ethernet"
+	echo "	libvirt_vif_driver=nova.virt.libvirt.vif.LibvirtHybridOVSBridgeDriver"
+	echo "	libvirt_use_virtio_for_bridges=True"
+	echo "__________"
+	vim /etc/nova/nova-compute.conf
+	echo "Modify the /etc/nova/nova.conf as shown"
+	echo "__________"
+	echo "	[DEFAULT]"
+	echo "	logdir=/var/log/nova"
+	echo "	state_path=/var/lib/nova"
+	echo "	lock_path=/run/lock/nova"
+	echo "	verbose=True"
+	echo "	api_paste_config=/etc/nova/api-paste.ini"
+	echo "	compute_scheduler_driver=nova.scheduler.simple.SimpleScheduler"
+	echo "	rabbit_host=10.10.10.51"
+	echo "	nova_url=http://10.10.10.51:8774/v1.1/"
+	echo "	sql_connection=mysql://novaUser:novaPass@10.10.10.51/nova"
+	echo "	root_helper=sudo nova-rootwrap /etc/nova/rootwrap.conf"
+	echo ""
+	echo "	# Auth"
+	echo "	use_deprecated_auth=false"
+	echo "	auth_strategy=keystone"
+	echo ""
+	echo "	# Imaging service"
+	echo "	glance_api_servers=10.10.10.51:9292"
+	echo "	image_service=nova.image.glance.GlanceImageService"
+	echo ""
+	echo "	# Vnc configuration"
+	echo "	novnc_enabled=true"
+	echo "	novncproxy_base_url=http://192.168.100.51:6080/vnc_auto.html"
+	echo "	novncproxy_port=6080"
+	echo "	vncserver_proxyclient_address=10.10.10.53"
+	echo "	vncserver_listen=0.0.0.0"
+	echo ""
+	echo "	# Network settings"
+	echo "	network_api_class=nova.network.neutronv2.api.API"
+	echo "	neutron_url=http://10.10.10.51:9696"
+	echo "	neutron_auth_strategy=keystone"
+	echo "	neutron_admin_tenant_name=service"
+	echo "	neutron_admin_username=neutron"
+	echo "	neutron_admin_password=servicePass123"
+	echo "	neutron_admin_auth_url=http://10.10.10.51:35357/v2.0"
+	echo "	libvirt_vif_driver=nova.virt.libvirt.vif.LibvirtHybridOVSBridgeDriver"
+	echo "	linuxnet_interface_driver=nova.network.linux_net.LinuxOVSInterfaceDriver"
+	echo "	#If you want Neutron + Nova Security groups"
+	echo "	firewall_driver=nova.virt.firewall.NoopFirewallDriver"
+	echo "	security_group_api=neutron"
+	echo "	#If you want Nova Security groups only, comment the two lines above and uncomment line -1-."
+	echo "	#-1-firewall_driver=nova.virt.libvirt.firewall.IptablesFirewallDriver"
+	echo ""
+	echo "	#Metadata"
+	echo "	service_neutron_metadata_proxy = True"
+	echo "	neutron_metadata_proxy_shared_secret = helloOpenStack123"
+	echo ""
+	echo "	# Compute #"
+	echo "	#compute_driver=libvirt.LibvirtDriver"
+	echo ""
+	echo "	# Cinder #"
+	echo "	#volume_api_class=nova.volume.cinder.API"
+	echo "	#osapi_volume_listen_port=5900"
+	echo "	#cinder_catalog_info=volume:cinder:internalURL"
+	echo "__________"
+	vim /etc/nova/nova.conf
+	echo "Restarting nova-\* services"
+	cd /etc/init.d/; for i in $( ls nova-* ); do sudo service $i restart; done; cd -
+	echo "Check for the smiling faces on nova-* services to confirm your installation"
+	nova-manage service list
+} 
+part08_ () { 
+	echo "To start your first VM, we first need to create a new tenant, user and internal network."
+	echo "	HINT: Replace <id> with the id of your command output"
+	
+	
+	echo "Create a new tenant"
+	# keystone tenant-create --name project_one
+	# export put_id_of_project_one=<id>
+	
+	echo "Create a new user and assign the member role to it in the new tenant (keystone role-list to get the appropriate id)"
+	# keystone user-create --name=user_one --pass=user_one --tenant-id $put_id_of_project_one --email=user_one@domain.com
+	# export put_id_of_user_one=<id>
+	
+	echo "Get ID of member role"
+	echo "Write down id of role \"Member\"."
+	# export put_id_of_member_role=594dad7afd8e473db41dfadcfc3c88c1
+	echo "Assign \"Member\" role to new user in project_one:"
+	# keystone user-role-add --tenant-id $put_id_of_project_one --user-id $put_id_of_user_one --role-id $put_id_of_member_role
+	
+	echo "Create a new network for the tenant"
+	# neutron net-create --tenant-id $put_id_of_project_one net_proj_one
+	
+	echo "Create a new subnet inside the new tenant network"
+	# neutron subnet-create --tenant-id $put_id_of_project_one net_proj_one 50.50.1.0/24 --dns_nameservers list=true 8.8.8.7 8.8.8.8
+	# export put_subnet_id_here=<id>
+	
+	echo "Create a router for the new tenant"
+	# neutron router-create --tenant-id $put_id_of_project_one router_proj_one
+	# export put_router_proj_one_id_here=<id>
+	
+	echo "Add the router to the running l3 agent (if it wasn't automatically added)"
+	# neutron agent-list (to get the l3 agent ID)
+	# export l3_agent_ID=<id>
+	# neutron l3-agent-router-add $l3_agent_ID router_proj_one
+	
+	echo "Add the router to the subnet"
+	# neutron router-interface-add $put_router_proj_one_id_here $put_subnet_id_here
+	
+	echo "Restarting all neutron services"
+	cd /etc/init.d/; for i in $( ls neutron-* ); do sudo service $i restart; done; cd -
+	
+	echo "Create an external network with the tenant id belonging to the admin tenant (keystone tenant-list to get the appropriate id)"
+	# keystone tenant-list
+	# export put_id_of_admin_tenant=<id>
+	# neutron net-create --tenant-id $put_id_of_admin_tenant ext_net --router:external=True
+	# export put_id_of_ext_net_here=<id>
+	
+	echo "Create a subnet for the floating ips"
+	# neutron subnet-create --tenant-id $put_id_of_admin_tenant --allocation-pool start=192.168.100.102,end=192.168.100.126 --gateway 192.168.100.1 ext_net 192.168.100.0/24 --enable_dhcp=False
+	
+	echo "Set your router's gateway to the external network"
+	# neutron router-gateway-set $put_router_proj_one_id_here $put_id_of_ext_net_here
+	
+	echo "Source creds relative to your project one tenant now"
+	echo "	vi creds_proj_one
+	echo ""
+	echo "	#Paste the following:"
+	echo "	export OS_TENANT_NAME=project_one"
+	echo "	export OS_USERNAME=user_one"
+	echo "	export OS_PASSWORD=user_one"
+	echo "	export OS_AUTH_URL=\"http://192.168.100.51:5000/v2.0/\""
+	echo ""
+	echo "	source creds_proj_one"
+	
+	echo "Add this security rules to make your VMs pingable"
+	# nova --no-cache secgroup-add-rule default icmp -1 -1 0.0.0.0/0
+	# nova --no-cache secgroup-add-rule default tcp 22 22 0.0.0.0/0
+	
+	echo "Start by allocating a floating ip to the project one tenant"
+	# neutron floatingip-create ext_net
+	# export put_id_floating_ip=<id>
+	
+	echo "Start a VM"
+	# nova --no-cache boot --image myFirstImage --flavor 1 my_first_vm
+	
+	echo "Pick the id of the port corresponding to your VM"
+	echo "	The first entry is our DHCP Server, the second entry is our router and the third entry is our first vm."
+	echo "	(I removed the subnet id to fit the screen.)"
+	echo "	export put_id_vm_port=<id> # f217fea3-217b-45fc-a2d4-bcd394666bfc in my case."
+	neutron port-list
+	
+	echo "Associate the floating IP to your VM"
+	# neutron floatingip-associate $put_id_floating_ip $put_id_vm_port
+	
+	echo "That's it! ping your VM and enjoy OpenStack"
+	
+} 
+
+echo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
+echo "Functions written, and default variables set, script starting now..."
+{ 
+read -r -p "Do you wish to proced? [Y/n] " response
+case "$response" in
+	[yY][eE][sS]|[yY])
+ # if yes, then start risking changes
+		
+		
+		;;
+	*)
+ #		 Otherwise exit..
+	echo "Try again? exiting.."
+	exit 
+	;;
+esac
+} 
+echo "End of script. Exiting now..."
+exit
+
