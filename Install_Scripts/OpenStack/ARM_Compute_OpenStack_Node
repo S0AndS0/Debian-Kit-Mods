@@ -302,7 +302,7 @@ part07_Nova () {
 	echo "Check for the smiling faces on nova-* services to confirm your installation"
 	nova-manage service list
 } 
-part08_ () { 
+part08_VM () { 
 	echo "To start your first VM, we first need to create a new tenant, user and internal network."
 	echo "	HINT: Replace <id> with the id of your command output"
 	
@@ -397,8 +397,15 @@ read -r -p "Do you wish to proced? [Y/n] " response
 case "$response" in
 	[yY][eE][sS]|[yY])
  # if yes, then start risking changes
-		
-		
+		part00_readme
+		part01_prepareDebian
+		part02_IP_Forwarding
+		part03_Networking
+		part04_KVM
+		part05_OpenVSwitch
+		part06_Neutron
+		part07_Nova
+		# part08_VM
 		;;
 	*)
  #		 Otherwise exit..
