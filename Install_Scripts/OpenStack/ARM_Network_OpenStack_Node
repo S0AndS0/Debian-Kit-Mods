@@ -108,6 +108,7 @@ part02_IP_Forwarding () {
 part03_nicks () { 
 	echo "3 NICs must be present, for example:"
 	echo "	in : /etc/network/interfaces"
+	echo "__________"
 	echo "	# OpenStack management"
 	echo "	auto eth0"
 	echo "	iface eth0 inet static"
@@ -125,6 +126,7 @@ part03_nicks () {
 	echo "	iface eth2 inet static"
 	echo "	address 192.168.100.52"
 	echo "	netmask 255.255.255.0"
+	echo "__________"
 	vim /etc/network/interfaces
 } 
 part04_openVSwitch () { 
