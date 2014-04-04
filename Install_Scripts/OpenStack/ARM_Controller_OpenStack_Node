@@ -21,7 +21,7 @@ IPmax=254
 customPinger=`for ip in $(seq $IPmin $IPmax) ;do (ping -c 1 -w 5 $trimIP$ip >/dev/null && echo "$trimIP$ip" &) ; done`
 fLive_IPs=`$customPinger | grep -v '$trimRoute' | grep -v '$IP_inet_addr'`
 diskImageDownload_64bit=http://download.cirros-cloud.net/0.3.1/cirros-0.3.1-x86_64-disk.img
-diskImageDownload_32bit=h
+diskImageDownload_32bit=https://launchpad.net/cirros/trunk/0.3.0/+download/cirros-0.3.0-i386-disk.img
 diskImageDownload_ARM=http://download.cirros-cloud.net/0.3.1/cirros-0.3.1-arm-uec.targ.gz
 echo "_________"
 echo "Curently the writer of this script suports downloading the following disk images automaticly to your new OpenStack cloud:"
