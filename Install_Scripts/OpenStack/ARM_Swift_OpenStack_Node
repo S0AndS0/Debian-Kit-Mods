@@ -32,7 +32,11 @@ part00_readme () {
 	echo "	Storage Node: This node actually stores data. It is recommended to make this node private, only accessible via proxy node but not directly. Other than storage service, this node also houses container service and account service which are used for managing mapping of containers and accounts respectively. "
 	echo "For a small scale setup, both proxy and storage node can reside on the same machine but avoid doing so for a bigger setup."
 	echo "_________00.3"
-	
+	echo "to exit \"vi\" editer : press Esc (on Android this is \"volume up\"+\"e\")"
+	echo "then : Press \" : \" (colon). The cursor should reappear at the lower left corner of the screen beside a colon prompt."
+	echo "Enter the following:"
+	echo "	Input - q! - to exit without saving"
+	echo "	Input - ZZ - to exit with saving"
 } 
 part01_installPackages () { 
 	echo "_________01.1"
@@ -92,7 +96,7 @@ part03_replicateRsync () {
 				echo "RSYNC_ENABLE = true"
 				echo "Note that there can be multiple account, container and object sections if you wish to use multiple disks or partitions."
 				echo "Further more if you have USB OTG on your Android device and proper cable adapters, you may set this up on an external USB drive."
-				vim /etc/default/rsync
+				vi /etc/default/rsync
 				echo "_________03.3"
 				service rsync start
 				echo "_________03.4"
@@ -121,7 +125,7 @@ part04_proxy () {
 	echo "	signing_dir = /tmp/keystone-signing-swift"
 	echo "_________"
 	echo "_________04.2"
-	vim /etc/swift/proxy-server.conf
+	vi /etc/swift/proxy-server.conf
 	echo "_________04.3"
 } 
 part05_rings () { 

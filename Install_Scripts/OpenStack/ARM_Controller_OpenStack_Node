@@ -68,6 +68,11 @@ part00_readme () {
 	echo "Your - local IP - is : $IP_local"
 	echo "The - live IPs - on your network are : $fLive_IPs"
 	echo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
+	echo "to exit \"vi\" editer : press Esc (on Android this is \"volume up\"+\"e\")"
+	echo "then : Press \" : \" (colon). The cursor should reappear at the lower left corner of the screen beside a colon prompt."
+	echo "Enter the following:"
+	echo "	Input - q! - to exit without saving"
+	echo "	Input - ZZ - to exit with saving"
 } 
 
 part01_prepareDebian () { 
@@ -157,7 +162,7 @@ part02_networking () {
 	echo "	gateway 192.168.100.1"
 	echo "	dns-nameservers 8.8.8.8"
 	echo "__________"
-	vim /etc/network/interfaces
+	vi /etc/network/interfaces
 	echo "Restarting the networking service"
 	nohup sh -c "/etc/init.d/networking stop; sleep 2; /etc/init.d/networking start"
 } 
@@ -243,7 +248,7 @@ part06_Keystone () {
 	echo "Adapt the connection attribute in the /etc/keystone/keystone.conf to the new database"
 	echo "Opening : /etc/keystone/keystone.conf : so you may add the following line"
 	echo "	connection = mysql://keystoneUser:ui_keystonePass@$ui_managementIP/keystone"
-	vim /etc/keystone/keystone.conf
+	vi /etc/keystone/keystone.conf
 	echo "Restarting the identity service then synchronize the database"
 	service keystone restart
 	keystone-manage db_sync
@@ -327,7 +332,7 @@ part07_glance () {
 	echo "	sql_connection = mysql://$ui_glanceUser:$ui_glancePass@$ui_managementIP/glance"
 	echo "	[paste_deploy]"
 	echo "	flavor = keystone"
-	vim /etc/glance/glance-api.conf"
+	vi /etc/glance/glance-api.conf"
 	echo "___________"
 	echo "Updating the /etc/glance/glance-registry.conf"
 	echo "Please edit the : sql_connection : variable as shown bellow."
@@ -335,7 +340,7 @@ part07_glance () {
 	echo "	sql_connection = mysql://$ui_glanceUser:$ui_glancePass@$ui_managementIP/glance"
 	echo "	[paste_deploy]"
 	echo "	flavor = keystone"
-	vim /etc/glance/glance-registry.conf
+	vi /etc/glance/glance-registry.conf
 	echo "___________"
 	echo "Restarting the glance-api and glance-registry services"
 	service glance-api restart; service glance-registry restart
@@ -386,7 +391,7 @@ part08_neutron () {
 	echo "___________"
 	echo "use the following command to check your config"
 	echo "grep -v ^$ /etc/neutron/plugins/openvswitch/ovs_neutron_plugin.ini | grep -v ^#"
-	vim /etc/neutron/plugins/openvswitch/ovs_neutron_plugin.ini
+	vi /etc/neutron/plugins/openvswitch/ovs_neutron_plugin.ini
 	echo "Displaying /etc/neutron/plugins/openvswitch/ovs_neutron_plugin.ini"
 	grep -v ^$ /etc/neutron/plugins/openvswitch/ovs_neutron_plugin.ini | grep -v ^#
 	echo "___________"
@@ -400,7 +405,7 @@ part08_neutron () {
 	echo "	admin_user = neutron"
 	echo "	admin_password = $ui_AdminPass"
 	echo "___________"
-	vim /etc/neutron/api-paste.ini
+	vi /etc/neutron/api-paste.ini
 	echo "___________"
 	echo "Update the /etc/neutron/neutron.conf with the following examples..."
 	echo "___________"
@@ -421,7 +426,7 @@ part08_neutron () {
 	echo "	[database]"
 	echo "	connection = mysql://$ui_neutronUser:$ui_neutronPass@$ui_managementIP/neutron"
 	echo "___________"
-	vim /etc/neutron/neutron.conf
+	vi /etc/neutron/neutron.conf
 	echo "___________"
 	echo "Restarting the neutron server"
 	service neutron-server restart
@@ -462,7 +467,7 @@ part09_nova () {
 	echo "	# Workaround for https://bugs.launchpad.net/nova/+bug/1154809"
 	echo "	auth_version = v2.0"
 	echo "___________"
-	vim /etc/nova/api-paste.ini
+	vi /etc/nova/api-paste.ini
 	echo "Now modify authtoken section in the /etc/nova/nova.conf file with the following examples..."
 	echo "	note your input for : neutron_metadata_proxy_shared_secret = helloOpenStack123 " this script will ask for it in a moment"
 	echo "___________"
@@ -519,7 +524,7 @@ part09_nova () {
 	echo "	#volume_api_class=nova.volume.cinder.API"
 	echo "	#osapi_volume_listen_port=5900"
 	echo "___________"
-	vim /etc/nova/nova.conf
+	vi /etc/nova/nova.conf
 	echo -n "What is your neutron_metadata_proxy_shared_secret? "
 	read ui_neutron_metadata_proxy_shared_secret
 	echo "___________"
@@ -568,7 +573,7 @@ part10_cinder () {
 	echo "	admin_password = $ui_ServicePass"
 	echo "	signing_dir = /var/lib/cinder"
 	echo "___________"
-	vim /etc/cinder/api-paste.ini
+	vi /etc/cinder/api-paste.ini
 	echo "Edit the /etc/cinder/cinder.conf to as shown:"
 	echo "___________"
 	echo "	[DEFAULT]"
@@ -582,7 +587,7 @@ part10_cinder () {
 	echo "	auth_strategy = keystone"
 	echo "	iscsi_ip_address=$ui_managementIP"
 	echo "___________"
-	vim /etc/cinder/cinder.conf
+	vi /etc/cinder/cinder.conf
 	echo "synchronizing your database"
 	cinder-manage db sync
 	########

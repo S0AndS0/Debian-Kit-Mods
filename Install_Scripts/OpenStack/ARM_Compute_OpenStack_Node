@@ -32,6 +32,11 @@ part00_readme () {
 	echo "Your - local IP - is : $IP_local"
 	echo "The - live IPs - on your network are : $fLive_IPs"
 	echo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
+	echo "to exit \"vi\" editer : press Esc (on Android this is \"volume up\"+\"e\")"
+	echo "then : Press \" : \" (colon). The cursor should reappear at the lower left corner of the screen beside a colon prompt."
+	echo "Enter the following:"
+	echo "	Input - q! - to exit without saving"
+	echo "	Input - ZZ - to exit with saving"
 } 
 
 part01_prepareDebian () { 
@@ -122,7 +127,7 @@ part03_Networking () {
 	echo "__________"
 	echo "note you'll want to referance your notes on your controller node setup to fill in the following feelds:"
 	echo "	eth0 (and eth1 if you set then to other network interfaces) , address 10.10.10.53 (should match the IP you used on other nodes) "
-	vim /etc/network/interfaces
+	vi /etc/network/interfaces
 } 
 part04_KVM () { 
 	echo "Installing libvirt-bin pm-utils"
@@ -136,7 +141,7 @@ part04_KVM () {
 	echo "	\"/dev/rtc\", \"/dev/hpet\",\"/dev/net/tun\""
 	echo "	]"
 	echo "__________"
-	vim /etc/libvirt/qemu.conf
+	vi /etc/libvirt/qemu.conf
 	echo "Deleting default virtual bridge"
 	virsh net-destroy default
 	virsh net-undefine default
@@ -146,12 +151,12 @@ part04_KVM () {
 	echo "	listen_tcp = 1"
 	echo "	auth_tcp = \"none\""
 	echo "__________"
-	vim /etc/libvirt/libvirtd.conf
+	vi /etc/libvirt/libvirtd.conf
 	echo "Edit /etc/default/libvirt-bin file as shown"
 	echo "__________"
 	echo "	libvirtd_opts=\"-d -l\""
 	echo "__________"
-	vim /etc/default/libvirt-bin
+	vi /etc/default/libvirt-bin
 	echo "Restarting the libvirt service and dbus to load the new values"
 	service dbus restart && service libvirt-bin restart
 } 
@@ -186,7 +191,7 @@ part06_Neutron () {
 	echo "__________"
 	echo "Note the following fealds will nead editing bassed off your notes for the controller node:"
 	echo "sql_connection (the neutronUser , neutronPass , 10.10.10.51) , local_ip , and if edited previously : tenant_network_type , tunnel_id_ranges , integration_bridge , tunnel_bridge : will also nead modification too"
-	vim /etc/neutron/plugins/openvswitch/ovs_neutron_plugin.ini
+	vi /etc/neutron/plugins/openvswitch/ovs_neutron_plugin.ini
 	echo "ensure that your rabbitMQ IP in /etc/neutron/neutron.conf is set to the controller node like the following example"
 	echo "__________"
 	echo "	rabbit_host = 10.10.10.51"
@@ -202,7 +207,7 @@ part06_Neutron () {
 	echo "	admin_password = servicePass123"
 	echo "	signing_dir = /var/lib/neutron/keystone-signing"
 	echo "__________"
-	vim /etc/neutron/neutron.conf
+	vi /etc/neutron/neutron.conf
 	echo "Restarting all the services"
 	service neutron-plugin-openvswitch-agent restart
 } 
@@ -227,7 +232,7 @@ part07_Nova () {
 	echo "	# Workaround for https://bugs.launchpad.net/nova/+bug/1154809"
 	echo "	auth_version = v2.0"
 	echo "__________"
-	vim /etc/nova/api-paste.ini
+	vi /etc/nova/api-paste.ini
 	echo "Edit /etc/nova/nova-compute.conf file as shown"
 	echo "__________"
 	echo "	[DEFAULT]"
@@ -237,7 +242,7 @@ part07_Nova () {
 	echo "	libvirt_vif_driver=nova.virt.libvirt.vif.LibvirtHybridOVSBridgeDriver"
 	echo "	libvirt_use_virtio_for_bridges=True"
 	echo "__________"
-	vim /etc/nova/nova-compute.conf
+	vi /etc/nova/nova-compute.conf
 	echo "Modify the /etc/nova/nova.conf as shown"
 	echo "__________"
 	echo "	[DEFAULT]"
@@ -295,7 +300,7 @@ part07_Nova () {
 	echo "	#osapi_volume_listen_port=5900"
 	echo "	#cinder_catalog_info=volume:cinder:internalURL"
 	echo "__________"
-	vim /etc/nova/nova.conf
+	vi /etc/nova/nova.conf
 	echo "Restarting nova-\* services"
 	cd /etc/init.d/; for i in $( ls nova-* ); do sudo service $i restart; done; cd -
 	echo "Check for the smiling faces on nova-* services to confirm your installation"
@@ -408,7 +413,7 @@ part08_VM () {
 	echo "	source creds_proj_one"
 	echo "__________"
 	echo "giving you the option to make the above modifications..."
-	vim creds_proj_one
+	vi creds_proj_one
 	echo "__________"
 	echo "Adding security rules to make your VMs pingable"
 	nova --no-cache secgroup-add-rule default icmp -1 -1 0.0.0.0/0

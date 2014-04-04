@@ -39,6 +39,11 @@ part00_readme () {
 	echo "	This script is desined to run on ARM Linux OS's wheeze on up."
 	echo "Use it to install and configure Keystone properly for your admin user"
 	echo "_________00.2"
+	echo "to exit \"vi\" editer : press Esc (on Android this is \"volume up\"+\"e\")"
+	echo "then : Press \" : \" (colon). The cursor should reappear at the lower left corner of the screen beside a colon prompt."
+	echo "Enter the following:"
+	echo "	Input - q! - to exit without saving"
+	echo "	Input - ZZ - to exit with saving"
 } 
 part01_installPackages () { 
 	echo "_________01.1"
@@ -62,7 +67,7 @@ part02_configKeystone () {
 	echo "	Remember that ADMIN_TOKEN is the almighty token which will have full access to create and destroy users and services."
 	echo "_________02.3"
 	echo "	to exit from vi/vim saving changes, press [Esc], : (colon) and type wq."
-	vim /etc/keystone/keystone.conf
+	vi /etc/keystone/keystone.conf
 	echo "_________02.4"
 } 
 part03_configMySQL () { 
@@ -115,7 +120,7 @@ part06_configKeystonerc () {
 	echo "export OS_AUTH_URL=http://127.0.0.1:35357/v2.0"
 	echo "_________06.4"
 	echo "Opening : /etc/keystone/.keystonerc : for you to edit..."
-	vim /etc/keystone/.keystonerc
+	vi /etc/keystone/.keystonerc
 	echo "_________06.5"
 	echo "starting : .keystonerc " now..."
 	. /etc/keystone/.keystonerc
