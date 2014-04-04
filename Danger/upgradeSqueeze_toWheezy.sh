@@ -1,7 +1,7 @@
 #!/bin/bash
 PATH=/bin:/usr/bin:/usr/local/bin ; export PATH 
 # Variables assignment start
-sourceList_dir=/etc/apt
+sourceList_dir=/etc/apt/sources.list.d
 # Variables assignment end
 echo "This script likely should not be run without first doing a backup of your Linux OS"
 echo "However if undetured by the above warning you may use this script to"
@@ -16,7 +16,7 @@ case "$response" in
 		echo "Displaying curent version of Linux system"
 		uname -mrs
 		echo "Modifing your sources list and replacing all mentions of : squeeze : with : wheezy : under : $sourceList_dir : directory"
-		sed 's/squeeze/wheezy/g' $sourceList_dir
+		sed 's/squeeze/wheezy/g' $sourceList_dir/sources.list
 		echo "Issuing an : apt-get update : command"
 		apt-get update
 		echo "Issuing an : apt-get upgrade : command"
@@ -29,9 +29,9 @@ case "$response" in
 		echo "varify with : lsb_release -a"
 		echo "check kernal with : check kernal"
 		echo "check logfile for errors with either :"
-		echo "tail -f /var/log/messages"
+		echo "	tail -f /var/log/messages"
 		echo "and or"
-		echo "egrep -i --color 'err|warn|crit' /var/log/fileName"
+		echo "	egrep -i --color 'err|warn|crit' /var/log/fileName"
 		echo "exiting now in preperation for reboot"
 		exit
 		;; 
