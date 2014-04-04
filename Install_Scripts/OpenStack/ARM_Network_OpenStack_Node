@@ -4,7 +4,6 @@ umask 022 		# Files that the script creates will have 755 permission.
 # Thanks to Ian D. Allen, for this tip.
 echo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
 # variables auto
- : ${USER?} ${HOME?} 
 # find the name of this script and store it to a variable
 osCN_fullScriptPath="$(readlink -f $0)"
 # deleat last componit from ThisScript and store to another variable
@@ -47,7 +46,7 @@ part01_prepareDebian () {
 	wget -qO - http://havana.pkgs.enovance.com/debian/dists/havana/pubkey.gpg | apt-key add -
 	apt-key list
 	echo "Updating and upgrading your system"
-	apt-get update && apt-get dist-upgrade -y
+	apt-get update && apt-get -y dist-upgrade
 	echo "Prompting for user input for : DNS Resolution : an example is presented bellow."
 	echo "_________"
 	echo "domain yourdomain.ch"
@@ -72,7 +71,7 @@ part01_prepareDebian () {
 	HISTTIMEFORMAT=(%d.%m.%Y) %H:%M
 	export HISTSIZE HISTFILESIZE HISTTIMEFORMAT' >> /root/.bashrc
 	echo "Removing Exim and installing Postfix"
-	apt-get install postfix -y
+	apt-get -y install postfix
 	dpkg --purge exim4 exim4-base exim4-config exim4-daemon-light
 	echo "Activaing mail forwarding"
 	echo -n "Please enter your full email address"
@@ -131,7 +130,7 @@ part03_nicks () {
 } 
 part04_openVSwitch () { 
 	echo "Installing the openVSwitch"
-	apt-get install -y openvswitch-switch openvswitch-datapath-dkms
+	apt-get -y install openvswitch-switch openvswitch-datapath-dkms
 	echo "__________"
 	echo "Creating the bridges"
 	echo "br-int will be used for VM integration"

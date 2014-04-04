@@ -1,7 +1,6 @@
 #!/bin/bash
 PATH=/bin:/usr/bin:/usr/local/bin ; export PATH 
 # Variables assignment start
- : ${USER?} ${HOME?} 
 sourceList_dir=/etc/apt
 # Variables assignment end
 echo "This script likely should not be run without first doing a backup of your Linux OS"

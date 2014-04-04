@@ -220,7 +220,8 @@ then
 		echo "exiting now"
 		echo exit 
 		exit 
-	else [ $response = * ] then 
+	else [ $response = * ] 
+then 
 #	 if anything else then exit 
 		echo "exiting now"
 		echo exit 
