@@ -4,7 +4,6 @@ umask 022
 # Files that the script creates will have 755 permission.
 # Thanks to Ian D. Allen, for this tip.
 # variables auto
- : ${USER?} ${HOME?} 
 # find the name of this script and store it to a variable
 osCN_fullScriptPath="$(readlink -f $0)"
 # deleat last componit from ThisScript and store to another variable
