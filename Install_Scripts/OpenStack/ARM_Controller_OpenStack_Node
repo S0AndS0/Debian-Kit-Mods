@@ -1,6 +1,7 @@
 #!/bin/bash
 PATH=/bin:/usr/bin:/usr/local/bin ; export PATH 
-umask 022 		# Files that the script creates will have 755 permission.
+umask 022
+# Files that the script creates will have 755 permission.
 # Thanks to Ian D. Allen, for this tip.
 echo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
 # variables auto
@@ -19,6 +20,41 @@ IPmin=1
 IPmax=254
 customPinger=`for ip in $(seq $IPmin $IPmax) ;do (ping -c 1 -w 5 $trimIP$ip >/dev/null && echo "$trimIP$ip" &) ; done`
 fLive_IPs=`$customPinger | grep -v '$trimRoute' | grep -v '$IP_inet_addr'`
+diskImageDownload_64bit=http://download.cirros-cloud.net/0.3.1/cirros-0.3.1-x86_64-disk.img
+diskImageDownload_32bit=h
+diskImageDownload_ARM=http://download.cirros-cloud.net/0.3.1/cirros-0.3.1-arm-uec.targ.gz
+echo "_________"
+echo "Curently the writer of this script suports downloading the following disk images automaticly to your new OpenStack cloud:"
+echo "_________"
+echo "Input - 64 - to download $diskImageDownload_64bit"
+echo "Input - 32 - to download $diskImageDownload_32bit"
+echo "Input - arm - to download $diskImageDownload_ARM"
+echo "_________"
+echo -n "Which one would you like to set up? "
+read ui_diskImageDownload
+
+if [ $ui_diskImageDownload = 64 ]
+then
+	ui_diskImageDownload=$diskImageDownload_64bit
+	echo "\$ui_diskImageDownload set to : $ui_diskImageDownload"
+elif [ $ui_diskImageDownload = 32 ]
+then
+	ui_diskImageDownload=$diskImageDownload_32bit
+	echo "\$ui_diskImageDownload set to : $ui_diskImageDownload"
+elif [ $ui_diskImageDownload = arm ]
+then
+	ui_diskImageDownload=$diskImageDownload_ARM
+	echo "\$ui_diskImageDownload set to : $ui_diskImageDownload"
+elif [ $ui_diskImageDownload = exit ]
+then
+	echo "Exiting now..."
+	exit
+else [ $ui_diskImageDownload = * ]
+then
+	echo "Invalid input recived, exiting now..."
+	exit
+fi
+echo "Moving on to assingning functions..."
 echo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
 part00_readme () { 
 	echo "This script was made posible by the following links:"
@@ -306,8 +342,7 @@ part07_glance () {
 	echo "Synchronizing the glance database"
 	glance-manage db_sync
 	echo "Testing Glance, by uploading the cirros cloud image directly from the internet"
-	glance image-create --name myFirstImage --is-public true --container-format bare --disk-format qcow2 --location http://download.cirros-cloud.net/0.3.1/cirros-0.3.1-arm-uec.targ.gz
-#	 http://download.cirros-cloud.net/0.3.1/cirros-0.3.1-x86_64-disk.img
+	glance image-create --name myFirstImage --is-public true --container-format bare --disk-format qcow2 --location $ui_diskImageDownload
 	echo "Listing the image to see what you have just uploaded"
 	glance image-list
 } 
