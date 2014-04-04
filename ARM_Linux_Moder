@@ -16,6 +16,7 @@ fIP_nameScript=findNetworking_IPs
 SCP_nameScript=SCP_helper
 lds_nameScript=LilDebi_setUp.sh
 BorR_nameScript=ARM_LinuxBackup.sh
+OsI_nameScript=ARM_OpenStack_Installer.sh
 echo "$LM_nameScript is running"
 echo "variables for user and home directories" 
  : ${USER?} ${HOME?} 
@@ -86,8 +87,8 @@ echo "Input - SCP - to run $SCP_nameScript [untested]"
 echo "Input - lds - to run $lds_nameScript [untested]"
 echo "_________Experimental-or-Dangerious_________"
 echo "Input - BorR - to run $BorR_nameScript [untested]"
-
-echo "Choose and input a number to continue"
+echo "Input - Ostack - to run $OsI_nameScript [untested]"
+echo "Choose and input a number or letter combo to continue"
 echo "or input no to abort $LM_nameScript"
 echo "__________________"
 read -r -p "Which one thing would you like to do? " response
@@ -168,6 +169,12 @@ then
 then 
 		echo "this has yet to be fully tested"
 		sh $LM_independentPath/$BorR_nameScript
+		echo "exiting now"
+		echo exit 
+	elif [ $response = Ostack ] 
+then 
+		echo "this has yet to be fully tested"
+		sh $LM_runPath/$OsI_nameScript
 		echo "exiting now"
 		echo exit 
 	elif [ $response = 1 ] 
