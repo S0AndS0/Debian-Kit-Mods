@@ -16,7 +16,7 @@ case "$response" in
 		echo "Displaying curent version of Linux system"
 		uname -mrs
 		echo "Modifing your sources list and replacing all mentions of : squeeze : with : wheezy : under : $sourceList_dir : directory"
-		sed 's/squeeze/wheezy/g' $sourceList_dir/sources.list > $sourceList_dir/sources.list
+		sed -i.orig 's/squeeze/wheezy/g' $sourceList_dir/sources.list
 		echo "Issuing an : apt-get update : command"
 		apt-get update
 		echo "Issuing an : apt-get upgrade : command"
