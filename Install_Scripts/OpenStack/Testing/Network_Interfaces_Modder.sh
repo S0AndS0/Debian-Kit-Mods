@@ -1,0 +1,86 @@
+#!/bin/bash
+PATH=/bin:/usr/bin:/usr/local/bin ; export PATH 
+umask 022
+# Files that the script creates will have 755 permission.
+# Thanks to Ian D. Allen, for this tip.
+echo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
+# variables auto
+# find the name of this script and store it to a variable
+osCN_fullScriptPath="$(readlink -f $0)"
+# deleat last componit from ThisScript and store to another variable
+osCN_ScriptDirectory="$(dirname $osCN_fullScriptPath)"
+IP_inet_addr=`/sbin/ifconfig | grep -E 'inet addr' | grep -v '127.0.0.1' | awk '{gsub("addr:",""); print $2}'`
+IP_Bcast_addr=`/sbin/ifconfig | grep -E 'Bcast' | grep -v '127.0.0.1' | awk '{gsub("Bcast:",""); print $3}'`
+IP_Mask_addr=`/sbin/ifconfig | grep -E 'Mask' | grep -v '127.0.0.1' | awk '{gsub("Mask:",""); print $4}'`
+IP_inet6_addr=`/sbin/ifconfig | grep -E 'inet6 addr' | grep -v '127.0.0.1' | grep -v '1/128' | awk '{gsub("addr:",""); print $2}'`
+IP_local=`/sbin/ifconfig | grep -E 'inet addr' | grep -E '127.0.0.1' | awk '{gsub("addr:",""); print $2}'`
+trimIP=`$IP_Bcast_addr | sed 's/...$//'`
+trimRoute=`route -n | grep -E 'UG' | awk '{print $2}'`
+IPmin=1
+IPmax=254
+customPinger=`for ip in $(seq $IPmin $IPmax) ;do (ping -c 1 -w 5 $trimIP$ip >/dev/null && echo "$trimIP$ip" &) ; done`
+fLive_IPs=`$customPinger | grep -v '$trimRoute' | grep -v '$IP_inet_addr'`
+
+echo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
+
+	echo "Your - inernet IPv4 - is : $IP_inet_addr"
+	echo "Your - broadcast IP - is : $IP_Bcast_addr"
+	echo "Your - mask IP - is : $IP_Mask_addr"
+	echo "Your - internet IPv6 - is : $IP_inet6_addr"
+	echo "Your - local IP - is : $IP_local"
+	echo "The - live IPs - on your network are : $fLive_IPs"
+
+	echo "to exit \"vi\" editer : press Esc (on Android this is \"volume up\"+\"e\")"
+	echo "then : Press \" : \" (colon). The cursor should reappear at the lower left corner of the screen beside a colon prompt."
+	echo "Enter the following:"
+	echo "	Input - q! - to exit without saving"
+	echo "	Input - wq - to exit with saving"
+
+	echo "Only one NIC should be reachable from the internet."
+	echo "This is where the customers will access the webinterface horizon.
+	echo "In the guide eth1 is used. But it could also be a bond interface (bond0) or a vlan (vla100) or both bond0.100."
+	echo "For my usage I'll be looking to wifi , bluetooth , and USB connection options."
+	echo "So edit /etc/network/interfaces with some help from the bellow example..."
+	echo "__________"
+	echo "Not public available (used for OpenStack management and iscsi)"
+	echo "__________"
+	echo "	auto eth0"
+	echo "	iface eth0 inet static"
+	echo "	address 10.10.10.51"
+	echo "	netmask 255.255.255.0"
+	echo "__________"
+	echo "For Exposing OpenStack API over the internet If you want to use your controller node as network node as well, you have to add an interface for your floating (public) ip addresses."
+	echo "	If your floating ip addresses are on the same subnet as your OpenStack API (Horizon), you could use this interface."
+	echo "__________"
+	echo "	auto eth1"
+	echo "	iface eth1 inet static"
+	echo "	address 192.168.100.51"
+	echo "	netmask 255.255.255.0"
+	echo "	gateway 192.168.100.1"
+	echo "	dns-nameservers 8.8.8.8"
+	echo "__________"
+	
+echo "Input - manual - to run edits with : vi"
+echo "Input - wizard - to run edits with questions and responces and have this script fill in the values."
+echo -n "Which would you like to run [manual/wizard]? "
+read ui_MorW
+if [ $ui_MorW = manual ]
+then
+	echo "Making a backup of : /etc/network/interfaces : named : /etc/network/interfaces.orig:
+	mv /etc/network/interfaces /etc/network/interfaces.orig
+	echo "Running edits with : vi : on the following file : /etc/network/interfaces"
+	vi /etc/network/interfaces
+elif [ $ui_MorW = wizard ]
+then
+	echo "Making a backup of : /etc/network/interfaces : named : /etc/network/interfaces.orig:
+	mv /etc/network/interfaces /etc/network/interfaces.orig
+	
+elif [ $ui_MorW = exit ]
+then
+	echo "Exiting now..."
+	exit
+else [ $ui_MorW = * ]
+	echo "Invalid input recieved, exiting now..."
+	exit
+fi
+
