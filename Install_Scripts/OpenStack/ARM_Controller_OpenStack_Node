@@ -593,6 +593,10 @@ part10_cinder () {
 	########
 echo '
 # Finally, don't forget to create a volumegroup and name it cinder-volumes
+# Notes and links for this missing step
+# https://access.redhat.com/site/documentation/en-US/Red_Hat_Enterprise_Linux_OpenStack_Platform/2/html/Getting_Started_Guide/chap-Deploying_Volume_Services.html
+# http://docs.openstack.org/grizzly/openstack-compute/install/apt/content/cinder-install.html
+# http://openstack.redhat.com/forum/discussion/99/solved-error-creating-a-volume/p1
 
 #  TODO: volume groups should be created before this step'
 	########
