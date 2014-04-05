@@ -20,9 +20,10 @@ case "$response" in
 		echo "Issuing an : apt-get update : command"
 		apt-get update
 		echo "Issuing an : apt-get upgrade : command"
-		apt-get upgrade
+		apt-get -y upgrade
 		echo "Issuing an : apt-get dist-upgrade : command"
-		apt-get dist-upgrade
+		apt-get -y dist-upgrade
+		echo "__________"
 		echo "You should now reboot your Linux OS with the following command in a normal Android terminal if running with Debian Kit app"
 		echo "	deb u; deb u && deb k && echo \"Shutdown done...Restarting now...\" && deb"
 		echo "Then check that the update took without errors with the following commands inputed on your Linux terminal"
