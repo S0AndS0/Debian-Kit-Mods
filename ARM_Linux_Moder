@@ -17,6 +17,7 @@ SCP_nameScript=SCP_helper
 lds_nameScript=LilDebi_setUp.sh
 BorR_nameScript=ARM_LinuxBackup.sh
 OsI_nameScript=ARM_OpenStack_Installer.sh
+UpS_nameScript=upgradeSqueeze_toWheezy.sh
 echo "$LM_nameScript is running"
 echo "variables for user and home directories" 
  : ${USER?} ${HOME?} 
@@ -35,6 +36,7 @@ LM_downloadPath=$LM_ScriptDirectory/Download
 LM_runPath=$LM_ScriptDirectory/Install_Scripts
 LM_examplesPath=$LM_ScriptDirectory/Examples
 LM_independentPath=$LM_ScriptDirectory/Independent_Scripts
+LM_dangerPath=$LM_ScriptDirectory/Danger
 echo "$LM_nameScript will use the following file path for script componits"
 echo "$LM_componitPath"
 echo "$LM_independentPath"
@@ -88,6 +90,7 @@ echo "Input - lds - to run $lds_nameScript [untested]"
 echo "_________Experimental-or-Dangerious_________"
 echo "Input - BorR - to run $BorR_nameScript [untested]"
 echo "Input - Ostack - to run $OsI_nameScript [untested]"
+echo "Input - UpS - to run $UpS_nameScript [tested but be cairful]"
 echo "Choose and input a number or letter combo to continue"
 echo "or input no to abort $LM_nameScript"
 echo "__________________"
@@ -175,6 +178,12 @@ then
 then 
 		echo "this has yet to be fully tested"
 		sh $LM_runPath/$OsI_nameScript
+		echo "exiting now"
+		echo exit 
+	elif [ $response = UpS ] 
+then 
+		echo "this has yet to be fully tested"
+		sh $LM_dangerPath/$UpS_nameScript
 		echo "exiting now"
 		echo exit 
 	elif [ $response = 1 ] 
