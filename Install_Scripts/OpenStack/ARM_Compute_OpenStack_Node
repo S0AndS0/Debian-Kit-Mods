@@ -8,6 +8,7 @@ echo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
 osCN_fullScriptPath="$(readlink -f $0)"
 # deleat last componit from ThisScript and store to another variable
 osCN_ScriptDirectory="$(dirname $osCN_fullScriptPath)"
+osComponent_filePath=$osCN_ScriptDirectory/Components
 IP_inet_addr=`/sbin/ifconfig | grep -E 'inet addr' | grep -v '127.0.0.1' | awk '{gsub("addr:",""); print $2}'`
 IP_Bcast_addr=`/sbin/ifconfig | grep -E 'Bcast' | grep -v '127.0.0.1' | awk '{gsub("Bcast:",""); print $3}'`
 IP_Mask_addr=`/sbin/ifconfig | grep -E 'Mask' | grep -v '127.0.0.1' | awk '{gsub("Mask:",""); print $4}'`
@@ -48,23 +49,9 @@ part02_IP_Forwarding () {
 	sysctl net.ipv4.ip_forward=1
 } 
 part03_Networking () { 
-	echo "Perform the following under /etc/network/interfaces"
-	echo "__________"
-	echo "	# OpenStack management"
-	echo "	auto eth0"
-	echo "	iface eth0 inet static"
-	echo "	address 10.10.10.53"
-	echo "	netmask 255.255.255.0"
-	echo ""
-	echo "	# VM Configuration"
-	echo "	auto eth1"
-	echo "	iface eth1 inet static"
-	echo "	address 10.20.20.53"
-	echo "	netmask 255.255.255.0"
-	echo "__________"
-	echo "note you'll want to referance your notes on your controller node setup to fill in the following feelds:"
-	echo "	eth0 (and eth1 if you set then to other network interfaces) , address 10.10.10.53 (should match the IP you used on other nodes) "
-	vi /etc/network/interfaces
+	echo "Starting helper script to handle this..."
+	sh $osComponent_filePath/Network_Interfaces_Modder.sh
+	echo "Moving on to next part now..."
 } 
 part04_KVM () { 
 	echo "Installing libvirt-bin pm-utils"
