@@ -5,6 +5,9 @@ umask 022 		# Files that the script creates will have 755 permission.
 
 	add the following to android scripts to ensure that BusyBox is used too
 PATH=/bin:/usr/bin:/usr/local/xbin ; export PATH 
+# get external ip from : http://www.shellhacks.com/en/What-is-my-Public-IP-address
+wget -q -O - checkip.dyndns.org | sed -e 's/.*Current IP Address: //' -e 's/<.*$//'
+
 
 	for starting an app from the command line on Android
 http://stackoverflow.com/questions/5494764/how-to-run-a-specific-android-app-using-terminal
