@@ -162,10 +162,25 @@ part06_Keystone () {
 	echo "	Register keystone endpoints: No"
 	echo "___________"
 	apt-get install -y keystone
-	echo "Adapt the connection attribute in the /etc/keystone/keystone.conf to the new database"
-	echo "Opening : /etc/keystone/keystone.conf : so you may add the following line"
-	echo "	connection = mysql://keystoneUser:ui_keystonePass@$ui_managementIP/keystone"
-	vi /etc/keystone/keystone.conf
+	echo "Adapt the connection attribute in the /etc/keystone/keystone.conf to the new database as shown bellow"
+	echo "	connection = mysql://keystoneUser:$ui_keystonePass@$ui_managementIP/keystone"
+	{ 
+	read -r -p "Would you like to have the above file apended for you? [Y/n]" response
+	case "$response" in
+		[yY][eE][sS]|[yY])
+	 # if yes, then start risking changes
+			echo "Editing : /etc/keystone/keystone.conf : with : tee -a..."
+			echo -n "What value would you like to set for the above example : keystoneUser : "
+			read ui_keystoneUser
+			echo 'connection = mysql://$ui_keystoneUser:$ui_keystonePass@$ui_managementIP/keystone' | tee -a /etc/keystone/keystone.conf
+			;;
+		*)
+	 #		 Otherwise exit..
+		echo "Opening : /etc/keystone/keystone.conf : with : vi..."
+		vi /etc/keystone/keystone.conf 
+		;;
+	esac
+	} 
 	echo "Restarting the identity service then synchronize the database"
 	service keystone restart
 	keystone-manage db_sync
@@ -249,7 +264,25 @@ part07_glance () {
 	echo "	sql_connection = mysql://$ui_glanceUser:$ui_glancePass@$ui_managementIP/glance"
 	echo "	[paste_deploy]"
 	echo "	flavor = keystone"
-	vi /etc/glance/glance-api.conf"
+	{ 
+	read -r -p "Would you like to have the above file apended for you? [Y/n]" response
+	case "$response" in
+		[yY][eE][sS]|[yY])
+	 # if yes, then start risking changes
+			echo "Editing : /etc/glance/glance-api.conf : with : sed -i 's/paturn/inserted_text'"
+			echo -n "What value would you like to set for : paste_deploy? "
+			read ui_paste_deploy
+			sed -i 's@"sql_connection = mysql://*"@"sql_connection = mysql://$ui_glanceUser:$ui_glancePass\@$ui_managementIP/glance"' /etc/glance/glance-api.conf
+			echo '[$ui_paste_deploy]
+			flavor = keystone' | tee -a /etc/glance/glance-api.conf
+			;;
+		*)
+	 #		 Otherwise exit..
+		echo "Opening : /etc/glance/glance-api.conf : with : vi..."
+		vi /etc/glance/glance-api.conf 
+		;;
+	esac
+	} 
 	echo "___________"
 	echo "Updating the /etc/glance/glance-registry.conf"
 	echo "Please edit the : sql_connection : variable as shown bellow."
@@ -257,7 +290,25 @@ part07_glance () {
 	echo "	sql_connection = mysql://$ui_glanceUser:$ui_glancePass@$ui_managementIP/glance"
 	echo "	[paste_deploy]"
 	echo "	flavor = keystone"
-	vi /etc/glance/glance-registry.conf
+	{ 
+	read -r -p "Would you like to have the above file apended for you? [Y/n]" response
+	case "$response" in
+		[yY][eE][sS]|[yY])
+	 # if yes, then start risking changes
+			echo "Editing : /etc/glance/glance-registry.conf : with : sed -i 's/paturn/inserted_text'"
+			echo -n "What value would you like to set for : paste_deploy? "
+			read ui_paste_deploy
+			sed -i 's@"sql_connection = mysql://*"@"sql_connection = mysql://$ui_glanceUser:$ui_glancePass\@$ui_managementIP/glance"' /etc/glance/glance-registry.conf
+			echo '[$ui_paste_deploy]
+			flavor = keystone' | tee -a /etc/glance/glance-registry.conf
+			;;
+		*)
+	 #		 Otherwise exit..
+		echo "Opening : /etc/glance/glance-registry.conf : with : vi..."
+		vi /etc/glance/glance-registry.conf 
+		;;
+	esac
+	} 
 	echo "___________"
 	echo "Restarting the glance-api and glance-registry services"
 	service glance-api restart; service glance-registry restart
@@ -308,7 +359,32 @@ part08_neutron () {
 	echo "___________"
 	echo "use the following command to check your config"
 	echo "grep -v ^$ /etc/neutron/plugins/openvswitch/ovs_neutron_plugin.ini | grep -v ^#"
-	vi /etc/neutron/plugins/openvswitch/ovs_neutron_plugin.ini
+	{ 
+	read -r -p "Would you like to have the above file apended for you? [Y/n]" response
+	case "$response" in
+		[yY][eE][sS]|[yY])
+	 # if yes, then start risking changes
+			echo "Editing : /etc/neutron/plugins/openvswitch/ovs_neutron_plugin.ini : with : sed -i 's/paturn/inserted_text'"
+			echo -n "What value would you like to set for : tenant_network_type? "
+			read ui_tenant_network_type
+			echo -n "What value would you like to set for : tunnel_id_ranges : min? "
+			read ui_tunnel_id_ranges_min
+			echo -n "What value would you like to set for : tunnel_id_ranges : max? "
+			read ui_tunnel_id_ranges_max
+			sed -i 's@"sql_connection = mysql://*"@"sql_connection = mysql://$ui_glanceUser:$ui_glancePass\@$ui_managementIP/glance"' /etc/neutron/plugins/openvswitch/ovs_neutron_plugin.ini
+			sed -i 's@"tenant_network_type =*"@"tenant_network_type = $ui_tenant_network_type"' /etc/neutron/plugins/openvswitch/ovs_neutron_plugin.ini
+			sed -i 's@"tunnel_id_ranges =*"@"tunnel_id_ranges = $ui_tunnel_id_ranges_min:$ui_tunnel_id_ranges_max"' /etc/neutron/plugins/openvswitch/ovs_neutron_plugin.ini
+			sed -i 's@"enable_tunneling =*"@"enable_tunneling = True"' /etc/neutron/plugins/openvswitch/ovs_neutron_plugin.ini
+			sed -i 's@"local_ip =*"@"local_ip = $ui_managementIP"' /etc/neutron/plugins/openvswitch/ovs_neutron_plugin.ini
+			sed -i 's@"firewall_driver =*"@"firewall_driver = neutron.agent.linux.iptables_firewall.OVSHybridIptablesFirewallDriver"' /etc/neutron/plugins/openvswitch/ovs_neutron_plugin.ini
+			;;
+		*)
+	 #		 Otherwise exit..
+		echo "Opening : /etc/neutron/plugins/openvswitch/ovs_neutron_plugin.ini : with : vi..."
+		vi /etc/neutron/plugins/openvswitch/ovs_neutron_plugin.ini 
+		;;
+	esac
+	} 
 	echo "Displaying /etc/neutron/plugins/openvswitch/ovs_neutron_plugin.ini"
 	grep -v ^$ /etc/neutron/plugins/openvswitch/ovs_neutron_plugin.ini | grep -v ^#
 	echo "___________"
@@ -322,7 +398,11 @@ part08_neutron () {
 	echo "	admin_user = neutron"
 	echo "	admin_password = $ui_AdminPass"
 	echo "___________"
+	
+	
 	vi /etc/neutron/api-paste.ini
+	
+	
 	echo "___________"
 	echo "Update the /etc/neutron/neutron.conf with the following examples..."
 	echo "___________"
@@ -343,7 +423,11 @@ part08_neutron () {
 	echo "	[database]"
 	echo "	connection = mysql://$ui_neutronUser:$ui_neutronPass@$ui_managementIP/neutron"
 	echo "___________"
+	
+	
 	vi /etc/neutron/neutron.conf
+	
+	
 	echo "___________"
 	echo "Restarting the neutron server"
 	service neutron-server restart
@@ -384,7 +468,11 @@ part09_nova () {
 	echo "	# Workaround for https://bugs.launchpad.net/nova/+bug/1154809"
 	echo "	auth_version = v2.0"
 	echo "___________"
+	
+	
 	vi /etc/nova/api-paste.ini
+	
+	
 	echo "Now modify authtoken section in the /etc/nova/nova.conf file with the following examples..."
 	echo "	note your input for : neutron_metadata_proxy_shared_secret = helloOpenStack123 " this script will ask for it in a moment"
 	echo "___________"
@@ -441,7 +529,11 @@ part09_nova () {
 	echo "	#volume_api_class=nova.volume.cinder.API"
 	echo "	#osapi_volume_listen_port=5900"
 	echo "___________"
+	
+	
 	vi /etc/nova/nova.conf
+	
+	
 	echo -n "What is your neutron_metadata_proxy_shared_secret? "
 	read ui_neutron_metadata_proxy_shared_secret
 	echo "___________"
@@ -490,7 +582,11 @@ part10_cinder () {
 	echo "	admin_password = $ui_ServicePass"
 	echo "	signing_dir = /var/lib/cinder"
 	echo "___________"
+	
+	
 	vi /etc/cinder/api-paste.ini
+	
+	
 	echo "Edit the /etc/cinder/cinder.conf to as shown:"
 	echo "___________"
 	echo "	[DEFAULT]"
@@ -504,7 +600,11 @@ part10_cinder () {
 	echo "	auth_strategy = keystone"
 	echo "	iscsi_ip_address=$ui_managementIP"
 	echo "___________"
+	
+	
 	vi /etc/cinder/cinder.conf
+	
+	
 	echo "synchronizing your database"
 	cinder-manage db sync
 	########
