@@ -49,9 +49,23 @@ part02_IP_Forwarding () {
 	sysctl net.ipv4.ip_forward=1
 } 
 part03_Networking () { 
-	echo "Starting helper script to handle this..."
-	sh $osComponent_filePath/Network_Interfaces_Modder.sh
-	echo "Moving on to next part now..."
+	echo "Perform the following under /etc/network/interfaces"
+	echo "__________"
+	echo " # OpenStack management"
+	echo " auto eth0"
+	echo " iface eth0 inet static"
+	echo " address 10.10.10.53"
+	echo " netmask 255.255.255.0"
+	echo ""
+	echo " # VM Configuration"
+	echo " auto eth1"
+	echo " iface eth1 inet static"
+	echo " address 10.20.20.53"
+	echo " netmask 255.255.255.0"
+	echo "__________"
+	echo "note you'll want to referance your notes on your controller node setup to fill in the following feelds:"
+	echo " eth0 (and eth1 if you set then to other network interfaces) , address 10.10.10.53 (should match the IP you used on other nodes) "
+	vi /etc/network/interfaces
 } 
 part04_KVM () { 
 	echo "Installing libvirt-bin pm-utils"

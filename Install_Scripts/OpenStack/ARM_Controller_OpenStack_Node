@@ -9,6 +9,7 @@ echo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
 osCN_fullScriptPath="$(readlink -f $0)"
 # deleat last componit from ThisScript and store to another variable
 osCN_ScriptDirectory="$(dirname $osCN_fullScriptPath)"
+osComponent_filePath=$osCN_ScriptDirectory/Controller/Components
 IP_inet_addr=`/sbin/ifconfig | grep -E 'inet addr' | grep -v '127.0.0.1' | awk '{gsub("addr:",""); print $2}'`
 IP_Bcast_addr=`/sbin/ifconfig | grep -E 'Bcast' | grep -v '127.0.0.1' | awk '{gsub("Bcast:",""); print $3}'`
 IP_Mask_addr=`/sbin/ifconfig | grep -E 'Mask' | grep -v '127.0.0.1' | awk '{gsub("Mask:",""); print $4}'`
@@ -76,30 +77,9 @@ part00_readme () {
 } 
  
 part02_networking () { 
-	echo "Only one NIC should be reachable from the internet."
-	echo "This is where the customers will access the webinterface horizon.
-	echo "In the guide eth1 is used. But it could also be a bond interface (bond0) or a vlan (vla100) or both bond0.100."
-	echo "For my usage I'll be looking to wifi , bluetooth , and USB connection options."
-	echo "So edit /etc/network/interfaces with some help from the bellow example..."
-	echo "__________"
-	echo "Not public available (used for OpenStack management and iscsi)"
-	echo "__________"
-	echo "	auto eth0"
-	echo "	iface eth0 inet static"
-	echo "	address 10.10.10.51"
-	echo "	netmask 255.255.255.0"
-	echo "__________"
-	echo "For Exposing OpenStack API over the internet If you want to use your controller node as network node as well, you have to add an interface for your floating (public) ip addresses."
-	echo "	If your floating ip addresses are on the same subnet as your OpenStack API (Horizon), you could use this interface."
-	echo "__________"
-	echo "	auto eth1"
-	echo "	iface eth1 inet static"
-	echo "	address 192.168.100.51"
-	echo "	netmask 255.255.255.0"
-	echo "	gateway 192.168.100.1"
-	echo "	dns-nameservers 8.8.8.8"
-	echo "__________"
-	vi /etc/network/interfaces
+	echo "Starting helper script to handle this..."
+	sh $osComponent_filePath/Network_Interfaces_Modder.sh
+	echo "Moving on to next part now..."
 	echo "Restarting the networking service"
 	nohup sh -c "/etc/init.d/networking stop; sleep 2; /etc/init.d/networking start"
 } 
