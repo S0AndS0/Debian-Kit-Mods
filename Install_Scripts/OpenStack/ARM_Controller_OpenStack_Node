@@ -398,11 +398,32 @@ part08_neutron () {
 	echo "	admin_user = neutron"
 	echo "	admin_password = $ui_AdminPass"
 	echo "___________"
-	
-	
-	vi /etc/neutron/api-paste.ini
-	
-	
+	{ 
+	read -r -p "Would you like to have the above file apended for you? [Y/n]" response
+	case "$response" in
+		[yY][eE][sS]|[yY])
+	 # if yes, then start risking changes
+			echo "Editing : /etc/neutron/api-paste.ini : with : sed -i 's/paturn/inserted_text'"
+			echo -n "What value would you like to set for : admin_tenant_name? "
+			read ui_admin_tenant_name
+			echo -n "What value would you like to set for : admin_user? "
+			read ui_admin_user
+			echo '[filter:authtoken]
+			paste.filter_factory = keystoneclient.middleware.auth_token:filter_factory
+			auth_host = $ui_managementIP
+			auth_port = $ui_authPort
+			auth_protocol = http
+			admin_tenant_name = $ui_admin_tenant_name
+			admin_user = $ui_admin_user
+			admin_password = $ui_AdminPass' | tee -a /etc/neutron/api-paste.ini
+			;;
+		*)
+	 #		 Otherwise exit..
+		echo "Opening : /etc/neutron/api-paste.ini : with : vi..."
+		vi /etc/neutron/api-paste.ini
+		;;
+	esac
+	} 
 	echo "___________"
 	echo "Update the /etc/neutron/neutron.conf with the following examples..."
 	echo "___________"
@@ -415,19 +436,48 @@ part08_neutron () {
 	echo "	auth_host = $ui_managementIP"
 	echo "	auth_port = $ui_authPort"
 	echo "	auth_protocol = http"
-	echo "	admin_tenant_name = service"
-	echo "	admin_user = neutron"
+	echo "	admin_tenant_name = $ui_admin_tenant_name"
+	echo "	admin_user = $ui_admin_user"
 	echo "	admin_password = $ui_AdminPass"
 	echo "	signing_dir = /var/lib/neutron/keystone-signing"
 	echo ""
 	echo "	[database]"
 	echo "	connection = mysql://$ui_neutronUser:$ui_neutronPass@$ui_managementIP/neutron"
 	echo "___________"
-	
-	
-	vi /etc/neutron/neutron.conf
-	
-	
+	{ 
+	read -r -p "Would you like to have the above file apended for you? [Y/n]" response
+	case "$response" in
+		[yY][eE][sS]|[yY])
+	 # if yes, then start risking changes
+			echo "Editing : /etc/neutron/neutron.conf : with : sed -i 's/paturn/inserted_text'"
+			echo -n "What value would you like to set for : rabbit_host? "
+			read ui_rabbit_host
+			echo -n "What value would you like to set for : rabbit_password? "
+			read ui_rabbit_password
+			echo -n "What value would you like to set for : rabbit_userid? "
+			read ui_rabbit_userid
+#			[DEFAULT]
+			sed -i 's/"rabbit_host ="/"rabbit_host = $ui_rabbit_host"' /var/lib/neutron/keystone-signing
+			sed -i 's/"rabbit_password ="/"rabbit_password = $ui_rabbit_password"' /var/lib/neutron/keystone-signing
+			sed -i 's/"rabbit_userid ="/"rabbit_userid = $ui_rabbit_userid"' /var/lib/neutron/keystone-signing
+#			[keystone_authtoken]
+			sed -i 's/"auth_host ="/"auth_host = $ui_managementIP"' /var/lib/neutron/keystone-signing
+			sed -i 's/"auth_port ="/"auth_port = $ui_authPort"' /var/lib/neutron/keystone-signing
+			sed -i 's/"auth_protocol ="/"auth_protocol = http"' /var/lib/neutron/keystone-signing
+			sed -i 's/"admin_tenant_name ="/"admin_tenant_name = $ui_admin_tenant_name"' /var/lib/neutron/keystone-signing
+			sed -i 's/"admin_user ="/"admin_user = $ui_admin_user"' /var/lib/neutron/keystone-signing
+			sed -i 's/"admin_password ="/"admin_password = $ui_AdminPass"' /var/lib/neutron/keystone-signing
+			sed -i 's/"signing_dir ="/"signing_dir = /var/lib/neutron/keystone-signing"' /var/lib/neutron/keystone-signing
+#			[database]
+			sed -i 's/"connection ="/"	connection = mysql://$ui_neutronUser:$ui_neutronPass@$ui_managementIP/neutron"' /var/lib/neutron/keystone-signing
+			;;
+		*)
+	 #		 Otherwise exit..
+		echo "Opening : /etc/neutron/neutron.conf : with : vi..."
+		vi /etc/neutron/neutron.conf
+		;;
+	esac
+	} 
 	echo "___________"
 	echo "Restarting the neutron server"
 	service neutron-server restart
