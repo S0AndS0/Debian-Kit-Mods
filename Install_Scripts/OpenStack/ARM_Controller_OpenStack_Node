@@ -492,7 +492,7 @@ part09_nova () {
 	echo "___________"
 	echo "	Set up a database for Nova? no"
 	echo "	IP address of your RabbitMQ host: $ui_managementIP"
-	echo "	Username for connection to the RabbitMQ server: guest"
+	echo "	Username for connection to the RabbitMQ server: ui_rabbit_userid"
 	echo "	Password for connection to the RabbitMQ server: guest"
 	echo "	Authentication server hostname: $ui_managementIP"
 	echo "	Authentication server password: $ui_AdminPass"
@@ -518,11 +518,35 @@ part09_nova () {
 	echo "	# Workaround for https://bugs.launchpad.net/nova/+bug/1154809"
 	echo "	auth_version = v2.0"
 	echo "___________"
-	
-	
-	vi /etc/nova/api-paste.ini
-	
-	
+	{ 
+	read -r -p "Would you like to have the above file apended for you? [Y/n]" response
+	case "$response" in
+		[yY][eE][sS]|[yY])
+	 # if yes, then start risking changes
+			echo "Editing : /etc/nova/api-paste.ini : with : sed -i 's/paturn/inserted_text'"
+			echo -n "What value would you like to set for : admin_tenant_name? "
+			read ui_admin_tenant_nameNova
+			echo -n "What value would you like to set for : admin_user? "
+			read ui_admin_userNova
+#		[filter:authtoken]
+			sed -i 's/"paste.filter_factory ="/"paste.filter_factory = keystoneclient.middleware.auth_token:filter_factory"' /etc/nova/api-paste.ini
+			sed -i 's/"auth_host ="/"auth_host = $ui_managementIP"' /etc/nova/api-paste.ini
+			sed -i 's/"auth_port ="/"auth_port = $ui_authPort"' /etc/nova/api-paste.ini
+			sed -i 's/"auth_protocol ="/"auth_protocol = http"' /etc/nova/api-paste.ini
+			sed -i 's/"admin_tenant_name ="/"admin_tenant_name = $ui_admin_tenant_nameNova"' /etc/nova/api-paste.ini
+			sed -i 's/"admin_user ="/"admin_user = $ui_admin_userNova"' /etc/nova/api-paste.ini
+			sed -i 's/"admin_password ="/"admin_password = $ui_AdminPass"' /etc/nova/api-paste.ini
+			sed -i 's/"signing_dirname ="/"signing_dirname = /tmp/keystone-signing-nova"' /etc/nova/api-paste.ini
+#		Workaround for https://bugs.launchpad.net/nova/+bug/1154809
+			sed -i 's/"auth_version ="/"auth_version = v2.0"' /etc/nova/api-paste.ini
+			;;
+		*)
+	 #		 Otherwise exit..
+		echo "Opening : /etc/nova/api-paste.ini : with : vi..."
+		vi /etc/nova/api-paste.ini
+		;;
+	esac
+	} 
 	echo "Now modify authtoken section in the /etc/nova/nova.conf file with the following examples..."
 	echo "	note your input for : neutron_metadata_proxy_shared_secret = helloOpenStack123 " this script will ask for it in a moment"
 	echo "___________"
