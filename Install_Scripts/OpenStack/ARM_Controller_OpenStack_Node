@@ -405,16 +405,16 @@ part08_neutron () {
 	 # if yes, then start risking changes
 			echo "Editing : /etc/neutron/api-paste.ini : with : sed -i 's/paturn/inserted_text'"
 			echo -n "What value would you like to set for : admin_tenant_name? "
-			read ui_admin_tenant_name
+			read ui_admin_tenant_nameNeutron
 			echo -n "What value would you like to set for : admin_user? "
-			read ui_admin_user
+			read ui_admin_userNeutron
 			echo '[filter:authtoken]
 			paste.filter_factory = keystoneclient.middleware.auth_token:filter_factory
 			auth_host = $ui_managementIP
 			auth_port = $ui_authPort
 			auth_protocol = http
-			admin_tenant_name = $ui_admin_tenant_name
-			admin_user = $ui_admin_user
+			admin_tenant_name = $ui_admin_tenant_nameNeutron
+			admin_user = $ui_admin_userNeutron
 			admin_password = $ui_AdminPass' | tee -a /etc/neutron/api-paste.ini
 			;;
 		*)
@@ -467,9 +467,9 @@ part08_neutron () {
 			sed -i 's/"admin_tenant_name ="/"admin_tenant_name = $ui_admin_tenant_name"' /var/lib/neutron/keystone-signing
 			sed -i 's/"admin_user ="/"admin_user = $ui_admin_user"' /var/lib/neutron/keystone-signing
 			sed -i 's/"admin_password ="/"admin_password = $ui_AdminPass"' /var/lib/neutron/keystone-signing
-			sed -i 's/"signing_dir ="/"signing_dir = /var/lib/neutron/keystone-signing"' /var/lib/neutron/keystone-signing
+			sed -i 's@"signing_dir ="@"signing_dir = /var/lib/neutron/keystone-signing"' /var/lib/neutron/keystone-signing
 #			[database]
-			sed -i 's/"connection ="/"	connection = mysql://$ui_neutronUser:$ui_neutronPass@$ui_managementIP/neutron"' /var/lib/neutron/keystone-signing
+			sed -i 's@"connection ="@"	connection = mysql://$ui_neutronUser:$ui_neutronPass@$ui_managementIP/neutron"' /var/lib/neutron/keystone-signing
 			;;
 		*)
 	 #		 Otherwise exit..
@@ -605,9 +605,90 @@ part09_nova () {
 	echo "___________"
 	
 	
-	vi /etc/nova/nova.conf
-	
-	
+	{ 
+	read -r -p "Would you like to have the above file apended for you? [Y/n]" response
+	case "$response" in
+		[yY][eE][sS]|[yY])
+	 # if yes, then start risking changes
+			echo "Editing : /etc/nova/nova.conf : with : sed -i 's/paturn/inserted_text'"
+			echo -n "What IP value would you like to set for : novncproxy_base_url? "
+			read ui_novncproxy_base_url
+			echo -n "What port value would you like to set for : novncproxy_port and novncproxy_base_url? "
+			read ui_novncproxy_port
+			echo -n "What IP value would you like to set for : vncserver_listen? "
+			read ui_vncserver_listen
+			echo "Input - 1 - to run with neutron + Nova Security groups"
+			echo "or Input - 2 - to run with only Nova Security groups"
+			echo -n "Choose now - "
+			read ui_firewall_driver
+			echo -n "What value would you like to set for : neutron_metadata_proxy_shared_secret? "
+			read ui_neutron_metadata_proxy_shared_secret
+			echo -n "What value would you like to set for : #osapi_volume_listen_port? "
+			read ui_osapi_volume_listen_port
+			
+#			[DEFAULT]
+			sed -i 's@"logdir="@"logdir=/var/log/nova"' /etc/nova/nova.conf
+			sed -i 's@"state_path="@"state_path=/var/lib/nova"' /etc/nova/nova.conf
+			sed -i 's@"lock_path="@"lock_path=/run/lock/nova"' /etc/nova/nova.conf
+			sed -i 's@"verbose="@"verbose=True"' /etc/nova/nova.conf
+			sed -i 's@"api_paste_config="@"api_paste_config=/etc/nova/api-paste.ini"' /etc/nova/nova.conf
+			sed -i 's@"compute_scheduler_driver="@"compute_scheduler_driver=nova.scheduler.simple.SimpleScheduler"' /etc/nova/nova.conf
+			sed -i 's@"rabbit_host="@"rabbit_host=$ui_managementIP"' /etc/nova/nova.conf
+			sed -i 's@"nova_url="@"nova_url=http://$ui_managementIP:8774/v1.1/"' /etc/nova/nova.conf
+			sed -i 's@"sql_connection="@"sql_connection=mysql://$ui_novaUser:$ui_novaPass@$ui_managementIP/nova"' /etc/nova/nova.conf
+			sed -i 's@"root_helper="@"root_helper=sudo nova-rootwrap /etc/nova/rootwrap.conf"' /etc/nova/nova.conf
+			# Auth
+			sed -i 's@"auth_strategy="@"auth_strategy=keystone"' /etc/nova/nova.conf
+		# Imaging service
+			sed -i 's@"glance_api_servers="@"glance_api_servers=$ui_managementIP:9292"' /etc/nova/nova.conf
+			sed -i 's@"image_service="@"image_service=nova.image.glance.GlanceImageService"' /etc/nova/nova.conf
+		# Vnc configuration
+			sed -i 's@"novnc_enabled="@"novnc_enabled=true"' /etc/nova/nova.conf
+			sed -i 's@"novncproxy_base_url="@"http://$ui_novncproxy_base_url:$ui_novncproxy_port/vnc_auto.html"' /etc/nova/nova.conf
+			sed -i 's@"novncproxy_port="@"novncproxy_port=$ui_novncproxy_port"' /etc/nova/nova.conf
+			sed -i 's@"vncserver_proxyclient_address="@"vncserver_proxyclient_address=$ui_managementIP"' /etc/nova/nova.conf
+			sed -i 's@"vncserver_listen="@"vncserver_listen=$ui_vncserver_listen"' /etc/nova/nova.conf
+		# Network settings
+		sed -i 's@"paturn"@"inserted_text"' /etc/nova/nova.conf
+			sed -i 's@"network_api_class="@"network_api_class=nova.network.neutronv2.api.API"' /etc/nova/nova.conf
+			sed -i 's@"neutron_url="@"neutron_url=http://$ui_managementIP:9696"' /etc/nova/nova.conf
+			sed -i 's@"neutron_auth_strategy="@"neutron_auth_strategy=keystone"' /etc/nova/nova.conf
+			sed -i 's@"neutron_admin_tenant_name="@"neutron_admin_tenant_name=$ui_admin_tenant_nameNeutron"' /etc/nova/nova.conf
+			sed -i 's@"neutron_admin_username="@"neutron_admin_username=$ui_admin_userNeutron"' /etc/nova/nova.conf
+			sed -i 's@"neutron_admin_password="@"neutron_admin_password=$ui_ServicePass"' /etc/nova/nova.conf
+			sed -i 's@"neutron_admin_auth_url="@"neutron_admin_auth_url=http://$ui_managementIP:35357/v2.0"' /etc/nova/nova.conf
+			sed -i 's@"libvirt_vif_driver="@"libvirt_vif_driver=nova.virt.libvirt.vif.LibvirtHybridOVSBridgeDriver"' /etc/nova/nova.conf
+			sed -i 's@"linuxnet_interface_driver="@"linuxnet_interface_driver=nova.network.linux_net.LinuxOVSInterfaceDriver"' /etc/nova/nova.conf
+			if [ $ui_firewall_driver = 1 ]
+			then
+				sed -i 's@"firewall_driver="@"firewall_driver=nova.virt.firewall.NoopFirewallDriver"' /etc/nova/nova.conf
+				sed -i 's@"security_group_api="@"security_group_api=neutron"' /etc/nova/nova.conf
+			elif [ $ui_firewall_driver = 2 ]
+			then
+				sed -i 's@"firewall_driver="@"firewall_driver=nova.virt.libvirt.firewall.IptablesFirewallDriver"' /etc/nova/nova.conf
+			elif [ $ui_firewall_driver = * ]
+			then
+				sed -i 's@"firewall_driver="@"firewall_driver=nova.virt.firewall.NoopFirewallDriver"' /etc/nova/nova.conf
+				sed -i 's@"security_group_api="@"security_group_api=neutron"' /etc/nova/nova.conf
+			fi
+			#Metadata"
+			sed -i 's@"service_neutron_metadata_proxy ="@"service_neutron_metadata_proxy = True"' /etc/nova/nova.conf
+			sed -i 's@"neutron_metadata_proxy_shared_secret ="@"neutron_metadata_proxy_shared_secret = $ui_neutron_metadata_proxy_shared_secret"' /etc/nova/nova.conf
+			# Compute #
+			sed -i 's@"#compute_driver="@"#compute_driver=libvirt.LibvirtDriver"' /etc/nova/nova.conf
+			
+	sed -i 's@"paturn"@"inserted_text"' /etc/nova/nova.conf
+			# Cinder #
+			sed -i 's@"#volume_api_class="@"#volume_api_class=nova.volume.cinder.API"' /etc/nova/nova.conf
+			sed -i 's@"#osapi_volume_listen_port="@"#osapi_volume_listen_port=$ui_osapi_volume_listen_port"' /etc/nova/nova.conf
+			;;
+		*)
+	 #		 Otherwise exit..
+		echo "Opening : /etc/nova/nova.conf : with : vi..."
+		vi /etc/nova/nova.conf
+		;;
+	esac
+	} 
 	echo -n "What is your neutron_metadata_proxy_shared_secret? "
 	read ui_neutron_metadata_proxy_shared_secret
 	echo "___________"
