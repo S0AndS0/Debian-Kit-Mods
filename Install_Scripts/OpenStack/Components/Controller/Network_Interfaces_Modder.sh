@@ -127,19 +127,7 @@ then
 	read ui_IP_gatewayaddress
 	echo -n "Input the IP address to use for the dns-nameservers entry [8.8.8.8]? "
 	read ui_IP_dnsaddress
-	echo "____________________"
-	echo "Checking user inputs"
-	if [ $ui_networkType = e ]
-	then
-		networkType=eth0
-	elif [ $ui_networkType = w ]
-	then
-		networkType=wlan0
-	else [ $ui_networkType = * ]
-	echo "Invalid input recieved, exiting now..."
-	exit
-	fi
-	echo "____________________"
+	
 	if [ $ui_exposeYN = y ]
 	then
 		ui_writeExposed
