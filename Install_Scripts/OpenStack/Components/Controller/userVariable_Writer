@@ -1,0 +1,123 @@
+#!/bin/bash
+PATH=/bin:/usr/bin:/usr/local/bin ; export PATH 
+umask 022
+# Files that the script creates will have 755 permission.
+# Thanks to Ian D. Allen, for this tip.
+# variables auto
+# find the name of this script and store it to a variable
+osCN_fullScriptPath="$(readlink -f $0)"
+# deleat last componit from ThisScript and store to another variable
+osCN_ScriptDirectory="$(dirname $osCN_fullScriptPath)"
+# functions for script
+echo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
+
+
+ui_etc_network_interfaces () { 
+	echo -n "Are you connected via ethernet or wifi [e/w]? "
+	read ui_networkType
+	echo -n "Do you want to expose your OpenStack API over the internet [y/n]? "
+	read ui_exposeYN
+	echo -n "Input the IP address to use for the address entry [$IP_inet_addr]? "
+	read ui_IP_inetaddress
+	echo -n "Input the IP address to use for the mask entry [$IP_Mask_addr]? "
+	read ui_IP_maskaddress
+	echo -n "Input the IP address to use for the gateway entry [$trimRoute]? "
+	read ui_IP_gatewayaddress
+	echo -n "Input the IP address to use for the dns-nameservers entry [8.8.8.8]? "
+	read ui_IP_dnsaddress
+echo "____________________"
+	echo "Checking user inputs"
+	if [ $ui_networkType = e ]
+	then
+		networkType=eth0
+	elif [ $ui_networkType = w ]
+	then
+		networkType=wlan0
+	else [ $ui_networkType = * ]
+	echo "Invalid input recieved, exiting now..."
+	exit
+	fi
+
+echo "____________________"
+	echo "Writing variables to common file"
+	echo '#ui_etc_network_interfaces
+	ui_networkType=$ui_networkType
+	ui_exposeYN=$ui_exposeYN
+	ui_IP_inetaddress=$ui_IP_inetaddress
+	ui_IP_maskaddress=$ui_IP_maskaddress
+	ui_IP_gatewayaddress=$ui_IP_gatewayaddress
+	ui_IP_dnsaddress=$ui_IP_dnsaddress
+	networkType=$networkType' | tee -a osCN_ScriptDirectory/ShairedVariables.txt
+} 
+ui_MySQL_DataBase_Modder () { 
+echo "Prompting for Pass'es for latter use"
+	echo -n "What have you set for : keystonePass357? "
+	read ui_keystonePass
+	echo -n "What have you set for : glancePass357? "
+	read ui_glancePass
+	echo -n "What have you set for : neutronPass357? "
+	read ui_neutronPass
+	echo -n "What have you set for : novaPass357? "
+	read ui_novaPass
+	echo -n "What have you set for : cinderPass357? "
+	read ui_cinderPass
+	echo "Writing variables to common file"
+	echo '#ui_MySQL_DataBase_Modder
+	ui_keystonePass=$ui_keystonePass
+	ui_glancePass=$ui_glancePass
+	ui_neutronPass=$ui_neutronPass
+	ui_novaPass=$ui_novaPass
+	ui_cinderPass=$ui_cinderPass' | tee -a osCN_ScriptDirectory/ShairedVariables.txt
+
+}
+ui_etc_keystone_keystone () {
+	echo -n "What value would you like to set for the above example : keystoneUser : "
+	read ui_keystoneUser
+	echo '#ui_etc_keystone_keystone
+	ui_keystoneUser=$ui_keystoneUser' | tee -a osCN_ScriptDirectory/ShairedVariables.txt
+
+}
+ui_keystoneSH_modder () { 
+	echo -n "What is the Admin Password? "
+	read ui_AdminPass
+	echo -n "What is the Service Password? "
+	read ui_ServicePass
+	echo -n "What is your External IP? "
+	read ui_EXTip
+	echo -n "What is your user name that you set for MySQL? "
+	read ui_MySQLuser
+	echo '#ui_keystoneSH_modder
+	ui_AdminPass=$ui_AdminPass
+	ui_ServicePass=$ui_ServicePass
+	ui_EXTip=$ui_EXTip
+	ui_MySQLuser=$ui_MySQLuser' | tee -a osCN_ScriptDirectory/ShairedVariables.txt
+	
+}
+ui_keystone_bashrc_modder () {
+	echo -n "What is your admin user name? "
+	read ui_adminUser
+	echo '#ui_keystone_bashrc_modder
+	ui_adminUser=$ui_adminUser' | tee -a osCN_ScriptDirectory/ShairedVariables.txt
+	
+}
+ui_etc_glance_glance_api_paste () {
+	echo -n "What is the port you wish to use for OpenStack? "
+	read ui_authPort
+	echo '#ui_etc_glance_glance_api_paste
+	ui_authPort=$ui_authPort' | tee -a osCN_ScriptDirectory/ShairedVariables.txt
+}
+ui_etc_glance_glance_api () {
+	echo -n "What is the user name for glance? "
+	read ui_glanceUser
+	echo -n "What is your password for glance? "
+	read ui_glancePass
+	echo -n "What value would you like to set for : paste_deploy? "
+	read ui_paste_deploy
+	echo '#ui_etc_glance_glance_api
+	ui_glanceUser=$ui_glanceUser
+	ui_glancePass=$ui_glancePass
+	ui_paste_deploy=$ui_paste_deploy
+	' | tee -a osCN_ScriptDirectory/ShairedVariables.txt
+}
+
+
