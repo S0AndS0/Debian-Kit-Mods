@@ -6,9 +6,11 @@ umask 022
 # credits/sources/notes
 # pdf on the subject
 # http://www.researchgate.net/publication/228561385_A_linux_based_Bluetooth_scatternet_formation_kit_from_design_to_performance_results/file/72e7e524a723ff05c0.pdf
+# txt guide for devs
+# http://jbluez.sourceforge.net/1.0/docs/user_manual.txt
 # jbluez downdoad
 # http://sourceforge.net/projects/jbluez/files/latest/download
-http://downloads.sourceforge.net/project/jbluez/jbluez/JBluez%201.0/jbluez-1.0.tar.gz?r=&ts=1397024156&use_mirror=softlayer-dal
+# http://downloads.sourceforge.net/project/jbluez/jbluez/JBluez%201.0/jbluez-1.0.tar.gz?r=&ts=1397024156&use_mirror=softlayer-dal
 
 # package list
 # for bluez stack
@@ -23,6 +25,16 @@ http://downloads.sourceforge.net/project/jbluez/jbluez/JBluez%201.0/jbluez-1.0.t
 
 
 # functions
+
+CLASSPATH_expoter () { 
+# include the location of 'jbluez.jar' in your CLASSPATH environment variable
+#	export CLASSPATH=$CLASSPATH:/home/user/jbluez/bin/jbluez.jar
+# add /home/user/jbluez/bin/ to your LD_LIBRARY_PATH environment variable
+#	export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/home/user/jbluez/bin/
+
+	
+	
+} 
 
 # script start
 
