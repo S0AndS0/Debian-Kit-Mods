@@ -11,7 +11,7 @@ bcP_ScriptDirectory="$(dirname $bcP_fullScriptPath)"
 # web addresses
 sourceDownload=https://github.com/slush0/stratum-mining-proxy/tarball/master
 gitDownload=git://github.com/slush0/stratum-mining-proxy.git
-
+# set functions
 setDownload_Directory () { 
 	echo "Use - home - to download to : $HOME"
 	echo "Use - download - to download to : $HOME/Download"
@@ -70,7 +70,7 @@ downloadSource () {
 	tar xf slush0-stratum-mining_proxy*.tar.gz
 	cd $ui_Download_Directory/slush0-stratum-mining_proxy*
 	sudo python setup.py install
-#	./mining_proxy.py
+	./mining_proxy.py
 }
 downloadGit () { 
 	cd $ui_Download_Directory
@@ -78,7 +78,7 @@ downloadGit () {
 	cd $ui_Download_Directory/stratum-mining-proxy
 	python distribute_setup.py
 	python setup.py develop
-#	./mining_proxy.py
+	./mining_proxy.py
 } 
 aptDependancies () { 
 	$ui_aptgetSudo -y install python-dev libssl-dev
