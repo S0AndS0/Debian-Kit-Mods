@@ -18,6 +18,7 @@ lds_nameScript=LilDebi_setUp.sh
 BorR_nameScript=ARM_LinuxBackup.sh
 OsI_nameScript=ARM_OpenStack_Installer.sh
 UpS_nameScript=upgradeSqueeze_toWheezy.sh
+bcM_nameScript=ARM_bitcoin_Miner.sh
 echo "$LM_nameScript is running"
 echo "variables for user and home directories" 
  : ${USER?} ${HOME?} 
@@ -82,6 +83,8 @@ echo "Input - Br - to run $Br_nameScript [Option 2 works for Debian Kit app user
 echo "_________Tutorials_________"
 echo "Input - 1 - to run $fIP_nameScript that demonstraites scripting, networking, and remote file transfer among many other helpful tips"
 echo "Input - 2 - run $LM_nameScript mod instructions [unwritten]"
+echo "_________Cripto_Curancies_________"
+echo "Input - bcMiner - to run $bcM_nameScript [untested]"
 echo "_________Extras_________"
 echo "Input - KF - to run $KF_nameScript [untested]"
 echo "Input - RM - to run $RM_nameScript [tested - use with care]"
@@ -184,6 +187,12 @@ then
 then 
 		echo "this has yet to be fully tested"
 		sh $LM_dangerPath/$UpS_nameScript
+		echo "exiting now"
+		echo exit 
+	elif [ $response = bcMiner ] 
+then 
+		echo "Running : sh $LM_runPath/$JDK7hf_nameScript"
+		sh $LM_runPath/CriptoCurancies/bitcoin/$bcM_nameScript
 		echo "exiting now"
 		echo exit 
 	elif [ $response = 1 ] 
