@@ -7,7 +7,7 @@ bcM_nameScript=ARM_bitcoin_Miner.sh
 # find the name of this script and store it to a variable
 bcM_fullScriptPath="$(readlink -f $0)"
 # deleat last componit from ThisScript and store to another variable
-bcN_ScriptDirectory="$(dirname $bcN_fullScriptPath)"
+bcM_ScriptDirectory="$(dirname $bcM_fullScriptPath)"
 # web addresses
 mineAddress=pit.deepbit.net
 wgetUSB_True=http://darkgamex.ch/ufasoft/ufasoft_bitcoin-miner-0.32.tar.lzma
@@ -92,10 +92,16 @@ case "$response" in
 	;;
 esac
 } 
+aptMine_depenancies () { 
+	echo "Installing known dependancies with -yqq so it is quite..."
+	$ui_aptgetSudo -yqq install make autoconf automake
+	$ui_aptgetSudo -yqq install curl libjansson-dev libjansson4
+	$ui_aptgetSudo -yqq install gcc gawk
+	$ui_aptgetSudo -yqq install lzma libpcre3-dev
+} 
 mine_USB_True () { 
 	cd $ui_Download_Directory
 	wget $wgetUSB_True
-	$ui_aptgetSudo install -y --force-yes lzma libpcre3-dev 
 	tar --lzma -xvpf ufasoft_bitcoin-miner-0.32.tar.lzma 
 	cd ufasoft_bitcoin-miner-0.32 
 	./configure 
@@ -109,9 +115,8 @@ mine_USB_False () {
 	wget $wgetUSB_False
 	unzip master.zip
 	cd cpuminer-master
-	$ui_aptgetSudo install -y --force-yes curl libjansson-dev libjansson4 automake autoconf
-	./autogen.sh CFLAGS="-O3 -Wall -msse2"
-	./configure 
+	./autogen.sh 
+	CFLAGS="-O3 -Wall -msse2" ./configure 
 	make 
 	make install
 	./minerd --url http://$mineAddress:$ui_mineAddress_port --userpass $ui_mineAddress_username:$ui_mineAddress_password
@@ -141,6 +146,7 @@ promptTo_continue
 setUserAcount_settings
 promptToSet_aptgetSudo_Var
 setDownload_Directory
+aptMine_depenancies
 promptToSet_USBorCPU_Var
 if [ $ui_USBorCPU = USB_True ]
 then
