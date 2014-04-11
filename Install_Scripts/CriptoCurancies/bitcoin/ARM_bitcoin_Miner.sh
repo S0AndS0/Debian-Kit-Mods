@@ -59,18 +59,18 @@ case "$response" in
 	;;
 esac
 } 
-promptToSet_aptgetSudo_Var () { 
+ui_rootNOroot () { 
 read -r -p "Are you running as root right now? [Y/n]" response
 case "$response" in
 	[yY][eE][sS]|[yY])
  # if yes, use apt-get for installs
  		ui_aptgetSudo="apt-get"
- 		echo "$ui_aptgetSudo"
+ 		ui_conf="./"
 		;;
 	*)
  #		 Otherwise use sudo apt-get for installs..
 	ui_aptgetSudo="sudo apt-get"
-	echo "$ui_aptgetSudo"
+	ui_conf="sudo ./"
 	;;
 esac
 } 
@@ -101,7 +101,7 @@ mine_USB_True () {
 	wget $wgetUSB_True
 	tar --lzma -xvpf ufasoft_bitcoin-miner-0.32.tar.lzma 
 	cd ufasoft_bitcoin-miner-0.32 
-	./configure 
+	$ui_confconfigure 
 	make 
 	make install 
 	./bitcoin-miner -o http://$ui_mineAddress_username:$ui_mineAddress_password@$mineAddress:$ui_mineAddress_port
@@ -112,8 +112,8 @@ mine_USB_False () {
 	wget $wgetUSB_False
 	unzip master.zip
 	cd cpuminer-master
-	./autogen.sh 
-	CFLAGS="-O3 -Wall -msse2" ./configure 
+	$ui_confautogen.sh 
+	CFLAGS="-O3 -Wall -msse2" $ui_confconfigure 
 	make 
 	make install
 	./minerd --url http://$mineAddress:$ui_mineAddress_port --userpass $ui_mineAddress_username:$ui_mineAddress_password
@@ -147,7 +147,7 @@ readMe () {
 readMe
 promptTo_continue
 setUserAcount_settings
-promptToSet_aptgetSudo_Var
+ui_rootNOroot
 setDownload_Directory
 aptMine_depenancies
 promptToSet_USBorCPU_Var
