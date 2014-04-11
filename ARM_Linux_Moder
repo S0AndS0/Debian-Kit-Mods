@@ -19,6 +19,7 @@ BorR_nameScript=ARM_LinuxBackup.sh
 OsI_nameScript=ARM_OpenStack_Installer.sh
 UpS_nameScript=upgradeSqueeze_toWheezy.sh
 bcM_nameScript=ARM_bitcoin_Miner.sh
+bcP_nameScript=Stratum_mining_Proxy.sh
 echo "$LM_nameScript is running"
 echo "variables for user and home directories" 
  : ${USER?} ${HOME?} 
@@ -85,6 +86,7 @@ echo "Input - 1 - to run $fIP_nameScript that demonstraites scripting, networkin
 echo "Input - 2 - run $LM_nameScript mod instructions [unwritten]"
 echo "_________Cripto_Curancies_________"
 echo "Input - bcMiner - to run $bcM_nameScript [untested]"
+echo "Input - bcProxy - to run $bcP_nameScript [untested]"
 echo "_________Extras_________"
 echo "Input - KF - to run $KF_nameScript [untested]"
 echo "Input - RM - to run $RM_nameScript [tested - use with care]"
@@ -193,6 +195,12 @@ then
 then 
 		echo "Running : sh $LM_runPath/$JDK7hf_nameScript"
 		sh $LM_runPath/CriptoCurancies/bitcoin/$bcM_nameScript
+		echo "exiting now"
+		echo exit 
+	elif [ $response = bcProxy ] 
+then 
+		echo "Running : sh $LM_runPath/$JDK7hf_nameScript"
+		sh $LM_runPath/CriptoCurancies/$bcP_nameScript
 		echo "exiting now"
 		echo exit 
 	elif [ $response = 1 ] 
