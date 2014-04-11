@@ -21,9 +21,6 @@ setUserAcount_settings () {
 	read ui_mineAddress_password
 	echo -n "Input your $mineAddress port [default was 8332] : "
 	read ui_mineAddress_port
-	echo "$ui_mineAddress_username"
-	echo "$ui_mineAddress_password"
-	echo "$ui_mineAddress_port"
 } 
 setDownload_Directory () { 
 	echo "Use - home - to download to : $HOME"
@@ -42,7 +39,7 @@ setDownload_Directory () {
 		echo "$ui_Download_Directory"
 	elif [ $ui_setDownload_Directory = here ]
 	then 
-		ui_Download_Directory=$bcN_ScriptDirectory
+		ui_Download_Directory=$bcM_ScriptDirectory
 		echo "$ui_Download_Directory"
 	else [ $ui_setDownload_Directory = * ]
 		echo "Invalid input recived, exiting now..."
@@ -139,6 +136,12 @@ readMe () {
 	echo "https://github.com/ckolivas/cgminer"
 	echo "The writer of this script will not be held responsable for your actions or results of your actions."
 	echo "You are about to endanger your hardware and or network."
+	echo "Curently there are no safeties in this script to keep your system from over heating."
+	echo "You must monitor your own hardware and network security."
+	echo "You have been warned..."
+	echo "____________"
+	echo "Curently this script is set up to use $mineAddress for task alocation but will one day include others I'm sure."
+	echo "Your username, password and other user set variables are not saved by this script but instead used to populate commands used to make connections."
 } 
 # script start
 readMe
