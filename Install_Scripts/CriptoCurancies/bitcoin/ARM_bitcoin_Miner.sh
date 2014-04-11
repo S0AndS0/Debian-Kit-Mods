@@ -12,6 +12,7 @@ bcN_ScriptDirectory="$(dirname $bcN_fullScriptPath)"
 mineAddress=pit.deepbit.net
 wgetUSB_True=http://darkgamex.ch/ufasoft/ufasoft_bitcoin-miner-0.32.tar.lzma
 wgetUSB_False=https://github.com/jgarzik/cpuminer/archive/master.zip
+download_Alternet=https://github.com/ckolivas/cgminer
 # functions
 setUserAcount_settings () { 
 	echo -n "Input your $mineAddress username : "
@@ -116,11 +117,21 @@ mine_USB_False () {
 	./minerd --url http://$mineAddress:$ui_mineAddress_port --userpass $ui_mineAddress_username:$ui_mineAddress_password
 	cd ~
 } 
+mine_alternet_cgminer () { 
+	$ui_aptgetSudo install build-essential autoconf automake libtool pkg-config libcurl3-dev libudev-dev
+	cd $ui_Download_Directory
+	git clone $download_Alternet
+	./autogen.sh
+	CFLAGS="-O2 -Wall -march=native" ./configure
+	make
+	cgminer --help
+}
 readMe () { 
 	echo "This scipt was made posible thanks to the following links:"
 	echo "http://petesblog.net/blog/bitcoin-mining-on-raspberry-pi"
 	echo "http://darkgamex.ch/ufasoft/ufasoft_bitcoin-miner-0.32.tar.lzma"
 	echo "https://github.com/jgarzik/cpuminer/archive/master.zip"
+	echo "https://github.com/ckolivas/cgminer"
 	echo "The writer of this script will not be held responsable for your actions or results of your actions."
 	echo "You are about to endanger your hardware and or network."
 } 
@@ -141,6 +152,9 @@ else [ $ui_USBorCPU = * ]
 	echo "Invalid input recived for \$ui_USBorCPU... Exiting now"
 	exit
 fi
+echo "You should be ready to rock and role now. However I've provided one more option."
+promptTo_continue
+mine_alternet_cgminer
 echo "End of script, exiting now..."
 exit
 # script end
