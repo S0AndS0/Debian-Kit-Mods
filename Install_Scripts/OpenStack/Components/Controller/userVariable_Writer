@@ -8,6 +8,9 @@ umask 022
 osCN_fullScriptPath="$(readlink -f $0)"
 # deleat last componit from ThisScript and store to another variable
 osCN_ScriptDirectory="$(dirname $osCN_fullScriptPath)"
+# read variables from ShairedVariables.sh
+source $osComponent_filePath/Components/Controller/ShairedVariables.sh
+
 # functions for script
 echo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
 
@@ -47,7 +50,7 @@ echo "____________________"
 	ui_IP_maskaddress=$ui_IP_maskaddress
 	ui_IP_gatewayaddress=$ui_IP_gatewayaddress
 	ui_IP_dnsaddress=$ui_IP_dnsaddress
-	networkType=$networkType' | tee -a osCN_ScriptDirectory/ShairedVariables.txt
+	networkType=$networkType' | tee -a osCN_ScriptDirectory/ShairedVariables.sh
 } 
 ui_MySQL_DataBase_Modder () { 
 echo "Prompting for Pass'es for latter use"
@@ -67,14 +70,14 @@ echo "Prompting for Pass'es for latter use"
 	ui_glancePass=$ui_glancePass
 	ui_neutronPass=$ui_neutronPass
 	ui_novaPass=$ui_novaPass
-	ui_cinderPass=$ui_cinderPass' | tee -a osCN_ScriptDirectory/ShairedVariables.txt
+	ui_cinderPass=$ui_cinderPass' | tee -a osCN_ScriptDirectory/ShairedVariables.sh
 
 }
 ui_etc_keystone_keystone () {
 	echo -n "What value would you like to set for the above example : keystoneUser : "
 	read ui_keystoneUser
 	echo '#ui_etc_keystone_keystone
-	ui_keystoneUser=$ui_keystoneUser' | tee -a osCN_ScriptDirectory/ShairedVariables.txt
+	ui_keystoneUser=$ui_keystoneUser' | tee -a osCN_ScriptDirectory/ShairedVariables.sh
 
 }
 ui_keystoneSH_modder () { 
@@ -90,21 +93,21 @@ ui_keystoneSH_modder () {
 	ui_AdminPass=$ui_AdminPass
 	ui_ServicePass=$ui_ServicePass
 	ui_EXTip=$ui_EXTip
-	ui_MySQLuser=$ui_MySQLuser' | tee -a osCN_ScriptDirectory/ShairedVariables.txt
+	ui_MySQLuser=$ui_MySQLuser' | tee -a osCN_ScriptDirectory/ShairedVariables.sh
 	
 }
 ui_keystone_bashrc_modder () {
 	echo -n "What is your admin user name? "
 	read ui_adminUser
 	echo '#ui_keystone_bashrc_modder
-	ui_adminUser=$ui_adminUser' | tee -a osCN_ScriptDirectory/ShairedVariables.txt
+	ui_adminUser=$ui_adminUser' | tee -a osCN_ScriptDirectory/ShairedVariables.sh
 	
 }
 ui_etc_glance_glance_api_paste () {
 	echo -n "What is the port you wish to use for OpenStack? "
 	read ui_authPort
 	echo '#ui_etc_glance_glance_api_paste
-	ui_authPort=$ui_authPort' | tee -a osCN_ScriptDirectory/ShairedVariables.txt
+	ui_authPort=$ui_authPort' | tee -a osCN_ScriptDirectory/ShairedVariables.sh
 }
 ui_etc_glance_glance_api () {
 	echo -n "What is the user name for glance? "
@@ -117,7 +120,7 @@ ui_etc_glance_glance_api () {
 	ui_glanceUser=$ui_glanceUser
 	ui_glancePass=$ui_glancePass
 	ui_paste_deploy=$ui_paste_deploy
-	' | tee -a osCN_ScriptDirectory/ShairedVariables.txt
+	' | tee -a osCN_ScriptDirectory/ShairedVariables.sh
 }
 
 
