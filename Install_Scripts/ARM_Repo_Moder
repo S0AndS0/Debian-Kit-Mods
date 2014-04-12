@@ -40,7 +40,7 @@ echo "Writing a script named Key_Fixer.sh"
 echo "to $RM_CopnitPath/Key_Fixer.sh"
 sudo cat > $RM_CopnitPath/Key_Fixer.sh <<EOF 
 # from Crunchbang
-sudo apt-get update 2> /tmp/keymissing; for key in \$(grep "NO_PUBKEY" /tmp/keymissing |sed "s/.*NO_PUBKEY //"); do echo -e "nProcessing key: \$key"; gpg --keyserver keys.gnupgp.net --recv \$key && gpg --export --armor \$key | sudo apt-key add -; done
+sudo apt-get update 2> /tmp/keymissing; for key in \$(grep "NO_PUBKEY" /tmp/keymissing |sed "s/.*NO_PUBKEY //"); do echo -e "nProcessing key: \$key"; gpg --keyserver keys.gnupg.net --recv \$key && gpg --export --armor \$key | sudo apt-key add -; done
 EOF
 echo "_____________________"
 echo "Writing a script named source_list_Modder"
