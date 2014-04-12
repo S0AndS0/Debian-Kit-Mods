@@ -1,0 +1,71 @@
+#!/bin/bash
+PATH=/bin:/usr/bin:/usr/local/bin ; export PATH 
+# variables
+ccJI_nameScript=ARM_Jasson_Installer
+# auto variables
+ : ${USER?} ${HOME?} 
+# find the name of this script and store it to a variable
+ccJI_fullScriptPath="$(readlink -f $0)"
+# deleat last componit from ThisScript and store to another variable
+ccJI_ScriptDirectory="$(dirname $ccJI_fullScriptPath)"
+# functions
+readme () { 
+	echo "This script is ment to solve dependancies for cpuminer"
+	echo "Thanks should be given to the following link for install and directions"
+	echo "https://github.com/akheron/jansson/blob/master/README.rst"
+} 
+promptTo_continue () { 
+read -r -p "Are you sure? [Y/n]" response
+case "$response" in
+	[yY][eE][sS]|[yY])
+ # if yes, then start risking changes
+		;;
+	*)
+ #		 Otherwise exit..
+	echo "Try again? exiting.."
+	exit 
+	;;
+esac
+} 
+setDownload_Directory () { 
+	echo "Use - home - to download to : $HOME"
+	echo "Use - download - to download to : $HOME/Download"
+	echo "Use - here - to download to : $ccJI_ScriptDirectory"
+	echo -n "Input the directory you wish to use: "
+	read ui_setDownload_Directory
+	if [ $ui_setDownload_Directory = home ]
+	then
+		ui_Download_Directory=$HOME
+		echo "$ui_Download_Directory"
+	elif [ $ui_setDownload_Directory = download ]
+	then 
+		mkdir -p $HOME/Download
+		ui_Download_Directory=$HOME/Download
+		echo "$ui_Download_Directory"
+	elif [ $ui_setDownload_Directory = here ]
+	then 
+		ui_Download_Directory=$ccJI_ScriptDirectory
+		echo "$ui_Download_Directory"
+	else [ $ui_setDownload_Directory = * ]
+		echo "Invalid input recived, exiting now..."
+		exit
+	fi
+} 
+gitJason_andInstall () { 
+	cd $ui_Download_Directory
+	git clone https://github.com/akheron/jansson
+	cd $ui_Download_Directory/jansson
+	autoreconf -i
+	./configure
+	make
+	make install
+	cd ~
+} 
+# script start
+readme
+promptTo_continue
+setDownload_Directory
+gitJason_andInstall
+echo "End of script, exiting now..."
+exit
+# end of script
