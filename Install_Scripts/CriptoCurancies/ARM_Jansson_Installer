@@ -1,7 +1,7 @@
 #!/bin/bash
 PATH=/bin:/usr/bin:/usr/local/bin ; export PATH 
 # variables
-ccJI_nameScript=ARM_Jasson_Installer
+ccJI_nameScript=ARM_Jansson_Installer
 # auto variables
  : ${USER?} ${HOME?} 
 # find the name of this script and store it to a variable
