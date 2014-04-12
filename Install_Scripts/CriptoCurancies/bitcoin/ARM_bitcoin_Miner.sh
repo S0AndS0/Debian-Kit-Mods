@@ -90,11 +90,12 @@ case "$response" in
 esac
 } 
 aptMine_depenancies () { 
-	echo "Installing known dependancies with -yqq so it is quite..."
-	$ui_aptgetSudo -yqq install make autoconf automake
-	$ui_aptgetSudo -yqq install curl libjansson-dev libjansson4
-	$ui_aptgetSudo -yqq install gcc gawk
-	$ui_aptgetSudo -yqq install lzma libpcre3-dev
+	echo "Installing known dependancies with -yq so it is quite...this may take sometime..."
+	$ui_aptgetSudo -yq install make autoconf automake
+	$ui_aptgetSudo -yq install curl libjansson-dev libjansson4
+	$ui_aptgetSudo -yq install gcc gawk
+	$ui_aptgetSudo -yq install lzma libpcre3-dev
+	$ui_aptgetSudo -yq install libcurl3
 } 
 mine_USB_True () { 
 	cd $ui_Download_Directory
