@@ -146,10 +146,8 @@ mine_alternet_bfgminer () {
 } 
 repoModder () { 
 	echo "Adding wheezy and sid repo so we can grab some packages not normally available"
-	echo 'deb http://ftp.debian.org/debian/ wheezy main contrib non-free
-	deb-src http://ftp.debian.org/debian/ wheezy main contrib non-free
-	deb http://ftp.debian.org/debian/ sid main contrib non-free
-	deb-src http://ftp.debian.org/debian/ sid main contrib non-free' | $ui_teeFile etc/apt/sources.list.d/sid.list
+	echo 'http://ftp.us.debian.org/debian wheezy main contrib non-free
+	http://ftp.us.debian.org/debian sid main contrib non-free' | $ui_teeFile etc/apt/sources.list.d/sid.list
 	$ui_aptgetSudo update
 } 
 repoUnModder () { 
