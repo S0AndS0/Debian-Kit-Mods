@@ -15,7 +15,35 @@ fUSB=`dmesg | grep -E 'usb' | grep -v 'off'`
 
 # web addresses
 # http://forums.debian.net/viewtopic.php?f=10&t=104774
+# http://android.stackexchange.com/questions/11546/android-chroot-ubuntu-is-it-possible-to-get-ubuntu-to-recognise-usb-devices
+# http://www.mysolutions.it/mounting-android-sd-card-ubuntu/
+# functions
+readOut_USBInfo () { 
+	echo "_______________________"
+	echo "Reading out USB info from the : blkid : command and displaying UUIDs..."
+	$fUUIDs
+	echo "_______________________" && sleep 5
+	echo "Reading out USB info from the : dmesg : command and displaying only USB info..."
+	$fUSB
+	echo "_______________________" && sleep 5
+	echo "Reading out battery temp from the : dmesg : command and displaying only temprature info..."
+	$fUSB
+} 
+ui_variablePrompts () { 
+	echo -n "What UUID do you wish to mount? : "
+	read ui_UUID
+	
+} 
 
 
+echo "End of script, exiting now..."
+exit
+# examples
+
+## add the following to : /etc/udev/rules.d/51-android.rules : with modifications
+# SUBSYSTEM=="usb", SYSFS{idVendor}=="<your vendor's four character id>", MODE="0666"
+## then fix permissions and restart service
+# chmod a+rx /etc/udev/rules.d/51-android.rules
+# restart udev
 
 
