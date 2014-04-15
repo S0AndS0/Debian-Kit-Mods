@@ -1,0 +1,21 @@
+#!/bin/bash
+PATH=/bin:/usr/bin:/usr/local/bin ; export PATH 
+umask 022
+OTG_nameScript=ARM_USB_OTG
+# auto variables
+ : ${USER?} ${HOME?} 
+# find the name of this script and store it to a variable
+OTG_fullScriptPath="$(readlink -f $0)"
+# deleat last componit from ThisScript and store to another variable
+OTG_ScriptDirectory="$(dirname $OTG_fullScriptPath)"
+
+fUUIDs=`blkid | grep -E 'UUID' | awk '{gsub("UUID=\"","");print $2}' | sed 's/.$//'`
+fBatteryTemp=`dmesg | grep -E 'BATT' | awk '{gsub("Temp:"","");print $10}'`
+fUSB=`dmesg | grep -E 'usb' | grep -v 'off'`
+
+# web addresses
+# http://forums.debian.net/viewtopic.php?f=10&t=104774
+
+
+
+
