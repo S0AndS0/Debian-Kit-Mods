@@ -12,7 +12,8 @@ bcM_ScriptDirectory="$(dirname $bcM_fullScriptPath)"
 mineAddress=pit.deepbit.net
 wgetUSB_True=http://darkgamex.ch/ufasoft/ufasoft_bitcoin-miner-0.32.tar.lzma
 wgetUSB_False=https://github.com/jgarzik/cpuminer/archive/master.zip
-download_Alternet=https://github.com/ckolivas/cgminer
+download_Alternet1=https://github.com/ckolivas/cgminer
+download_Alternet2=https://github.com/nwoolls/bfgminer/
 # functions
 setUserAcount_settings () { 
 	echo -n "Input your $mineAddress username : "
@@ -66,36 +67,42 @@ case "$response" in
  # if yes, use apt-get for installs
  		ui_aptgetSudo="apt-get"
  		ui_conf="./"
+ 		ui_teeFile="tee -a"
 		;;
 	*)
  #		 Otherwise use sudo apt-get for installs..
 	ui_aptgetSudo="sudo apt-get"
 	ui_conf="sudo ./"
+	ui_teeFile="sudo tee -a"
 	;;
 esac
 } 
-promptToSet_USBorCPU_Var () { 
-read -r -p "Will you be using a USB powered coin miner? [Y/n]" response
-case "$response" in
-	[yY][eE][sS]|[yY])
- # if yes, then start risking changes
- 		ui_USBorCPU=USB_True
- 		echo "$ui_USBorCPU"
-		;;
-	*)
- #		 Otherwise exit..
-	ui_USBorCPU=USB_False
-	echo "$ui_USBorCPU"
-	;;
-esac
+promptToSet_minerInstall () { 
+	echo "Please choose one of the following to install to your device"
+	echo "Input - 1 - to download and install the following with USB support : $wgetUSB_True"
+	echo "Input - 2 - to download and install the following without USB support : $wgetUSB_False"
+	echo "Input - 3 - to download and install : $download_Alternet1"
+	echo "Input - 4 - to download and install : $download_Alternet2"
+	echo -n "Choose now : "
+	read ui_minerToDownload
 } 
 aptMine_depenancies () { 
+<<<<<<< HEAD
+	echo "Installing known dependancies with -yqq so it is quite..."
+	$ui_aptgetSudo -yqq install make autoconf automake
+	$ui_aptgetSudo -yqq install curl libjansson-dev libjansson4
+	$ui_aptgetSudo -yqq install gcc gawk
+	$ui_aptgetSudo -yqq install lzma libpcre3-dev
+	$ui_aptgetSudo -yqq install build-essential autoconf automake libtool pkg-config libcurl3-dev libudev-dev
+	$ui_aptgetSudo -yqq install build-essential libcurl4-gnutls-dev libjansson-dev uthash-dev libncursesw5-dev libudev-dev libusb-1.0-0-dev libevent-dev libmicrohttpd-dev hidapi
+=======
 	echo "Installing known dependancies with -yq so it is quite...this may take sometime..."
 	$ui_aptgetSudo -yq install make autoconf automake
 	$ui_aptgetSudo -yq install curl libjansson-dev libjansson4
 	$ui_aptgetSudo -yq install gcc gawk
 	$ui_aptgetSudo -yq install lzma libpcre3-dev
 	$ui_aptgetSudo -yq install libcurl3
+>>>>>>> branch 'master' of https://github.com/S0AndS0/Debian-Kit-Mods.git
 } 
 mine_USB_True () { 
 	cd $ui_Download_Directory
@@ -121,20 +128,42 @@ mine_USB_False () {
 	cd ~
 } 
 mine_alternet_cgminer () { 
-	$ui_aptgetSudo install build-essential autoconf automake libtool pkg-config libcurl3-dev libudev-dev
 	cd $ui_Download_Directory
-	git clone $download_Alternet
+	git clone $download_Alternet1
 	./autogen.sh
 	CFLAGS="-O2 -Wall -march=native" ./configure
 	make
 	cgminer --help
+	cd ~
 }
+mine_alternet_bfgminer () { 
+	cd $ui_Download_Directory
+	git clone $download_Alternet2
+	./autogen.sh
+	./configure --enable-cpumining
+	make
+	cd ~
+} 
+repoModder () { 
+	echo "Adding wheezy and sid repo so we can grab some packages not normally available"
+	echo 'deb http://ftp.debian.org/debian/ wheezy main contrib non-free
+	deb-src http://ftp.debian.org/debian/ wheezy main contrib non-free
+	deb http://ftp.debian.org/debian/ sid main contrib non-free
+	deb-src http://ftp.debian.org/debian/ sid main contrib non-free' | $ui_teeFile etc/apt/sources.list.d/sid.list
+	$ui_aptgetSudo update
+} 
+repoUnModder () { 
+	echo "Removing etc/apt/sources.list.d/sid.list now..."
+	rm -I etc/apt/sources.list.d/sid.list
+	$ui_aptgetSudo update
+} 
 readMe () { 
 	echo "This scipt was made posible thanks to the following links:"
 	echo "http://petesblog.net/blog/bitcoin-mining-on-raspberry-pi"
 	echo "http://darkgamex.ch/ufasoft/ufasoft_bitcoin-miner-0.32.tar.lzma"
 	echo "https://github.com/jgarzik/cpuminer/archive/master.zip"
 	echo "https://github.com/ckolivas/cgminer"
+	echo "http://www.raspberrypi.org/forums/viewtopic.php?f=30&t=44225"
 	echo "The writer of this script will not be held responsable for your actions or results of your actions."
 	echo "You are about to endanger your hardware and or network."
 	echo "Curently there are no safeties in this script to keep your system from over heating."
@@ -150,21 +179,26 @@ promptTo_continue
 setUserAcount_settings
 ui_rootNOroot
 setDownload_Directory
+repoModder
 aptMine_depenancies
-promptToSet_USBorCPU_Var
-if [ $ui_USBorCPU = USB_True ]
+promptToSet_minerInstall
+if [ $ui_minerToDownload = 1 ]
 then
 	mine_USB_True
-elif [ $ui_USBorCPU = USB_False ]
+elif [ $ui_minerToDownload = 2 ]
 then
 	mine_USB_False
-else [ $ui_USBorCPU = * ]
-	echo "Invalid input recived for \$ui_USBorCPU... Exiting now"
+elif [ $ui_minerToDownload = 3 ]
+then
+	mine_alternet_cgminer
+elif [ $ui_minerToDownload = 4 ]
+then
+	mine_alternet_bfgminer
+else [ $ui_minerToDownload = * ]
+	echo "Invalid input recived for \$ui_minerToDownload... Exiting now"
 	exit
 fi
-echo "You should be ready to rock and role now. However I've provided one more option."
-promptTo_continue
-mine_alternet_cgminer
+repoUnModder
 echo "End of script, exiting now..."
 exit
 # script end
