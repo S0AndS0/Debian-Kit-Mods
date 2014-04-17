@@ -1,0 +1,242 @@
+USB conectivity options for Android:
+~~~~ Intro to subject ~~~~
+The subject of connecting other devices to Android's USB port is one that comes up often on suport sites.
+But the subject of then connecting USB devices to Linux running ontop of Android is one that, though it does come up, not nearly as often.
+Thus there is much less documentation on how to set these connections up properly. Thankfully there is some documentation so I've compiled what I believe to be the best examples and added my own notes too.
+What follows is a compelation of the bellow sources that have been appened for quicker refferance and hopefully better understanding for those new to this subject.
+Anything that has a large "block" of piriods "....." shows where I choped out info, use a multy tabbed browser to follow along without getting lost.
+Some of the methods discussed require modifing your Linux boot scripts but for those uncomfortable with that, I've also dug up another method that looks to be "universal" and does not require modifing source/boot scripts at all.
+Compileling, finding, and learning how to understand the "styles" of coding/scripting that is used in these examples took a great deal of time and effort; if this has made your life easier and ya wana say thanks, then hit me up on XDA (S0AndS0) or Google+ (Michael NA) and say so or request new fetures/guides or hit the donate button.
+To find where my device was mounting UBS devices for Android; I opened up a root file browser app (ROM Toolbox Pro) and visually checked around for directories that became "populated" when I plugged in something to my Android device, these files would then disopear when I unpluged the USB. So do the same to find where your device is auto-mounting the USB and make changes to the exapmles provided.
+So let's get on with the show; open the sorce links when I make refferance to them and use the "find in page" option (PC users "cntr+f") to jump to the sctions being shown. This should be a few hours of reading but when done you'll likely feel much more confedant in connecting things to your dule-booted Android.
+~~~~~~~~
+
+~~~~ sources ~~~~
+1. guide to usb antena on android with linux
+http://blog.spiderlabs.com/2012/12/proxmark-3-now-with-100-more-android.html
+2. source code for usb debuging android to android
+https://github.com/kosborn/p2p-adb/
+3. source code for full version of Linux4Android app
+http://sourceforge.net/p/linuxonandroid/codegit/ci/master/tree/
+4. source code for debian kit app
+http://sourceforge.net/p/debian-kit/code/ci/master/tree/
+5. mounting USB from Debian command line (PC)
+http://forums.debian.net/viewtopic.php?f=10&t=104774
+6. quick and easy answer with warnings
+http://android.stackexchange.com/questions/11546/android-chroot-ubuntu-is-it-possible-to-get-ubuntu-to-recognise-usb-devices
+7. another example of setting mount points but from a Linux PC users point of view.
+http://www.mysolutions.it/mounting-android-sd-card-ubuntu/
+~~~~~~~~
+
+~~~~ what I've learned ~~~~
+From link 1 it seems as though if you have a chroot or debian kit instance of Linux running and a USB OTG adapter with USB 'Y' power/data cable; then setting a few mount points from Android's terminal should do the trick.
+~~~~quote L1 step 6~~~~
+# Josh Mounts
+$bbox mount -o bind /dev $mnt/dev
+$bbox mount -o bind /sys $mnt/sys
+$bbox mount -o bind /system $mnt/system
+~~~~~~~~
+	Note "$bbox" variable is set to the following path "export bbox=/system/xbin/busybox" or a few other paths around lines 30 of bootscript.sh
+	http://sourceforge.net/p/linuxonandroid/codegit/ci/master/tree/Bootscripts/bootscript.sh
+	Note also that though the above links guide sugests adding the above lines around line 142 you might also want to add unmount lines bettween lines 244 & 246
+~~~~ My additions 1 ~~~~
+$bbox umount $mnt/sys
+# unmount USB before full shut down
+$bbox umount $mnt/dev
+$bbox umount $mnt/system
+$bbox umount $mnt
+$bbox losetup -d /dev/block/loop255 &> /dev/null
+~~~~~~~~
+	Note I didn't have to add an unmount for /sys because the boot script already does that for us.
+
+For the Debian Kit app these mount and un-mount commands can be found in functions scattered in the bootdeb.sh script
+http://sourceforge.net/p/debian-kit/code/ci/master/tree/kit/bootdeb
+	But I think adding some mods near the bottom should do the trick
+	
+~~~~ Debian Kit's bootdeb.sh script ~~~~
+.....
+.....
+.....
+DEV=/dev/debian
+BIN=${ANDROID_DATA:-/data}/local/deb
+MNT=${ANDROID_DATA:-/data}/local/mnt
+IMG=${EXTERNAL_STORAGE:-/sdcard}/debian.img
+.....
+.....
+.....
+mount_merge() {
+	# Mounts $1 to $2, then merges all from $2 to $3
+	# Optional: $4 = "clean" to clean links from Debian disk
+	# Optional: $4 = "stage2" to debootstrap --second-stage
+	....
+	....
+	....
+}
+.....
+.....
+.....
+umount_merge() {
+	# Unmounts $1, then revert the merge-links/bind-mounts from $2
+	.....
+	.....
+	.....
+}
+.....
+.....
+.....
+umount_all() {
+	# Tries to stop processes with signal $1 if given, then unmerges
+		.....
+		.....
+		.....
+	if ! umount_merge "${MNT}" "/";then
+		# Restore already unmounted bind-mounts
+		.....
+		.....
+		.....
+}
+.....
+.....
+.....
+##### Main #####
+
+case ${DEB} in "")
+	# Script not called by "deb" shortcut
+	DEB=${1}
+;;esac
+.....
+.....
+.....
+	c|clean)
+		if ! is_mounted;then
+			mount_merge "${IMG}" "${MNT}" "/" clean
+		else
+			echo "You need to unmount before cleaning out links." >&2
+		fi
+	;;
+# S0AndS0 suggests adding the following two commands to deb
+#+ deb m : should mount the directory that Android uses for USB OTG (on the go) to a directory on your debian image and then mount that under your device's "/" directory.
+#+ deb M : should selectivly unmount only the directory on your debian image directory that was mounted by the "deb m" command.
+	m|mountUSB)
+		if mount_all;then
+			if [ -f /dev/usb/${file} ] && [ "/usr/${MNT}/usb/${file}" != "/usr/${MNT}/usb/${file}" ];then
+			mount_merge "/dev/usb" "${IMG}/usb" "/"
+		fi
+	;;
+	M|unmountUSB)
+		if mount_all;then
+			if [ -f /dev/usb/${file} ] && [ "/usr/${MNT}/usb/${file}" == "/usr/${MNT}/usb/${file}" ];then
+			umount_merge "${IMG}/usb" "/dev/usb/"
+		fi
+	;;
+	?|help)
+~~~~~~~~
+Notes on Debian Kit:
+	First off the code for this app is really complex looking if your a noob like I still am after months of study and experimitation this dev is still showing me neet ways to get things done. However, when you break it down the code is very adabptible and well organized.
+	The first thing to understand about this developer's code, is it makes use of functions, for those that don't know much about programing with functions here's a little rant on functions;
+		functions are like little scripts that you can enbed into a script and latter call by "name" this is kinda like a variable but uses different punctuations and best of all, you dont have to "escape" carage returns with back-slashes "\"
+		you can declaire a function without assinging it a name, but if you do then, the shell enterprating your script will run that function where ever it runs into it.
+		an example function can be found bellow...
+		~~~~~
+		echoCommand () { echo "repeating what you typed"
+		echo "$?"
+		}
+		# calling the echoCommand function
+		echoCommand
+		~~~~~
+		...so what is going on here? Well we are assining a function named "echoCommand" then we are assining that function some commands for exicute betteen the "{" and "}" (curly brackets) which echos any argument passed to it to your terminal.
+		Not really useful on it's own but when you enbed; if than, or, wile do, and others; functions can become thier own little programs.
+		Note when calling a function, unlike calling a variable, you don't precied the name with a "$" dollar sign, instead just call it by name and your shell will then exicute the commands contained in that function.
+	the "-f" option in the if statments are "True if FILE exists and is a regular file" and the && part makes it so that if true the next commands are processed.
+	the "!=" option returns True if the following does not exists and/or is not a regular expression; meaning that if a mount point has not been created then process the next statement.
+	So now that we've covered the basics, now to get into what the mods I sugest "should" do:
+		the "m|mountUSB" should call up the dev's function for mounting file systems which also has a few enbedded function calls for custom vs stock ROMs
+			then the first argument passed to "mount_merge" is "/dev/usb" which is where I found my device's mounting USB devices on the Android side of things.
+			then the second argument passed to "mount_merge" is "${IMG}/usb" which is where I chose to mount Android's USB folder to the Linux directory. This should give your Linux OS read (if not write as well) permissions to what ever device/media you attach to your Android device
+			then the third argument passed to "mount_merge" is "/" which will then mount the USB directory from Linux back onto the root file system of your Android device so either can see it under "/usb"
+	What I think is really nice about this dev's programing style is; it looks like we don't have to do any further modifications, like to the "umount_all" function that's called when you run the "deb u" command because the dev's source defines things based off who owns what instead of using absolute paths :-D
+
+Now I may be wrong on modding the Debian Kit's app boot script and the modds to the previosly mentiond app may not be identical to the methods used by the app or script you've used to install Linux to your Android device so let's look at the methods I learned from links 6 and 7;
+	from the Android terminal run the following commands with some modification
+	~~~~ Link 6's answer ~~~~~
+	mount --rbind /dev /path/to/chroot/dev
+	~~~~~~~~
+	Note this command should be issued from your Android root user and not your Linux users; all (relovent) examples I've been able to find use this method and very little comment is given to the possibility as to whether or not this command will work under your Linux users.
+	However, because of Debian Kit's uniqu way of running/installing Linux on Android it maybe posible.
+	~~~~ Link 6 and 7 both suggest ~~~~
+	Link 6 example of what that user's "/etc/udev/rules.d/local-android.rules" contains:
+		$ cat /etc/udev/rules.d/local-android.rules
+		ACTION!="add", GOTO="local-android_rules_end"
+		SUBSYSTEM=="usb_device", GOTO="local-android_rules_real"
+		SUBSYSTEM=="usb", GOTO="local-android_rules_real"
+		GOTO="local-android_rules_end"
+
+		LABEL="local-android_rules_real"
+
+		# Mot Droid X
+		ATTR{idVendor}=="22b8", ATTR{idProduct}=="428c", MODE="660", GROUP="plugdev"
+
+		LABEL="local-android_rules_end"
+	
+	Link 7 example of how to write to "/etc/udev/rules.d/51-android.rules"
+		You can put bind mounts in fstab. I believe that'd look something like this:
+			/dev   /chroot/dev   none   rbind   0   0
+		Next, using your favourite editor as root edit (or create) "/etc/udev/rules.d/51-android.rules” and add this line:
+			SUBSYSTEM=="usb", SYSFS{idVendor}=="<your vendor's four character id>", MODE="0666"
+		Then fix permissions and restart udev with the following issued to the Linux terminal:
+			chmod a+rx /etc/udev/rules.d/51-android.rules
+			restart udev
+	~~~~~~~~
+Notes on "/etc/udev/rules.d/<file>" modifications:
+	So lets deduce some stuff from the above examples;
+	the first similarity in commands that shows up is : MODE="660" : and : MODE="0666" : which seem interchangable
+	both make refferance to : SUBSYSTEM=="usb" 
+	and : ...{idVendor}==... : with either : ATTR : or : SYSFS : as its prefix. But the suffixes are different, each make refferance to a four diget code, this is part of the UUID and more will be discussed on this in a moment.
+	The first notable differance in these commands is that link 6 has an extra option in it's line : ATTR{idProduct}=="428c" : which is yet again a refferance to that device's UUID.
+	And link 6 makes refferance to : GROUP="plugdev" : which link 7 yet again omits.
+	
+	Now if we bring in the table that link 7 provides for Android devices connected to a PC via USB and re-links at the following URL;
+		http://www.mysolutions.it/mounting-android-sd-card-ubuntu/#Android_Company_Vendor_IDs
+	We can see that the : SYSFS{idVendor}== : can be set with the first four charicters that follow the word "ID" when the : lsusb : command issued under your Linux terminal.
+	However, in the example out put of the command...
+	~~~~ Link 7's lsusb example output ~~~~
+	$ sudo lsusb
+	Bus 010 Device 001: ID 1d6b:0001 Linux Foundation 1.1 root hub
+	Bus 006 Device 002: ID 047f:d055 Plantronics, Inc.
+	Bus 003 Device 001: ID 1d6b:0002 Linux Foundation 2.0 root hub
+	Bus 002 Device 010: ID 0bb4:0c02 High Tech Computer Corp.
+	Bus 002 Device 004: ID 046d:c505 Logitech, Inc. Cordless Mouse+Keyboard Receiver
+	Bus 002 Device 003: ID 046d:0809 Logitech, Inc.
+	Bus 002 Device 002: ID 05e3:0608 Genesys Logic, Inc. USB-2.0 4-Port HUB
+	~~~~~~~~
+	... we can see a whole "mess" of info, when what we want is (in this case) the ID for "High Tech Computer Corp"
+		so let's bring in some other command line tools/programs to nerrow down the results; namely grep, sed, awak, sleep, wile, if, and some others; 
+			and write a script that will first scan your usb connection with "lsusb" save that output to a temp file, echo a prompt to plug in a usb device and waite a few seconds, 
+			then rescan using the temp file to filter out previous results so that all we are left with is one line to deal with, 
+			then "chop" that line up into the first four and last four digits and assign each to where they should go;
+				ATTR{idVendor}=="<first-four-of-ID>"
+				ATTR{idProduct}=="<second-four-of-ID>"
+			we'll also grab the name; in link 6 "Mot Droid X" and link 7 "High Tech Computer Corp." and add that above the lines that the script will append to the : /etc/udev/rules.d/<file>
+			Note for this script I'll be using the header that link 6 shows (all those extra lines that link 7 does not have) because it looks as though it will keep things a bit more organized.
+				Furthermore, we'll have to be rather clever with the "sed" command so that we append under sertain key lines, that way the script can be called again and again to add more auto connections to that file.
+Now comes the last link of this tutorial/compelation of Android Linux USB conectivity:
+	https://github.com/S0AndS0/Debian-Kit-Mods/blob/master/Install_Scripts/ARM_USB_OTG
+		which I might change to the Independent_Scripts directory if I don't have to install any dependancies...
+	Curently this script is a ruff draft but I'll be spending a great deal of time to make this an easy and repeatable proces for all users of Linux :-D
+~~~~ Conclusion, for now ~~~~
+For now I hope this has helped you in manually setting up your Android so Linux can see the USB devices atached to it and enteract with it.
+Oh and if your wondering about link 5 and link 2 and my thought on them;
+	link 5 mainly has the following differances;
+		use pmount and avoid having to set up fstab manualy;
+			pmount sdb1
+		also sugested is the following command for listing devices connected to your device;
+			blkid
+		better still this link provides the following explenation on how to construct "mount" commands. Note though that the "vfat" option should be what ever format the USB device is such as "usbfs" or "auto" if you want the "mount" command to make it's best guess automaticly ;-)
+			There must be "vfat" and "uid=" and "umask=" option.
+		and the best compleat example posted uses the "-t" modifier to tell "mount" to guess what file system is located at "/dev/sdb1" and mount that file system to "/mnt" then list the contents of "/mnt" to the terminal with the "ls" command.
+			mount -t auto /dev/sdb1 /mnt && ls /mnt
+	Perhaps the "pmount" too has an auto-detect file system partition sceam option (only running "pmount --help" or -h or "man pmount" and more Google searching can tell...
+	In either case I believe the following will be the most portable for mounting different types of USB devices to Android Linux
+		mount -t auto --rbind /dev/usb </path_to/chroot.img>/usb
+~~~~~~~~
+
