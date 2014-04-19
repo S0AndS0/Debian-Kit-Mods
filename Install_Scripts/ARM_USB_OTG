@@ -17,6 +17,7 @@ fUSB=`dmesg | grep -E 'usb' | grep -v 'off'`
 # http://forums.debian.net/viewtopic.php?f=10&t=104774
 # http://android.stackexchange.com/questions/11546/android-chroot-ubuntu-is-it-possible-to-get-ubuntu-to-recognise-usb-devices
 # http://www.mysolutions.it/mounting-android-sd-card-ubuntu/
+# http://blog.spiderlabs.com/2012/12/proxmark-3-now-with-100-more-android.html
 # functions
 readOut_USBInfo () { 
 	echo "_______________________"
@@ -45,5 +46,20 @@ exit
 ## then fix permissions and restart service
 # chmod a+rx /etc/udev/rules.d/51-android.rules
 # restart udev
+
+## the following paths are where I found USB
+# dev/usb
+
+## paths that where sugested by the forth link
+# $bbox mount -o bind /dev $mnt/dev 
+# $bbox mount -o bind /sys $mnt/sys 
+# $bbox mount -o bind /system $mnt/system
+
+## the : links.conf : file under : etc/udev/ : states the following when debian is mounted with Debian Kit app:
+# This file does not exist. Please do not ask the Debian maintainer about it.
+# If you need manually created devices, create them in /lib/udev/devices/ .
+## note line two states to create new devices under : /lib/udev/devices/ : however this directory by default does not exsist
+##+ so under root linux user : mkdir -p /lib/udev/devices : and direct mount points there...
+
 
 
