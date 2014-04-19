@@ -223,7 +223,8 @@ Now comes the last link of this tutorial/compelation of Android Linux USB conect
 	https://github.com/S0AndS0/Debian-Kit-Mods/blob/master/Install_Scripts/ARM_USB_OTG
 		which I might change to the Independent_Scripts directory if I don't have to install any dependancies...
 	Curently this script is a ruff draft but I'll be spending a great deal of time to make this an easy and repeatable proces for all users of Linux :-D
-~~~~ Conclusion, for now ~~~~
+
+~~~~ Conclusion, for now... scroll further for part 2 ~~~~
 For now I hope this has helped you in manually setting up your Android so Linux can see the USB devices atached to it and enteract with it.
 Oh and if your wondering about link 5 and link 2 and my thought on them;
 	link 5 mainly has the following differances;
@@ -238,5 +239,30 @@ Oh and if your wondering about link 5 and link 2 and my thought on them;
 	Perhaps the "pmount" too has an auto-detect file system partition sceam option (only running "pmount --help" or -h or "man pmount" and more Google searching can tell...
 	In either case I believe the following will be the most portable for mounting different types of USB devices to Android Linux
 		mount -t auto --rbind /dev/usb </path_to/chroot.img>/usb
+~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~ Part 2 use USB pins as a GPIO ~~~~
+Curently I've found very little in the way of directly controlling stepper motars via USB, yes there are USB micro controllers and hacks invalving a USB to serial adapter and of cource there's always Arduino, however, all these methods us spicific hardware atached to the USB port.
+Instead I plan to use as few bits of hardware posible; just the USB port and half a USB cable splaid open. From there I plan to use Linux to read/write directly to pins 2 and 3 (known as D- and D+ respectivly) of the USB port. Because each USB device is given a spicific address it shouldn't be overly difficult to plug 4 port USB hub into the mix and have 8 total simulated GPIO pins.
+Pins 1 and 4 likely will not be usable because pin 1 is used for power VBUS (4.01–5.25 volts) and pin 4 is used for gound.
+There's also an extra pin that mini USB ports use for ID which makes the pin numbering system bump down one from ground: pin 4 for ID pin 5 for ground.
+Pin 1 will provide 4.35 to 5.25 volts and initally will provide 100 mA of curent but upto 500 mA can be requested.
+Pin 2 
+Pin 3
+Pin 4
+Pin 5
+If the connected device is configured as a remote wakeup source, the connected device is allowed to draw 2.5 mA while suspended
+
+~~~~ Links and sources ~~~~
+wiki about USB in general with diograms
+	http://en.wikibooks.org/wiki/Serial_Programming/USB
+programing guide for USB
+	http://www.lrr.in.tum.de/Par/arch/usb/usbdoc/
+large collection of guides on the spicifics of USB
+	http://www.usbmadesimple.co.uk/ums_3.htm
+
+
 ~~~~~~~~
 
