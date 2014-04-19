@@ -19,6 +19,24 @@ fUSB=`dmesg | grep -E 'usb' | grep -v 'off'`
 # http://www.mysolutions.it/mounting-android-sd-card-ubuntu/
 # http://blog.spiderlabs.com/2012/12/proxmark-3-now-with-100-more-android.html
 # functions
+install_PackageDepends () { 
+	echo "Tested under Debian Squeeze ARMel without package list modification"
+	echo "Installing libusb and dev packages..."
+	apt-get -q install libusb-1.0-0-dev libusb-1.0-0 libusb-0.1-4 libusb-dev
+	echo "Installing usb programming packages..."
+	apt-get -q install libusbprog-dev libusbprog0
+	echo "Installing libusb conectivity packages..."
+	apt-get -q install libusbip-dev libusbip0
+	echo "Installing libs for FTDI USB controllers..."
+	apt-get -q install libftdi1 libftdipp1
+	echo "Installing OCaml libs for USB..."
+	apt-get -q install libusb-ocaml-dev libusb-ocaml
+	echo "Installing ruby and C++ USB libs..."
+	apt-get -q install libusb-ruby libusb++-0.1-4c2 libusb++-dev
+	echo "Installing a few extras for WiFi and Apple touch devices connected by USB..."
+	apt-get -q install spectools libusbmuxd-dev libusbmuxd1
+}
+
 readOut_USBInfo () { 
 	echo "_______________________"
 	echo "Reading out USB info from the : blkid : command and displaying UUIDs..."
