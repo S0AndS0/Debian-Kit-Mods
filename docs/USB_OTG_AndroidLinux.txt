@@ -248,9 +248,9 @@ Curently I've found very little in the way of directly controlling stepper motar
 Instead I plan to use as few bits of hardware posible; just the USB port and half a USB cable splaid open. From there I plan to use Linux to read/write directly to pins 2 and 3 (known as D- and D+ respectivly) of the USB port. Because each USB device is given a spicific address it shouldn't be overly difficult to plug 4 port USB hub into the mix and have 8 total simulated GPIO pins.
 Pins 1 and 4 likely will not be usable because pin 1 is used for power VBUS (4.01–5.25 volts) and pin 4 is used for gound.
 There's also an extra pin that mini USB ports use for ID which makes the pin numbering system bump down one from ground: pin 4 for ID pin 5 for ground.
-Pin 1 will provide 4.35 to 5.25 volts and initally will provide 100 mA of curent but upto 500 mA can be requested.
-Pin 2 
-Pin 3
+Pin 1 will provide 4.35 to 5.25 volts and initally will provide 100 mA of curent but upto 500 mA can be requested by the divice that is atached.
+Pin 2 known as D- will provide
+Pin 3 known as D+ 
 Pin 4
 Pin 5
 If the connected device is configured as a remote wakeup source, the connected device is allowed to draw 2.5 mA while suspended
@@ -262,6 +262,10 @@ programing guide for USB
 	http://www.lrr.in.tum.de/Par/arch/usb/usbdoc/
 large collection of guides on the spicifics of USB
 	http://www.usbmadesimple.co.uk/ums_3.htm
+Patialy reverce engenier and build USB driver for USB powered LED lamp
+	http://m.linuxjournal.com/article/7353?page=0,1
+make usb kernal driver for usb device, fully reversed engeniered on linux
+	http://matthias.vallentin.net/blog/2007/04/writing-a-linux-kernel-driver-for-an-unknown-usb-device/
 
 
 ~~~~~~~~
