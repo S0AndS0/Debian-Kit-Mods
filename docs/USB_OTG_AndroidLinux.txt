@@ -272,6 +272,12 @@ something to lose sleep over and celobrate at the same time; hacking the micro c
 	http://www.bunniestudios.com/blog/?p=3554
 SD card's with built in WiFi hacked
 	http://haxit.blogspot.ch/2013/08/hacking-transcend-wifi-sd-cards.html?m=1
+software and IDE tools for reprograming microcontrollers; such as the ones most commonly used in flash storage
+	http://www.silabs.com/products/mcu/Pages/8-bit-microcontroller-software.aspx
+hardware for about 40 (US$) that'll likely do what I want. Link posted for those that just want to buy something to develop on enstead of getting into hardmoding.
+	http://hakshop.myshopify.com/collections/usb-rubber-ducky/products/usb-rubber-ducky-deluxe
+guide to reprograming chips on flash media
+	http://www.eetimes.com/document.asp?doc_id=1255068
 
 ~~~~~~~~
 
