@@ -277,7 +277,21 @@ SD card's with built in WiFi hacked
 
 ~~~~ Notes and such ~~~~
 All curent resurch sugests that D+/D- is set up on devices to trasmit bits of data and it's the USB chips on either side that decode the bits of data and do something from there.
-This means that more than likely if we want to control a motor or LED from USB then we'll need a micro processor to decode the signals.
+This means that more than likely if we want to control a motor or LED from USB then we'll need a micro processor or controler to decode the signals.
+Yes microcontrolers are an extra bit of hardware, theres no way around it, but as it turns out we all have these kicking around inside USB flash/thumb drives and SD cards of all sizes.
+	To summerize the sdcard and usb drive hacking links that can be found as "news"
+	SD card and USB memory devices are made with microcontrolers because it is cheaper than testing at the point of manufacture which sectors can be read/writen to.
+	This can be both good and bad.
+		The good; we consumers can hack into the microcontroller and reprogram it to do something entirely different. And in some cases run a full commandline Linux interface; see links on transcend and eyeFi; WiFi SD cards.
+		The bad; other persons can or may have already done this to your hardware and it could be doing something right now without your knowlage... This is mainly dew to the nature of these devices, being little computers themselves and enheriting the same bugs that can be found on other computing devices.
+	So armed with this knowlage and diductive resoning I beleive it to be possible to upcycle an old USB flash drive or SD card and have it translate date over USB for us.
+		Perhaps I wont even lose the data storage options but seeing as how I plan to enbed mine into the cable's plug this is a secondery consern for now.
+		I'll be starting with USB flash drives becuse the componits are larger; no reason to pull out a microscope just yet.
+		And then write a modifide ROM or kernal or firmware and a driver so we have control over how commands from it's host are inturprited.
+		Then we'll get into the "guts" of the USB flash drive and work on adding some connections and ports for adding hardware to the USB flash drive. I'll be looking to add GPIO and/or serial comunications, allowing the dive to detect button pushes or light an LED or dive a stepper motor.
+		Once all that has been checked off and tested with a USB flash drive or two I'll be doing the same on some micro SD cards (break out a microscope) and encase the chip in a USB cable end, then I'll have a hack anything USB cable that can run MITM attacks or control servos with an external power source atached!
+	I'll be using my photobucket acount under the same username as my XDA profile to upload pictures when I get into the hardmod prosion of documentation.
+
 
 ~~~~~~~~
 
