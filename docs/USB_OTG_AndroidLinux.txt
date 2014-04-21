@@ -249,11 +249,11 @@ Instead I plan to use as few bits of hardware posible; just the USB port and hal
 Pins 1 and 4 likely will not be usable because pin 1 is used for power VBUS (4.01–5.25 volts) and pin 4 is used for gound.
 There's also an extra pin that mini USB ports use for ID which makes the pin numbering system bump down one from ground: pin 4 for ID pin 5 for ground.
 Pin 1 will provide 4.35 to 5.25 volts and initally will provide 100 mA of curent but upto 500 mA can be requested by the divice that is atached.
-Pin 2 known as D- will provide
-Pin 3 known as D+ 
-Pin 4
-Pin 5
-If the connected device is configured as a remote wakeup source, the connected device is allowed to draw 2.5 mA while suspended
+Pin 2 known as D- will provide data packet send/recieve
+Pin 3 known as D+ will provide data packet send/recieve
+Pin 4 on Mobile will be for ID and on PC is ground
+Pin 5 on Mobile is ground and for PC isn't there
+If the connected device is configured as a remote wakeup source, the connected device is allowed to draw 2.5 mA while suspended.
 
 ~~~~ Links and sources ~~~~
 wiki about USB in general with diograms
@@ -266,7 +266,19 @@ Patialy reverce engenier and build USB driver for USB powered LED lamp
 	http://m.linuxjournal.com/article/7353?page=0,1
 make usb kernal driver for usb device, fully reversed engeniered on linux
 	http://matthias.vallentin.net/blog/2007/04/writing-a-linux-kernel-driver-for-an-unknown-usb-device/
-
+control steper with usb to pci guide
+	http://nerdclub-uk.blogspot.com/2012/09/inkjet-printer-teardown-get-at-those.html?m=1
+something to lose sleep over and celobrate at the same time; hacking the micro controllers in SD cards
+	http://www.bunniestudios.com/blog/?p=3554
+SD card's with built in WiFi hacked
+	http://haxit.blogspot.ch/2013/08/hacking-transcend-wifi-sd-cards.html?m=1
 
 ~~~~~~~~
+
+~~~~ Notes and such ~~~~
+All curent resurch sugests that D+/D- is set up on devices to trasmit bits of data and it's the USB chips on either side that decode the bits of data and do something from there.
+This means that more than likely if we want to control a motor or LED from USB then we'll need a micro processor to decode the signals.
+
+~~~~~~~~
+
 
