@@ -21,6 +21,8 @@ fUSB=`dmesg | grep -E 'usb' | grep -v 'off'`
 # functions
 install_PackageDepends () { 
 	echo "Tested under Debian Squeeze ARMel without package list modification"
+	echo Installing USB utilities..."
+	apt-get -q install usbutils usbview
 	echo "Installing libusb and dev packages..."
 	apt-get -q install libusb-1.0-0-dev libusb-1.0-0 libusb-0.1-4 libusb-dev
 	echo "Installing usb programming packages..."
@@ -31,8 +33,8 @@ install_PackageDepends () {
 	apt-get -q install libftdi1 libftdipp1
 	echo "Installing OCaml libs for USB..."
 	apt-get -q install libusb-ocaml-dev libusb-ocaml
-	echo "Installing ruby and C++ USB libs..."
-	apt-get -q install libusb-ruby libusb++-0.1-4c2 libusb++-dev
+	echo "Installing ruby and C++ and Java USB libs..."
+	apt-get -q install libusb-ruby libusb++-0.1-4c2 libusb++-dev libusb-java libusb-java-dbg libusb-java-lib
 	echo "Installing a few extras for WiFi and Apple touch devices connected by USB..."
 	apt-get -q install spectools libusbmuxd-dev libusbmuxd1
 }
