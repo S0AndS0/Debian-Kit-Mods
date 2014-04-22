@@ -256,8 +256,6 @@ Pin 5 on Mobile is ground and for PC isn't there
 If the connected device is configured as a remote wakeup source, the connected device is allowed to draw 2.5 mA while suspended.
 
 ~~~~ Links and sources ~~~~
-slides for usb hacking
-	http://www.slideshare.net/xabean/controlling-usb-flash-drive-controllers-expose-of-hidden-features
 wiki about USB in general with diograms
 	http://en.wikibooks.org/wiki/Serial_Programming/USB
 programing guide for USB
@@ -280,6 +278,9 @@ hardware for about 40 (US$) that'll likely do what I want. Link posted for those
 	http://hakshop.myshopify.com/collections/usb-rubber-ducky/products/usb-rubber-ducky-deluxe
 guide to reprograming chips on flash media
 	http://www.eetimes.com/document.asp?doc_id=1255068
+Indepth guide into building your own USB drive
+	http://m.instructables.com/id/Custom-USB-Drive---Project%3a-Enter-the-USB/?ALLSTEPS
+
 step by step on where to go on finding your usb drives specs and reprograming it!
 	http://superuser.com/questions/689439/how-to-format-repair-a-write-protected-usb-drive-with-i-o-errors
 download link for chipGenius a tool for displaying flash drive info (two links incase one goes down) on wnidow OS
