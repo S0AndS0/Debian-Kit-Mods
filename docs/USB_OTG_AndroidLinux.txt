@@ -300,6 +300,10 @@ utility for divice firmware upgrades over usb and github source. Works on window
 # ok this is getting cluttered with links pointing to all sorts of content...
 ~ Downloads and Source files
 ~~ Linux ~~
+links to software for testing usb comasity
+	http://fixfakeflash.wordpress.com/2010/08/20/linux-h2testw-alternative-program-called-f3-by-michel%c2%a0machado/
+		f3 download and usage instructions
+			http://oss.digirati.com.br/f3/
 
 ~~ Windows ~~
 
@@ -314,8 +318,10 @@ utility for divice firmware upgrades over usb and github source. Works on window
 		http://ww1.microchip.com/downloads/en/AppNotes/01145b.pdf
 
 ~ Online documentation
-
-
+a well writen over veiw/guide from 2001 to all available method classification of attacks that can be performed
+	http://www.cl.cam.ac.uk/~sps32/mcu_lock.html
+copy of presemtation slides (lots of pics) with great keywords for more searching
+	http://www.slideshare.net/xabean/controlling-usb-flash-drive-controllers-expose-of-hidden-features
 
 
 ~~~~~~~~
