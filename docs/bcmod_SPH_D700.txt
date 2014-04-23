@@ -1,0 +1,23 @@
+For Epic 4G SPH-D700 to run bcmod and related software
+
+sources
+bcmod working on Epic 4G SPH-D700 running CM7
+	http://ihackarmies.com/
+for compiling your own rom and kernal for Epic 4G
+	https://git.sphere.ly/Mazda/android_device_samsung_epicmtd/tree/cm-10.1
+		some source code to look at within the above link. Note the drop down for selecting your ROM version.
+			https://git.sphere.ly/Mazda/android_device_samsung_epicmtd/blob/jellybean-stable/BoardConfig.mk
+bcmod source for general devices
+	http://code.google.com/p/bcmon/source/browse/
+cross compattible kernel for most Epic ROMs!!!
+	http://forum.xda-developers.com/showthread.php?t=1842037
+
+Currently it looks as though to run bcmod on the Epic 4G you'll nead to be running CM7
+	Unfortunetly CM10 on this device uses drivers differently so someone with a bit more know how may beet me to getting compatibility.
+	However, I'm not about to assume that others will pick this up so I'll be working on it here too;
+https://github.com/S0AndS0/Debian-Kit-Mods
+
+
+
+
+
