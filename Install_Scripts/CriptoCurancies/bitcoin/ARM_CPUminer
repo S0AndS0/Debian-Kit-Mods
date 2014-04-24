@@ -1,0 +1,27 @@
+#!/bin/bash
+PATH=/bin:/usr/bin:/usr/local/bin ; export PATH 
+umask 022
+# Variables
+ : ${USER?} ${HOME?} 
+# find the name of this script and store it to a variable
+cpuM_fullScriptPath="$(readlink -f $0)"
+# deleat last componit from ThisScript and store to another variable
+cpuM_ScriptDirectory="$(dirname $cpuM_fullScriptPath)"
+
+# web addresses
+sourceInfo_Link=http://linuxclues.blogspot.com/2013/08/cpuminer-build-source-debian-litecoin.html
+sourceDownload_Link=https://github.com/pooler/cpuminer
+# functions
+# user prompts
+
+# fixed and compiled
+
+# script start
+
+# script end
+echo "End of script, exiting now..."
+exit
+# Credits
+
+
+
