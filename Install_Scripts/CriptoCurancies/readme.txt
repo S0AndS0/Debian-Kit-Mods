@@ -2,7 +2,7 @@
 
 sources of info and credits
 A to the point and working guide to setting up cpuminer on any device!
-	https://github.com/S0AndS0/Debian-Kit-Mods
+	http://linuxclues.blogspot.com/2013/08/cpuminer-build-source-debian-litecoin.html
 
 for mining cripto curanies on android or raspberry pi with or without usb mining hardware
 	http://petesblog.net/blog/bitcoin-mining-on-raspberry-pi
