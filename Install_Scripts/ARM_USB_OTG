@@ -9,8 +9,8 @@ OTG_fullScriptPath="$(readlink -f $0)"
 # deleat last componit from ThisScript and store to another variable
 OTG_ScriptDirectory="$(dirname $OTG_fullScriptPath)"
 
-fUUIDs=`blkid | grep -E 'UUID' | awk '{gsub("UUID=\"","");print $2}' | sed 's/.$//'`
-fBatteryTemp=`dmesg | grep -E 'BATT' | awk '{gsub("Temp:"","");print $10}'`
+fUUIDs=`blkid | grep -E 'UUID' | awk '{gsub("UUID=\"","");print $2}'`
+fBatteryTemp=`dmesg | grep -E 'BATT' | awk '{gsub("Temp:""","");print $7}' | sed 's/.$//' | tail -1`
 fUSB=`dmesg | grep -E 'usb' | grep -v 'off'`
 
 # web addresses
