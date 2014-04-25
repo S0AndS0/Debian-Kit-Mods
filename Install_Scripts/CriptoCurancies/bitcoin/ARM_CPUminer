@@ -7,14 +7,82 @@ umask 022
 cpuM_fullScriptPath="$(readlink -f $0)"
 # deleat last componit from ThisScript and store to another variable
 cpuM_ScriptDirectory="$(dirname $cpuM_fullScriptPath)"
+fBatteryTemp=`dmesg | grep -E 'BATT' | awk '{gsub("Temp:""","");print $7}' | sed 's/.$//' | tail -1`
+fUSB=`dmesg | grep -E 'usb' | grep -v 'off'`
+
+mineAddress=pit.deepbit.net
 
 # web addresses
 sourceInfo_Link=http://linuxclues.blogspot.com/2013/08/cpuminer-build-source-debian-litecoin.html
 sourceDownload_Link=https://github.com/pooler/cpuminer
-# functions
-# user prompts
+# functions user prompts
 
-# fixed and compiled
+promptTo_continue () { 
+read -r -p "Are you sure? [Y/n]" response
+case "$response" in
+	[yY][eE][sS]|[yY])
+ # if yes, then start risking changes
+		;;
+	*)
+ #		 Otherwise exit..
+	echo "Try again? exiting.."
+	exit 
+	;;
+esac
+} 
+setUserAcount_settings () { 
+	echo -n "Input your $mineAddress worker's username : "
+	read ui_mineAddress_username
+	echo -n "Input your $mineAddress port [default was 8332] : "
+	read ui_mineAddress_port
+	echo -n "Input your $ui_mineAddress_username password : "
+	read ui_mineAddress_password
+	
+}
+ui_rootNOroot () { 
+read -r -p "Are you running as root right now? [Y/n]" response
+case "$response" in
+	[yY][eE][sS]|[yY])
+ # if yes, use apt-get for installs
+ 		ui_aptgetSudo="apt-get"
+ 		ui_conf="./"
+ 		ui_teeFile="tee -a"
+		;;
+	*)
+ #		 Otherwise use sudo apt-get for installs..
+	ui_aptgetSudo="sudo apt-get"
+	ui_conf="sudo ./"
+	ui_teeFile="sudo tee -a"
+	;;
+esac
+} 
+setDownload_Directory () { 
+	echo "Use - home - to download to : $HOME"
+	echo "Use - download - to download to : $HOME/Download"
+	echo "Use - here - to download to : $bcN_ScriptDirectory"
+	echo -n "Input the directory you wish to use: "
+	read ui_setDownload_Directory
+	if [ $ui_setDownload_Directory = home ]
+	then
+		ui_Download_Directory=$HOME
+		echo "$ui_Download_Directory"
+	elif [ $ui_setDownload_Directory = download ]
+	then 
+		mkdir -p $HOME/Download
+		ui_Download_Directory=$HOME/Download
+		echo "$ui_Download_Directory"
+	elif [ $ui_setDownload_Directory = here ]
+	then 
+		ui_Download_Directory=$bcM_ScriptDirectory
+		echo "$ui_Download_Directory"
+	else [ $ui_setDownload_Directory = * ]
+		echo "Invalid input recived, exiting now..."
+		exit
+	fi
+} 
+
+
+# functions - fixed and compiled
 
 # script start
 
@@ -22,6 +90,47 @@ sourceDownload_Link=https://github.com/pooler/cpuminer
 echo "End of script, exiting now..."
 exit
 # Credits
+
+#	thanks should be given to the following link's auther for writing an easy to follow guide that works on all platforms and for being helpful even after posting :-)
+http://linuxclues.blogspot.com/2013/08/cpuminer-build-source-debian-litecoin.html
+
+# examples
+
+# mine with -D (degugging) to show more info
+./minerd -o stratum+tcp://stratum.give-me-ltc.com:3334 -u worker -p password -D
+
+#	minerd options:
+-o : pool to connect to
+-u : your worker name in that pool
+-p : password for that worker
+
+#	The usage options:
+-a, --algo=ALGO specify the algorithm to use
+-o, --url=URL URL of mining server
+-O, --userpass=U:P username:password pair for mining server
+-u, --user=USERNAME username for mining server
+-p, --pass=PASSWORD password for mining server
+--cert=FILE certificate for mining server using SSL
+-x, --proxy=[PROTOCOL://]HOST[:PORT] connect through a proxy
+-t, --threads=N number of miner threads (default: number of processors)
+-r, --retries=N number of times to retry if a network call fails
+(default: retry indefinitely)
+-R, --retry-pause=N time to pause between retries, in seconds (default: 30)
+-T, --timeout=N timeout for long polling, in seconds (default: none)
+-s, --scantime=N upper bound on time spent scanning current work when
+long polling is unavailable, in seconds (default: 5)
+--no-longpoll disable X-Long-Polling support
+--no-stratum disable X-Stratum support
+--no-redirect ignore requests to change the URL of the mining server
+-q, --quiet disable per-thread hashmeter output
+-D, --debug enable debug output
+-P, --protocol-dump verbose dump of protocol-level activities
+-S, --syslog use system log for output messages
+-B, --background run the miner in the background
+--benchmark run in offline benchmark mode
+-c, --config=FILE load a JSON-format configuration file
+-V, --version display version information and exit.
+-h, --help display this help text and exit.
 
 
 
