@@ -15,6 +15,8 @@ default_cpuM_threadCount=1
 
 # web addresses
 sourceInfo_Link=http://linuxclues.blogspot.com/2013/08/cpuminer-build-source-debian-litecoin.html
+sourceInfo_Link2=http://www.jerri.de/blog/archives/2006/05/02/scripting_screen_for_fun_and_profit/
+
 sourceDownload_cpuminer=https://github.com/pooler/cpuminer
 # functions user prompts
 
@@ -140,10 +142,25 @@ http://linuxclues.blogspot.com/2013/08/cpuminer-build-source-debian-litecoin.htm
 
 # examples
 
+#	screen command examples
+# start a screen session under a given name and send a command to that newly created terminal within that screen
+screen -mS testName echo "hello $USER"
+# start a screen session under a given name and send a command to that newly created terminal within that screen and emidieatly detach it so the curent session remains in user view
+screen -mSd testName echo "hello $USER"
+
+# reatach with a virtical split
+screen -r testName -X V
+# reatach with a horizontal split
+screen -r testName -X S
+
+# end a screen and it's processes from outside the above screen name
+screen -r testName -X quit
+
+
+#	minerd options:
 # mine with -D (degugging) to show more info
 ./minerd -o stratum+tcp://stratum.give-me-ltc.com:3334 -u worker -p password -D
 
-#	minerd options:
 -o : pool to connect to
 -u : your worker name in that pool
 -p : password for that worker
