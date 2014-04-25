@@ -87,7 +87,7 @@ promptToSet_minerInstall () {
 	read ui_minerToDownload
 } 
 aptMine_depenancies () { 
-<<<<<<< HEAD
+
 	echo "Installing known dependancies with -yqq so it is quite..."
 	$ui_aptgetSudo -yqq install make autoconf automake
 	$ui_aptgetSudo -yqq install curl libjansson-dev libjansson4
@@ -95,14 +95,14 @@ aptMine_depenancies () {
 	$ui_aptgetSudo -yqq install lzma libpcre3-dev
 	$ui_aptgetSudo -yqq install build-essential autoconf automake libtool pkg-config libcurl3-dev libudev-dev
 	$ui_aptgetSudo -yqq install build-essential libcurl4-gnutls-dev libjansson-dev uthash-dev libncursesw5-dev libudev-dev libusb-1.0-0-dev libevent-dev libmicrohttpd-dev hidapi
-=======
+
 	echo "Installing known dependancies with -yq so it is quite...this may take sometime..."
 	$ui_aptgetSudo -yq install make autoconf automake
 	$ui_aptgetSudo -yq install curl libjansson-dev libjansson4
 	$ui_aptgetSudo -yq install gcc gawk
 	$ui_aptgetSudo -yq install lzma libpcre3-dev
 	$ui_aptgetSudo -yq install libcurl3
->>>>>>> branch 'master' of https://github.com/S0AndS0/Debian-Kit-Mods.git
+
 } 
 mine_USB_True () { 
 	cd $ui_Download_Directory
