@@ -72,7 +72,7 @@ case "$response" in
 	*)
  #		 Otherwise use sudo apt-get for installs..
 	ui_aptgetSudo="sudo apt-get"
-	ui_conf="sudo ./"
+	ui_conf="./"
 	ui_teeFile="sudo tee -a"
 	;;
 esac
