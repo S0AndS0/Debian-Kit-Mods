@@ -11,10 +11,11 @@ fBatteryTemp=`dmesg | grep -E 'BATT' | awk '{gsub("Temp:""","");print $7}' | sed
 fUSB=`dmesg | grep -E 'usb' | grep -v 'off'`
 
 mineAddress=pit.deepbit.net
+default_cpuM_threadCount=1
 
 # web addresses
 sourceInfo_Link=http://linuxclues.blogspot.com/2013/08/cpuminer-build-source-debian-litecoin.html
-sourceDownload_Link=https://github.com/pooler/cpuminer
+sourceDownload_cpuminer=https://github.com/pooler/cpuminer
 # functions user prompts
 
 promptTo_continue () { 
@@ -37,7 +38,6 @@ setUserAcount_settings () {
 	read ui_mineAddress_port
 	echo -n "Input your $ui_mineAddress_username password : "
 	read ui_mineAddress_password
-	
 }
 ui_rootNOroot () { 
 read -r -p "Are you running as root right now? [Y/n]" response
@@ -45,13 +45,13 @@ case "$response" in
 	[yY][eE][sS]|[yY])
  # if yes, use apt-get for installs
  		ui_aptgetSudo="apt-get"
- 		ui_conf="./"
+ 		ui_conf_="./"
  		ui_teeFile="tee -a"
 		;;
 	*)
  #		 Otherwise use sudo apt-get for installs..
 	ui_aptgetSudo="sudo apt-get"
-	ui_conf="sudo ./"
+	ui_conf_="sudo ./"
 	ui_teeFile="sudo tee -a"
 	;;
 esac
@@ -59,7 +59,7 @@ esac
 setDownload_Directory () { 
 	echo "Use - home - to download to : $HOME"
 	echo "Use - download - to download to : $HOME/Download"
-	echo "Use - here - to download to : $bcN_ScriptDirectory"
+	echo "Use - here - to download to : $cpuM_ScriptDirectory"
 	echo -n "Input the directory you wish to use: "
 	read ui_setDownload_Directory
 	if [ $ui_setDownload_Directory = home ]
@@ -73,16 +73,60 @@ setDownload_Directory () {
 		echo "$ui_Download_Directory"
 	elif [ $ui_setDownload_Directory = here ]
 	then 
-		ui_Download_Directory=$bcM_ScriptDirectory
+		ui_Download_Directory=$cpuM_ScriptDirectory
 		echo "$ui_Download_Directory"
 	else [ $ui_setDownload_Directory = * ]
 		echo "Invalid input recived, exiting now..."
 		exit
 	fi
 } 
+setOptions_cpuminerRun () { 
+	
+	echo "There are many options that can be set to run and checking : ./minerd -h : is a great way to more."
+	echo "For now this script will display the following usefull options..."
+	echo "	-x, --proxy=[PROTOCOL://]HOST[:PORT] connect through a proxy"
+	echo "	-t, --threads=N number of miner threads (default: number of processors)"
+	echo "	-O, --userpass=U:P username:password pair for mining server"
+	echo ""
+	echo "	-o : pool to connect to"
+	echo "	-u : your worker name in that pool"
+	echo "	-p : password for that worker"
+	echo ""
+	echo "A compleat working example bassed off your inputs can be found bellow..."
+	echo "	./minerd -t $default_cpuM_threadCount -o $mineAddress:$ui_mineAddress_port -u $ui_mineAddress_username -p $ui_mineAddress_password"
+	echo -n "How many processores are you using for mining today [1 2 3..]? "
+	read ui_cpuM_threadCount
+	default_cpuM_threadCount=$ui_cpuM_threadCount
 
+# ./minerd -t $default_cpuM_threadCount -o $mineAddress:$ui_mineAddress_port -u $ui_mineAddress_username -p $ui_mineAddress_password -D
+	
+} 
 
 # functions - fixed and compiled
+
+dependsInstall_cpuminer () { 
+	$ui_aptgetSudo -yq install automake
+	$ui_aptgetSudo -yq install pkg-config
+	$ui_aptgetSudo -yq install gcc
+	$ui_aptgetSudo -yq install make
+	$ui_aptgetSudo -yq install libcurl3-gnutls-dev 
+} 
+dependsInstall_script () { 
+	$ui_aptgetSudo -yq install screen
+} 
+
+mine_with_cpuminer () { 
+	cd $ui_Download_Directory
+	git clone $sourceDownload_cpuminer
+	cd $ui_Download_Directory/cpuminer
+	$ui_conf_autogen.sh
+	$ui_conf_configure CFLAGS="-O3"
+	make
+	
+
+	
+	cd ~
+}
 
 # script start
 
