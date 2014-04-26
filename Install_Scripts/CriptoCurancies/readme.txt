@@ -12,6 +12,8 @@ for tabbles and more tables comparing everything
 	https://en.bitcoin.it/wiki/Mining_hardware_comparison
 	
 for compiling cpuminer from source
+
+
 	https://litecoin.info/Mining_hardware_comparison
 # cflag options for ARM
 most use the following ~
