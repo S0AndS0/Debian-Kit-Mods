@@ -16,6 +16,7 @@ default_cpuM_threadCount=1
 # web addresses
 sourceInfo_Link=http://linuxclues.blogspot.com/2013/08/cpuminer-build-source-debian-litecoin.html
 sourceInfo_Link2=http://www.jerri.de/blog/archives/2006/05/02/scripting_screen_for_fun_and_profit/
+sourceInfo_Link3=https://litecoin.info/Mining_hardware_comparison
 
 sourceDownload_cpuminer=https://github.com/pooler/cpuminer
 # functions user prompts
@@ -83,8 +84,7 @@ setDownload_Directory () {
 	fi
 } 
 setOptions_cpuminerRun () { 
-	
-	echo "There are many options that can be set to run and checking : ./minerd -h : is a great way to more."
+	echo "There are many options that can be set to run and checking : ./minerd -h : is a great way to find more."
 	echo "For now this script will display the following usefull options..."
 	echo "	-x, --proxy=[PROTOCOL://]HOST[:PORT] connect through a proxy"
 	echo "	-t, --threads=N number of miner threads (default: number of processors)"
@@ -96,11 +96,36 @@ setOptions_cpuminerRun () {
 	echo ""
 	echo "A compleat working example bassed off your inputs can be found bellow..."
 	echo "	./minerd -t $default_cpuM_threadCount -o $mineAddress:$ui_mineAddress_port -u $ui_mineAddress_username -p $ui_mineAddress_password"
-	echo -n "How many processores are you using for mining today [1 2 3..]? "
+	echo "How many processores are you using for mining today?"
+	echo -n "Don't choose more than what your system has [1 2 3..]? "
 	read ui_cpuM_threadCount
 	default_cpuM_threadCount=$ui_cpuM_threadCount
+} 
+androidSafties () { 
+	echo "If your running this script on Android running Linux then battery/CPU temp will nead to be monitored by you."
+	echo "This script will atempt to help with keeping your battery temp down by killing the screen running cpuminer software and restart the services automaticly when the battery's temp has gone down again."
+	echo "To do this the following variable \$fBatteryTemp : $fBatteryTemp : should have an output showing. Continue only if this is true!"
+	promptTo_continue
+	
+#	$fBatteryTemp
+	
+} 
 
-# ./minerd -t $default_cpuM_threadCount -o $mineAddress:$ui_mineAddress_port -u $ui_mineAddress_username -p $ui_mineAddress_password -D
+screenSetting () { 
+	
+#	screen command examples
+# start a screen session under a given name and send a command to that newly created terminal within that screen
+screen -mS testName echo "hello $USER"
+# start a screen session under a given name and send a command to that newly created terminal within that screen and emidieatly detach it so the curent session remains in user view
+screen -mSd testName echo "hello $USER"
+
+# reatach with a virtical split
+screen -r testName -X V
+# reatach with a horizontal split
+screen -r testName -X S
+
+# end a screen and it's processes from outside the above screen name
+screen -r testName -X quit
 	
 } 
 
@@ -124,15 +149,18 @@ mine_with_cpuminer () {
 	$ui_conf_autogen.sh
 	$ui_conf_configure CFLAGS="-O3"
 	make
+	echo "About to start mining using the following"
 	
-
-	
+	echo "	./minerd -t $default_cpuM_threadCount -o $mineAddress:$ui_mineAddress_port -u $ui_mineAddress_username -p $ui_mineAddress_password -D"
+	promptTo_continue
+	./minerd --no-longpoll -a sha256d -t $default_cpuM_threadCount -o $mineAddress:$ui_mineAddress_port -u $ui_mineAddress_username -p $ui_mineAddress_password -D
+	# ./minerd --no-longpoll -a sha256d -t $default_cpuM_threadCount --url http://pit.deepbit.net:8332 --userpass $ui_mineAddress_username:$ui_mineAddress_password
 	cd ~
 }
 
-# script start
+# script run start
 
-# script end
+# script run end
 echo "End of script, exiting now..."
 exit
 # Credits
@@ -141,6 +169,11 @@ exit
 http://linuxclues.blogspot.com/2013/08/cpuminer-build-source-debian-litecoin.html
 
 # examples
+
+http://unix.stackexchange.com/questions/74874/pkill-cant-kill-processes-with-parent-process-id-1
+# to kill an unresponcive background task use the following
+pkill -SIGKILL minerd
+# and add 
 
 #	screen command examples
 # start a screen session under a given name and send a command to that newly created terminal within that screen
@@ -194,4 +227,21 @@ long polling is unavailable, in seconds (default: 5)
 -h, --help display this help text and exit.
 
 
+http://webcache.googleusercontent.com/search?q=cache:EiHbDpksWkAJ:https://bitcointalk.org/index.php%3Ftopic%3D55038.0+&cd=1&hl=en&ct=clnk&gl=us
+Q: What's the difference between the two available algorithms, scrypt and sha256d?
+A: They are completely different proof-of-work algorithms. 
+You must use scrypt for Litecoin, and you must use sha256d for Bitcoin. 
+The default algorithm is scrypt, 
+so for Bitcoin mining you have to specify --algo=sha256d
+
+# cflag options for ARM
+most use the following ~
+on ~ 						Soft Float
+	CFLAGS="-O3"
+on ~						Debian 7 armhf, Samsung Galaxy S II, 
+	CFLAGS="-O3 -mfpu=neon"
+ARM Cortex-A9 (L2=1MiB) 	Linaro Ubuntu LIB-12.09.6A, Freescale i.MX6 Quad, Sabre-Lite Board
+	CFLAGS="-O2"
+ARM Cortex-A15 				ChrUbuntu 12.04, Samsung Chromebook XE303C12
+	CFLAGS="-O3 -mfpu=neon-vfpv4"
 
