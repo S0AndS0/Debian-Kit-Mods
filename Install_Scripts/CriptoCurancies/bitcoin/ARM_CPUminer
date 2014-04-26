@@ -12,6 +12,8 @@ fUSB=`dmesg | grep -E 'usb' | grep -v 'off'`
 
 mineAddress=pit.deepbit.net
 default_cpuM_threadCount=1
+default_cflag=-O3
+
 
 # web addresses
 sourceInfo_Link=http://linuxclues.blogspot.com/2013/08/cpuminer-build-source-debian-litecoin.html
@@ -83,6 +85,42 @@ setDownload_Directory () {
 		exit
 	fi
 } 
+
+setMake_Config () { 
+	echo "When using the : make : command to install these programs to your Linux system running : configure : is a must to get the best performance."
+	echo "I found running configure with : CFLAGS=\"-O3 -mfpu=neon\" : on ARM soft float, prvided by Debian Kit, to work well."
+	echo "Others have found the following to work for thier systems..."
+	echo "on ~ 						Soft Float"
+	echo "	CFLAGS=\"-O3\""
+	echo "on ~						Debian 7 armhf - Samsung Galaxy S II, Debian 6 armel myTouch 3G slide"
+	echo	"CFLAGS=\"-O3 -mfpu=neon\""
+	echo "ARM Cortex-A9 (L2=1MiB) 	Linaro Ubuntu LIB-12.09.6A, Freescale i.MX6 Quad, Sabre-Lite Board"
+	echo "	CFLAGS=\"-O2\""
+	echo "ARM Cortex-A15 				ChrUbuntu 12.04, Samsung Chromebook XE303C12"
+	echo "	CFLAGS=\"-O3 -mfpu=neon-vfpv4\""
+	echo "You may now choose one of those options. Note that the default is : $default_cflag"
+	echo "_________"
+	echo "Input - 1 - to run : ./configure CFLAGS=\"-O3\""
+	echo "Input - 2 - to run : ./configure CFLAGS=\"-O3 -mfpu=neon\""
+	echo "Input - 3 - to run : ./configure CFLAGS=\"-O3 -mfpu=neon-vfpv4\""
+	echo -n "Please input a number now - "
+	read ui_cflag
+	if [ $ui_cflag = 1 ]
+	then
+		ui_cflag="-O3"
+	elif [ $ui_cflag = 2 ]
+	then
+		ui_cflag="-O3 -mfpu=neon"
+	elif [ $ui_cflag = 3 ]
+	then
+		ui_cflag="-O3 -mfpu=neon-vfpv4"
+	else [ $ui_cflag = * ]
+		ui_cflag="-O3"
+		echo "Invalid input recived, using defaults..."
+	fi
+	echo "configure set to use : $ui_cflag"
+} 
+
 setOptions_cpuminerRun () { 
 	echo "There are many options that can be set to run and checking : ./minerd -h : is a great way to find more."
 	echo "For now this script will display the following usefull options..."
@@ -147,7 +185,7 @@ mine_with_cpuminer () {
 	git clone $sourceDownload_cpuminer
 	cd $ui_Download_Directory/cpuminer
 	$ui_conf_autogen.sh
-	$ui_conf_configure CFLAGS="-O3"
+	$ui_conf_configure CFLAGS="$ui_cflag"
 	make
 	echo "About to start mining using the following"
 	
@@ -155,6 +193,7 @@ mine_with_cpuminer () {
 	promptTo_continue
 	./minerd --no-longpoll -a sha256d -t $default_cpuM_threadCount -o $mineAddress:$ui_mineAddress_port -u $ui_mineAddress_username -p $ui_mineAddress_password -D
 	# ./minerd --no-longpoll -a sha256d -t $default_cpuM_threadCount --url http://pit.deepbit.net:8332 --userpass $ui_mineAddress_username:$ui_mineAddress_password
+	
 	cd ~
 }
 
@@ -173,7 +212,7 @@ http://linuxclues.blogspot.com/2013/08/cpuminer-build-source-debian-litecoin.htm
 http://unix.stackexchange.com/questions/74874/pkill-cant-kill-processes-with-parent-process-id-1
 # to kill an unresponcive background task use the following
 pkill -SIGKILL minerd
-# and add 
+# 	to find tasks to kill use the : ps : or : top : commands
 
 #	screen command examples
 # start a screen session under a given name and send a command to that newly created terminal within that screen
@@ -234,14 +273,4 @@ You must use scrypt for Litecoin, and you must use sha256d for Bitcoin.
 The default algorithm is scrypt, 
 so for Bitcoin mining you have to specify --algo=sha256d
 
-# cflag options for ARM
-most use the following ~
-on ~ 						Soft Float
-	CFLAGS="-O3"
-on ~						Debian 7 armhf, Samsung Galaxy S II, 
-	CFLAGS="-O3 -mfpu=neon"
-ARM Cortex-A9 (L2=1MiB) 	Linaro Ubuntu LIB-12.09.6A, Freescale i.MX6 Quad, Sabre-Lite Board
-	CFLAGS="-O2"
-ARM Cortex-A15 				ChrUbuntu 12.04, Samsung Chromebook XE303C12
-	CFLAGS="-O3 -mfpu=neon-vfpv4"
 
