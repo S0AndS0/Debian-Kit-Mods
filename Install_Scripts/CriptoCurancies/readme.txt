@@ -10,6 +10,41 @@ for Stratum mining proxy
 	https://github.com/slush0/stratum-mining-proxy
 for tabbles and more tables comparing everything
 	https://en.bitcoin.it/wiki/Mining_hardware_comparison
+	
+for compiling cpuminer from source
+	https://litecoin.info/Mining_hardware_comparison
+# cflag options for ARM
+most use the following ~
+on ~ 						Soft Float
+	CFLAGS="-O3"
+on ~						Debian 7 armhf, Samsung Galaxy S II, 
+	CFLAGS="-O3 -mfpu=neon"
+ARM Cortex-A9 (L2=1MiB) 	Linaro Ubuntu LIB-12.09.6A, Freescale i.MX6 Quad, Sabre-Lite Board
+	CFLAGS="-O2"
+ARM Cortex-A15 				ChrUbuntu 12.04, Samsung Chromebook XE303C12
+	CFLAGS="-O3 -mfpu=neon-vfpv4"
+	
+	https://wiki.debian.org/ArmHardFloatPort/VfpComparison
+there maybe options for
+	VFPv1 - obsoleted by ARM
+	VFPv2 - optional on ARMv5 and ARMv6 cores
+		~ Supports standard FPU arithmetic (add, sub, neg, mul, div), full square root
+		~ 16 64-bit FPU registers
+	VFPv3[-D32]
+		Broadly compatible with VFPv2 but adds
+			~ Exception-less FPU usage
+			~ 32 64-bit FPU registers as standard
+			~ Adds VCVT instructions to convert between scalar, float and double.
+			~ Adds immediate mode to VMOV such that constants can be loaded into FPU registers
+	VFPv3-D16
+		~ As above, but only has 16 64-bit FPU registers in VFPv3-D16 variant
+	VFPv3-F16 variant
+		~ Uncommon but supports IEEE754-2008 half-precision (16-bit) floating point
+	VFPv4
+		~ Cortex-A5
+		~ Has a "fused multiply-accumulate"
+
+
 arcived link to config options that may be usefull
 	http://webcache.googleusercontent.com/search?q=cache:iaTfeAd3LssJ:https://bitcointalk.org/index.php%3Ftopic%3D55038.640+&cd=3&hl=en&ct=clnk&gl=us
 [QUOTE=https://bitcointalk.org/index.php?action=profile;u=125532]
