@@ -7,19 +7,23 @@ umask 022
 cpuM_fullScriptPath="$(readlink -f $0)"
 # deleat last componit from ThisScript and store to another variable
 cpuM_ScriptDirectory="$(dirname $cpuM_fullScriptPath)"
-fBatteryTemp=`dmesg | grep -E 'BATT' | awk '{gsub("Temp:""","");print $7}' | sed 's/.$//' | tail -1`
-fUSB=`dmesg | grep -E 'usb' | grep -v 'off'`
+fBatteryTemp=`dmesg | grep -E 'BATT' | sed -e 's/\(.*\)\(Temp:\) //p' | tail -1 | awk '{print $1}'`
+
 
 mineAddress=pit.deepbit.net
 default_cpuM_threadCount=1
 default_cflag=-O3
-
+# note : don't forget to put : /n' : at the end of the line to close the command
+screenStuffer="screen -r $ui_screenName -p 0 -X stuff"
+screenHeader_startScreen="screen -d -m -S $ui_screenName"
+screenHeader_sendCommand="screen -r $ui_screenName"
 
 # web addresses
 sourceInfo_Link=http://linuxclues.blogspot.com/2013/08/cpuminer-build-source-debian-litecoin.html
 sourceInfo_Link2=http://www.jerri.de/blog/archives/2006/05/02/scripting_screen_for_fun_and_profit/
 sourceInfo_Link3=https://litecoin.info/Mining_hardware_comparison
-
+sourceInfo_Link4=http://www.linuxquestions.org/questions/linux-software-2/how-to-send-a-command-to-a-screen-session-625015/
+sourceInfo_Link5=http://stackoverflow.com/questions/19309043/send-a-command-to-a-window-in-a-running-screen-session-from-a-bash-script
 sourceDownload_cpuminer=https://github.com/pooler/cpuminer
 # functions user prompts
 
@@ -144,12 +148,54 @@ androidSafties () {
 	echo "This script will atempt to help with keeping your battery temp down by killing the screen running cpuminer software and restart the services automaticly when the battery's temp has gone down again."
 	echo "To do this the following variable \$fBatteryTemp : $fBatteryTemp : should have an output showing. Continue only if this is true!"
 	promptTo_continue
+	echo "Your curent battery Tempreture is : $fBatteryTemp"
+	echo -n "Please input the max tempreture you want to run this software up to -: "
+	read ui_tempretureLevel_Kill
+	echo "\$ui_tempretureLevel_Kill set to : $ui_tempretureLevel_Kill"
+	echo "If : $fBatteryTemp : greater than : $ui_tempretureLevel_Kill : then : $screenHeader_sendCommand -X quit : will be sent to kill the offending tasks."
+	echo "	Then after the tempreture is less than : $ui_tempretureLevel_Kill : then : : and"
+	echo "	 $screenHeader_startScreen : and :"
+	echo "	 $screenStuffer $'$ui_Download_Directory/cpuminer/./minerd -a sha256d -t $default_cpuM_threadCount -o $mineAddress:$ui_mineAddress_port -u $ui_mineAddress_username -p $ui_mineAddress_password -D /n'"
+	echo "	 will be sent to restart the service in the background again."
+	
+# examples of power/tempreture monitoring
+# 	Modifide from 
+#	http://askubuntu.com/questions/417340/how-do-i-lower-the-critical-temperature/417374#417374
+	
+	while true;do
+		t=$fBatteryTemp
+		if (( $t > $ui_tempretureLevel_Kill )); then  
+			echo "Temp High : $t"
+			echo "Sending the following commands and giving your hardware a 120 second break before checking if services can be restarted"
+			$screenHeader_sendCommand -X quit
+			sleep 120
+			
+		elif (( $t < $ui_tempretureLevel_Kill )); then
+			echo "Temp ok : $t"
+			echo "Sending the following commands to restart services"
+			$screenHeader_startScreen
+			$screenStuffer $'$ui_Download_Directory/cpuminer/./minerd -a sha256d -t $default_cpuM_threadCount -o $mineAddress:$ui_mineAddress_port -u $ui_mineAddress_username -p $ui_mineAddress_password -D /n'
+			echo "You may now re-atach to the screen running your services with : $screenHeader_sendCommand"
+		
+		fi 
+	sleep 60 
+	done
+
 	
 #	$fBatteryTemp
 	
 } 
 
 screenSetting () { 
+	
+	echo "The : screen : command line program will be used to run mining software so mining operations can be controlled."
+	echo "You may kill the screen and it's prosesses with : screen -r testName -X quit"
+	echo "You may reatach to the screen with : screen -r testName"
+	echo "You may detach from a screen with : Ctrl a d : Note for Android terminal one of your volume or function keys will take the place of the : Ctrl : button."
+	echo -n "What do you want to name your screen session for mining?"
+	read ui_screenName
+	
+	echo "$ui_screenName : set for mining"
 	
 #	screen command examples
 # start a screen session under a given name and send a command to that newly created terminal within that screen
@@ -187,15 +233,27 @@ mine_with_cpuminer () {
 	$ui_conf_autogen.sh
 	$ui_conf_configure CFLAGS="$ui_cflag"
 	make
-	echo "About to start mining using the following"
+	echo "About to start mining using the following in : $ui_screenName"
 	
-	echo "	./minerd -t $default_cpuM_threadCount -o $mineAddress:$ui_mineAddress_port -u $ui_mineAddress_username -p $ui_mineAddress_password -D"
+	echo "	$ui_Download_Directory/cpuminer/./minerd -t $default_cpuM_threadCount -o $mineAddress:$ui_mineAddress_port -u $ui_mineAddress_username -p $ui_mineAddress_password -D"
 	promptTo_continue
-	./minerd --no-longpoll -a sha256d -t $default_cpuM_threadCount -o $mineAddress:$ui_mineAddress_port -u $ui_mineAddress_username -p $ui_mineAddress_password -D
+	cd ~
+	screen -d -m -S $ui_screenName
+	$screenStuffer $'$ui_Download_Directory/cpuminer/./minerd -a sha256d -t $default_cpuM_threadCount -o $mineAddress:$ui_mineAddress_port -u $ui_mineAddress_username -p $ui_mineAddress_password -D /n'
 	# ./minerd --no-longpoll -a sha256d -t $default_cpuM_threadCount --url http://pit.deepbit.net:8332 --userpass $ui_mineAddress_username:$ui_mineAddress_password
 	
-	cd ~
 }
+
+writeCustom_miningScripts () { 
+	echo "This script being writen to : $ui_Download_Directory/OverEasy.sh : is yours and custum made for you and your system. There is no reason to share this file because it will contain your information for loging into your worker."
+	echo ""
+	echo 'cd ~
+	screen -d -m -S $ui_screenName
+	$screenStuffer $'$ui_Download_Directory/cpuminer/./minerd -a sha256d -t $default_cpuM_threadCount -o $mineAddress:$ui_mineAddress_port -u $ui_mineAddress_username -p $ui_mineAddress_password -D /n'
+		
+	' $ui_teeFile $ui_Download_Directory/OverEasy.sh
+	
+} 
 
 # script run start
 
@@ -272,5 +330,27 @@ A: They are completely different proof-of-work algorithms.
 You must use scrypt for Litecoin, and you must use sha256d for Bitcoin. 
 The default algorithm is scrypt, 
 so for Bitcoin mining you have to specify --algo=sha256d
+
+# example of sed paturn printing
+sed -n -e 's/^.*stalled: //p'
+someCommand | sed -e 's/BATT: //p'
+
+# examples of power/tempreture monitoring
+# 	Modifide from 
+#	http://askubuntu.com/questions/417340/how-do-i-lower-the-critical-temperature/417374#417374
+while true;do
+	t=$fBatteryTemp
+	if (( $t > $ui_tempretureLevel_Kill )); then 				# max temp in whichever units your sensors outputs 
+		echo "Temp High : $t"
+		echo "Sending the following commands and giving your hardware a 120 second break before checking if services can be restarted"
+		
+		
+	elif (( $t < $ui_tempretureLevel_Kill )); then
+		echo "Temp ok : $t"
+		
+	
+	fi 
+	sleep 60 
+done
 
 
