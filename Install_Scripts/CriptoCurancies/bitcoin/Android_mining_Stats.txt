@@ -1,0 +1,10 @@
+I have tested the following devices to work with cpuminer software when running under Linux
+
+
+Coin ~|~ Pool ~|~ Hashes ~|~ Processor and device info
+BitCoin ~|~ http://pit.deepbit.net:8332 ~|~ 170(+-) Khash/s ~|~ ARMv6 rev 5 (v6l) single core HTC myTouch 3G slide rooted and running Squeeze Linux soft float
+BtiCoin ~|~ deepbit.net ~|~ 550(+-) Khash/s ~|~ ARMv7 rev 9 (v7l) four core Hisenes Sero 7" Pro tablet rooted and running Squeeze Linux soft float
+
+LiteCoin ~|~ stratum+tcp://freadom.wemineltc.com:3333 ~|~ 0.29 (+-) Khash/s ~|~ ARMv6 rev 5 (v6l) single core HTC myTouch 3G slide rooted and running Squeeze Linux soft float
+
+
