@@ -65,19 +65,6 @@ case "$response" in
 	;;
 esac
 } 
-setAndroidNOAndroid () { 
-read -r -p "Are you running Linux on Android right now? [Y/n] " response
-case "$response" in
-	[yY][eE][sS]|[yY])
- # if yes, use apt-get for installs
- 		ui_AndroidNoAndroid=yes
-		;;
-	*)
- #		 Otherwise use sudo apt-get for installs..
-	ui_AndroidNoAndroid=no
-	;;
-esac
-} 
 setDownload_Directory () { 
 	echo "Use - home - to download to : $HOME"
 	echo "Use - download - to download to : $HOME/Download"
@@ -169,6 +156,22 @@ androidSafties () {
 	echo "	 $screenHeader_startScreen : and :"
 	echo "	 $screenStuffer $'$ui_Download_Directory/cpuminer/./minerd -a sha256d -t $default_cpuM_threadCount -o $mineAddress:$ui_mineAddress_port -u $ui_mineAddress_username -p $ui_mineAddress_password -D /n'"
 	echo "	 will be sent to restart the service in the background again."
+}
+setAndroidNOAndroid () { 
+read -r -p "Are you running Linux on Android right now? [Y/n] " response
+case "$response" in
+	[yY][eE][sS]|[yY])
+ # if yes, use apt-get for installs
+ 		ui_AndroidNoAndroid=yes
+ 		androidSafties
+		;;
+	*)
+ #		 Otherwise use sudo apt-get for installs..
+	ui_AndroidNoAndroid=no
+	;;
+esac
+} 
+androidMining () { 
 # examples of power/tempreture monitoring
 # 	Modifide from 
 #	http://askubuntu.com/questions/417340/how-do-i-lower-the-critical-temperature/417374#417374
@@ -224,7 +227,7 @@ mine_with_cpuminer () {
 	cd ~
 	if [ $ui_AndroidNoAndroid = yes ]
 	then
-		androidSafties
+		androidMining
 	elif [ $ui_AndroidNoAndroid = no ]
 	then
 		echo "You are responsible for monitoring your own hardware temp."
