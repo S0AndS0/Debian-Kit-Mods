@@ -9,7 +9,6 @@ cpuM_fullScriptPath="$(readlink -f $0)"
 cpuM_ScriptDirectory="$(dirname $cpuM_fullScriptPath)"
 fBatteryTemp=`dmesg | grep -E 'BATT' | sed -e 's/\(.*\)\(Temp:\) //p' | tail -1 | awk '{print $1}'`
 
-
 mineAddress=pit.deepbit.net
 default_cpuM_threadCount=1
 default_cflag=-O3
@@ -49,7 +48,7 @@ setUserAcount_settings () {
 	read ui_mineAddress_password
 }
 ui_rootNOroot () { 
-read -r -p "Are you running as root right now? [Y/n]" response
+read -r -p "Are you running as root right now? [Y/n] " response
 case "$response" in
 	[yY][eE][sS]|[yY])
  # if yes, use apt-get for installs
@@ -60,8 +59,21 @@ case "$response" in
 	*)
  #		 Otherwise use sudo apt-get for installs..
 	ui_aptgetSudo="sudo apt-get"
-	ui_conf_="sudo ./"
+	ui_conf_="./"
 	ui_teeFile="sudo tee -a"
+	;;
+esac
+} 
+setAndroidNOAndroid () { 
+read -r -p "Are you running Linux on Android right now? [Y/n] " response
+case "$response" in
+	[yY][eE][sS]|[yY])
+ # if yes, use apt-get for installs
+ 		ui_AndroidNoAndroid=yes
+		;;
+	*)
+ #		 Otherwise use sudo apt-get for installs..
+	ui_AndroidNoAndroid=no
 	;;
 esac
 } 
@@ -89,7 +101,6 @@ setDownload_Directory () {
 		exit
 	fi
 } 
-
 setMake_Config () { 
 	echo "When using the : make : command to install these programs to your Linux system running : configure : is a must to get the best performance."
 	echo "I found running configure with : CFLAGS=\"-O3 -mfpu=neon\" : on ARM soft float, prvided by Debian Kit, to work well."
@@ -124,7 +135,6 @@ setMake_Config () {
 	fi
 	echo "configure set to use : $ui_cflag"
 } 
-
 setOptions_cpuminerRun () { 
 	echo "There are many options that can be set to run and checking : ./minerd -h : is a great way to find more."
 	echo "For now this script will display the following usefull options..."
@@ -157,11 +167,9 @@ androidSafties () {
 	echo "	 $screenHeader_startScreen : and :"
 	echo "	 $screenStuffer $'$ui_Download_Directory/cpuminer/./minerd -a sha256d -t $default_cpuM_threadCount -o $mineAddress:$ui_mineAddress_port -u $ui_mineAddress_username -p $ui_mineAddress_password -D /n'"
 	echo "	 will be sent to restart the service in the background again."
-	
 # examples of power/tempreture monitoring
 # 	Modifide from 
 #	http://askubuntu.com/questions/417340/how-do-i-lower-the-critical-temperature/417374#417374
-	
 	while true;do
 		t=$fBatteryTemp
 		if (( $t > $ui_tempretureLevel_Kill )); then  
@@ -169,48 +177,24 @@ androidSafties () {
 			echo "Sending the following commands and giving your hardware a 120 second break before checking if services can be restarted"
 			$screenHeader_sendCommand -X quit
 			sleep 120
-			
 		elif (( $t < $ui_tempretureLevel_Kill )); then
 			echo "Temp ok : $t"
 			echo "Sending the following commands to restart services"
 			$screenHeader_startScreen
 			$screenStuffer $'$ui_Download_Directory/cpuminer/./minerd -a sha256d -t $default_cpuM_threadCount -o $mineAddress:$ui_mineAddress_port -u $ui_mineAddress_username -p $ui_mineAddress_password -D /n'
 			echo "You may now re-atach to the screen running your services with : $screenHeader_sendCommand"
-		
 		fi 
 	sleep 60 
-	done
-
-	
-#	$fBatteryTemp
-	
+	done	
 } 
-
 screenSetting () { 
-	
 	echo "The : screen : command line program will be used to run mining software so mining operations can be controlled."
 	echo "You may kill the screen and it's prosesses with : screen -r testName -X quit"
 	echo "You may reatach to the screen with : screen -r testName"
 	echo "You may detach from a screen with : Ctrl a d : Note for Android terminal one of your volume or function keys will take the place of the : Ctrl : button."
 	echo -n "What do you want to name your screen session for mining?"
 	read ui_screenName
-	
 	echo "$ui_screenName : set for mining"
-	
-#	screen command examples
-# start a screen session under a given name and send a command to that newly created terminal within that screen
-screen -mS testName echo "hello $USER"
-# start a screen session under a given name and send a command to that newly created terminal within that screen and emidieatly detach it so the curent session remains in user view
-screen -mSd testName echo "hello $USER"
-
-# reatach with a virtical split
-screen -r testName -X V
-# reatach with a horizontal split
-screen -r testName -X S
-
-# end a screen and it's processes from outside the above screen name
-screen -r testName -X quit
-	
 } 
 
 # functions - fixed and compiled
@@ -225,7 +209,6 @@ dependsInstall_cpuminer () {
 dependsInstall_script () { 
 	$ui_aptgetSudo -yq install screen
 } 
-
 mine_with_cpuminer () { 
 	cd $ui_Download_Directory
 	git clone $sourceDownload_cpuminer
@@ -234,29 +217,82 @@ mine_with_cpuminer () {
 	$ui_conf_configure CFLAGS="$ui_cflag"
 	make
 	echo "About to start mining using the following in : $ui_screenName"
-	
-	echo "	$ui_Download_Directory/cpuminer/./minerd -t $default_cpuM_threadCount -o $mineAddress:$ui_mineAddress_port -u $ui_mineAddress_username -p $ui_mineAddress_password -D"
+	echo "	$ui_Download_Directory/cpuminer/./minerd -a sha256d -t $default_cpuM_threadCount -o $mineAddress:$ui_mineAddress_port -u $ui_mineAddress_username -p $ui_mineAddress_password -D"
 	promptTo_continue
 	cd ~
-	screen -d -m -S $ui_screenName
-	$screenStuffer $'$ui_Download_Directory/cpuminer/./minerd -a sha256d -t $default_cpuM_threadCount -o $mineAddress:$ui_mineAddress_port -u $ui_mineAddress_username -p $ui_mineAddress_password -D /n'
-	# ./minerd --no-longpoll -a sha256d -t $default_cpuM_threadCount --url http://pit.deepbit.net:8332 --userpass $ui_mineAddress_username:$ui_mineAddress_password
-	
+	if [ $ui_AndroidNoAndroid = yes ]
+	then
+		androidSafties
+	elif [ $ui_AndroidNoAndroid = no ]
+	then
+		echo "You are responsible for monitoring your own hardware temp."
+		echo "Use : $screenHeader_sendCommand -X quit : to kill the screen and it's tasks if you notice bad behavior."
+		$ui_Download_Directory/cpuminer/./minerd -a sha256d -t $default_cpuM_threadCount -o $mineAddress:$ui_mineAddress_port -u $ui_mineAddress_username -p $ui_mineAddress_password -D
+	else [ $ui_AndroidNoAndroid = * ]
+		echo "Invalid input recived, exiting now..."
+		exit
+	fi
+	cd ~
 }
-
 writeCustom_miningScripts () { 
 	echo "This script being writen to : $ui_Download_Directory/OverEasy.sh : is yours and custum made for you and your system. There is no reason to share this file because it will contain your information for loging into your worker."
 	echo ""
-	echo 'cd ~
-	screen -d -m -S $ui_screenName
-	$screenStuffer $'$ui_Download_Directory/cpuminer/./minerd -a sha256d -t $default_cpuM_threadCount -o $mineAddress:$ui_mineAddress_port -u $ui_mineAddress_username -p $ui_mineAddress_password -D /n'
-		
-	' $ui_teeFile $ui_Download_Directory/OverEasy.sh
-	
+	echo '#!/bin/bash
+		fBatteryTemp=`dmesg | grep -E 'BATT' | sed -e 's/\(.*\)\(Temp:\) //p' | tail -1 | awk '{print \$1}'`
+		default_cpuM_threadCount=$default_cpuM_threadCount
+		ui_tempretureLevel_Kill=$ui_tempretureLevel_Kill
+		cd ~
+		while true;do
+		t=\$fBatteryTemp
+		if (( \$t > \$ui_tempretureLevel_Kill )); then  
+			echo "Temp High : \$t"
+			echo "Sending the following commands and giving your hardware a 120 second break before checking if services can be restarted"
+			$screenHeader_sendCommand -X quit
+			sleep 120
+		elif (( \$t < \$ui_tempretureLevel_Kill )); then
+			echo "Temp ok : \$t"
+			echo "Sending the following commands to restart services"
+			$screenHeader_startScreen
+			$screenStuffer \$'$ui_Download_Directory/cpuminer/./minerd -a sha256d -t \$default_cpuM_threadCount -o $mineAddress:$ui_mineAddress_port -u $ui_mineAddress_username -p $ui_mineAddress_password -D /n'
+			echo "You may now re-atach to the screen running your services with : $screenHeader_sendCommand"
+		fi 
+	sleep 60 
+	done' $ui_teeFile $ui_Download_Directory/OverEasy.sh
 } 
 
 # script run start
-
+echo "This script was writen for ARM processors running Linux (Debian flavored)"
+echo "This running this script un-atended is not advisable eventhough every efort has been taken to prevent hardware damage."
+echo "By continuing to use this script you accept sole resposiblity for what happens."
+echo "The auther of this script will not accept resposibilty for your desisions."
+echo "You have been warned"
+#			Line 29 	exit on anything other than "yes/Y"
+promptTo_continue
+echo "Running a series of prompts to set : install, configure, and make options."
+#			Line 50 	set variables for installing and writing files
+ui_rootNOroot
+#			Line 104 	set configure flag options
+setMake_Config
+#			Line 80 	set directorie to be used for downloads
+setDownload_Directory
+#			Line 67 	set temprature monitoring
+setAndroidNOAndroid
+echo "Running a series of prompts to set : screen, temprature, and mining options."
+#			Line 190 	set variables for screen command
+screenSetting
+#			Line 138 	set options for minerd command
+setOptions_cpuminerRun
+#			Line 43 	set options for login with minerd
+setUserAcount_settings
+echo "Running commands to : install, configure, make, and run software. Sit back and enjoy..."
+#			Line 209 	install packages that make the rest if this script work
+dependsInstall_script
+#			Line 202 	install packages that minerd depends on
+dependsInstall_cpuminer
+#			Line 237 	write a script to start and stop minerd bassed on your battery's temprature
+writeCustom_miningScripts
+#			Line 212 	download and install minerd and start up mining service
+mine_with_cpuminer
 # script run end
 echo "End of script, exiting now..."
 exit
@@ -323,7 +359,6 @@ long polling is unavailable, in seconds (default: 5)
 -V, --version display version information and exit.
 -h, --help display this help text and exit.
 
-
 http://webcache.googleusercontent.com/search?q=cache:EiHbDpksWkAJ:https://bitcointalk.org/index.php%3Ftopic%3D55038.0+&cd=1&hl=en&ct=clnk&gl=us
 Q: What's the difference between the two available algorithms, scrypt and sha256d?
 A: They are completely different proof-of-work algorithms. 
@@ -344,13 +379,22 @@ while true;do
 		echo "Temp High : $t"
 		echo "Sending the following commands and giving your hardware a 120 second break before checking if services can be restarted"
 		
-		
 	elif (( $t < $ui_tempretureLevel_Kill )); then
 		echo "Temp ok : $t"
 		
-	
 	fi 
 	sleep 60 
 done
 
+# for use in this script
+	if [ $ui_AndroidNoAndroid = yes ]
+	then
+		
+	elif [ $ui_AndroidNoAndroid = no ]
+	then
+		
+	else [ $ui_AndroidNoAndroid = * ]
+		echo "Invalid input recived, exiting now..."
+		exit
+	fi
 
