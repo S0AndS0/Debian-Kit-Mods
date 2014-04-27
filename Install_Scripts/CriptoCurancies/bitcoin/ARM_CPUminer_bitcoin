@@ -1,6 +1,7 @@
 #!/bin/bash
 PATH=/bin:/usr/bin:/usr/local/bin ; export PATH 
 umask 022
+echo "___setting_variables"
 # Variables
  : ${USER?} ${HOME?} 
 # find the name of this script and store it to a variable
@@ -25,7 +26,7 @@ sourceInfo_Link4=http://www.linuxquestions.org/questions/linux-software-2/how-to
 sourceInfo_Link5=http://stackoverflow.com/questions/19309043/send-a-command-to-a-window-in-a-running-screen-session-from-a-bash-script
 sourceDownload_cpuminer=https://github.com/pooler/cpuminer
 # functions user prompts
-
+echo "___setting_functions"
 promptTo_continue () { 
 read -r -p "Are you sure? [Y/n]" response
 case "$response" in
@@ -105,6 +106,7 @@ setMake_Config () {
 	echo "When using the : make : command to install these programs to your Linux system running : configure : is a must to get the best performance."
 	echo "I found running configure with : CFLAGS=\"-O3 -mfpu=neon\" : on ARM soft float, prvided by Debian Kit, to work well."
 	echo "Others have found the following to work for thier systems..."
+	echo "_________"
 	echo "on ~ 						Soft Float"
 	echo "	CFLAGS=\"-O3\""
 	echo "on ~						Debian 7 armhf - Samsung Galaxy S II, Debian 6 armel myTouch 3G slide"
@@ -259,7 +261,7 @@ writeCustom_miningScripts () {
 	sleep 60 
 	done' $ui_teeFile $ui_Download_Directory/OverEasy.sh
 } 
-
+echo "___starting_script"
 # script run start
 echo "This script was writen for ARM processors running Linux (Debian flavored)"
 echo "This running this script un-atended is not advisable eventhough every efort has been taken to prevent hardware damage."
@@ -271,19 +273,19 @@ promptTo_continue
 echo "Running a series of prompts to set : install, configure, and make options."
 #			Line 50 	set variables for installing and writing files
 ui_rootNOroot
+#			Line 67 	set temprature monitoring
+setAndroidNOAndroid
 #			Line 104 	set configure flag options
 setMake_Config
 #			Line 80 	set directorie to be used for downloads
 setDownload_Directory
-#			Line 67 	set temprature monitoring
-setAndroidNOAndroid
 echo "Running a series of prompts to set : screen, temprature, and mining options."
 #			Line 190 	set variables for screen command
 screenSetting
-#			Line 138 	set options for minerd command
-setOptions_cpuminerRun
 #			Line 43 	set options for login with minerd
 setUserAcount_settings
+#			Line 138 	set options for minerd command
+setOptions_cpuminerRun
 echo "Running commands to : install, configure, make, and run software. Sit back and enjoy..."
 #			Line 209 	install packages that make the rest if this script work
 dependsInstall_script
