@@ -218,7 +218,7 @@ dependsInstall_cpuminer () {
 	$ui_aptgetSudo -yq install pkg-config
 	$ui_aptgetSudo -yq install gcc
 	$ui_aptgetSudo -yq install make
-	$ui_aptgetSudo -yq install libcurl3-gnutls-dev 
+	$ui_aptgetSudo -yq install libcurl3-gnutls-dev
 } 
 dependsInstall_script () { 
 	$ui_aptgetSudo -yq install screen
@@ -226,7 +226,7 @@ dependsInstall_script () {
 mine_with_cpuminer () { 
 	cd $ui_Download_Directory
 	git clone $sourceDownload_cpuminer
-	cd $ui_Download_Directory/cpuminer
+	cd cpuminer
 	$ui_conf_autogen.sh
 	$ui_conf_configure CFLAGS="$ui_cflag"
 	make
@@ -296,30 +296,41 @@ echo "This running this script un-atended is not advisable eventhough every efor
 echo "By continuing to use this script you accept sole resposiblity for what happens."
 echo "The auther of this script will not accept resposibilty for your desisions."
 echo "You have been warned"
+echo "~~~Line-29"
 #			Line 29 	exit on anything other than "yes/Y"
 promptTo_continue
 echo "Running a series of prompts to set : install, configure, and make options."
-#			Line 50 	set variables for installing and writing files
+echo "~~~Line-50"
+#			set variables for installing and writing files
 ui_rootNOroot
-#			Line 67 	set temprature monitoring
+echo "~~~Line-67"
+#			set temprature monitoring
 setAndroidNOAndroid
-#			Line 104 	set configure flag options
+echo "~~~Line-104"
+#			set configure flag options
 setMake_Config
-#			Line 80 	set directorie to be used for downloads
+echo "~~~Line-80"
+#			set directorie to be used for downloads
 setDownload_Directory
 echo "Running a series of prompts to set : screen, temprature, and mining options."
-#			Line 190 	set variables for screen command
+echo "~~~Line-190"
+#			set variables for screen command
 screenSetting
-#			Line 43 	set options for login with minerd
+echo "~~~Line-43"
+#			set options for login with minerd
 setUserAcount_settings
-#			Line 138 	set options for minerd command
+echo "~~~Line-138"
+#			set options for minerd command
 setOptions_cpuminerRun
 echo "Running commands to : install, configure, make, and run software. Sit back and enjoy..."
-#			Line 209 	install packages that make the rest if this script work
+echo "~~~Line-209"
+#			install packages that make the rest if this script work
 dependsInstall_script
-#			Line 202 	install packages that minerd depends on
+echo "~~~Line-202"
+#			install packages that minerd depends on
 dependsInstall_cpuminer
-#			Line 212 	download and install minerd and start up mining service
+echo "~~~Line-212"
+#			download and install minerd and start up mining service
 mine_with_cpuminer
 # script run end
 echo "End of script, exiting now..."
