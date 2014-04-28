@@ -142,8 +142,8 @@ setOptions_cpuminerRun () {
 	read ui_cpuM_threadCount
 	default_cpuM_threadCount=$ui_cpuM_threadCount
 } 
-androidSafties () { 
-	echo "If your running this script on Android running Linux then battery/CPU temp will nead to be monitored by you."
+androidSafties_DebianKit () { 
+	echo "If your running this script on Android running Linux with Debian Kit then battery/CPU temp will nead to be monitored by you."
 	echo "This script will atempt to help with keeping your battery temp down by killing the screen running cpuminer software and restart the services automaticly when the battery's temp has gone down again."
 	echo "To do this the following variable \$fBatteryTemp : $fBatteryTemp : should have an output showing. Continue only if this is true!"
 	promptTo_continue
@@ -158,12 +158,20 @@ androidSafties () {
 	echo "	 will be sent to restart the service in the background again."
 }
 setAndroidNOAndroid () { 
-read -r -p "Are you running Linux on Android right now? [Y/n] " response
+read -r -p "Are you running Linux on Android with Debian Kit right now? [Y/n] " response
 case "$response" in
 	[yY][eE][sS]|[yY])
  # if yes, use apt-get for installs
  		ui_AndroidNoAndroid=yes
- 		androidSafties
+ 		echo - "Input : deb : for Debian Kit or input : other : for chroot Linux. -: "
+ 		read $ui_Android_Linux
+ 		if [ $ui_Android_Linux = deb ]
+ 		then 
+	 		ui_Android_Linux=debiankit
+ 			androidSafties_DebianKit
+		elif [ $ui_Android_Linux = other ]
+		then 
+			ui_Android_Linux=other
 		;;
 	*)
  #		 Otherwise use sudo apt-get for installs..
@@ -171,7 +179,7 @@ case "$response" in
 	;;
 esac
 } 
-androidMining () { 
+androidMining_DebianKit () { 
 # examples of power/tempreture monitoring
 # 	Modifide from 
 #	http://askubuntu.com/questions/417340/how-do-i-lower-the-critical-temperature/417374#417374
@@ -227,19 +235,35 @@ mine_with_cpuminer () {
 	cd ~
 	if [ $ui_AndroidNoAndroid = yes ]
 	then
-		androidMining
+		if [ $ui_Android_Linux = debiankit ]
+		then 
+			writeCustom_miningScripts_DebianKit
+			androidMining_DebianKit
+		elif [ $ui_Android_Linux = other ]
+		then 
+			echo "You are responsible for monitoring your own hardware temp."
+			echo "Use : $screenHeader_sendCommand -X quit : to kill the screen and it's tasks if you notice bad behavior."
+			$screenHeader_startScreen
+			$screenStuffer $'$ui_Download_Directory/cpuminer/./minerd -a sha256d -t $default_cpuM_threadCount -o $mineAddress:$ui_mineAddress_port -u $ui_mineAddress_username -p $ui_mineAddress_password -D /n'
+		else [ $ui_Android_Linux = * ]
+			echo "You are responsible for monitoring your own hardware temp."
+			echo "Use : $screenHeader_sendCommand -X quit : to kill the screen and it's tasks if you notice bad behavior."
+			$screenHeader_startScreen
+			$screenStuffer $'$ui_Download_Directory/cpuminer/./minerd -a sha256d -t $default_cpuM_threadCount -o $mineAddress:$ui_mineAddress_port -u $ui_mineAddress_username -p $ui_mineAddress_password -D /n'
+	fi
 	elif [ $ui_AndroidNoAndroid = no ]
 	then
 		echo "You are responsible for monitoring your own hardware temp."
 		echo "Use : $screenHeader_sendCommand -X quit : to kill the screen and it's tasks if you notice bad behavior."
-		$ui_Download_Directory/cpuminer/./minerd -a sha256d -t $default_cpuM_threadCount -o $mineAddress:$ui_mineAddress_port -u $ui_mineAddress_username -p $ui_mineAddress_password -D
+		$screenHeader_startScreen
+		$screenStuffer $'$ui_Download_Directory/cpuminer/./minerd -a sha256d -t $default_cpuM_threadCount -o $mineAddress:$ui_mineAddress_port -u $ui_mineAddress_username -p $ui_mineAddress_password -D /n'
 	else [ $ui_AndroidNoAndroid = * ]
 		echo "Invalid input recived, exiting now..."
 		exit
 	fi
 	cd ~
 }
-writeCustom_miningScripts () { 
+writeCustom_miningScripts_DebianKit () { 
 	echo "This script being writen to : $ui_Download_Directory/OverEasy.sh : is yours and custum made for you and your system. There is no reason to share this file because it will contain your information for loging into your worker."
 	echo ""
 	echo '#!/bin/bash
@@ -294,8 +318,6 @@ echo "Running commands to : install, configure, make, and run software. Sit back
 dependsInstall_script
 #			Line 202 	install packages that minerd depends on
 dependsInstall_cpuminer
-#			Line 237 	write a script to start and stop minerd bassed on your battery's temprature
-writeCustom_miningScripts
 #			Line 212 	download and install minerd and start up mining service
 mine_with_cpuminer
 # script run end
