@@ -172,6 +172,7 @@ case "$response" in
 		elif [ $ui_Android_Linux = other ]
 		then 
 			ui_Android_Linux=other
+		fi
 		;;
 	*)
  #		 Otherwise use sudo apt-get for installs..
@@ -250,7 +251,7 @@ mine_with_cpuminer () {
 			echo "Use : $screenHeader_sendCommand -X quit : to kill the screen and it's tasks if you notice bad behavior."
 			$screenHeader_startScreen
 			$screenStuffer $'$ui_Download_Directory/cpuminer/./minerd -a sha256d -t $default_cpuM_threadCount -o $mineAddress:$ui_mineAddress_port -u $ui_mineAddress_username -p $ui_mineAddress_password -D /n'
-	fi
+		fi
 	elif [ $ui_AndroidNoAndroid = no ]
 	then
 		echo "You are responsible for monitoring your own hardware temp."
