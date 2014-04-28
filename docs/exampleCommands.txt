@@ -5,9 +5,9 @@ umask 022 		# Files that the script creates will have 755 permission.
 
 	add the following to android scripts to ensure that BusyBox is used too
 PATH=/bin:/usr/bin:/usr/local/xbin ; export PATH 
+
 # get external ip from : http://www.shellhacks.com/en/What-is-my-Public-IP-address
 wget -q -O - checkip.dyndns.org | sed -e 's/.*Current IP Address: //' -e 's/<.*$//'
-
 
 	for starting an app from the command line on Android
 http://stackoverflow.com/questions/5494764/how-to-run-a-specific-android-app-using-terminal
@@ -15,18 +15,103 @@ example to send an action with : -a : to application with : -n :
 # am start -a com.example.ACTION_NAME -n com.package.name/com.package.name.ActivityName
 # or from : https://sites.google.com/site/learncodesnow/
 # am start -a android.intent.action.MAIN -n com.iftitah.android.contact/com.iftitah.android.contact.Contact
+http://unix.stackexchange.com/questions/74874/pkill-cant-kill-processes-with-parent-process-id-1
+# to kill an unresponcive background task use the following
+pkill -SIGKILL minerd
+# 	to find tasks to kill use the : ps : or : top : commands
+
+#	screen command examples
+# start a screen session under a given name and send a command to that newly created terminal within that screen
+screen -mS testName echo "hello $USER"
+# start a screen session under a given name and send a command to that newly created terminal within that screen and emidieatly detach it so the curent session remains in user view
+screen -mSd testName echo "hello $USER"
+
+# reatach with a virtical split
+screen -r testName -X V
+# reatach with a horizontal split
+screen -r testName -X S
+
+# end a screen and it's processes from outside the above screen name
+screen -r testName -X quit
+
+#	minerd options:
+# mine with -D (degugging) to show more info
+./minerd -o stratum+tcp://stratum.give-me-ltc.com:3334 -u worker -p password -D
+
+-o : pool to connect to
+-u : your worker name in that pool
+-p : password for that worker
+
+#	The usage options:
+-a, --algo=ALGO specify the algorithm to use
+-o, --url=URL URL of mining server
+-O, --userpass=U:P username:password pair for mining server
+-u, --user=USERNAME username for mining server
+-p, --pass=PASSWORD password for mining server
+--cert=FILE certificate for mining server using SSL
+-x, --proxy=[PROTOCOL://]HOST[:PORT] connect through a proxy
+-t, --threads=N number of miner threads (default: number of processors)
+-r, --retries=N number of times to retry if a network call fails
+(default: retry indefinitely)
+-R, --retry-pause=N time to pause between retries, in seconds (default: 30)
+-T, --timeout=N timeout for long polling, in seconds (default: none)
+-s, --scantime=N upper bound on time spent scanning current work when
+long polling is unavailable, in seconds (default: 5)
+--no-longpoll disable X-Long-Polling support
+--no-stratum disable X-Stratum support
+--no-redirect ignore requests to change the URL of the mining server
+-q, --quiet disable per-thread hashmeter output
+-D, --debug enable debug output
+-P, --protocol-dump verbose dump of protocol-level activities
+-S, --syslog use system log for output messages
+-B, --background run the miner in the background
+--benchmark run in offline benchmark mode
+-c, --config=FILE load a JSON-format configuration file
+-V, --version display version information and exit.
+-h, --help display this help text and exit.
+
+http://webcache.googleusercontent.com/search?q=cache:EiHbDpksWkAJ:https://bitcointalk.org/index.php%3Ftopic%3D55038.0+&cd=1&hl=en&ct=clnk&gl=us
+Q: What's the difference between the two available algorithms, scrypt and sha256d?
+A: They are completely different proof-of-work algorithms. 
+You must use scrypt for Litecoin, and you must use sha256d for Bitcoin. 
+The default algorithm is scrypt, 
+so for Bitcoin mining you have to specify --algo=sha256d
+
+# example of sed paturn printing
+sed -n -e 's/^.*stalled: //p'
+someCommand | sed -e 's/BATT: //p'
+
+# for use in scripts
+	if [ $ui_AndroidNoAndroid = yes ]
+	then
+		
+	elif [ $ui_AndroidNoAndroid = no ]
+	then
+		
+	else [ $ui_AndroidNoAndroid = * ]
+		echo "Invalid input recived, exiting now..."
+		exit
+	fi
+
+# get battery info from : /sys/class/power_supply : directory.
+# command from : http://www.cyberciti.biz/faq/linux-laptop-battery-status-temperature/
+	ls -l /sys/class/power_supply/BAT0
+
+
 	for scp command examples
 http://www.tecmint.com/scp-commands-examples/
 example : transfer "source_file_name" to user on IP at "destination_folder" with scp
 # scp source_file_name username@destination_host:destination_folder
 # example scp command : -v : is verbose ... : -p : show estemated time ... : -C : uses compression on non-compressed files ... : -P : customizes the port to be used in connnection ... : -r : When the copy process is done, at the destination server you will found a directory named “documents” with all it’s files.
 # scp -Cvp -P 22 source_file_name username@destination_host:destination_folder
+
 	for ssh command examples
 http://www.folkstalk.com/2012/07/ssh-command-examples-unix-linux.html?m=1
 example : login to remote with : -l : option (note you can logout with : exit )
 ssh -l username remote-server
 example : send : ls : command to remote and : -v : option is to be verbose about it
 ssh -v user@remote-host "ls test"
+
 	for example file not found
 http://stackoverflow.com/questions/638975/how-do-i-tell-if-a-file-does-not-exist-in-bash
 # [ -f /tmp/foo.txt ] || echo "File not found!"
