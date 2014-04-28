@@ -335,21 +335,6 @@ http://unix.stackexchange.com/questions/74874/pkill-cant-kill-processes-with-par
 pkill -SIGKILL minerd
 # 	to find tasks to kill use the : ps : or : top : commands
 
-#	screen command examples
-# start a screen session under a given name and send a command to that newly created terminal within that screen
-screen -mS testName echo "hello $USER"
-# start a screen session under a given name and send a command to that newly created terminal within that screen and emidieatly detach it so the curent session remains in user view
-screen -mSd testName echo "hello $USER"
-
-# reatach with a virtical split
-screen -r testName -X V
-# reatach with a horizontal split
-screen -r testName -X S
-
-# end a screen and it's processes from outside the above screen name
-screen -r testName -X quit
-
-
 #	minerd options:
 # mine with -D (degugging) to show more info
 ./minerd -o stratum+tcp://stratum.give-me-ltc.com:3334 -u worker -p password -D
@@ -371,8 +356,7 @@ screen -r testName -X quit
 (default: retry indefinitely)
 -R, --retry-pause=N time to pause between retries, in seconds (default: 30)
 -T, --timeout=N timeout for long polling, in seconds (default: none)
--s, --scantime=N upper bound on time spent scanning current work when
-long polling is unavailable, in seconds (default: 5)
+-s, --scantime=N upper bound on time spent scanning current work when long polling is unavailable, in seconds (default: 5)
 --no-longpoll disable X-Long-Polling support
 --no-stratum disable X-Stratum support
 --no-redirect ignore requests to change the URL of the mining server
@@ -397,21 +381,6 @@ so for Bitcoin mining you have to specify --algo=sha256d
 sed -n -e 's/^.*stalled: //p'
 someCommand | sed -e 's/BATT: //p'
 
-# examples of power/tempreture monitoring
-# 	Modifide from 
-#	http://askubuntu.com/questions/417340/how-do-i-lower-the-critical-temperature/417374#417374
-while true;do
-	t=$fBatteryTemp
-	if (( $t > $ui_tempretureLevel_Kill )); then 				# max temp in whichever units your sensors outputs 
-		echo "Temp High : $t"
-		echo "Sending the following commands and giving your hardware a 120 second break before checking if services can be restarted"
-		
-	elif (( $t < $ui_tempretureLevel_Kill )); then
-		echo "Temp ok : $t"
-		
-	fi 
-	sleep 60 
-done
 
 # for use in this script
 	if [ $ui_AndroidNoAndroid = yes ]
@@ -424,4 +393,9 @@ done
 		echo "Invalid input recived, exiting now..."
 		exit
 	fi
+
+# get battery info from : /sys/class/power_supply : directory.
+# command from : http://www.cyberciti.biz/faq/linux-laptop-battery-status-temperature/
+	ls -l /sys/class/power_supply/BAT0
+
 
