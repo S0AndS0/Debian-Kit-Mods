@@ -1,4 +1,7 @@
 I have tested the following devices to work with cpuminer software when running under Linux.
+After ruffly 72 hours of inconsistent mining of bit coins with deepbit pool I've made : 0.00000010 BTC : simply astounding what two devices can acomplish :-}
+And of cource I now accept bitcoin donations : 1JJXnF2NMcTT24Rj7g9XkEDN5qP5nRFk1o
+
 	For devices with miltipule CPUs I've provided the MHz (megahertz) that each core is working at; meaning that a 4 core 1200 MHz = ruffly 4800 MHz of combined power.
 	This also means the work shown in Khash/s (kilohashes per second) is also not combined but instead the average of an individual core's work output.
 As with mining on Raspberry Pi; the hash rates are not great but for mining less crouded curencies these little computers might do just fine.
@@ -15,7 +18,7 @@ Processor type and count ~|~ Manufacure & Device name ~|~ Linux flavor and insta
 	
 Device Name ~|~ Coin ~|~ Pool ~|~ Hashes ~|~ Processor Speeds
 	myTouch 3G slide ~|~ BitCoin ~|~ http://pit.deepbit.net:8332 ~|~ 170(+-) Khash/s ~|~ 600 MHz max
-	myTouch 3G slide ~|~ BitCoin ~|~ http://pit.deepbit.net:8332 ~|~ 230(+-) Khash/s ~|~ 804 MHz max
+	myTouch 3G slide ~|~ BitCoin ~|~ http://pit.deepbit.net:8332 ~|~ 240(+-) Khash/s ~|~ 844 MHz max
 	
 	myTouch 3G slide ~|~ LiteCoin ~|~ stratum+tcp://freadom.wemineltc.com:3333 ~|~ 0.29 (+-) Khash/s ~|~ 600 MHz max
 	
@@ -31,14 +34,15 @@ Tips to read and consider but perhaps not follow
 		~~~~ Optional: set notifications to the notification bar and/or sound to play; for some or all cpu profiles.
 		~~~ check the check box to use profiles (cross your fingers that the device doesn't reboot) and start Linux services.
 		!!! Never check the box to enable on boot !!!
-			I did this on my HTC after setting the CPU to high; it rebooted got as far as mounting the SD card and rebooted, ROM Toolbox was to quick is setting my bad values to the CPU and I had to restore from CWM :-(
+			I did this on my HTC after setting the CPU to high (just above 844 MHz will do the trick); it rebooted got as far as mounting the SD card and rebooted, ROM Toolbox was to quick is setting my bad values to the CPU and I had to restore from CWM :-(
 	If you can get a heat sink from a box of PC parts (yep that box over there) go ahead and rest the hotest part of the back of your device on the flat side of your heat sink.
-		even without direct cooling (like with a fan) a heat sink does a great job of wicking away what heat can escape from your device.
+		even without direct cooling (like with a fan) a heat sink does a great job of wicking away what heat can escape from your device. A stack of loose change to ballance out the wait (if your device is bigger than your heat sink) and setting near a cool window was enough to get results on keeping things cool :-)
+	If you can't find a heat sink; an up-right (empty) shot glass or three will at least get more air in contact with the back of your device.
 	If you have a device with a slide out keyboard; slide it. Not having the screen acting as a thermal insulator alows heat to escape faster.
 	If your having "good luck" but the device is to warm;
 		Turn off the screen for a little wile, this will lessen the drain of keeping the screen on and reduce another sorce of heat next to your CPU.
-		This will also cause your hash rates to go to new lows because Android throtles access to non-system apps and services when in this state (usually) this also will cool off yor CPU.
-		When no longer warm turn your device's screen back on, normally you'll still be connected just hashing slow till Linux reolizes it can grab more houres power then things will go back to normal.
-	If connected over wifi; fiddle with the settings so your WiFi doesn't turn off/sleep when your 
+		This will also cause your hash rates to go to new lows because, in most cases, Android will throtle access to non-system apps and services; when in this state this also will cool off yor CPU.
+		When no longer warm turn your device's screen back on, normally you'll still be connected just hashing slow till Linux reolizes it can grab more houres power, usually 60 seconds, then things will go back to normal.
+	If connected over wifi; fiddle with the settings so your WiFi doesn't turn off/sleep, after a peiriod of time or when your screen turns off. This will keep you from suffering through reconect times inturupting mining operations.
 
 
