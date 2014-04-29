@@ -17,6 +17,8 @@ default_cflag=-O3
 screenStuffer="screen -r $ui_screenName -p 0 -X stuff"
 screenHeader_startScreen="screen -d -m -S $ui_screenName"
 screenHeader_sendCommand="screen -r $ui_screenName"
+screenTester="$(screen -ls | grep -E 'No Sockets' | awk '{gsub("No","No");print $1$2$3}')"
+screenReAtach_Finder="$(screen -ls | grep -E 'Detached' | awk '(gsub("","");print $1)"
 
 # web addresses
 sourceInfo_Link=http://linuxclues.blogspot.com/2013/08/cpuminer-build-source-debian-litecoin.html
@@ -186,21 +188,47 @@ androidMining_DebianKit () {
 #	http://askubuntu.com/questions/417340/how-do-i-lower-the-critical-temperature/417374#417374
 	while true;do
 		t=$fBatteryTemp
-		if (( $t > $ui_tempretureLevel_Kill )); then  
+		if [ $t > $ui_tempretureLevel_Kill ] 
+		then 
 			echo "Temp High : $t"
 			echo "Sending the following commands and giving your hardware a 120 second break before checking if services can be restarted"
 			$screenHeader_sendCommand -X quit
 			sleep 120
-		elif (( $t < $ui_tempretureLevel_Kill )); then
+		elif [ $t < $ui_tempretureLevel_Kill ] 
+		then 
 			echo "Temp ok : $t"
-			echo "Sending the following commands to restart services"
-			$screenHeader_startScreen
-			$screenStuffer $'$ui_Download_Directory/cpuminer/./minerd -a sha256d -t $default_cpuM_threadCount -o $mineAddress:$ui_mineAddress_port -u $ui_mineAddress_username -p $ui_mineAddress_password -D /n'
-			echo "You may now re-atach to the screen running your services with : $screenHeader_sendCommand"
+			if [ $screenTester = NoSocketsfound ]
+			then
+				echo "Sending the following commands to restart services"
+				$screenHeader_startScreen
+				$screenStuffer $'$ui_Download_Directory/cpuminer/./minerd -a sha256d -t $default_cpuM_threadCount -o $mineAddress:$ui_mineAddress_port -u $ui_mineAddress_username -p $ui_mineAddress_password -D /n'
+				echo "You may now re-atach to the screen running your services with : $screenHeader_sendCommand"
+			else [ $screenTester = * ]
+				echo "Re-ataching to $screenReAtach_Finder"
+				screen -r $screenReAtach_Finder
+			fi
 		fi 
 	sleep 60 
 	done	
 } 
+androidType_miner () { 
+	if [ $ui_Android_Linux = debiankit ]
+	then 
+		writeCustom_miningScripts_DebianKit
+		androidMining_DebianKit
+	elif [ $ui_Android_Linux = other ]
+	then 
+		echo "You are responsible for monitoring your own hardware temp."
+		echo "Use : $screenHeader_sendCommand -X quit : to kill the screen and it's tasks if you notice bad behavior."
+		$screenHeader_startScreen
+		$screenStuffer $'$ui_Download_Directory/cpuminer/./minerd -a sha256d -t $default_cpuM_threadCount -o $mineAddress:$ui_mineAddress_port -u $ui_mineAddress_username -p $ui_mineAddress_password -D /n'
+	else [ $ui_Android_Linux = * ]
+		echo "You are responsible for monitoring your own hardware temp."
+		echo "Use : $screenHeader_sendCommand -X quit : to kill the screen and it's tasks if you notice bad behavior."
+		$screenHeader_startScreen
+		$screenStuffer $'$ui_Download_Directory/cpuminer/./minerd -a sha256d -t $default_cpuM_threadCount -o $mineAddress:$ui_mineAddress_port -u $ui_mineAddress_username -p $ui_mineAddress_password -D /n'
+	fi
+}
 screenSetting () { 
 	echo "The : screen : command line program will be used to run mining software so mining operations can be controlled."
 	echo "You may kill the screen and it's prosesses with : screen -r testName -X quit"
@@ -236,22 +264,8 @@ mine_with_cpuminer () {
 	cd ~
 	if [ $ui_AndroidNoAndroid = yes ]
 	then
-		if [ $ui_Android_Linux = debiankit ]
-		then 
-			writeCustom_miningScripts_DebianKit
-			androidMining_DebianKit
-		elif [ $ui_Android_Linux = other ]
-		then 
-			echo "You are responsible for monitoring your own hardware temp."
-			echo "Use : $screenHeader_sendCommand -X quit : to kill the screen and it's tasks if you notice bad behavior."
-			$screenHeader_startScreen
-			$screenStuffer $'$ui_Download_Directory/cpuminer/./minerd -a sha256d -t $default_cpuM_threadCount -o $mineAddress:$ui_mineAddress_port -u $ui_mineAddress_username -p $ui_mineAddress_password -D /n'
-		else [ $ui_Android_Linux = * ]
-			echo "You are responsible for monitoring your own hardware temp."
-			echo "Use : $screenHeader_sendCommand -X quit : to kill the screen and it's tasks if you notice bad behavior."
-			$screenHeader_startScreen
-			$screenStuffer $'$ui_Download_Directory/cpuminer/./minerd -a sha256d -t $default_cpuM_threadCount -o $mineAddress:$ui_mineAddress_port -u $ui_mineAddress_username -p $ui_mineAddress_password -D /n'
-		fi
+		echo "Checking what type of Android Linux was selected and mining..."
+		androidType_miner
 	elif [ $ui_AndroidNoAndroid = no ]
 	then
 		echo "You are responsible for monitoring your own hardware temp."
