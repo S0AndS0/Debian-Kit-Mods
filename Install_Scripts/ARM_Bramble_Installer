@@ -168,7 +168,7 @@ session    sufficient   /lib/security/pam_stack.so service=system-auth' | sudo t
 EOF
 echo "___________________"
 echo "Writing Setup_Assister"
-sudo cat > $Br_componitPath/Setup_Assister <<EOF
+sudo cat > $Br_componitPath/Setup_Assister <<EOF 
 sudo ifconfig
 echo "$IP_Local"
 echo "If : ifconfig : command matches : $IP_Local : then it is ok to continue at the next prompt"
@@ -203,7 +203,7 @@ echo "________"
 echo "1 - if installing on : Master : node"
 echo "2 - if installing on : Slave : node"
 read -r -p "Which configure option do you wish to run? " response
-if [ \$response = 1 ]
+if [ \$response = 1 ] 
 then 
 	echo "appending the following line to : /etc/hosts"
 	echo '$masterIP Master
@@ -213,7 +213,7 @@ then
 	echo "Adding : machinefile : to : $BR_installPath"
 	echo '$masterIP
 	$slaveIP:2' | sudo tee -a $BR_installPath/machinefile
-elif [ \$response = 2 ]
+elif [ \$response = 2 ] 
 then
 	echo "appending the following line to : /etc/hosts"
 	echo '$masterIP Master
@@ -222,14 +222,14 @@ then
 	echo 'ALL+' | sudo tee -a /etc/hosts.allow
 	echo "Adding : machinefile : to : $BR_installPath"
 	echo '$slaveIP' | sudo tee -a $BR_installPath/machinefile
-elif [ \$response = 0 ]
+elif [ \$response = 0 ] 
 then 
 	echo "exiting now"
 	echo exit 
 	exit 
-elif [ \$response = * ]
+elif [ \$response = * ] 
 then 
-#	 if anything else then exit 
+# anything else then exit 
 	echo "invalide input recived"
 	echo exit 
 	exit 
