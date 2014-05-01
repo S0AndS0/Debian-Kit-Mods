@@ -8,15 +8,15 @@ echo "___setting_variables"
 cpuM_fullScriptPath="$(readlink -f $0)"
 # deleat last componit from ThisScript and store to another variable
 cpuM_ScriptDirectory="$(dirname $cpuM_fullScriptPath)"
-fBatteryTemp=`dmesg | grep -E 'BATT' | sed -e 's/\(.*\)\(Temp:\) //p' | tail -1 | awk '{print $1}'`
+fBatteryTemp="$(dmesg | grep -E 'BATT' | sed -e 's/\(.*\)\(Temp:\) //p' | tail -1 | awk '{print $1}')"
 
 mineAddress=pit.deepbit.net
 default_cpuM_threadCount=1
 default_cflag=-O3
 # note : don't forget to put : /n' : at the end of the line to close the command
-screenStuffer="screen -r $ui_screenName -p 0 -X stuff"
-screenHeader_startScreen="screen -d -m -S $ui_screenName"
-screenHeader_sendCommand="screen -r $ui_screenName"
+screenStuffer=`screen -r $ui_screenName -p 0 -X stuff`
+screenHeader_startScreen="$(screen -d -m -S $ui_screenName)"
+screenHeader_sendCommand=`screen -r $ui_screenName`
 screenTester="$(screen -ls | grep -E 'No Sockets' | awk '{gsub("No","No");print $1$2$3}')"
 screenReAtach_Finder="$(screen -ls | grep -E 'Detached' | awk '(gsub("","");print $1)"
 
@@ -100,7 +100,7 @@ setMake_Config () {
 	echo "	CFLAGS=\"-O3\""
 	echo "on ~						Debian 7 armhf - Samsung Galaxy S II, Debian 6 armel myTouch 3G slide"
 	echo	"CFLAGS=\"-O3 -mfpu=neon\""
-	echo "ARM Cortex-A9 (L2=1MiB) 	Linaro Ubuntu LIB-12.09.6A, Freescale i.MX6 Quad, Sabre-Lite Board"
+	echo "ARM Cortex-A9 L2=1MiB 	Linaro Ubuntu LIB-12.09.6A, Freescale i.MX6 Quad, Sabre-Lite Board"
 	echo "	CFLAGS=\"-O2\""
 	echo "ARM Cortex-A15 				ChrUbuntu 12.04, Samsung Chromebook XE303C12"
 	echo "	CFLAGS=\"-O3 -mfpu=neon-vfpv4\""
@@ -156,7 +156,7 @@ androidSafties_DebianKit () {
 	echo "If : $fBatteryTemp : greater than : $ui_tempretureLevel_Kill : then : $screenHeader_sendCommand -X quit : will be sent to kill the offending tasks."
 	echo "	Then after the tempreture is less than : $ui_tempretureLevel_Kill : then : : and"
 	echo "	 $screenHeader_startScreen : and :"
-	echo "	 $screenStuffer $'$ui_Download_Directory/cpuminer/./minerd -a sha256d -t $default_cpuM_threadCount -o $mineAddress:$ui_mineAddress_port -u $ui_mineAddress_username -p $ui_mineAddress_password -D /n'"
+	echo "	 $screenStuffer '$ui_Download_Directory/cpuminer/./minerd -a sha256d -t $default_cpuM_threadCount -o $mineAddress:$ui_mineAddress_port -u $ui_mineAddress_username -p $ui_mineAddress_password -D /n'"
 	echo "	 will be sent to restart the service in the background again."
 }
 setAndroidNOAndroid () { 
@@ -193,6 +193,7 @@ androidMining_DebianKit () {
 			echo "Temp High : $t"
 			echo "Sending the following commands and giving your hardware a 120 second break before checking if services can be restarted"
 			$screenHeader_sendCommand -X quit
+			screen -wipe
 			sleep 120
 		elif [ $t < $ui_tempretureLevel_Kill ] 
 		then 
@@ -201,7 +202,7 @@ androidMining_DebianKit () {
 			then
 				echo "Sending the following commands to restart services"
 				$screenHeader_startScreen
-				$screenStuffer $'$ui_Download_Directory/cpuminer/./minerd -a sha256d -t $default_cpuM_threadCount -o $mineAddress:$ui_mineAddress_port -u $ui_mineAddress_username -p $ui_mineAddress_password -D /n'
+				$screenStuffer '$ui_Download_Directory/cpuminer/./minerd -a sha256d -t $default_cpuM_threadCount -o $mineAddress:$ui_mineAddress_port -u $ui_mineAddress_username -p $ui_mineAddress_password -D /n'
 				echo "You may now re-atach to the screen running your services with : $screenHeader_sendCommand"
 			else [ $screenTester = * ]
 				echo "Re-ataching to $screenReAtach_Finder"
@@ -210,6 +211,18 @@ androidMining_DebianKit () {
 		fi 
 	sleep 60 
 	done	
+} 
+androidMining_chroot () { 
+	echo "Dew to the dificulties in cooling off your Android devices; the following will run on a timer, in seconds, set with your values."
+	echo -n "Please state : in seconds : how long you wish to run your mining operations before giving your system a break -: "
+	read ui_chrootMining_active
+	echo -n "Please state : in seconds : how long of a break to give your system from mining -: "
+	read ui_chrootMining_break
+	$screenHeader_startScreen
+	$screenStuffer '$ui_Download_Directory/cpuminer/./minerd -a sha256d -t $default_cpuM_threadCount -o $mineAddress:$ui_mineAddress_port -u $ui_mineAddress_username -p $ui_mineAddress_password -D'/n
+	sleep $ui_chrootMining_break
+	
+	
 } 
 androidType_miner () { 
 	if [ $ui_Android_Linux = debiankit ]
@@ -220,13 +233,14 @@ androidType_miner () {
 	then 
 		echo "You are responsible for monitoring your own hardware temp."
 		echo "Use : $screenHeader_sendCommand -X quit : to kill the screen and it's tasks if you notice bad behavior."
+		# androidMining_chroot
 		$screenHeader_startScreen
-		$screenStuffer $'$ui_Download_Directory/cpuminer/./minerd -a sha256d -t $default_cpuM_threadCount -o $mineAddress:$ui_mineAddress_port -u $ui_mineAddress_username -p $ui_mineAddress_password -D /n'
+		$screenStuffer '$ui_Download_Directory/cpuminer/./minerd -a sha256d -t $default_cpuM_threadCount -o $mineAddress:$ui_mineAddress_port -u $ui_mineAddress_username -p $ui_mineAddress_password -D /n'
 	else [ $ui_Android_Linux = * ]
 		echo "You are responsible for monitoring your own hardware temp."
 		echo "Use : $screenHeader_sendCommand -X quit : to kill the screen and it's tasks if you notice bad behavior."
 		$screenHeader_startScreen
-		$screenStuffer $'$ui_Download_Directory/cpuminer/./minerd -a sha256d -t $default_cpuM_threadCount -o $mineAddress:$ui_mineAddress_port -u $ui_mineAddress_username -p $ui_mineAddress_password -D /n'
+		$screenStuffer '$ui_Download_Directory/cpuminer/./minerd -a sha256d -t $default_cpuM_threadCount -o $mineAddress:$ui_mineAddress_port -u $ui_mineAddress_username -p $ui_mineAddress_password -D /n'
 	fi
 }
 screenSetting () { 
@@ -271,7 +285,7 @@ mine_with_cpuminer () {
 		echo "You are responsible for monitoring your own hardware temp."
 		echo "Use : $screenHeader_sendCommand -X quit : to kill the screen and it's tasks if you notice bad behavior."
 		$screenHeader_startScreen
-		$screenStuffer $'$ui_Download_Directory/cpuminer/./minerd -a sha256d -t $default_cpuM_threadCount -o $mineAddress:$ui_mineAddress_port -u $ui_mineAddress_username -p $ui_mineAddress_password -D /n'
+		$screenStuffer '$ui_Download_Directory/cpuminer/./minerd -a sha256d -t $default_cpuM_threadCount -o $mineAddress:$ui_mineAddress_port -u $ui_mineAddress_username -p $ui_mineAddress_password -D /n'
 	else [ $ui_AndroidNoAndroid = * ]
 		echo "Invalid input recived, exiting now..."
 		exit
