@@ -17,6 +17,7 @@ BR_installPath=$HOME/Bramble
 # Matenance
 IP_Local=`/sbin/ifconfig | grep -E 'inet addr' | grep -v '127.0.0.1' | awk '{gsub("addr:","");print $2}'`
 IP_inet_addr=`/sbin/ifconfig | grep -E 'inet addr' | grep -v '127.0.0.1' | awk '{gsub("addr:",""); print $2}'`
+IP_Bcast_addr=`/sbin/ifconfig | grep -E 'Bcast' | grep -v '127.0.0.1' | awk '{gsub("Bcast:",""); print $3}'`
 IPmin=1
 IPmax=254
 trimIP=`$IP_Bcast_addr | sed 's/...$//'`
@@ -108,7 +109,7 @@ echo "___________________"
 echo "If you have Fortran compiler choose option 1 if not then choose option 2"
 echo "1 - run configure with : $Bramble_config_YesFortran"
 echo "2 - run configure with : $Bramble_config_NoFortran"
-echo "0 - don't run configure which will cause errors in next set of make commands"
+echo "0 - don't run configure which will cause errors in next set of make commands if you don't run them in another terminal first..."
 echo "___________________"
 read -r -p "Which configure option do you wish to run? " response
 if [ \$response = 1 ]
@@ -129,9 +130,7 @@ then
 	cd ~
 elif [ \$response = 0 ]
 then 
-	echo "exiting now"
-	echo exit 
-	exit 
+	echo "Sure hope you have already run the configurer"
 elif [ \$response = * ]
 then 
 #	 if anything else then exit 
