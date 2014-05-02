@@ -137,12 +137,12 @@ setOptions_cpuminerRun () {
 	echo "	-u : your worker name in that pool"
 	echo "	-p : password for that worker"
 	echo ""
-	echo "A compleat working example bassed off your inputs can be found bellow..."
-	echo "	./minerd -t $default_cpuM_threadCount -o $mineAddress:$ui_mineAddress_port -u $ui_mineAddress_username -p $ui_mineAddress_password"
 	echo "How many processores are you using for mining today?"
 	echo -n "Don't choose more than what your system has [1 2 3..]? "
 	read ui_cpuM_threadCount
 	default_cpuM_threadCount=$ui_cpuM_threadCount
+	echo "A compleat working example bassed off your inputs can be found bellow..."
+	echo "	./minerd -t $default_cpuM_threadCount -o $mineAddress:$ui_mineAddress_port -u $ui_mineAddress_username -p $ui_mineAddress_password"
 } 
 androidSafties_DebianKit () { 
 	echo "If your running this script on Android running Linux with Debian Kit then battery/CPU temp will nead to be monitored by you."
@@ -156,7 +156,7 @@ androidSafties_DebianKit () {
 	echo "If : $fBatteryTemp : greater than : $ui_tempretureLevel_Kill : then : $screenHeader_sendCommand -X quit : will be sent to kill the offending tasks."
 	echo "	Then after the tempreture is less than : $ui_tempretureLevel_Kill : then : : and"
 	echo "	 $screenHeader_startScreen : and :"
-	echo "	 $screenStuffer '$ui_Download_Directory/cpuminer/./minerd -a sha256d -t $default_cpuM_threadCount -o $mineAddress:$ui_mineAddress_port -u $ui_mineAddress_username -p $ui_mineAddress_password -D /n'"
+	echo "	 $screenStuffer '$ui_Download_Directory/cpuminer/./minerd -a sha256d -t $default_cpuM_threadCount -o $mineAddress:$ui_mineAddress_port -u $ui_mineAddress_username -p $ui_mineAddress_password -D'"
 	echo "	 will be sent to restart the service in the background again."
 }
 setAndroidNOAndroid () { 
@@ -202,7 +202,8 @@ androidMining_DebianKit () {
 			then
 				echo "Sending the following commands to restart services"
 				$screenHeader_startScreen
-				$screenStuffer '$ui_Download_Directory/cpuminer/./minerd -a sha256d -t $default_cpuM_threadCount -o $mineAddress:$ui_mineAddress_port -u $ui_mineAddress_username -p $ui_mineAddress_password -D /n'
+				$screenStuffer '$ui_Download_Directory/cpuminer/./minerd -a sha256d -t $default_cpuM_threadCount -o $mineAddress:$ui_mineAddress_port -u $ui_mineAddress_username -p $ui_mineAddress_password -D'
+				screen -r $screenReAtach_Finder
 				echo "You may now re-atach to the screen running your services with : $screenHeader_sendCommand"
 			else [ $screenTester = * ]
 				echo "Re-ataching to $screenReAtach_Finder"
@@ -219,8 +220,11 @@ androidMining_chroot () {
 	echo -n "Please state : in seconds : how long of a break to give your system from mining -: "
 	read ui_chrootMining_break
 	$screenHeader_startScreen
-	$screenStuffer '$ui_Download_Directory/cpuminer/./minerd -a sha256d -t $default_cpuM_threadCount -o $mineAddress:$ui_mineAddress_port -u $ui_mineAddress_username -p $ui_mineAddress_password -D'/n
-	sleep $ui_chrootMining_break
+	$screenStuffer '$ui_Download_Directory/cpuminer/./minerd -a sha256d -t $default_cpuM_threadCount -o $mineAddress:$ui_mineAddress_port -u $ui_mineAddress_username -p $ui_mineAddress_password -D'
+	screen -r $screenReAtach_Finder
+	sleep $ui_chrootMining_active
+	echo "Sending the following commands and giving your hardware a $ui_chrootMining_break second break before checking if services can be restarted"
+	$screenHeader_sendCommand -X quit
 	
 	
 } 
