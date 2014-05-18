@@ -300,7 +300,7 @@ writeCustom_miningScripts_DebianKit () {
 	echo "This script being writen to : $ui_Download_Directory/OverEasy.sh : is yours and custum made for you and your system. There is no reason to share this file because it will contain your information for loging into your worker."
 	echo ""
 	echo '#!/bin/bash
-		fBatteryTemp=`dmesg | grep -E 'BATT' | sed -e 's/\(.*\)\(Temp:\) //p' | tail -1 | awk '{print \$1}'`
+		fBatteryTemp=`dmesg | grep -E \'BATT\' | sed -e \'s/\(.*\)\(Temp:\) //p\' | tail -1 | awk \'{print \$1}\'`
 		default_cpuM_threadCount=$default_cpuM_threadCount
 		ui_tempretureLevel_Kill=$ui_tempretureLevel_Kill
 		cd ~
@@ -315,7 +315,7 @@ writeCustom_miningScripts_DebianKit () {
 			echo "Temp ok : \$t"
 			echo "Sending the following commands to restart services"
 			$screenHeader_startScreen
-			$screenStuffer \$'$ui_Download_Directory/cpuminer/./minerd -a sha256d -t \$default_cpuM_threadCount -o $mineAddress:$ui_mineAddress_port -u $ui_mineAddress_username -p $ui_mineAddress_password -D /n'
+			$screenStuffer \$\'$ui_Download_Directory/cpuminer/./minerd -a sha256d -t \$default_cpuM_threadCount -o $mineAddress:$ui_mineAddress_port -u $ui_mineAddress_username -p $ui_mineAddress_password -D /n\'
 			echo "You may now re-atach to the screen running your services with : $screenHeader_sendCommand"
 		fi 
 	sleep 60 
