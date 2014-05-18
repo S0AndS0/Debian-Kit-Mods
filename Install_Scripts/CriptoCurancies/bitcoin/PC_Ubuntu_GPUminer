@@ -1,0 +1,58 @@
+
+# this script will one day assist in installing CGMiner on Ubuntu PCs with integrated graphics cards
+
+# default list of packages for cgminer to install with apt-get
+sudo apt-get install libcurl4-openssl-dev libncurses5-dev pkg-config libtool yasm autogen automake
+
+# extra packages for this script
+installTepreture=`sudo apt-get install sensor-lm xsensors sensord`
+# pacages for GPUs
+# for opencl
+installOpenCL=`sudo apt-get install opencl-headers`
+
+# for intel
+installDrivers_Intel=`sudo apt-get install fglrx-updates fglrx-amdcccle-updaates fglrx-updates-dev`
+# for intel integrated graphics 82945G/GZ
+installDrivers_Intel_82945G_GZ=`sudo apt-get install xserver-xorg-video-intel`
+
+# for intel 
+echo "from : http://www.techlw.com/2012/08/install-latest-intel-gpu-drivers-in.html"
+echo "This only supports Intel i810 chipset and up. Others such as GMA 500..."
+echo "are not supported. And also remember that, these are ‘hot’ updates and might contain bugs, so please use it at your own risk."
+sudo apt-add-repository ppa:glasen/intel-driver
+# deb http://ftp.us.debian.org/debian wheezy main contrib non-free
+sudo apt-get update
+sudo apt-get install xserver-xorg-video-intel
+# enable the 'SNA' feature (disabled by default) of Intel Sandy Bridge architecture which improves both 2D and 3D performance
+echo 'Section "Device"
+Identifier "Card0″
+Driver "intel"
+Option "AccelMethod" "sna"
+EndSection' | sudo tee -a /etc/X11/xorg.conf
+
+# for AMD
+sudo sh /usr/share/ati/fglrx-uninstall.sh
+sudo apt-get remove --purge fglrx fglrx_* fglrx-amdcccle* fglrx-dev* xorg-driver-fglrx
+
+sudo add-apt-repository ppa:xorg-edgers/ppa
+sudo apt-get update
+sudo apt-get install fglrx-installer
+
+# for Nvidia
+addRepo_Nvidia=`sudo apt-add-repository ppa:ubuntu-x-swat/x-updates`
+# sudo apt-get update 
+installDrivers_Nvidia=`sudo apt-get install nvidia-current`
+checkInstall_Nvidia=`glxinfo | grep OpenGL`
+
+# config cgminer
+Cflags_CGMiner=`CFLAGS\="-O2 -Wall -march\=native" ./configure --enable-adl --enable-opencl --enable-scrypt`
+
+
+
+# sources of info and guidence
+# http://www.distrogeeks.com/install-cgminer-3-7-2-ubuntu/
+# http://infinitecointalk.org/index.php?topic=1128.0
+# http://www.techlw.com/2012/03/install-nvidia-drivers-on-ubuntu-1204.html
+# http://www.techlw.com/2013/01/install-amd-ati-drivers-in-ubuntu.html
+# http://www.techlw.com/2012/08/install-latest-intel-gpu-drivers-in.html
+
