@@ -10,9 +10,9 @@ cpuM_fullScriptPath="$(readlink -f $0)"
 cpuM_ScriptDirectory="$(dirname $cpuM_fullScriptPath)"
 fBatteryTemp="$(dmesg | grep -E 'BATT' | sed -e 's/\(.*\)\(Temp:\) //p' | tail -1 | awk '{print $1}')"
 
-mineAddress=pit.deepbit.net
-default_cpuM_threadCount=1
-default_cflag=-O3
+mineAddress="pit.deepbit.net"
+default_cpuM_threadCount="1"
+default_cflag="-O3"
 # note : don't forget to put : /n' : at the end of the line to close the command
 screenStuffer=`screen -r $ui_screenName -p 0 -X stuff`
 screenHeader_startScreen="$(screen -d -m -S $ui_screenName)"
