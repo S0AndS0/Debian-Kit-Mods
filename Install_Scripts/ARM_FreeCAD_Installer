@@ -1,0 +1,140 @@
+#!/bin/bash
+PATH=/bin:/usr/bin:/usr/local/bin ; export PATH 
+umask 022
+echo "___setting_variables"
+# Variables
+ : ${USER?} ${HOME?} 
+# find the name of this script and store it to a variable
+fCAD_fullScriptPath="$(readlink -f $0)"
+# deleat last componit from ThisScript and store to another variable
+fCAD_ScriptDirectory="$(dirname $fCAD_fullScriptPath)"
+freeCAD_githubSource="https://github.com/FreeCAD/FreeCAD_sf_master"
+echo "___setting_functions"
+promptTo_continue () { 
+read -r -p "Are you sure? [Y/n]" response
+case "$response" in
+	[yY][eE][sS]|[yY])
+ # if yes, then start risking changes
+		;;
+	*)
+ #		 Otherwise exit..
+	echo "Try again? exiting.."
+	exit 
+	;;
+esac
+} 
+setDownload_Directory () { 
+	echo "Use - home - to download to : $HOME"
+	echo "Use - download - to download to : $HOME/Download"
+	echo "Use - here - to download to : $fCAD_ScriptDirectory"
+	echo -n "Input the directory you wish to use: "
+	read ui_setDownload_Directory
+	if [ $ui_setDownload_Directory = home ]
+	then
+		ui_Download_Directory=$HOME
+		echo "$ui_Download_Directory"
+	elif [ $ui_setDownload_Directory = download ]
+	then 
+		mkdir -p $HOME/Download
+		ui_Download_Directory=$HOME/Download
+		echo "$ui_Download_Directory"
+	elif [ $ui_setDownload_Directory = here ]
+	then 
+		ui_Download_Directory=$fCAD_ScriptDirectory
+		echo "$ui_Download_Directory"
+	else [ $ui_setDownload_Directory = * ]
+		echo "Invalid input recived, exiting now..."
+		exit
+	fi
+} 
+setInstall_method () { 
+	echo "Both options will make temperary modifications to your sources list"
+	echo "Input - github - to install with github"
+	echo "Input - aptget - to install with apt-get"
+	echo -n "Input the install method you wish to use: "
+	read ui_setInstall_method
+	if [ $ui_setInstall_method = github ]
+	then
+		Install_method_FreeCAD="github"
+		echo "$Install_method_FreeCAD"
+	elif [ $ui_setInstall_method = aptget ]
+	then 
+		Install_method_FreeCAD="aptget"
+		echo "$Install_method_FreeCAD"
+	else [ $ui_setInstall_method = * ]
+		echo "Invalid input recived, exiting now..."
+		exit
+	fi
+}
+install_freeCAD_Depends () { 
+	apt-get -y install build-essential cmake python python-matplotlib libtool
+# Debian Wheezy, Ubuntu 13.04 and before
+	apt-get -y install libcoin60-dev
+# Debian wheezy-backports, unstable, testing, Ubuntu 13.10 and forward
+#+ Uncomment bellow and comment above to switch
+#	apt-get -y install libcoin80-dev
+	apt-get -y install libsoqt4-dev libxerces-c-dev libboost-filesystem-dev
+	apt-get -y install libboost-regex-dev libboost-program-options-dev
+	apt-get -y install libboost-signals-dev libboost-thread-dev libqt4-dev
+	apt-get -y install libqt4-opengl-dev qt4-dev-tools python-dev
+# official opencascade version
+	apt-get -y install libopencascade-dev
+# opencascade community edition
+#+ Uncomment bellow and comment above to switch
+#	apt-get -y install liboce*-dev
+	apt-get -y install gfortran libode-dev swig libzipios++-dev
+	apt-get -y install libfreetype6 libfreetype6-dev
+} 
+install_freeCAD_aptget () { 
+	echo "Adding Wheezy repo temeraroly to : etc/apt/sources.list.d : named wheezy_temp.list"
+	echo 'deb http://ftp.us.debian.org/debian/ wheezy main contrib non-free' | tee -a /etc/apt/sources.list.d/wheezy_temp.list
+	echo 'deb-src http://ftp.us.debian.org/debian/ wheezy main contrib non-free' | tee -a /etc/apt/sources.list.d/wheezy_temp.list
+	echo "Updating apt-get now..."
+	apt-get update
+#	apt-get -y install libeigen2-dev libqt4-webkit
+	apt-get -y install libeigen3-dev libqtwebkit-dev libshiboken-dev libpyside-dev python-pyside
+	apt-get -y install freecad
+	echo "Removing : /etc/apt/sources.list.d/wheezy_temp.list : and updating apt-get"
+	rm -I /etc/apt/sources.list.d/wheezy_temp.list
+}
+install_freeCAD_gethub () { 
+	echo "Adding Wheezy repo temeraroly to : etc/apt/sources.list.d : named wheezy_temp.list"
+	echo 'deb http://ftp.us.debian.org/debian/ wheezy main contrib non-free' | tee -a /etc/apt/sources.list.d/wheezy_temp.list
+	echo 'deb-src http://ftp.us.debian.org/debian/ wheezy main contrib non-free' | tee -a /etc/apt/sources.list.d/wheezy_temp.list
+	echo "Updating apt-get now..."
+	apt-get update
+	cd $ui_Download_Directory
+	git clone $freeCAD_githubSource free-cad-code
+	cd ~/free-cad-code
+	cmake -DFREECAD_USE_EXTERNAL_PIVY=1 -DCMAKE_BUILD_TYPE=Debug .
+	make
+	cd ~
+	echo "Removing : /etc/apt/sources.list.d/wheezy_temp.list : and updating apt-get"
+	rm -I /etc/apt/sources.list.d/wheezy_temp.list
+	./bin/FreeCAD
+}
+readMe () { 
+	echo "This script was made posible because of compleat directions from the following link, thanks should be given there too."
+	echo "http://www.freecadweb.org/wiki/index.php?title=CompileOnUnix"
+	
+}
+echo "___running_script"
+echo "This script will make temperary modifications to your sources list to install FreeCAD"
+echo "to your ARM Linux OS"
+promptTo_continue
+setDownload_Directory
+setInstall_method
+install_freeCAD_Depends
+if [ $Install_method_FreeCAD = github ]
+	then
+		install_freeCAD_gethub
+	elif [ $Install_method_FreeCAD = aptget ]
+	then 
+		install_freeCAD_aptget
+	else [ $Install_method_FreeCAD = * ]
+		echo "Invalid input recived, exiting now..."
+		exit
+fi
+# end of script
+exit
+
