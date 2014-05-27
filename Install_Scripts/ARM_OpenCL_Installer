@@ -1,0 +1,10 @@
+
+
+# SDK from
+# http://malideveloper.arm.com/develop-for-mali/sdks/mali-opencl-sdk/
+# requires : An ARM based development board with a Mali-T600 series GPU running Linux.
+# guide to installing opencl on pc
+# http://wiki.tiker.net/OpenCLHowTo
+# scroll down for more drivers
+# https://wiki.debian.org/Mobile
+
