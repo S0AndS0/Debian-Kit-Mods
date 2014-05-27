@@ -1,0 +1,41 @@
+# quit on anything but yes or y responce
+promptTo_continue () { 
+read -r -p "Are you sure? [Y/n]" response
+case "$response" in
+	[yY][eE][sS]|[yY])
+ # if yes, then start risking changes
+		;;
+	*)
+ #		 Otherwise exit..
+	echo "Try again? exiting.."
+	exit 
+	;;
+esac
+} 
+
+# set derectory to download to a variable $ui_setDownload_Directory for latter use
+setDownload_Directory () { 
+	echo "Use - home - to download to : $HOME"
+	echo "Use - download - to download to : $HOME/Download"
+	echo "Use - here - to download to : $_ScriptDirectory"
+	echo -n "Input the directory you wish to use: "
+	read ui_setDownload_Directory
+	if [ $ui_setDownload_Directory = home ]
+	then
+		ui_Download_Directory=$HOME
+		echo "$ui_Download_Directory"
+	elif [ $ui_setDownload_Directory = download ]
+	then 
+		mkdir -p $HOME/Download
+		ui_Download_Directory=$HOME/Download
+		echo "$ui_Download_Directory"
+	elif [ $ui_setDownload_Directory = here ]
+	then 
+		ui_Download_Directory=$_ScriptDirectory
+		echo "$ui_Download_Directory"
+	else [ $ui_setDownload_Directory = * ]
+		echo "Invalid input recived, exiting now..."
+		exit
+	fi
+} 
+
