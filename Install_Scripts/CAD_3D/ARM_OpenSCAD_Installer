@@ -1,0 +1,35 @@
+#!/bin/bash
+PATH=/bin:/usr/bin:/usr/local/bin ; export PATH 
+umask 022
+echo "___setting_variables"
+# Variables
+ : ${USER?} ${HOME?} 
+# find the name of this script and store it to a variable
+OsCAD_fullScriptPath="$(readlink -f $0)"
+# deleat last componit from ThisScript and store to another variable
+OsCAD_ScriptDirectory="$(dirname $OsCAD_fullScriptPath)"
+
+echo "___setting_functions"
+promptTo_continue () { 
+read -r -p "Are you sure? [Y/n]" response
+case "$response" in
+	[yY][eE][sS]|[yY])
+ # if yes, then start risking changes
+		;;
+	*)
+ #		 Otherwise exit..
+	echo "Try again? exiting.."
+	exit 
+	;;
+esac
+} 
+
+
+
+echo "End of script, exiting now..."
+exit
+
+# credits
+# for installation instructions
+# http://en.wikibooks.org/wiki/OpenSCAD_User_Manual/Building_on_Linux/UNIX
+

@@ -1,0 +1,15 @@
+#!/bin/bash
+PATH=/bin:/usr/bin:/usr/local/bin ; export PATH 
+umask 022
+echo "___setting_variables"
+# Variables
+ : ${USER?} ${HOME?} 
+# find the name of this script and store it to a variable
+CADemia_fullScriptPath="$(readlink -f $0)"
+# deleat last componit from ThisScript and store to another variable
+CADemia_ScriptDirectory="$(dirname $CADemia_fullScriptPath)"
+
+CADemia_downloadLink="http://svn.cademia-consult.com/0815zxa/binary/CADEMIA/4.0RC6/CADEMIA_4.0RC6.zip"
+
+
+
