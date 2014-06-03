@@ -97,5 +97,6 @@ https://bter.com/
 
 Update: after a few days of testing cex mining pools with my hardware and a little traiding of linecoins into bitcoins I've found this site to be a great way to mine altcoins with personal hardware.
 	Next test will be withdrawing funds to a wallet and trasfering coins in to cex.
-
+Update: trasfers don't take any substantal amount of time to compleat. One dogecoin (pluse .001 for fees) transfered to a dogecoin app took about two minuets to show up :-) though it's only woth .0004 USD curently larger sums can be traded for other coins or services.
+I'll be writhing up a guide on how to set this up.
 
