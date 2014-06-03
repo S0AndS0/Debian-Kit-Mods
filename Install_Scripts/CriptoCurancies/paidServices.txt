@@ -1,6 +1,8 @@
 
 from the following link, 1 Gh/s can be perchased for 0.26 USD per month?
-https://cex.io/maintenance
+https://cex.io/r/0/S0AndS0/0/
+an alternitive with cheeper Gh/s rental fees
+http://pbmining.com?ref=S0AndS0
 
 about 10 Gh/s will net .01 bitcoin per month after 0.2% fee from above links
 http://bitcoinminingcalculator.org/index.php?ghs=10&diff=10455720138.5&cdiff=10455720138.5&fee=0.2
@@ -26,14 +28,16 @@ or if just under 50% of profit is reinvested every month
 	7 	/ 	424 | $110.36 				| 0.61 				| $323.30 	| $212.94 		| $106.47 			| $106.47 	/ $214.24
 	8 	/ 	833 | $216.83 				| 1.20 				| $635.22 	| $418.39 		| $209.19 			| $209.19 	/ $423.43
 Sounds to good to be true?
-Upon closer inspection there is a fee per Gh/s that is charged seperate from the maitenace fee. This fee fluxuates basedon who the offer comes from and the amount/fraction of Gh/s thier willing to allow you to use that month.
+Upon closer inspection there is a fee per Gh/s that is charged seperate from the maitenace fee. This fee fluxuates basedon who the offer comes from and the amount/fraction of Gh/s thier willing to allow you to use that month. [edit] onece puchased you "own" that hashing power unitill you sale it.
 Curently this aditinal fee is aroun 0.0071772 BTC = $4.11 per Gh/s
 This means that this service costs more than it will pay out bassed on curent calculations of Gh/s = BTC mined.
 10 Gh/s per month will cost $2.60 (0.00450 BTC) in maitenance fees plus $41.10 (0.071772 BTC) in market cost equaling $43.70 (0.07565 BTC) in costs and only mining $5.25 (0.01 BTC) worth of Bitcoins by the end of the month.
-This leaves the buyer in a $38.45 (0.06656 BTC) debt by the end of the month if reilying souly on purchaced mining power.
+This leaves the buyer in a $38.45 (0.06656 BTC) debt by the end of the month if reilying souly on purchaced mining power?
+That doesn't seem corect, looking at the chat window history and logs, people where happely buying and saling hashes. So knowing that I was missing something I dug further...
 
-However that being said thier pool doesn't aply any maitancence fees to hardware that you own and add to your list of workers manualy.
-Furthermore they have the least amount of fees for transfering to your walet and there doesn't apier to be a minimum cap for trasfers.
+Thier pool doesn't aply any maitancence fees to hardware that you own and add to your list of workers manualy.
+Furthermore they have the least amount of fees for transfering to your walet and there doesn't apier to be a minimum cap for trasfers. (edit : upon closer inspection it seems that 0.001 is the current fee for manual withdraws)
+	I've yet to find an auto-payout setting though it's advertised in the FAQ section
 And I supose if you're willing to play the trade game~
 https://cex.io/trade
 ~ then be aware of the natural flucuations in price and how it relates to the curent/inpending date and how the maintenance fee is aplyed.
@@ -50,5 +54,48 @@ So is it a good service or scam or waist of time?
 	I'd say it's a good service, the security methods (if followed) are the best I've seen for mining/trading Bitcoin. The maintance fee for rented hashes is acceptable because it means your "garentied" that hashing power even if the original hardware goes down.
 	Sertainly not a scam but if you don't enjoy stock or curancy exchange rate trading (or don't know how those work) then you may have a bad experiance.
 	Defenatly not a waist of time; using you're own hardware it's one of the best pools I've found to mine on and if you've dedicated hardware then more than likely some of it's power can be rented out for greater profit than what it would bring by mining souly for you.
-	
+
+However I'm not about to go and invest exsisting coinage into something I don't fully understand, so I did more digging and found some of my original statements on hash rentals to be wrong...
+~~~~~
+https://support.cex.io/hc/en-us/articles/201515997-How-long-does-GHS-last-
+	Question: What is the duration of GHS? Is this the price for one month or a year?
+	Answer: If you buy GHS, they will be yours until you sell them. This means that if you bought GHS and are not going to sell them, they will stay in your account virtually forever.
+~~~~~
+https://support.cex.io/hc/en-us/articles/201689623-Can-I-mine-with-my-personal-hardware-on-the-GHash-IO-pool-
+	Question: Can I mine with my personal hardware on the GHash.IO pool?
+	Answer: Sure. You need to properly setup your miner for our pool and you are good to go.
+	The stratum servers are: uk1.ghash.io:3333, us1.ghash.io:3333.
+	Please use -o stratum+tcp://uk1.ghash.io:3333 in your command line.
+	You should name your workers username.
+	Worker Ids can only consist of letters and numbers
+	Workers are added automatically, you can use any/empty password. The minimum stratum difficulty is 16.
+~~~~~
+https://ghash.io/BTC
+	Stratum Servers: uk1.ghash.io:3333 or us1.ghash.io:3333. 
+	Please use -o stratum+tcp://uk1.ghash.io:3333 in your command line. 
+	You should name your workers S0AndS0.<WORKERID> (e.g. S0AndS0.worker1). 
+	Workers are added automatically, you can use any/empty password. 
+	The minimum stratum difficulty is 16. Support: webmaster@ghash.io
+~~~~~
+And cheching the withdrawl fees from;
+https://cex.io/trade/finance
+lead me down another avenue... the commision fee is 0.001 of what ever type of coin you have mined which is lower than deepbit but oddly after mining for a few hours on an old Android phone I found I had some coins in each.
+	What is going on and is my hardware mining coins without my consent?
+No my hardware was only showing work on BTC... Thier "free be's" given out when a solution matches another curancies answer and it doesn't afect my hardware!
+https://support.cex.io/hc/en-us/articles/201958198-Is-it-possible-to-opt-out-of-mining-other-currencies-
+	This is really cool as I now can set one group to mine one branch on crypto coins BTC and get some extras out of the deal. But can any of them be auto converted into a coin of my choosing?
+	Perhaps...
+https://support.cex.io/hc/en-us/articles/201958168-Can-I-trade-alt-coins-at-CEX-IO-
+http://www.coinscalc.com/DevCoin-to-BitCoin-calculator-DVC-to-BTC
+https://cex.io/transaction-fee
+... it looks as though curently you can trade BTC and NMC for hashing power and work is being done to incoperate more all of them can be withdrawn though to thier spicific walits
+for now though sevices like cryptsy or bter will have to be used for the unsuported curancies~
+https://www.cryptsy.com
+https://bter.com/
+
+~ however these sevices don't come without thier own costs/fees for transfering/trading coins. Hopefully in the near future cex.io will have teperary wallets and traiding for all thier mined coins.
+
+Update: after a few days of testing cex mining pools with my hardware and a little traiding of linecoins into bitcoins I've found this site to be a great way to mine altcoins with personal hardware.
+	Next test will be withdrawing funds to a wallet and trasfering coins in to cex.
+
 
