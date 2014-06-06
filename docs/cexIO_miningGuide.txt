@@ -1,0 +1,43 @@
+This document will explore how to best use https://cex.io/trade with personal hardware, traiding altcoins and cloud mining service.
+	Note; do to the differences in mining software (cpuminer, cgminer, and others) the command examples are first given in a deconstructed form for easy copy/pasting before giving a compleat example that I would use. The first section you can treat as a "cheat sheat" for quickly setting up you hardware before getting into opinions.
+
+	Mining with personal hardware can be acheived by using the following commands for thier respective pools
+Coin 	| for cpuminer add "-a sha256d -o" for CPUMiner before bellow addresses
+BTC 	|	stratum+tcp://uk1.ghash.io:3333
+BTC 	| 	stratum+tcp://us1.ghash.io:3333
+
+ 		| for cpuminer add "-a scrypt -o" for CPUMiner before bellow addresses
+LTC 	| 	stratum+tcp://ltc.ghash.io:3333
+DOGE 	| 	stratum+tcp://doge.ghash.io:3333
+FTC 	| 	stratum+tcp://ftc.ghash.io:3333
+AUR 	| 	stratum+tcp://aur.ghash.io:3333
+DRK 	| 	stratum+tcp://drk.ghash.io:3333
+Multi 	| 	stratum+tcp://multi.ghash.io:3333
+
+	Compleat comand examples for cpuminer; change "S0AndS0" to your user name and "workerTest" to whatever you like, but don't forget the "." between.
+	Note; passwords for cex can be left blank in most casses.
+BTC 	|	./minerd -a sha256d -o stratum+tcp://uk1.ghash.io:3333 -u S0AndS0.workerTest -p x
+Multi 	|	./minerd -a scrypt -o stratum+tcp://multi.ghash.io:3333 -u S0AndS0.workerTest -p x
+
+Fees and how they can bight into your wallet.
+0.26 USD 	~=~ Maitenance fee per GH/s from cex 
+0.001 *coin = Commission fee to manually withdraw any coin to another wallet from cex
+	Note there shouldn't be a Commission fee if it's an auto withdraw but I've yet to find where to set that up
+0.2 % BTC 	= traid fee paid by saller when buyer buys
+	Note for sellers; this fee can cause you to have negivive ballance when traiding small values of coins, always dubble check youself befor conferming.
+
+example of bad trade for seller
+LTC 		| BTC 		| Total before fees | Total after fees
+0.0000009 	| 0.0175 	| 0.00000002 		| ~= 0.00000001
+example of better trade for seller
+0.0001 		| 0.01747 	| 0.00000175 		| =
+
+
+
+
+
+
+Sources of information
+https://cex.io/transaction-fee
+
+
