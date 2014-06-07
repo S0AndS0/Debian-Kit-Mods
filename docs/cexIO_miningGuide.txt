@@ -29,9 +29,10 @@ Fees and how they can bight into your wallet.
 example of bad trade for seller
 LTC 		| BTC 		| Total before fees | Total after fees
 0.0000009 	| 0.0175 	| 0.00000002 		| ~= 0.00000001
-example of better trade for seller
-0.0001 		| 0.01747 	| 0.00000175 		| =
 
+example of better trade for seller
+0.0001 		| 0.01747 	| 0.00000175 		| = 0.00000173 BTC 
+0.0002 		| 0.01747 	| 0.0000035 		| = 0.00000349 BTC
 
 
 
@@ -39,5 +40,7 @@ example of better trade for seller
 
 Sources of information
 https://cex.io/transaction-fee
+https://support.cex.io/hc/en-us/categories/200145506-GHash-IO-FAQ
+
 
 
