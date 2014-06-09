@@ -11,6 +11,7 @@ _ScriptDirectory="$(dirname $cpuM_fullScriptPath)"
 
 echo "___inporting_functions"
 source $_ScriptDirectory/functionsFor_CryptoCurencies/prompts
+source $_ScriptDirectory/functionsFor_CryptoCurencies/dependcies
 
 
 echo "end of script. Exiting now..."
