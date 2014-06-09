@@ -1,0 +1,66 @@
+# quit on anything but yes or y response
+promptTo_continue () { 
+read -r -p "Are you sure? [Y/n]" response
+case "$response" in
+	[yY][eE][sS]|[yY])
+ # if yes, then start risking changes
+		;;
+	*)
+ #		 Otherwise exit..
+	echo "Try again? exiting.."
+	exit 
+	;;
+esac
+} 
+
+# set derectory to download to a variable $ui_setDownload_Directory for latter use
+#+	the variable used externally will be $ui_Download_Directory
+setDownload_Directory () { 
+	echo "Use - home - to download to : $HOME"
+	echo "Use - download - to download to : $HOME/Download"
+	echo "Use - here - to download to : $_ScriptDirectory/Download"
+	echo -n "Input the directory you wish to use: "
+	read ui_setDownload_Directory
+	if [ $ui_setDownload_Directory = home ]
+	then
+		ui_Download_Directory=$HOME
+		echo "$ui_Download_Directory"
+	elif [ $ui_setDownload_Directory = download ]
+	then 
+		mkdir -p $HOME/Download
+		ui_Download_Directory=$HOME/Download
+		echo "$ui_Download_Directory"
+	elif [ $ui_setDownload_Directory = here ]
+	then 
+		mkdir -p $_ScriptDirectory/Download
+		ui_Download_Directory=$_ScriptDirectory/Download
+		echo "$ui_Download_Directory"
+	else [ $ui_setDownload_Directory = * ]
+		echo "Invalid input recived, exiting now..."
+		exit
+	fi
+} 
+
+# set processor type for CPU dependencies
+setCPU_Type () { 
+	echo "Use - x86 - for Intell CPUs"
+	exho "Use - amd - for AMD CPUs"
+	
+	echo -n "Input CPU type: " 
+	read ui_setCPU_Type
+	if [ $ui_setCPU_Type = x86 ] 
+	then
+		uiCPU_Type=x86
+		echo "$uiCPU_Type"
+	elif [ $ui_setCPU_Type = amd ] 
+	then
+		uiCPU_Type=amd
+		echo "$uiCPU_Type"
+	else [ $ui_setCPU_Type = * ] 
+		echo "Invalid input recived, exiting now..."
+		exit
+	fi
+	
+} 
+
+
