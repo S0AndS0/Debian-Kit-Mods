@@ -10,7 +10,7 @@ cpuM_fullScriptPath="$(readlink -f $0)"
 cpuM_ScriptDirectory="$(dirname $cpuM_fullScriptPath)"
 fBatteryTemp="$(dmesg | grep -E 'BATT' | sed -e 's/\(.*\)\(Temp:\) //p' | tail -1 | awk '{print $1}')"
 
-mineAddress="pit.deepbit.net"
+sourceDownload_cpuminer="https://github.com/ig0tik3d/darkcoin-cpuminer-1.2c"
 default_cpuM_threadCount="1"
 default_cflag="-O3"
 
@@ -31,6 +31,8 @@ exit
 esac
 }
 setUserAcount_settings () {
+echo -n "Input the address to the miner pool you wish to use"
+read ui_mineAddress
 echo -n "Input your $mineAddress worker's username : "
 read ui_mineAddress_username
 echo -n "Input your $mineAddress port [default was 8332] : "
@@ -47,16 +49,19 @@ echo -n "Input the directory you wish to use: "
 read ui_setDownload_Directory
 if [ $ui_setDownload_Directory = home ]
 then
-ui_Download_Directory=$HOME
+ui_Download_Directory="$HOME"
+mkdir -p $ui_Download_Directory
 echo "$ui_Download_Directory"
 elif [ $ui_setDownload_Directory = download ]
 then
 mkdir -p $HOME/Download
-ui_Download_Directory=$HOME/Download
+ui_Download_Directory="$HOME/Download"
+mkdir -p $ui_Download_Directory
 echo "$ui_Download_Directory"
 elif [ $ui_setDownload_Directory = here ]
 then
-ui_Download_Directory=$cpuM_ScriptDirectory
+ui_Download_Directory="$cpuM_ScriptDirectory/Download"
+mkdir -p $ui_Download_Directory
 echo "$ui_Download_Directory"
 else [ $ui_setDownload_Directory = * ]
 echo "Invalid input recived, exiting now..."
