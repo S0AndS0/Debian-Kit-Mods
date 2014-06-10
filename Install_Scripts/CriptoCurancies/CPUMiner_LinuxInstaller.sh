@@ -5,10 +5,10 @@ echo "___setting_variables"
 # Variables
  : ${USER?} ${HOME?}
 # find the name of this script and store it to a variable
-_fullScriptPath="$(readlink -f $0)"
+_fullScriptPath=`readlink -f $0`
 # delete last component from ThisScript and store to another variable
-_ScriptDirectory="$(dirname $_fullScriptPath)"
-# inport shaired functions
+_ScriptDirectory=`dirname $_fullScriptPath`
+echo "___inporting_shaired_functions"
 source $_ScriptDirectory/ShairedFunctions/installDependancies
 # list of variables from installDependancies
 
@@ -35,7 +35,7 @@ source $_ScriptDirectory/ShairedFunctions/userPrompts
 
 
 # Warn of paral to hardware
-echo "This script and what it indtalls to your system may and likely will either damage or distroy your hardware"
+echo "This script and what it installs to your system may and likely will either damage or distroy your hardware"
 echo "	by using this script and installed software you agree to the terms of thier relotive licencing and terms of use"
 echo "	and agree that you are resposible for your own choices and consoquiences from those choices"
 
