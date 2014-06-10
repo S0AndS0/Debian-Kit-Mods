@@ -1,0 +1,49 @@
+setMake_Config () {
+	echo "When using the : make : command to install these programs to your Linux system running : configure : is a must to get the best performance."
+	echo "I found running configure with : CFLAGS=\"-O3 -mfpu=neon\" : on ARM soft float, prvided by Debian Kit, to work well."
+	echo "Others have found the following to work for thier systems..."
+	echo "_________"
+	echo "on ~ Soft Float"
+	echo " CFLAGS=\"-O3\""
+	echo "on ~ Debian 7 armhf - Samsung Galaxy S II, Debian 6 armel myTouch 3G slide"
+	echo	"CFLAGS=\"-O3 -mfpu=neon\""
+	echo "ARM Cortex-A9 L2=1MiB Linaro Ubuntu LIB-12.09.6A, Freescale i.MX6 Quad, Sabre-Lite Board"
+	echo " CFLAGS=\"-O2\""
+	echo "ARM Cortex-A15 ChrUbuntu 12.04, Samsung Chromebook XE303C12"
+	echo " CFLAGS=\"-O3 -mfpu=neon-vfpv4\""
+	echo "For CPU supporting the AES-NI instruction set"
+	echo " CFLAGS=\"-O3 -march=native\""
+	echo "You may now choose one of those options. Note that the default is : $default_cflag"
+	echo "_________"
+	echo "Input - 0 - to run your own config options"
+	echo "Input - 1 - to run : ./configure CFLAGS=\"-O3\""
+	echo "Input - 2 - to run : ./configure CFLAGS=\"-O3 -mfpu=neon\""
+	echo "Input - 3 - to run : ./configure CFLAGS=\"-O3 -mfpu=neon-vfpv4\""
+	echo "Input - 4 - to run : ./configure CFLAGS=\"-O3 -march=native\""
+	echo -n "Please input a number now - "
+	read ui_cflag
+	if [ $ui_cflag = 1 ]
+	then
+		ui_cflag="-O3"
+	elif [ $ui_cflag = 2 ]
+	then
+		ui_cflag="-O3 -mfpu=neon"
+	elif [ $ui_cflag = 3 ]
+	then
+		ui_cflag="-O3 -mfpu=neon-vfpv4"
+	elif [ $ui_cflag = 4 ]
+	then
+		ui_cflag="-O3 -march=native"
+	elif [ $ui_cflags = 0 ]
+	then
+		echo -n "Input your config settings : "
+		read ui_cflags
+		
+	else [ $ui_cflag = * ]
+		ui_cflag="-O3"
+	echo "Invalid input recived, using defaults..."
+	fi
+	echo "configure set to use : $ui_cflag"
+}
+
+

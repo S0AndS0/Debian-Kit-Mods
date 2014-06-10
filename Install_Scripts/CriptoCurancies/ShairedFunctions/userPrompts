@@ -1,0 +1,82 @@
+# functions user prompts
+echo "___setting_functions"
+promptTo_continue () {
+	read -r -p "Are you sure? [Y/n]" response
+	case "$response" in
+		[yY][eE][sS]|[yY])
+ # if yes, then start risking changes
+		;;
+		*)
+ # Otherwise exit..
+	echo "Try again? exiting.."
+	exit
+	;;
+	esac
+}
+setUserAcount_settings () {
+	echo -n "Input the address to the miner pool you wish to use"
+	read ui_mineAddress
+	echo -n "Input your $mineAddress worker's username : "
+	read ui_mineAddress_username
+	echo -n "Input your $mineAddress port [default was 8332] : "
+	read ui_mineAddress_port
+	echo -n "Input your $ui_mineAddress_username password : "
+	read ui_mineAddress_password
+}
+
+setDownload_Directory () {
+	echo "Use - home - to download to : $HOME"
+	echo "Use - download - to download to : $HOME/Download"
+	echo "Use - here - to download to : $cpuM_ScriptDirectory"
+	echo -n "Input the directory you wish to use: "
+	read ui_setDownload_Directory
+	if [ $ui_setDownload_Directory = home ]
+	then
+		ui_Download_Directory="$HOME"
+	elif [ $ui_setDownload_Directory = download ]
+	then
+		ui_Download_Directory="$HOME/Download"
+	elif [ $ui_setDownload_Directory = here ]
+	then
+		ui_Download_Directory="$cpuM_ScriptDirectory/Download"
+		
+	else [ $ui_setDownload_Directory = * ]
+		echo "Invalid input recived, exiting now..."
+		exit
+	fi
+# Make directory for downloads
+	mkdir -p $ui_Download_Directory
+	echo "$ui_Download_Directory"
+}
+
+setDownloadSource () { 
+	echo "For CPU mining there are many forks of the original, link found bellow, that have epanded fetuers."
+	echo "https://github.com/pooler/cpuminer"
+	echo "for mining coins like bitcoin and litecoin any option can be used"
+	echo "however for mining coins not based on SHA-256 or Scypt cryptocoin algorithms such as Darkcoin based on X11 you will want to choose wizely"
+	echo "_________"
+	echo "For SHA-256 and Scypt -> Input - 1 - to install from : https://github.com/pooler/cpuminer"
+	echo "For X11 -> Input - 2 - to install from : https://github.com/ig0tik3d/darkcoin-cpuminer-1.2c"
+	echo "For X11 with AES-NI instruction set -> Input - 3 - to install from : https://github.com/elmad/darkcoin-cpuminer-1.3-avx-aes"
+	echo "Choose your source : "
+	read ui_gitSource
+	if [ $ui_gitSource = 1 ]
+	then
+		gitSource="https://github.com/pooler/cpuminer"
+		
+	elif [ $ui_gitSource = 2 ]
+	then
+		gitSource="https://github.com/ig0tik3d/darkcoin-cpuminer-1.2c"
+		
+	elif [ $ui_gitSource = 3 ]
+	then
+		gitSource="https://github.com/elmad/darkcoin-cpuminer-1.3-avx-aes"
+		
+	else  [ $ui_gitSource = * ]
+		echo "Invalid input recived, exiting now..."
+		exit
+	echo "Download set to"
+	echo "$gitSource"
+
+} 
+
