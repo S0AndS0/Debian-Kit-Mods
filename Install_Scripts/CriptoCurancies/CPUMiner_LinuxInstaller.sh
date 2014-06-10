@@ -27,16 +27,35 @@ source $_ScriptDirectory/ShairedFunctions/userPrompts
 #		$ui_mineAddress $ui_mineAddress_username $ui_mineAddress_port $ui_mineAddress_password
 # 	$ui_Download_Directory
 # 	$gitSource
+# 		$sourceDirectory
+# $ui_aptgetSudo
+# $ui_teeFile
 # list of functions from userPrompts
-# promptTo_continue setUserAcount_settings setDownload_Directory setDownloadSource 
+# promptTo_continue setUserAcount_settings setDownload_Directory setDownloadSource ui_rootNOroot
 
 
 # Warn of paral to hardware
 echo "This script and what it indtalls to your system may and likely will either damage or distroy your hardware"
 echo "	by using this script and installed software you agree to the terms of thier relotive licencing and terms of use"
-echo "	and agree that you are resposible for your own choices and consoqiences from those choices"
+echo "	and agree that you are resposible for your own choices and consoquiences from those choices"
 
 promptTo_continue
+ui_rootNOroot
+setDownload_Directory
+setDownloadSource
+setMake_Config
+setUserAcount_settings
 
+echo "Settings for installation set, moving on to installing everything and starting your miner"
+echo "	sit back and relax..."
 
+dependsInstall_cpuminer
+cd $ui_Download_Directory
+git clone $gitSource
+cd $sourceDirectory
+./autogen.sh
+./configure CFLAGS="$ui_cflag"
+make
+
+./minerd $minerdOptions
 
