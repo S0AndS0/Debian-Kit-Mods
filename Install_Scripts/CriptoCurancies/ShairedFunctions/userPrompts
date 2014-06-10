@@ -22,12 +22,30 @@ setUserAcount_settings () {
 	read ui_mineAddress_port
 	echo -n "Input your $ui_mineAddress_username password : "
 	read ui_mineAddress_password
+	echo "An example of your login can be found bellow"
+	echo "	./minerd --url http://$mineAddress:$ui_mineAddress_port --userpass $ui_mineAddress_username:$ui_mineAddress_password"
+	echo -n "Does that look corect? [y/N] : "
+	read ui_minerPool_check
+	if [ $ui_minerPool_check = y ]
+	then 
+		echo "Excelent, settings assingned"
+		minerdOptions="--url http://$mineAddress:$ui_mineAddress_port --userpass $ui_mineAddress_username:$ui_mineAddress_password"
+	elif [ $ui_minerPool_check = n ]
+	then 
+		echo -n "Please input exactly what you want then : "
+		read ui_custom_minerdOptions
+		minerdOptions="$ui_custom_minerdOptions"
+	else [ $ui_minerPool_check = * ]
+		echo "Invalid input recived, exiting now..."
+		exit
+	fi
+	echo "$minerdOptions"
 }
 
 setDownload_Directory () {
 	echo "Use - home - to download to : $HOME"
 	echo "Use - download - to download to : $HOME/Download"
-	echo "Use - here - to download to : $cpuM_ScriptDirectory"
+	echo "Use - here - to download to : $_ScriptDirectory/Download"
 	echo -n "Input the directory you wish to use: "
 	read ui_setDownload_Directory
 	if [ $ui_setDownload_Directory = home ]
@@ -38,7 +56,7 @@ setDownload_Directory () {
 		ui_Download_Directory="$HOME/Download"
 	elif [ $ui_setDownload_Directory = here ]
 	then
-		ui_Download_Directory="$cpuM_ScriptDirectory/Download"
+		ui_Download_Directory="$_ScriptDirectory/Download"
 		
 	else [ $ui_setDownload_Directory = * ]
 		echo "Invalid input recived, exiting now..."

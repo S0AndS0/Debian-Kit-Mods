@@ -37,8 +37,8 @@ setMake_Config () {
 	elif [ $ui_cflags = 0 ]
 	then
 		echo -n "Input your config settings : "
-		read ui_cflags
-		
+		read ui_custom_cflags
+		ui_cflag="$ui_custom_cflags"
 	else [ $ui_cflag = * ]
 		ui_cflag="-O3"
 	echo "Invalid input recived, using defaults..."
