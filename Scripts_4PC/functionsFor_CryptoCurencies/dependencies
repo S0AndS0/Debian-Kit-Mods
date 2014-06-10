@@ -1,7 +1,10 @@
 # install dependamies for mpos
 mpos_dependaniesinstall () { 
-	
-	
+	# lamp-server^
+	# git build-essential libssl-dev libboost-all-dev git libdb5.1++-dev libminiupnpc-dev make zip postfix screen
+	# python-twisted python-mysqldb python-dev python-setuptools python-memcache python-simplejson python-pylibmc
+	# sudo easy_install -U distribute
+	# memcached php5-memcached php5-mysqlnd php5-curl php5-json libapache2-mod-php5
 	
 } 
 
