@@ -118,7 +118,7 @@ else
 	echo "\$0 ppa:user/ppa-name"
 fi' | sudo tee /usr/sbin/add-apt-repository
 # Change permissions for add-apt-repository
-sudo chmod o+x /usr/sbin/add-apt-repository
+sudo chmod +x /usr/sbin/add-apt-repository
 # Change ownership of add-apt-repository
 sudo chown root:root /usr/sbin/add-apt-repository
 # set up a bash_aliases file to add command to command line
