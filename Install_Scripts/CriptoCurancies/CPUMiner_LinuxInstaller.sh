@@ -31,6 +31,7 @@ echo "___inporting_shaired_functions"
 # $ui_aptgetSudo
 # $ui_conf_
 # $ui_teeFile
+# $ui_make
 # list of functions from userPrompts
 # promptTo_continue setUserAcount_settings setDownload_Directory setDownloadSource ui_rootNOroot
 
@@ -58,7 +59,7 @@ git clone $gitSource
 cd $sourceDirectory
 $ui_conf_autogen.sh
 $ui_conf_configure CFLAGS="$ui_cflag"
-make
+$ui_make
 
 ./minerd $minerdOptions
 

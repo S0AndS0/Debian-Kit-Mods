@@ -106,12 +106,14 @@ case "$response" in
  		ui_aptgetSudo="apt-get"
  		ui_conf_="./"
  		ui_teeFile="tee -a"
+ 		ui_make="make"
 		;;
 	*)
  #		 Otherwise use sudo apt-get for installs..
 	ui_aptgetSudo="sudo apt-get"
 	ui_conf_="sudo ./"
 	ui_teeFile="sudo tee -a"
+	ui_make="sudo make"
 	;;
 esac
 } 
