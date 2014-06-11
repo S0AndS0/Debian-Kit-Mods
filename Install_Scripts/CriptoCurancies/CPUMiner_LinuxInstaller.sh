@@ -67,6 +67,7 @@ echo "Settings for installation set, moving on to installing everything and star
 promptTo_continue
 echo "	...sit back and relax..."
 
+prompt_wheezyUpgrade
 cd $ui_Download_Directory
 git clone $gitSource
 cd $sourceDirectory
