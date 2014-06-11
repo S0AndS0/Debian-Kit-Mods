@@ -80,3 +80,23 @@ $ui_make
 
 ./minerd $minerdOptions
 
+exit
+# end of script
+
+# tmux examples
+# start tmux session named Miner1
+tmux new -s Miner1
+
+# atach to Miner1
+tmux attach -t Miner1
+
+# kill Miner1 session
+tmux kill-session -t Miner1
+
+# start a nes session named Miner1 in window named CPU_Mining
+tmux new -s Miner1 -n CPU_Mining
+
+# to detach from tmux session and leave it running
+Ctrl+b d
+
+
