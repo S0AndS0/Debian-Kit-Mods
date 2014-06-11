@@ -58,7 +58,6 @@ setDownload_Directory () {
 	elif [ $ui_setDownload_Directory = here ]
 	then
 		ui_Download_Directory="$_ScriptDirectory/Download"
-		
 	else [ $ui_setDownload_Directory = * ]
 		echo "Invalid input recived, exiting now..."
 		exit
