@@ -14,7 +14,7 @@ promptTo_continue () {
 	esac
 }
 setUserAcount_settings () {
-	echo -n "Input the address to the miner pool you wish to use"
+	echo -n "Input the address to the miner pool you wish to use : "
 	read ui_mineAddress
 	echo -n "Input your $mineAddress worker's username : "
 	read ui_mineAddress_username
@@ -25,13 +25,13 @@ setUserAcount_settings () {
 	echo -n "Input the algorithem to use : "
 	read ui_mineAlgo
 	echo "An example of your login can be found bellow"
-	echo "	./minerd -a $ui_mineAlgo -o http://$mineAddress:$ui_mineAddress_port -u $ui_mineAddress_username -p $ui_mineAddress_password"
+	echo "	./minerd -a $ui_mineAlgo -o $ui_mineAddress:$ui_mineAddress_port -u $ui_mineAddress_username -p $ui_mineAddress_password"
 	echo -n "Does that look corect? [y/N] : "
 	read ui_minerPool_check
 	if [ $ui_minerPool_check = y ]
 	then 
 		echo "Excelent, settings assingned"
-		minerdOptions="-a $ui_mineAlgo -o http://$mineAddress:$ui_mineAddress_port -u $ui_mineAddress_username -p $ui_mineAddress_password"
+		minerdOptions="-a $ui_mineAlgo -o $ui_mineAddress:$ui_mineAddress_port -u $ui_mineAddress_username -p $ui_mineAddress_password"
 	elif [ $ui_minerPool_check = n ]
 	then 
 		echo -n "Please input exactly what you want then : "
@@ -104,11 +104,13 @@ case "$response" in
 	[yY][eE][sS]|[yY])
  # if yes, use apt-get for installs
  		ui_aptgetSudo="apt-get"
+ 		ui_conf_="./"
  		ui_teeFile="tee -a"
 		;;
 	*)
  #		 Otherwise use sudo apt-get for installs..
 	ui_aptgetSudo="sudo apt-get"
+	ui_conf_="sudo ./"
 	ui_teeFile="sudo tee -a"
 	;;
 esac

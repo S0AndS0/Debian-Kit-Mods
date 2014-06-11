@@ -1,8 +1,8 @@
 dependsInstall_cpuminer () {
-	$ui_aptgetSudo -yq install automake
-	$ui_aptgetSudo -yq install pkg-config
-	$ui_aptgetSudo -yq install gcc
-	$ui_aptgetSudo -yq install make
-	$ui_aptgetSudo -yq install libcurl3-gnutls-dev
+	$ui_aptgetSudo -yq --force-yes install automake
+	$ui_aptgetSudo -yq --force-yes install pkg-config
+	$ui_aptgetSudo -yq --force-yes install gcc
+	$ui_aptgetSudo -yq --force-yes install make
+	$ui_aptgetSudo -yq --force-yes install libcurl3-gnutls-dev
 } 
 
