@@ -64,6 +64,8 @@ setMake_Config
 setUserAcount_settings
 
 echo "Settings for installation set, moving on to installing everything and starting your miner..."
+echo "Please consider donating to the maintainer of this github by following the following link"
+echo "https://github.com/S0AndS0/Debian-Kit-Mods/blob/master/DonationLinks.txt"
 promptTo_continue
 echo "	...sit back and relax..."
 

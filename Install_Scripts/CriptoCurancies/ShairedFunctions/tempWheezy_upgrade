@@ -10,7 +10,7 @@ removeWheezy_fromSources () {
 	$ui_rm /etc/apt/sources.list.d/wheezy.list
 } 
 tempSource_permissionFixer () { 
-	$ui_chmod +x /etc/apt/sources.list.d/twmp_wheezy.list
+	$ui_chmod +x /etc/apt/sources.list.d/temp_wheezy.list
 	$ui_chown root:root /etc/apt/sources.list.d/temp_wheezy.list
 } 
 keyFixer () { 
