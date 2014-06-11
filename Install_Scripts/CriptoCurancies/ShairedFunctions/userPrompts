@@ -109,6 +109,7 @@ case "$response" in
  		ui_chmod="chmod"
  		ui_chown="chown"
  		ui_rm="rm"
+ 		ui_cd="cd"
 		;;
 	*)
  #		 Otherwise use sudo apt-get for installs..
@@ -119,6 +120,7 @@ case "$response" in
 	ui_chmod="sudo chmod"
  	ui_chown="sudo chown"
  	ui_rm="sudo rm"
+ 	ui_cd="sudo cd"
 	;;
 esac
 } 

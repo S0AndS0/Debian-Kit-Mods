@@ -35,6 +35,7 @@ echo "___inporting_shaired_functions"
 # $ui_chmod
 # $ui_chown
 # $ui_rm
+# $ui_cd
 
 # list of functions from userPrompts
 # promptTo_continue
@@ -70,9 +71,9 @@ promptTo_continue
 echo "	...sit back and relax..."
 
 prompt_wheezyUpgrade
-cd $ui_Download_Directory
+$ui_cd $ui_Download_Directory
 git clone $gitSource
-cd $sourceDirectory
+$ui_cd $sourceDirectory
 $ui_conf_autogen.sh
 $ui_conf_configure CFLAGS="$ui_cflag"
 $ui_make
