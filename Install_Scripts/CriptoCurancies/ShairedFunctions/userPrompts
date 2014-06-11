@@ -93,6 +93,7 @@ setDownloadSource () {
 	else  [ $ui_gitSource = * ]
 		echo "Invalid input recived, exiting now..."
 		exit
+	fi
 	echo "Download set to"
 	echo "$gitSource"
 	echo "$sourceDirectory"

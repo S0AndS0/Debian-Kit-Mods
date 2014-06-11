@@ -5,23 +5,23 @@ echo "___setting_variables"
 # Variables
  : ${USER?} ${HOME?}
 # find the name of this script and store it to a variable
-_fullScriptPath=`readlink -f $0`
+_fullScriptPath="$(readlink -f $0)"
 # delete last component from ThisScript and store to another variable
-_ScriptDirectory=`dirname $_fullScriptPath`
+_ScriptDirectory="$(dirname $_fullScriptPath)"
 echo "___inporting_shaired_functions"
-source $_ScriptDirectory/ShairedFunctions/installDependancies
+. $_ScriptDirectory/ShairedFunctions/installDependancies
 # list of variables from installDependancies
 
 # list of functions from installDependancies
 # dependsInstall_cpuminer
 
-source $_ScriptDirectory/ShairedFunctions/makeConfig
+. $_ScriptDirectory/ShairedFunctions/makeConfig
 # list of variables set by makeConfig
 # $ui_cflag
 # list of functions from makeConfig
 # setMake_Config
 
-source $_ScriptDirectory/ShairedFunctions/userPrompts
+. $_ScriptDirectory/ShairedFunctions/userPrompts
 # list of variables set by userPrompts
 # 	$minerdOptions
 #		$ui_mineAddress $ui_mineAddress_username $ui_mineAddress_port $ui_mineAddress_password
