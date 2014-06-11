@@ -8,14 +8,11 @@ addWheezy_toSources () {
 } 
 removeWheezy_fromSources () { 
 	$ui_rm /etc/apt/sources.list.d/wheezy.list
-	
-	
 } 
 tempSource_permissionFixer () { 
 	$ui_chmod +x /etc/apt/sources.list.d/twmp_wheezy.list
 	$ui_chown root:root /etc/apt/sources.list.d/temp_wheezy.list
 } 
 keyFixer () { 
-	$ui_aptgetSudo update 2> /tmp/keymissing; for key in \$(grep "NO_PUBKEY" /tmp/keymissing |sed "s/.*NO_PUBKEY //"); do echo -e "nProcessing key: \$key"; gpg --keyserver keys.gnupg.net --recv \$key && gpg --export --armor \$key | sudo apt-key add -; done
+	$ui_aptgetSudo update 2> /tmp/keymissing; for key in $(grep "NO_PUBKEY" /tmp/keymissing |sed "s/.*NO_PUBKEY //"); do echo -e "nProcessing key: $key"; gpg --keyserver keys.gnupg.net --recv $key && gpg --export --armor $key | sudo apt-key add -; done
 } 
-
