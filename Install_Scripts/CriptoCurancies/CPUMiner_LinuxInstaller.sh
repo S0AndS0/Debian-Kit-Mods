@@ -32,9 +32,24 @@ echo "___inporting_shaired_functions"
 # $ui_conf_
 # $ui_teeFile
 # $ui_make
-# list of functions from userPrompts
-# promptTo_continue setUserAcount_settings setDownload_Directory setDownloadSource ui_rootNOroot
+# $ui_chmod
+# $ui_chown
+# $ui_rm
 
+# list of functions from userPrompts
+# promptTo_continue
+# setUserAcount_settings
+# setDownload_Directory
+# setDownloadSource
+# ui_rootNOroot
+# prompt_wheezyUpgrade
+
+. $_ScriptDirectory/ShairedFunctions/tempWheezy_upgrade
+# list of functions from tempWheezy_upgrade
+# addWheezy_toSources
+# removeWheezy_fromSources
+# tempSource_permissionFixer
+# keyFixer
 
 # Warn of paral to hardware
 echo "This script and what it installs to your system may and likely will either damage or distroy your hardware"
@@ -51,9 +66,7 @@ setUserAcount_settings
 echo "Settings for installation set, moving on to installing everything and starting your miner..."
 promptTo_continue
 echo "	...sit back and relax..."
-$ui_aptgetSudo update
 
-dependsInstall_cpuminer
 cd $ui_Download_Directory
 git clone $gitSource
 cd $sourceDirectory

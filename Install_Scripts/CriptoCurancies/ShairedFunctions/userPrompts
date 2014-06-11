@@ -107,6 +107,9 @@ case "$response" in
  		ui_conf_="./"
  		ui_teeFile="tee -a"
  		ui_make="make"
+ 		ui_chmod="chmod"
+ 		ui_chown="chown"
+ 		ui_rm="rm"
 		;;
 	*)
  #		 Otherwise use sudo apt-get for installs..
@@ -114,6 +117,28 @@ case "$response" in
 	ui_conf_="sudo ./"
 	ui_teeFile="sudo tee -a"
 	ui_make="sudo make"
+	ui_chmod="sudo chmod"
+ 	ui_chown="sudo chown"
+ 	ui_rm="sudo rm"
 	;;
 esac
 } 
+prompt_wheezyUpgrade () { 
+	echo "I've had errors with installing some of the dependancies on Debian Squeeze"
+	echo "Input - y - to teperarally add Wheezy sources"
+	echo "Input - n - to continue without modifications"
+	echo -n "Make your choice now : "
+	read ui_addWheezy_source
+	if [ $ui_addWheezy_source = y ]
+	then
+		addWheezy_toSources
+		tempSource_permissionFixer
+		keyFixer
+		dependsInstall_cpuminer
+		removeWheezy_fromSources
+	else [ $ui_addWheezy_source = * ]
+		$ui_aptgetSudo update
+		dependsInstall_cpuminer
+	fi
+}
+
