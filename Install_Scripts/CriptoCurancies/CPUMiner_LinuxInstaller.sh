@@ -36,7 +36,6 @@ echo "___inporting_shaired_functions"
 # $ui_chmod
 # $ui_chown
 # $ui_rm
-# $ui_cd
 # $ui_autogen
 # $ui_configure
 
@@ -72,9 +71,9 @@ echo "Settings for installation set, moving on to installing everything and star
 promptTo_continue
 
 prompt_wheezyUpgrade
-$ui_cd $ui_Download_Directory
+cd $ui_Download_Directory
 git clone $gitSource
-$ui_cd $sourceDirectory
+cd $sourceDirectory
 $ui_autogen
 $ui_configure CFLAGS="$ui_cflag"
 $ui_make

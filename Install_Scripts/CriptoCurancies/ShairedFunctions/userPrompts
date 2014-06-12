@@ -20,7 +20,7 @@ setUserAcount_settings () {
 	read ui_mineAddress_username
 	echo -n "Input your $ui_mineAddress port : "
 	read ui_mineAddress_port
-	echo -n "Input your $ui_mineAddress_username password : "
+	echo -n "Input $ui_mineAddress_username password : "
 	read ui_mineAddress_password
 	echo -n "Input the algorithem to use : "
 	read ui_mineAlgo
@@ -108,7 +108,6 @@ case "$response" in
  		ui_chmod="chmod"
  		ui_chown="chown"
  		ui_rm="rm"
- 		ui_cd="cd"
  		ui_autogen="./autogen.sh"
  		ui_configure"./configure"
 		;;
@@ -120,7 +119,6 @@ case "$response" in
 	ui_chmod="sudo chmod"
  	ui_chown="sudo chown"
  	ui_rm="sudo rm"
- 	ui_cd="sudo cd"
  	ui_autogen="sudo ./autogen.sh"
  	ui_configure"sudo ./configure"
 	;;

@@ -41,7 +41,7 @@ setMake_Config () {
 		ui_cflag="$ui_custom_cflags"
 	else [ $ui_cflag = * ]
 		ui_cflag="-O3"
-	echo "Invalid input recived, using defaults..."
+		echo "Invalid input recived, using defaults..."
 	fi
 	echo "configure set to use : $ui_cflag"
 }
