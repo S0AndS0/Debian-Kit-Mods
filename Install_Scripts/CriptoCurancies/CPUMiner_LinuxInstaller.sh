@@ -1,6 +1,7 @@
 #!/bin/bash
 PATH=/bin:/usr/bin:/usr/local/bin ; export PATH 
-
+echo "Please consider donating to the maintainer of this github by following the following link"
+echo "https://github.com/S0AndS0/Debian-Kit-Mods/blob/master/DonationLinks.txt"
 echo "___setting_variables"
 # Variables
  : ${USER?} ${HOME?}
@@ -29,13 +30,15 @@ echo "___inporting_shaired_functions"
 # 	$gitSource
 # 		$sourceDirectory
 # $ui_aptgetSudo
-# $ui_conf_
+
 # $ui_teeFile
 # $ui_make
 # $ui_chmod
 # $ui_chown
 # $ui_rm
 # $ui_cd
+# $ui_autogen
+# $ui_configure
 
 # list of functions from userPrompts
 # promptTo_continue
@@ -65,17 +68,15 @@ setMake_Config
 setUserAcount_settings
 
 echo "Settings for installation set, moving on to installing everything and starting your miner..."
-echo "Please consider donating to the maintainer of this github by following the following link"
-echo "https://github.com/S0AndS0/Debian-Kit-Mods/blob/master/DonationLinks.txt"
+
 promptTo_continue
-echo "	...sit back and relax..."
 
 prompt_wheezyUpgrade
 $ui_cd $ui_Download_Directory
 git clone $gitSource
 $ui_cd $sourceDirectory
-$ui_conf_autogen.sh
-$ui_conf_configure CFLAGS="$ui_cflag"
+$ui_autogen
+$ui_configure CFLAGS="$ui_cflag"
 $ui_make
 
 ./minerd $minerdOptions

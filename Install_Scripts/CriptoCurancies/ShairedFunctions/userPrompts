@@ -80,15 +80,15 @@ setDownloadSource () {
 	if [ $ui_gitSource = 1 ]
 	then
 		gitSource="https://github.com/pooler/cpuminer"
-		sourceDirectory="$ui_Download_Directory/cpuminer"
+		sourceDirectory="cpuminer"
 	elif [ $ui_gitSource = 2 ]
 	then
 		gitSource="https://github.com/ig0tik3d/darkcoin-cpuminer-1.2c"
-		sourceDirectory="$ui_Download_Directory/darkcoin-cpuminer-1.2c"
+		sourceDirectory="darkcoin-cpuminer-1.2c"
 	elif [ $ui_gitSource = 3 ]
 	then
 		gitSource="https://github.com/elmad/darkcoin-cpuminer-1.3-avx-aes"
-		sourceDirectory="$ui_Download_Directory/darkcoin-cpuminer-1.3-avx-aes"
+		sourceDirectory="darkcoin-cpuminer-1.3-avx-aes"
 	else  [ $ui_gitSource = * ]
 		echo "Invalid input recived, exiting now..."
 		exit
@@ -103,24 +103,26 @@ case "$response" in
 	[yY][eE][sS]|[yY])
  # if yes, use apt-get for installs
  		ui_aptgetSudo="apt-get"
- 		ui_conf_="./"
  		ui_teeFile="tee -a"
  		ui_make="make"
  		ui_chmod="chmod"
  		ui_chown="chown"
  		ui_rm="rm"
  		ui_cd="cd"
+ 		ui_autogen="./autogen.sh"
+ 		ui_configure"./configure"
 		;;
 	*)
  #		 Otherwise use sudo apt-get for installs..
 	ui_aptgetSudo="sudo apt-get"
-	ui_conf_="sudo ./"
 	ui_teeFile="sudo tee -a"
 	ui_make="sudo make"
 	ui_chmod="sudo chmod"
  	ui_chown="sudo chown"
  	ui_rm="sudo rm"
  	ui_cd="sudo cd"
+ 	ui_autogen="sudo ./autogen.sh"
+ 	ui_configure"sudo ./configure"
 	;;
 esac
 } 
