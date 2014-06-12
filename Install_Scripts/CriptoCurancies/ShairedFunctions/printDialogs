@@ -1,0 +1,31 @@
+
+# list packages to be installed
+list_aptPackages_cpuminer () { 
+	echo "The following packages will be installed"
+	echo "libs"
+	echo "	libusb-1.0-0-dev libudev-dev libudev-dev libevent-dev libmicrohttpd-dev"
+	echo "	libtool libjansson-dev libjansson4 hidapilibjansson4"
+	echo "	libpcre3-dev libcurl3-dev libcurl3 libpcre3-dev libcurl3-gnutls-dev"
+	echo "	libcurl4-gnutls-dev libncursesw5-dev"
+	echo "build stuff"
+	echo "	build-essential autoconf automake pkg-config make"
+	echo "other packages"
+	echo "	uthash-dev curl gawk lzma gcc"
+}
+list_aptPackages_darkcoin () { 
+	echo "The following additinal packages will be installed"
+	echo "m4 libssl-dev libdb++-dev libboost-all-dev libminiupnpc-dev libcurl4-openssl-dev"
+}
+list_aptPackages_xcoin () { 
+	echo "The following additinal packages will be installed"
+	echo "automake autoconf build-essential bc curl dos2unix fail2ban git havegedsudo apt-get install libboost-all-dev libcurl4-openssl-dev libdb++-dev libleveldb-dev libminiupnpc-dev libssl-dev m4 nano unzip vim"
+	
+} 
+
+# list sources of more information
+
+# list pools known for mining
+
+# list sources for cpumining software
+
+

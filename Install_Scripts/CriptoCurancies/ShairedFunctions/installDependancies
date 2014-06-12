@@ -1,3 +1,64 @@
+dependsChooser () { 
+	if [ $ui_gitSource = 1 ]
+	then
+		list_aptPackages_cpuminer
+		CPUMine_depenancies
+	elif [ $ui_gitSource = 2 ]
+	then
+		list_aptPackages_darkcoin
+		CPUMine_depenancies
+		dependsInstall_darkcoin
+	elif [ $ui_gitSource = 3 ]
+	then
+		list_aptPackages_darkcoin
+		CPUMine_depenancies
+		dependsInstall_darkcoin
+	elif [ $ui_gitSource = 4 ]
+	then
+		
+		CPUMine_depenancies
+		dependsInstall_vertcoin
+	
+	elif [ $ui_gitSource = 5 ]
+	then
+		
+		CPUMine_depenancies
+		
+	elif [ $ui_gitSource = 6 ]
+	then
+		
+		CPUMine_depenancies
+		dependsInstall_xcoin
+	else  [ $ui_gitSource = * ]
+		echo "Invalid input recived, exiting now..."
+		exit
+	fi
+} 
+CPUMine_depenancies () { 
+	# libs
+	$ui_aptgetSudo -yq --force-yes install libusb-1.0-0-dev libudev-dev libudev-dev libevent-dev libmicrohttpd-dev
+	$ui_aptgetSudo -yq --force-yes install libtool libjansson-dev libjansson4 hidapilibjansson4
+	$ui_aptgetSudo -yq --force-yes install libpcre3-dev libcurl3-dev libcurl3 libpcre3-dev libcurl3-gnutls-dev
+	$ui_aptgetSudo -yq --force-yes install libcurl4-gnutls-dev libncursesw5-dev
+	# build stuff
+	$ui_aptgetSudo -yq --force-yes install build-essential autoconf automake pkg-config make
+	# other packages
+	$ui_aptgetSudo -yq --force-yes install uthash-dev curl gawk lzma gcc
+} 
+dependsInstall_darkcoin () { 
+	$ui_aptgetSudo -yq --force-yes install m4 libminiupnpc-dev libcurl4-openssl-dev
+	$ui_aptgetSudo -yq --force-yes install libssl-dev libdb++-dev libboost-all-dev
+} 
+dependsInstall_vertcoin () { 
+	echo "No further dependencies known, moving on..."
+} 
+dependsInstall_xcoin () { 
+	$ui_aptgetSudo -yq --force-yes install libboost-all-dev libcurl4-openssl-dev libdb++-dev
+	$ui_aptgetSudo -yq --force-yes install libleveldb-dev libminiupnpc-dev libssl-dev
+	$ui_aptgetSudo -yq --force-yes install bc curl dos2unix fail2ban havegedsudo m4 nano unzip vim
+} 
+
+
 dependsInstall_cpuminer () {
 	$ui_aptgetSudo -yq --force-yes install automake
 	$ui_aptgetSudo -yq --force-yes install pkg-config
@@ -5,4 +66,3 @@ dependsInstall_cpuminer () {
 	$ui_aptgetSudo -yq --force-yes install make
 	$ui_aptgetSudo -yq --force-yes install libcurl3-gnutls-dev
 } 
-

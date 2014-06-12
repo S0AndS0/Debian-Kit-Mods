@@ -14,7 +14,11 @@ echo "___inporting_shaired_functions"
 # list of variables from installDependancies
 
 # list of functions from installDependancies
-# dependsInstall_cpuminer
+# dependsChooser
+# CPUMine_depenancies
+# dependsInstall_darkcoin
+# dependsInstall_vertcoin
+# dependsInstall_xcoin
 
 . $_ScriptDirectory/ShairedFunctions/makeConfig
 # list of variables set by makeConfig
@@ -54,6 +58,12 @@ echo "___inporting_shaired_functions"
 # tempSource_permissionFixer
 # keyFixer
 
+. $_ScriptDirectory/ShairedFunctions/printDialogs
+# list of functions from printDialogs
+# list_aptPackages_cpuminer
+# list_aptPackages_darkcoin
+# list_aptPackages_xcoin
+
 # Warn of paral to hardware
 echo "This script and what it installs to your system may and likely will either damage or distroy your hardware"
 echo "	by using this script and installed software you agree to the terms of thier relotive licencing and terms of use"
@@ -71,12 +81,13 @@ echo "Settings for installation set, moving on to installing everything and star
 promptTo_continue
 
 prompt_wheezyUpgrade
+
 cd $ui_Download_Directory
 git clone $gitSource
 sourcePermmision_fixer
 cd $sourceDirectory
-./autogen.sh
-./configure CFLAGS="$ui_cflag"
+$ui_autogen
+$ui_configure CFLAGS="$ui_cflag"
 $ui_make
 
 ./minerd $minerdOptions

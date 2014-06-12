@@ -72,9 +72,12 @@ setDownloadSource () {
 	echo "for mining coins like bitcoin and litecoin any option can be used"
 	echo "however for mining coins not based on SHA-256 or Scypt cryptocoin algorithms such as Darkcoin based on X11 you will want to choose wizely"
 	echo "_________"
-	echo "For SHA-256 and Scypt -> Input - 1 - to install from : https://github.com/pooler/cpuminer"
-	echo "For X11 -> Input - 2 - to install from : https://github.com/ig0tik3d/darkcoin-cpuminer-1.2c"
-	echo "For X11 with AES-NI instruction set -> Input - 3 - to install from : https://github.com/elmad/darkcoin-cpuminer-1.3-avx-aes"
+	echo "	Input - 1 - For SHA-256 and Scypt such as Bitcoin and Litecoin from : https://github.com/pooler/cpuminer"
+	echo "	Input - 2 - For X11 coins such as Darkcoin from : https://github.com/ig0tik3d/darkcoin-cpuminer-1.2c"
+	echo "	Input - 3 - For X11 CPU Mining with AES-NI instruction set suport from : https://github.com/elmad/darkcoin-cpuminer-1.3-avx-aes"
+	echo "	Input - 4 - For Vertcoin CPU Miner from : https://github.com/Bufius/cpuminer-vert"
+	echo "	Input - 5 - For QubitCoin CPU Miner from : https://github.com/qubitcoin/QubitCoin-cpuminer"
+	echo "	Input - 6 - For alternet X11 CPU Miner from : https://github.com/ig0tik3d/xcoin-cpuminer"
 	echo -n "Choose your source : "
 	read ui_gitSource
 	if [ $ui_gitSource = 1 ]
@@ -89,6 +92,18 @@ setDownloadSource () {
 	then
 		gitSource="https://github.com/elmad/darkcoin-cpuminer-1.3-avx-aes"
 		sourceDirectory="darkcoin-cpuminer-1.3-avx-aes"
+	elif [ $ui_gitSource = 4 ]
+	then
+		gitSource="https://github.com/Bufius/cpuminer-vert"
+		sourceDirctory="cpuminer-vert"
+	elif [ $ui_gitSource = 5 ]
+	then
+		gitSource="https://github.com/qubitcoin/QubitCoin-cpuminer"
+		sourceDirctory="QubitCoin-cpuminer"
+	elif [ $ui_gitSource = 6 ]
+	then
+		gitSource="https://github.com/ig0tik3d/xcoin-cpuminer"
+		sourceDirctory="xcoin-cpuminer"
 	else  [ $ui_gitSource = * ]
 		echo "Invalid input recived, exiting now..."
 		exit
@@ -108,6 +123,8 @@ case "$response" in
  		ui_chmod="chmod"
  		ui_chown="chown"
  		ui_rm="rm"
+ 		ui_autogen="./autogen.sh"
+ 		ui_configure="./configure"
 		;;
 	*)
  #		 Otherwise use sudo apt-get for installs..
@@ -117,6 +134,8 @@ case "$response" in
 	ui_chmod="sudo chmod"
  	ui_chown="sudo chown"
  	ui_rm="sudo rm"
+ 	ui_autogen="sudo ./autogen.sh"
+ 	ui_configure="sudo ./configure"
 	;;
 esac
 } 
@@ -131,11 +150,11 @@ prompt_wheezyUpgrade () {
 		addWheezy_toSources
 		tempSource_permissionFixer
 		keyFixer
-		dependsInstall_cpuminer
+		dependsChooser
 		removeWheezy_fromSources
 	else [ $ui_addWheezy_source = * ]
 		$ui_aptgetSudo update
-		dependsInstall_cpuminer
+		dependsChooser
 	fi
 }
 
