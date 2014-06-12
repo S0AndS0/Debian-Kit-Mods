@@ -108,8 +108,6 @@ case "$response" in
  		ui_chmod="chmod"
  		ui_chown="chown"
  		ui_rm="rm"
- 		ui_autogen="./autogen.sh"
- 		ui_configure"./configure"
 		;;
 	*)
  #		 Otherwise use sudo apt-get for installs..
@@ -119,8 +117,6 @@ case "$response" in
 	ui_chmod="sudo chmod"
  	ui_chown="sudo chown"
  	ui_rm="sudo rm"
- 	ui_autogen="sudo ./autogen.sh"
- 	ui_configure"sudo ./configure"
 	;;
 esac
 } 

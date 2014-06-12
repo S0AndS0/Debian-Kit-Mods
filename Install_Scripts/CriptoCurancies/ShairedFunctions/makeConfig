@@ -46,4 +46,7 @@ setMake_Config () {
 	echo "configure set to use : $ui_cflag"
 }
 
+sourcePermmision_fixer () { 
+	$ui_chmod +x $ui_Download_Directory/$sourceDirectory/autogen.sh
+} 
 

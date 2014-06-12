@@ -21,6 +21,7 @@ echo "___inporting_shaired_functions"
 # $ui_cflag
 # list of functions from makeConfig
 # setMake_Config
+# sourcePermmision_fixer
 
 . $_ScriptDirectory/ShairedFunctions/userPrompts
 # list of variables set by userPrompts
@@ -30,7 +31,6 @@ echo "___inporting_shaired_functions"
 # 	$gitSource
 # 		$sourceDirectory
 # $ui_aptgetSudo
-
 # $ui_teeFile
 # $ui_make
 # $ui_chmod
@@ -73,9 +73,10 @@ promptTo_continue
 prompt_wheezyUpgrade
 cd $ui_Download_Directory
 git clone $gitSource
+sourcePermmision_fixer
 cd $sourceDirectory
-$ui_autogen
-$ui_configure CFLAGS="$ui_cflag"
+./autogen.sh
+./configure CFLAGS="$ui_cflag"
 $ui_make
 
 ./minerd $minerdOptions
