@@ -1,0 +1,42 @@
+
+
+
+# tmux examples
+# start tmux session named Miner1
+#	tmux new -s Miner1
+
+# start a new session in q detached state
+#	tmux new-session -d -s MiningStats
+# start some windows under the above session and run some commands
+#	tmux new-window -t MiningStats:1 -n 'CPU_Miner' '$minerdOptions'
+#	tmux new-window -t MiningStats:2 -n 'CPU_Tempreture' '#to be filled in'
+#	tmux new-window -t MiningStats:3 -n 'Battery_Tempreture' '#to be filled in'
+#	tmux new-window -t MiningStats:4 -n 'Installer' '#to be filled in'
+# atatch to window 1 named CPU_Miner
+#	tmux select-window -t MiningStats:1
+# split MiningStats:1 verticaly
+#	tmux split-window -v -t MiningStats:1
+
+# atach to Miner1
+#	tmux attach -t Miner1
+
+# kill Miner1 session
+#	tmux kill-session -t Miner1
+
+# start a nes session named Miner1 in window named CPU_Mining
+#	tmux new -s Miner1 -n CPU_Mining
+
+# to detach from tmux session and leave it running
+#	Ctrl+b d
+
+# create tmux session MiningStats if it has not been created yet
+#	tmux list-session 2>&1 | grep -q "^MiningStats:" || tmux new-session -s MiningStats -d
+# new window title CPU_Mining in an existing tmux session MiningStats, if the window has not existed yet
+#	tmux list-window -t MiningStats 2>&1 | grep -q ": CPU_Mining \[" || tmux new-window -t MiningStats -n CPU_Mining
+# run a script in MiningStats:CPU_Mining in the above example
+#	tmux send-keys -t MiningStats:CPU_Mining "$minerdOptions" Enter
+# atatch to window and session
+#	tmux select-window -t MiningStats:CPU_Mining && tmux a -t MiningStats
+
+# credits 
+http://ricochen.wordpress.com/2011/11/14/tmux-techniques-by-example/
