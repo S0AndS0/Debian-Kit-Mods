@@ -1,4 +1,15 @@
+tmuxSession_ID="MiningStats"
+tmuxWindow_ID="CPU_Mining"
 
+
+dependsInstall_thisScript () { 
+	$ui_aptgetSudo -yq --force-yes install tmux
+} 
+start_tmux_MinerSession () { 
+	tmux list-session 2>&1 | grep -q "^$tmuxSession_ID:" || tmux new-session -s $tmuxSession_ID -d
+	tmux list-window -t $tmuxSession_ID 2>&1 | grep -q ": $tmuxWindow_ID \[" || tmux new-window -t $tmuxSession_ID -n $tmuxWindow_ID
+	tmux send-keys -t $tmuxSession_ID:$tmuxWindow_ID "$minerdOptions" Enter
+}
 
 
 # tmux examples
@@ -38,5 +49,8 @@
 # atatch to window and session
 #	tmux select-window -t MiningStats:CPU_Mining && tmux a -t MiningStats
 
-# credits 
-http://ricochen.wordpress.com/2011/11/14/tmux-techniques-by-example/
+# credits for tmux scripting help I found
+# http://ricochen.wordpress.com/2011/11/14/tmux-techniques-by-example/
+# http://stackoverflow.com/questions/5447278/bash-scripts-with-tmux-to-launch-a-4-paned-window
+
+
