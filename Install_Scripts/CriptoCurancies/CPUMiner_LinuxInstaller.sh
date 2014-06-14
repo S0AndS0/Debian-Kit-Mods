@@ -71,11 +71,19 @@ echo "___inporting_shaired_functions"
 . $_ScriptDirectory/ShairedFunctions/tmuxControl
 # list of functions from tmuxControl
 # dependsInstall_thisScript 	# installs tmux for easy control of miner jobs without human intervention
-# start_tmux_MinerSession 		# starts minerd in new tmux session if it doesn't exsist already
+# start_tmux_MinerSession 		# starts minerd in new tmux session if it doesn't exsist already named $tmuxSession_ID
+# end_tmuxMinerSession 			# ends minerd sessions named $tmuxSession_ID
 
 # list of variables set by tmuxControl
 # $tmuxSession_ID
 # $tmuxWindow_ID
+
+. $_ScriptDirectory/ShairedFunctions/temp_monitor
+# list of functions from temp_monitor
+# Android_debianKit_temp
+# Download_tempThrottle
+
+# list of variables set by temp_monitor
 
 # Warn of paral to hardware
 echo "This script and what it installs to your system may and likely will either damage or distroy your hardware"
