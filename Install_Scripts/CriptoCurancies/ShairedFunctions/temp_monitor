@@ -1,5 +1,42 @@
+fBatteryTemp="$(dmesg | grep -E 'BATT' | sed -e 's/\(.*\)\(Temp:\) //p' | tail -1 | awk '{print $1}')"
 
+Android_debianKit_temp () { 
+# examples of power/tempreture monitoring
+# 	Modifide from 
+#	http://askubuntu.com/questions/417340/how-do-i-lower-the-critical-temperature/417374#417374
+	while true;do
+		t=$fBatteryTemp
+		if [ $t > $ui_tempretureLevel_Kill ] 
+		then 
+			echo "Temp High : $t"
+			
+			sleep 120
+		elif [ $t < $ui_tempretureLevel_Kill ] 
+		then 
+			echo "Temp ok : $t"
+			if [ $screenTester = NoSocketsfound ]
+			then
+				echo "Sending the following commands to restart services"
+				
+			else [ $screenTester = * ]
+				echo "Re-ataching to "
 
+			fi
+		fi 
+	sleep 60 
+	done
+	
+} 
+PC_Linux_temp () { 
+	
+	
+} 
+Download_tempThrottle () { 
+	echo "Big thanks to Sepero the auther of the following script for throttling CPU cors bassed off tempreture"
+	echo "http://seperohacker.blogspot.com/2012/10/linux-keep-your-cpu-cool-with-frequency.html"
+	
+	git clone https://github.com/Sepero/temp-throttle
+}
 
 # credits for temprature monitoring
 # http://www.havetheknowhow.com/scripts/CPUTempShutdown.txt
