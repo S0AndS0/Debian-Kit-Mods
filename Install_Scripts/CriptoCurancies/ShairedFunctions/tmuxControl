@@ -10,7 +10,9 @@ start_tmux_MinerSession () {
 	tmux list-window -t $tmuxSession_ID 2>&1 | grep -q ": $tmuxWindow_ID \[" || tmux new-window -t $tmuxSession_ID -n $tmuxWindow_ID
 	tmux send-keys -t $tmuxSession_ID:$tmuxWindow_ID "$minerdOptions" Enter
 }
-
+end_tmuxMinerSession () { 
+	tmux list-session 2>&1 | grep -q "^$tmuxSession_ID:" | tmux kill-session -t $tmuxSession_ID
+} 
 
 # tmux examples
 # start tmux session named Miner1
