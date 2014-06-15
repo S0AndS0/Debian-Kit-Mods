@@ -1,4 +1,6 @@
 fBatteryTemp="$(dmesg | grep -E 'BATT' | sed -e 's/\(.*\)\(Temp:\) //p' | tail -1 | awk '{print $1}')"
+fCPUtemp="$(sensor | grep -E 'Core')"
+tmuxTester="()"
 
 Android_debianKit_temp () { 
 # examples of power/tempreture monitoring
@@ -14,11 +16,11 @@ Android_debianKit_temp () {
 		elif [ $t < $ui_tempretureLevel_Kill ] 
 		then 
 			echo "Temp ok : $t"
-			if [ $screenTester = NoSocketsfound ]
+			if [ $tmuxTester = NoSocketsfound ]
 			then
 				echo "Sending the following commands to restart services"
 				
-			else [ $screenTester = * ]
+			else [ $tmuxTester = * ]
 				echo "Re-ataching to "
 
 			fi
@@ -34,12 +36,19 @@ PC_Linux_temp () {
 Download_tempThrottle () { 
 	echo "Big thanks to Sepero the auther of the following script for throttling CPU cors bassed off tempreture"
 	echo "http://seperohacker.blogspot.com/2012/10/linux-keep-your-cpu-cool-with-frequency.html"
-	
+	cd $ui_Download_Directory
 	git clone https://github.com/Sepero/temp-throttle
+	$ui_chmod +x temp_throttle.sh
+	cd ~
+	
 }
 
 # credits for temprature monitoring
 # http://www.havetheknowhow.com/scripts/CPUTempShutdown.txt
 # http://unix.stackexchange.com/questions/24980/how-enable-safeguards-for-cpu-temperature
 # https://github.com/Sepero/temp-throttle/blob/master/temp_throttle.sh
+
+# http://askubuntu.com/questions/7409/only-view-the-cpu-temperature-from-command-sensors
+# The following will give you only the temperature (with the °C suffix) :
+# sensors | grep -A 0 'CPU T' | cut -c18-25
 

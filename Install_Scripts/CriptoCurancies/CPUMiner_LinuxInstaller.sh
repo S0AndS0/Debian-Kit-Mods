@@ -84,6 +84,10 @@ echo "___inporting_shaired_functions"
 # Download_tempThrottle
 
 # list of variables set by temp_monitor
+$fBatteryTemp
+$fCPUtemp
+$ui_tempretureLevel_Kill
+$tmuxTester
 
 # Warn of paral to hardware
 echo "This script and what it installs to your system may and likely will either damage or distroy your hardware"
