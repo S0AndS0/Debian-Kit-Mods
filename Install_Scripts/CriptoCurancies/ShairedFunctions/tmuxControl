@@ -13,6 +13,11 @@ start_tmux_MinerSession () {
 end_tmuxMinerSession () { 
 	tmux list-session 2>&1 | grep -q "^$tmuxSession_ID:" | tmux kill-session -t $tmuxSession_ID
 } 
+reatach_tmuxMinerSession () { 
+	tmux list-session 2>&1 | grep -q "^$tmuxSession_ID:" | tmux select-window -t $tmuxSession_ID
+	
+} 
+
 
 # tmux examples
 # start tmux session named Miner1

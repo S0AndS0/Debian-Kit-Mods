@@ -73,6 +73,7 @@ echo "___inporting_shaired_functions"
 # dependsInstall_thisScript 	# installs tmux for easy control of miner jobs without human intervention
 # start_tmux_MinerSession 		# starts minerd in new tmux session if it doesn't exsist already named $tmuxSession_ID
 # end_tmuxMinerSession 			# ends minerd sessions named $tmuxSession_ID
+# reatach_tmuxMinerSession 		# reataches to tmux session if already started
 
 # list of variables set by tmuxControl
 # $tmuxSession_ID
@@ -84,10 +85,10 @@ echo "___inporting_shaired_functions"
 # Download_tempThrottle
 
 # list of variables set by temp_monitor
-$fBatteryTemp
-$fCPUtemp
-$ui_tempretureLevel_Kill
-$tmuxTester
+# $fBatteryTemp
+# $fCPUtemp
+# $ui_tempretureLevel_Kill
+# $tmuxTester
 
 # Warn of paral to hardware
 echo "This script and what it installs to your system may and likely will either damage or distroy your hardware"

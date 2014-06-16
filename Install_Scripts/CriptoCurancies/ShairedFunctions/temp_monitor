@@ -11,7 +11,7 @@ Android_debianKit_temp () {
 		if [ $t > $ui_tempretureLevel_Kill ] 
 		then 
 			echo "Temp High : $t"
-			
+			end_tmuxMinerSession
 			sleep 120
 		elif [ $t < $ui_tempretureLevel_Kill ] 
 		then 
@@ -19,10 +19,10 @@ Android_debianKit_temp () {
 			if [ $tmuxTester = NoSocketsfound ]
 			then
 				echo "Sending the following commands to restart services"
-				
+				start_tmux_MinerSession
 			else [ $tmuxTester = * ]
 				echo "Re-ataching to "
-
+				reatach_tmuxMinerSession
 			fi
 		fi 
 	sleep 60 
@@ -30,7 +30,30 @@ Android_debianKit_temp () {
 	
 } 
 PC_Linux_temp () { 
-	
+# examples of power/tempreture monitoring
+# 	Modifide from 
+#	http://askubuntu.com/questions/417340/how-do-i-lower-the-critical-temperature/417374#417374
+	while true;do
+		t=$fCPUtemp
+		if [ $t > $ui_tempretureLevel_Kill ] 
+		then 
+			echo "Temp High : $t"
+			end_tmuxMinerSession
+			sleep 120
+		elif [ $t < $ui_tempretureLevel_Kill ] 
+		then 
+			echo "Temp ok : $t"
+			if [ $tmuxTester = NoSocketsfound ]
+			then
+				echo "Sending the following commands to restart services"
+				start_tmux_MinerSession
+			else [ $tmuxTester = * ]
+				echo "Re-ataching to "
+				reatach_tmuxMinerSession
+			fi
+		fi 
+	sleep 60 
+	done
 	
 } 
 Download_tempThrottle () { 
