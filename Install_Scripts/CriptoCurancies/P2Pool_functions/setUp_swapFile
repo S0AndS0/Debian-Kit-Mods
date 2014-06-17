@@ -1,0 +1,18 @@
+
+
+cd /var/tmp
+dd if=/dev/zero of=swapfile1 bs=1024 count=1048576
+mkswap /var/tmp/swapfile1
+sudo /sbin/swapon /var/tmp/swapfile1
+
+sudo chown root:root /var/tmp/swapfile1
+sudo chmod 0600 /var/tmp/swapfile1
+
+free -m
+
+# persist
+sudo nano /etc/fstab
+# add the following to new line
+/var/tmp/swapfile1 swap swap defaults 0 0
+
+

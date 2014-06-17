@@ -1,0 +1,67 @@
+installRequired_packages () { 
+	
+	
+} 
+
+
+
+
+# 
+# python-software-properties tmux git python-rrdtool python-pygame 
+# python-scipy python-twisted python-twisted-web python-imaging
+
+# sudo add-apt-repository ppa:bitcoin/bitcoin
+# 	bitcoind
+# guiyesNo
+#		bitcoin-qt
+
+
+
+# git clone git://github.com/forrestv/p2pool.git
+
+# 	for litecoin apt-get the following
+# build-dep bitcoin
+# build-essential libglib2.0-dev libglibmm-2.4-dev libqt4-dev python-dev libcurl4-gnutls-dev
+
+# git clone https://github.com/coblee/litecoin.git
+# 
+# git clone git://github.com/knotwork/old-devcoind.git
+# git clone git://github.com/ixcoin/ixcoin.git
+# git clone git://github.com/doublec/i0coin
+
+
+# 	install the following for vertcoin
+# build-essential libssl-dev libboost-all-dev git libdb5.1++-dev libminiupnpc-dev tmux
+# python-zope.interface python-twisted python-twisted-web
+
+# 	P2Pool Server Node software for Scrypt-N coins such as vertcoin
+# git clone https://github.com/donSchoe/p2pool-vtc
+# git clone https://github.com/vertcoin/vertcoin
+# git clone https://github.com/hardcpp/P2PoolExtendedFrontEnd
+
+#	install the following for dogecoin and p2pool
+# build-essential libssl-dev libdb4.8-dev libdb4.8++-dev libboost1.49-all-dev
+# python-zope.interface python-twisted python-twisted-web
+
+# git clone https://github.com/dogecoin/dogecoin
+# git clone --recursive https://github.com/blixnood/p2pool
+
+# 	install the following for darkcoin
+# build-essential curl libcurl4-openssl-dev libminiupnpc-dev
+# libboost1.49-all-dev libncurses-dev libffi-dev python-twisted
+# libdb5.1++-dev libdb5.1-dev tmux mailutils
+
+# git clone https://github.com/darkcoinproject/darkcoin
+# git clone https://bitbucket.org/dstorm/p2pool-drk.git
+
+
+#	install the following for quarkcoin
+# build-essential libglib2.0-dev libglibmm-2.4-dev libqt4-dev python-dev libcurl4-gnutls-dev python-software-properties
+# python-rrdtool python-pygame python-scipy python-twisted python-twisted-web python-imaging libboost-all-dev
+
+# git clone https://github.com/Neisklar/p2pool-quarkcoin
+# git clone https://github.com/Neisklar/quarkcoin-hash-python
+# git clone https://github.com/hardcpp/P2PoolExtendedFrontEnd
+
+
+
