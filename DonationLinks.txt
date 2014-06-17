@@ -1,6 +1,7 @@
 This file contains links that you the reader may use to donate to the developer of thiese scripts.
 	The Crypto Currency wallets are devided into two groupes; either set may be used for donations/suport for further development.
-	If you wish to donate USD instead then please use my email "strangerthanbland" at gmail to sent funds through Google Wallet.
+	If you wish to donate USD instead then please use my email "strangerthanbland" at gmail to sent funds through Google Wallet. See the following link for how to;
+	http://www.google.com/wallet/send-money/
 
 Thank you for considering supporting this developer. All donations will go to advancing Open Source progects that I am developing.
 
