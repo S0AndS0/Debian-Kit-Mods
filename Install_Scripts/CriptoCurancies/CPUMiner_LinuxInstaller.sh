@@ -78,6 +78,7 @@ echo "___inporting_shaired_functions"
 # list of variables set by tmuxControl
 # $tmuxSession_ID
 # $tmuxWindow_ID
+# $tmuxTester
 
 . $_ScriptDirectory/ShairedFunctions/temp_monitor
 # list of functions from temp_monitor
@@ -88,7 +89,7 @@ echo "___inporting_shaired_functions"
 # $fBatteryTemp
 # $fCPUtemp
 # $ui_tempretureLevel_Kill
-# $tmuxTester
+
 
 # Warn of paral to hardware
 echo "This script and what it installs to your system may and likely will either damage or distroy your hardware"
