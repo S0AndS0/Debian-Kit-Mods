@@ -125,6 +125,7 @@ case "$response" in
  		ui_rm="rm"
  		ui_autogen="./autogen.sh"
  		ui_configure="./configure"
+ 		ui_sensors="sensors"
 		;;
 	*)
  #		 Otherwise use sudo apt-get for installs..
@@ -136,6 +137,7 @@ case "$response" in
  	ui_rm="sudo rm"
  	ui_autogen="sudo ./autogen.sh"
  	ui_configure="sudo ./configure"
+ 	ui_sensors="sudo sensors"
 	;;
 esac
 } 

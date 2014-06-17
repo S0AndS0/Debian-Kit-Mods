@@ -1,5 +1,5 @@
 fBatteryTemp="$(dmesg | grep -E 'BATT' | sed -e 's/\(.*\)\(Temp:\) //p' | tail -1 | awk '{print $1}')"
-fCPUtemp="$(sensor | grep -E 'Core')"
+fCPUtemp="$($ui_sensors | grep -E 'Core' | awk '{gsub("Core",""); print $2}' | rev | sed 's/.$//' | rev | sed 's/..$//')"
 
 
 Android_debianKit_temp () { 

@@ -1,3 +1,9 @@
+# Warn of paral to hardware
+warningHW_damage () { 
+	echo "This script and what it installs to your system may and likely will either damage or distroy your hardware"
+	echo "	by using this script and installed software you agree to the terms of thier relotive licencing and terms of use"
+	echo "	and agree that you are resposible for your own choices and consoquiences from those choices"
+}
 
 # list packages to be installed
 list_aptPackages_cpuminer () { 
@@ -27,5 +33,25 @@ list_aptPackages_xcoin () {
 # list pools known for mining
 
 # list sources for cpumining software
+list_cpuMining_software () { 
+	echo "Curently the following sources of software for CPU mining to install with this script are"
+	echo "	https://github.com/pooler/cpuminer"
+	echo "	https://github.com/ig0tik3d/darkcoin-cpuminer-1.2c"
+	echo "	https://github.com/elmad/darkcoin-cpuminer-1.3-avx-aes"
+	echo "	https://github.com/Bufius/cpuminer-vert"
+	echo "	https://github.com/qubitcoin/QubitCoin-cpuminer"
+	echo "	https://github.com/ig0tik3d/xcoin-cpuminer"
+}
 
+# list cpu compatibility with minerd software forks
+list_cpuFork_Compatiblitly () { 
+	echo "_________"
+	echo "CPU compatibility"
+	echo "_________"
+	echo "Scrypt and SHA-256 bassed coins can be mined on"
+	echo "	ARMel or ARMhf Linux CPU's with : CFLAGS=\"-O3\" or CFLAGS=\"-O3 -mfpu=neon\" or CFLAGS=\"-O3 -mfpu=neon-vfpv4\" : as the configure flages for building from source."
+	
+	echo "X11 bassed coins can only be mined on"
+	echo "	64bit CPU's with : CFLAGS=\"-O3\" or CFLAGS=\"-O3 -march=native\" : as the configure flages for building from source."
+}
 

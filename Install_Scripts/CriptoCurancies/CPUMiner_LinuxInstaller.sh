@@ -46,6 +46,7 @@ echo "___inporting_shaired_functions"
 # $ui_rm 						# sets rm commands up with sudo for non-root users for removing files from protected storage
 # $ui_autogen 					# sets ./autogen.sh commands up with sudo for non-root users for minerd installation from source
 # $ui_configure 				# sets ./configure commands up with sudo for non-root users which is further modifide with $ui_cflag variable
+# $ui_sensors 					# sets sensors command to sudo or no sudo prefix based on user prompt
 
 # list of functions from userPrompts
 # promptTo_continue 			# Exits on anything but "yes" or "y" responce from user
@@ -64,9 +65,12 @@ echo "___inporting_shaired_functions"
 
 . $_ScriptDirectory/ShairedFunctions/printDialogs
 # list of functions from printDialogs
+# warningHW_damage 				# warns users that they are doing something dangerious and costly
 # list_aptPackages_cpuminer 	# lists the packages that will be installed for every minerd fork
 # list_aptPackages_darkcoin 	# lists known package dependancies for darkcoin minerd fork
 # list_aptPackages_xcoin 		# list known package dependancies for X11 based coins minerd fork
+# list_cpuFork_Compatiblitly 	# lists what CPU's the minerd forks will work on
+# list_cpuMining_software 		# lists all curently available to install cpu mining software for easy install with this script
 
 . $_ScriptDirectory/ShairedFunctions/tmuxControl
 # list of functions from tmuxControl
@@ -86,16 +90,18 @@ echo "___inporting_shaired_functions"
 # Download_tempThrottle
 
 # list of variables set by temp_monitor
-# $fBatteryTemp
-# $fCPUtemp
-# $ui_tempretureLevel_Kill
+# $fBatteryTemp 			# outputs tempreture of battery on Android devices running Debian Kit's form of Linux
+# $fCPUtemp 				# outputs tempreture of CPU on PC's running Debian bassed Linux
+# $ui_tempretureLevel_Kill 	# sets the max tempreture that the CPU or battery can get to before mining tasks are stoped
 
 
-# Warn of paral to hardware
-echo "This script and what it installs to your system may and likely will either damage or distroy your hardware"
-echo "	by using this script and installed software you agree to the terms of thier relotive licencing and terms of use"
-echo "	and agree that you are resposible for your own choices and consoquiences from those choices"
+
 echo "running functions from : $_ScriptDirectory/ShairedFunctions/ ..."
+echo "_________"
+list_cpuMining_software
+list_cpuFork_Compatiblitly
+warningHW_damage
+echo "_________"
 promptTo_continue
 ui_rootNOroot
 setDownload_Directory
@@ -103,12 +109,11 @@ setDownloadSource
 setMake_Config
 setUserAcount_settings
 
+echo "_________"
 echo "Settings for installation set, moving on to installing everything and starting your miner..."
-
 promptTo_continue
-
 prompt_wheezyUpgrade
-
+echo "_________"
 cd $ui_Download_Directory
 git clone $gitSource
 sourcePermmision_fixer
