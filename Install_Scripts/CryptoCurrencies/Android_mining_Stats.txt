@@ -22,7 +22,10 @@ Device Name ~|~ Coin ~|~ Pool ~|~ Hashes ~|~ Processor Speeds
 	
 	myTouch 3G slide ~|~ LiteCoin ~|~ stratum+tcp://freadom.wemineltc.com:3333 ~|~ 0.29 (+-) Khash/s ~|~ 600 MHz max
 	
+	myTouch 3G slide ~|~ DigeCoin ~|~ stratum+tcp://doge.ghash.io:3333 ~|~ 0.37 (+-) Khash/s ~|~ 825 MHz max
+	
 	Sero 7" Pro ~|~ BitCoin ~|~ http://pit.deepbit.net:8332 ~|~ 550(+-) Khash/s ~|~ 1200 MHz max
+	
 	Sero 7" Pro ~|~ VertCoin ~|~ stratum+tcp://vtc.crypto-pool.fr:4001 ~|~ 0.81(+-) Khash/s ~|~ 1200 MHz max
 	
 Tips to read and consider but perhaps not follow
