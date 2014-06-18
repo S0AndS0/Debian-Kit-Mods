@@ -22,8 +22,7 @@ setUserAcount_settings () {
 	read ui_mineAddress_port
 	echo -n "Input $ui_mineAddress_username password : "
 	read ui_mineAddress_password
-	echo -n "Input the algorithem to use : "
-	read ui_mineAlgo
+	algoChooser
 	echo "An example of your login can be found bellow"
 	echo "	./minerd -a $ui_mineAlgo -o $ui_mineAddress:$ui_mineAddress_port -u $ui_mineAddress_username -p $ui_mineAddress_password"
 	echo -n "Does that look corect? [y/N] : "

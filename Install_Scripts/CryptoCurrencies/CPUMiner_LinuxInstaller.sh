@@ -23,6 +23,10 @@ echo "___inporting_shaired_functions"
 . $_ScriptDirectory/ShairedFunctions/makeConfig
 # list of variables set by makeConfig
 # $ui_cflag 					# aids in setting proper cflag settings for use with $ui_configure variable
+# algoChooser 					# sets algorithum to use in minerd commands based on what source was chosen
+
+# list of variables set by makeConfig
+# $ui_mineAlgo 					# contains the value to use as the "-a <algo>" option in minerd commands
 
 # list of functions from makeConfig
 # setMake_Config 				# sets cflags to variable for compiling minerd forks with make commands
