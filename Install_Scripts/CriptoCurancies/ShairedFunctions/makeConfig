@@ -47,6 +47,6 @@ setMake_Config () {
 }
 
 sourcePermmision_fixer () { 
-	$ui_chmod +x $ui_Download_Directory/$sourceDirectory/autogen.sh
+	$ui_chmod +x $sourceDirectory/autogen.sh
 } 
 

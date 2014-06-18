@@ -68,9 +68,9 @@ setDownload_Directory () {
 }
 setDownloadSource () { 
 	echo "For CPU mining there are many forks of the original, link found bellow, that have epanded fetuers."
-	echo "https://github.com/pooler/cpuminer"
-	echo "for mining coins like bitcoin and litecoin any option can be used"
-	echo "however for mining coins not based on SHA-256 or Scypt cryptocoin algorithms such as Darkcoin based on X11 you will want to choose wizely"
+	echo "	https://github.com/pooler/cpuminer"
+	echo "	for mining coins like bitcoin and litecoin any option can be used"
+	echo "	however for mining coins not based on SHA-256 or Scypt cryptocoin algorithms such as Darkcoin based on X11 you will want to choose wizely"
 	echo "_________"
 	echo "	Input - 1 - For SHA-256 and Scypt such as Bitcoin and Litecoin from : https://github.com/pooler/cpuminer"
 	echo "	Input - 2 - For X11 coins such as Darkcoin from : https://github.com/ig0tik3d/darkcoin-cpuminer-1.2c"
@@ -95,15 +95,15 @@ setDownloadSource () {
 	elif [ $ui_gitSource = 4 ]
 	then
 		gitSource="https://github.com/Bufius/cpuminer-vert"
-		sourceDirctory="cpuminer-vert"
+		sourceDirectory="cpuminer-vert"
 	elif [ $ui_gitSource = 5 ]
 	then
 		gitSource="https://github.com/qubitcoin/QubitCoin-cpuminer"
-		sourceDirctory="QubitCoin-cpuminer"
+		sourceDirectory="QubitCoin-cpuminer"
 	elif [ $ui_gitSource = 6 ]
 	then
 		gitSource="https://github.com/ig0tik3d/xcoin-cpuminer"
-		sourceDirctory="xcoin-cpuminer"
+		sourceDirectory="xcoin-cpuminer"
 	else 
 		echo "Invalid input recived, exiting now..."
 		exit
@@ -148,7 +148,7 @@ prompt_wheezyUpgrade () {
 	echo -n "Make your choice now : "
 	read ui_addWheezy_source
 	if [ $ui_addWheezy_source = y ]
-	then
+	then 
 		addWheezy_toSources
 		tempSource_permissionFixer
 		keyFixer

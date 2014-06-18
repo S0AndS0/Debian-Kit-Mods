@@ -29,7 +29,7 @@ dependsChooser () {
 		
 		CPUMine_depenancies
 		dependsInstall_xcoin
-	else  [ $ui_gitSource = * ]
+	else 
 		echo "Invalid input recived, exiting now..."
 		exit
 	fi
