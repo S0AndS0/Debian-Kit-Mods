@@ -50,7 +50,7 @@ list_cpuFork_Compatiblitly () {
 	echo "_________"
 	echo "CPU mining Scrypt and SHA-256 bassed coins can be mined on"
 	echo "	ARMel or ARMhf Linux CPU's with : CFLAGS=\"-O3\" or CFLAGS=\"-O3 -mfpu=neon\" or CFLAGS=\"-O3 -mfpu=neon-vfpv4\" : as the configure flages for building from source."
-	
+	echo "	___"
 	echo "CPU mining X11 bassed coins can only be mined on"
 	echo "	64bit CPU's with : CFLAGS=\"-O3\" or CFLAGS=\"-O3 -march=native\" : as the configure flages for building from source."
 }

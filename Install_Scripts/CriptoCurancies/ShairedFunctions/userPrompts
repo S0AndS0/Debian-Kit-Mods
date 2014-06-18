@@ -37,7 +37,7 @@ setUserAcount_settings () {
 		echo -n "Please input exactly what you want then : "
 		read ui_custom_minerdOptions
 		minerdOptions="$ui_custom_minerdOptions"
-	else [ $ui_minerPool_check = * ]
+	else 
 		echo "Invalid input recived, exiting now..."
 		exit
 	fi
@@ -58,7 +58,7 @@ setDownload_Directory () {
 	elif [ $ui_setDownload_Directory = here ]
 	then
 		ui_Download_Directory="$_ScriptDirectory/Download"
-	else [ $ui_setDownload_Directory = * ]
+	else 
 		echo "Invalid input recived, exiting now..."
 		exit
 	fi
@@ -104,7 +104,7 @@ setDownloadSource () {
 	then
 		gitSource="https://github.com/ig0tik3d/xcoin-cpuminer"
 		sourceDirctory="xcoin-cpuminer"
-	else  [ $ui_gitSource = * ]
+	else 
 		echo "Invalid input recived, exiting now..."
 		exit
 	fi
@@ -154,7 +154,7 @@ prompt_wheezyUpgrade () {
 		keyFixer
 		dependsChooser
 		removeWheezy_fromSources
-	else [ $ui_addWheezy_source = * ]
+	else 
 		$ui_aptgetSudo update
 		dependsChooser
 	fi
