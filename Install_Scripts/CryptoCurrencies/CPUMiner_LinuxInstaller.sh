@@ -98,8 +98,6 @@ echo "___inporting_shaired_functions"
 # $fCPUtemp 				# outputs tempreture of CPU on PC's running Debian bassed Linux
 # $ui_tempretureLevel_Kill 	# sets the max tempreture that the CPU or battery can get to before mining tasks are stoped
 
-
-
 echo "running functions from : $_ScriptDirectory/ShairedFunctions/ ..."
 echo "_________"
 list_cpuMining_software
