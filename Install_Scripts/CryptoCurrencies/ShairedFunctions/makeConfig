@@ -73,8 +73,9 @@ algoChooser () {
 	then
 		ui_mineAlgo="X11"
 	else 
-		echo "Invalid input recived, exiting now..."
-		exit
+		echo -n "Input the algorithem to use : "
+		read ui_Algo
+		ui_mineAlgo="$ui_Algo"
 	fi
 } 
 
