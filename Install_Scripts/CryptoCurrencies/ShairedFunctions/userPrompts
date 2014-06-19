@@ -159,3 +159,9 @@ prompt_wheezyUpgrade () {
 	fi
 }
 
+prompt_tempMonitor () { 
+	echo "This part of this script is still experimental"
+	echo ""
+	
+} 
+

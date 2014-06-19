@@ -59,6 +59,7 @@ echo "___inporting_shaired_functions"
 # setDownloadSource 			# sets variabels used to assign which soucre to download
 # ui_rootNOroot 				# sets many variables used for sudo/non-sudo commands
 # prompt_wheezyUpgrade 			# prompts whether or not to mess with source lists and the installs dependancies set by dependsChooser
+# prompt_tempMonitor 			# prompts for whether or not to run commands with temp monitering 
 
 . $_ScriptDirectory/ShairedFunctions/tempWheezy_upgrade
 # list of functions from tempWheezy_upgrade

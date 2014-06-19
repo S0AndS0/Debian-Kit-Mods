@@ -15,7 +15,6 @@ end_tmuxMinerSession () {
 } 
 reatach_tmuxMinerSession () { 
 	tmux list-session 2>1 | grep -E "$tmuxSession_ID:" | tmux select-window -t $tmuxSession_ID
-	
 } 
 
 
