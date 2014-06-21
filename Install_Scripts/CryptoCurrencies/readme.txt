@@ -77,7 +77,7 @@
 # ./configure CFLAGS="-O3"
 # make
 
-# 	vertcoin from github
+# 	vertcoin cpu miner from github
 # http://vertcoinforum.com/index.php?topic=56.0
 # apt-get install make gcc m4 automake libevent-dev zlibc zlib1g-dev libjansson-dev libcurl4-openssl-dev git
 # git clone https://github.com/Bufius/cpuminer-vert
@@ -87,6 +87,23 @@
 # make
 # example command :-: ./minerd -a scrypt -o stratum+tcp://server:port -u "username.worker" -p "password"
 
+# 	skeincoin cpu miner from github
+# apt-get install ?
+# git clone https://github.com/skeincoin/skeincoin-cpuminer
+# cd skeincoin-cpuminer
+# ./autogen.sh
+# ./configure CFLAGS="?"
+# make
+# example command :-: ?
+
+# 	myriadcoin cpu miner from github
+# apt-get install ?
+# git clone https://github.com/myriadcoin/groestlcoin-cpuminer
+# cd skeincoin-cpuminer
+# ./autogen.sh
+# ./configure CFLAGS="?"
+# make
+# example command :-: ?
 
 
 ======================
