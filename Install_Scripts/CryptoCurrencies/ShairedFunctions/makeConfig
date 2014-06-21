@@ -3,6 +3,7 @@ setMake_Config () {
 	echo "I found running configure with : CFLAGS=\"-O3 -mfpu=neon\" : on ARM soft float, prvided by Debian Kit, to work well."
 	echo "Others have found the following to work for thier systems..."
 	echo "_________"
+	# -msse -msse2
 	echo "on ~ Soft Float"
 	echo " CFLAGS=\"-O3\""
 	echo "on ~ Debian 7 armhf - Samsung Galaxy S II, Debian 6 armel myTouch 3G slide"

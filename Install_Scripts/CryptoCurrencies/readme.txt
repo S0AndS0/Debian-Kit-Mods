@@ -1,4 +1,95 @@
+======================
+# 	notes on packages
+# libcurl4-gnutls-dev and libcurl4-openssl-dev will remove one another if the other is to be installed
 
+# 	updated scrypt and sha-256 cpuminer from tar (original cpuminer)
+# 	+ compiles fine on ARM processors
+# http://webcache.googleusercontent.com/search?q=cache:EiHbDpksWkAJ:https://bitcointalk.org/index.php%3Ftopic%3D55038.0+&cd=3&hl=en&ct=clnk&gl=us
+# apt-get install build-essential libcurl4-openssl-dev gcc make
+# wget http://sourceforge.net/projects/cpuminer/files/pooler-cpuminer-2.4.tar.gz
+# tar xzf pooler-cpuminer-2.4.tar.gz
+# cd cpuminer-2.4
+# ./configure CFLAGS="-O3"
+# make
+
+# 	darkcoin cpuminer from github
+# 	+ errors on ARM processors :-: emmintrin.h "fatal error : emmintrin.h : No such file or directory."
+# http://altcoins.com/vps-mining-guide-for-cpu-altcoins.html
+# apt-get install automake autoconf build-essential bc curl dos2unix fail2ban havegedsudo
+# apt-get install libboost-all-dev libcurl4-openssl-dev libdb++-dev libleveldb-dev libminiupnpc-dev libssl-dev m4 nano unzip vim
+# git clone https://github.com/ig0tik3d/xcoin-cpuminer
+# cd xcoin-cpuminer
+# ./autogen.sh
+# ./configure CFLAGS="-O2"
+# make
+# example command :-: ./minerd -a X11 -o pool_addres:pool_port -u your_user.worker -p x
+
+# 	qubitcoin cpuminer from github
+# 	+ errors on ARM processors :-: emmintrin.h "fatal error : emmintrin.h : No such file or directory."
+# https://bitcointa.lk/threads/ann-q2c-qubitcoin-new-secure-hashing-cpu-gpu-new-update-0-8-4-1.234478/page-98
+# apt-get install libcurl4-openssl-dev libncurses5-dev pkg-config automake yasm make
+# git clone https://github.com/ig0tik3d/QubitCoin-cpuminer-v.1.1
+# cd ./QubitCoin-cpuminer-v.1.1
+# ./autogen.sh
+# ./configure CFLAGS="-O3"
+# make
+# example command :-: ./minerd -a qubit -o stratum+tcp://q2c.cpu-pool.net:3470 -u YourLogin.worker -p password
+
+# 	quarkcoin cpuminer from github
+# 	+ errors on ARM processors :-: emmintrin.h "fatal error : emmintrin.h : No such file or directory."
+# http://forum.qrk.cc/thread/594/ubuntu-debian-miner-install-guide
+# apt-get install autoconf autogen automake build-essential libcurl4-openssl-dev
+# git clone https://github.com/uncle-bob/quarkcoin-cpuminer.git
+# cd quarkcoin-cpuminer
+# wget raw.github.com/rallat/quarkcoin-cpuminer/4e6c263c837bd04261df1ba7383ea828409ff498/acinclude.m4
+# ./autogen.sh
+# ./configure CFLAGS="-O3"
+# make
+# example command :-: ./minerd -a quark -o stratum+tcp://lowend.fm:8372 -t 8 -u <wallet address>
+
+# 	quarkcoin cpuminer from github (alternets)
+# 	+ first alternet workes on ARM prossesors for compiling when using :-: ./configure CFLAGS="-O3 -mfpu=neon"
+# http://forum.qrk.cc/thread/173/mine-linux-mining-step-quark
+# apt-get install build-essential libcurl4-openssl-dev libjansson4 libjansson4*dev
+# git clone https://github.com/Neisklar/quarkcoin-cpuminer.git
+# cd quarkcoin-cpuminer
+# ./autogen.sh
+# ./configure CFLAGS="-O3"
+# make
+# 	...or...
+# wget http://stonefoz.myfastmail.com/cpuminer-quark2.zip
+# unzip cpuminer-quark2.zip
+# cd cpuminer-quark2
+# ./autogen.sh
+# ./configure CFLAGS="-msse2 -O3"
+# make
+
+# 	vertcoin cpuminer from tar
+# 	+ workes on ARM prossesors for compiling when using :-: ./configure CFLAGS="-O3 -mfpu=neon"
+# https://gist.github.com/Toorop/9727120
+# apt-get install unzip build-essential curl automake libcurl4-gnutls-dev
+# mkdir -p ~/vertcoin
+# cd ~/vertcoin
+# wget https://github.com/Bufius/cpuminer-vert/archive/master.zip
+# unzip master.zip
+# cd cpuminer-vert-master/
+# ./autogen.sh
+# ./configure CFLAGS="-O3"
+# make
+
+# 	vertcoin from github
+# http://vertcoinforum.com/index.php?topic=56.0
+# apt-get install make gcc m4 automake libevent-dev zlibc zlib1g-dev libjansson-dev libcurl4-openssl-dev git
+# git clone https://github.com/Bufius/cpuminer-vert
+# cd cpuminer-vert
+# ./autogen.sh
+# ./configure CFLAGS="-O3"
+# make
+# example command :-: ./minerd -a scrypt -o stratum+tcp://server:port -u "username.worker" -p "password"
+
+
+
+======================
 
 sources of info and credits
 A to the point and working guide to setting up cpuminer on any device!

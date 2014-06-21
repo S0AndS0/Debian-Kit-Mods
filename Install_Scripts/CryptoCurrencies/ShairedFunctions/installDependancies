@@ -36,8 +36,8 @@ dependsChooser () {
 } 
 CPUMine_depenancies () { 
 	# libs
-	$ui_aptgetSudo -yq --force-yes install libusb-1.0-0-dev libudev-dev libudev-dev libevent-dev libmicrohttpd-dev
-	$ui_aptgetSudo -yq --force-yes install libtool libjansson-dev libjansson4 hidapilibjansson4
+	$ui_aptgetSudo -yq --force-yes install libusb-1.0-0-dev libudev-dev libudev-dev libevent-dev libmicrohttpd-dev libtool
+	$ui_aptgetSudo -yq --force-yes install libjansson-dev libjansson4 hidapilibjansson4
 	$ui_aptgetSudo -yq --force-yes install libpcre3-dev libcurl3-dev libcurl3 libpcre3-dev libcurl3-gnutls-dev
 	$ui_aptgetSudo -yq --force-yes install libcurl4-gnutls-dev libncursesw5-dev
 	# build stuff
@@ -66,3 +66,8 @@ dependsInstall_cpuminer () {
 	$ui_aptgetSudo -yq --force-yes install make
 	$ui_aptgetSudo -yq --force-yes install libcurl3-gnutls-dev
 } 
+
+
+
+
+
