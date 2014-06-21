@@ -63,6 +63,7 @@
 # ./autogen.sh
 # ./configure CFLAGS="-msse2 -O3"
 # make
+# example command :-: ?
 
 # 	vertcoin cpuminer from tar
 # 	+ workes on ARM prossesors for compiling when using :-: ./configure CFLAGS="-O3 -mfpu=neon"
@@ -76,6 +77,7 @@
 # ./autogen.sh
 # ./configure CFLAGS="-O3"
 # make
+# example command :-: ?
 
 # 	vertcoin cpu miner from github
 # http://vertcoinforum.com/index.php?topic=56.0

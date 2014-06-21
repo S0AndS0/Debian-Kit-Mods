@@ -3,7 +3,6 @@ setMake_Config () {
 	echo "I found running configure with : CFLAGS=\"-O3 -mfpu=neon\" : on ARM soft float, prvided by Debian Kit, to work well."
 	echo "Others have found the following to work for thier systems..."
 	echo "_________"
-	# -msse -msse2
 	echo "on ~ Soft Float"
 	echo " CFLAGS=\"-O3\""
 	echo "on ~ Debian 7 armhf - Samsung Galaxy S II, Debian 6 armel myTouch 3G slide"
@@ -14,7 +13,9 @@ setMake_Config () {
 	echo " CFLAGS=\"-O3 -mfpu=neon-vfpv4\""
 	echo "For CPU supporting the AES-NI instruction set"
 	echo " CFLAGS=\"-O3 -march=native\""
-	echo "You may now choose one of those options. Note that the default is : $default_cflag"
+	echo "And more reading sugests the following for some forks"
+	echo " 	CFLAGS=\"-O3 -msse -msse2\""
+	echo "You may now choose one of those options."
 	echo "_________"
 	echo "Input - 0 - to run your own config options"
 	echo "Input - 1 - to run : ./configure CFLAGS=\"-O3\""

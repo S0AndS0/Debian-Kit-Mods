@@ -10,11 +10,23 @@ _fullScriptPath="$(readlink -f $0)"
 # delete last component from ThisScript and store to another variable
 _ScriptDirectory="$(dirname $_fullScriptPath)"
 echo "___inporting_shaired_functions"
+
+# _~_~_~_~_~_~_~_~_~_~_~_ #
+# Some notes on how this is notated in the commented sections under each command to inport the functions contained in those files
+# the -> . file/path/fileName <- is the command that I chose to use to inport contents of one file into the script because it works on; 
+# 	chroot/shroot Linux ARM, Ubuntu 32 bit 12.04, and likely others such as Android's terminal
+# elsewhere you can find the same command writen as \/
+# 	source file/path/fileName <- but I found that to be unreliable.
+# 
+# Under each inport command I list first the funstions then the veriables if any are used externaly in a seperat list
+# each list is orginized in two colloms; the first shows how to call the variable or function within the script
+# 	and the second collom lists what that function or variable is suposed to do or contain or how it is used elsewhere.
+# _~_~_~_~_~_~_~_~_~_~_~_ #
+
 . $_ScriptDirectory/ShairedFunctions/installDependancies
 # list of variables from installDependancies
 
 # list of functions from installDependancies
-# dependsChooser 				# is set by internal variable $ui_gitSource from setDownloadSource function to properly prompt what packages are to be installed and install them
 # CPUMine_depenancies 			# installs all package dependancies for bace minerd program
 # dependsInstall_darkcoin 		# installs additinal package dependancies for darkcoin minerd fork
 # dependsInstall_vertcoin 		# installs additinal package dependancies for darkcoin minerd fork that has spicific CPU compatibilaty
@@ -37,7 +49,7 @@ echo "___inporting_shaired_functions"
 # 	$minerdOptions 				# variable that includes bellow indented variables in the corect order with option indicators for minerd run command
 #		$ui_mineAddress 			# should be input without port such as "stratum+tcp://multi.ghash.io"
 # 		$ui_mineAddress_username 	# for cex.io workers look like "S0AndS0.worker1" but other pools have thier own naming coventions
-# 		$ui_mineAddress_port 		# for cex.io the port is usually "3333" but every pool's port settings are different
+# 		$ui_mineAddress_port 		# for cex.io the port is usually "3333" but every pool's port settings are different and some network configurations will require opening or forwarding ports
 # 		$ui_mineAddress_password 	# for cex.io the password can be anything but other pools are set a bit stricter
 # 	$ui_Download_Directory 		# sets directory to download source files to a variable
 # 	$gitSource 						# sets web address for minerd forks to a variable
@@ -51,12 +63,13 @@ echo "___inporting_shaired_functions"
 # $ui_autogen 					# sets ./autogen.sh commands up with sudo for non-root users for minerd installation from source
 # $ui_configure 				# sets ./configure commands up with sudo for non-root users which is further modifide with $ui_cflag variable
 # $ui_sensors 					# sets sensors command to sudo or no sudo prefix based on user prompt
+# $ui_git 						# sets git command up with sudo for non-root users
 
 # list of functions from userPrompts
 # promptTo_continue 			# Exits on anything but "yes" or "y" responce from user
 # setUserAcount_settings 		# sets variables used to start "minerd" program
 # setDownload_Directory 		# sets variabels used to make/change directories and file paths
-# setDownloadSource 			# sets variabels used to assign which soucre to download
+
 # ui_rootNOroot 				# sets many variables used for sudo/non-sudo commands
 # prompt_wheezyUpgrade 			# prompts whether or not to mess with source lists and the installs dependancies set by dependsChooser
 # prompt_tempMonitor 			# prompts for whether or not to run commands with temp monitering 
@@ -99,6 +112,12 @@ echo "___inporting_shaired_functions"
 # $fCPUtemp 				# outputs tempreture of CPU on PC's running Debian bassed Linux
 # $ui_tempretureLevel_Kill 	# sets the max tempreture that the CPU or battery can get to before mining tasks are stoped
 
+. $_ScriptDirectory/ShairedFunctions/sourceChoices
+# list of functions from sourceChoises
+# setDownloadSource 			# sets variabels used to assign which soucre to download
+# dependsChoicer 				# is set by internal variable $ui_gitSource from setDownloadSource function to properly prompt what packages are to be installed and install them
+# install_uiSource 				# installs users choice based on userPrompts and makeConfig options
+
 echo "running functions from : $_ScriptDirectory/ShairedFunctions/ ..."
 echo "_________"
 list_cpuMining_software
@@ -113,18 +132,14 @@ setMake_Config
 setUserAcount_settings
 
 echo "_________"
-echo "Settings for installation set, moving on to installing everything and starting your miner..."
+echo "Settings for installation set, moving on to installing everything"
 promptTo_continue
 prompt_wheezyUpgrade
 echo "_________"
-cd $ui_Download_Directory
-git clone $gitSource
-sourcePermmision_fixer
-cd $sourceDirectory
-$ui_autogen
-$ui_configure CFLAGS="$ui_cflag"
-$ui_make
 
+install_uiSource
+
+echo "starting your miner session in this window..."
 ./minerd $minerdOptions
 
 exit

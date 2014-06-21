@@ -1,39 +1,4 @@
-dependsChooser () { 
-	if [ $ui_gitSource = 1 ]
-	then
-		list_aptPackages_cpuminer
-		CPUMine_depenancies
-	elif [ $ui_gitSource = 2 ]
-	then
-		list_aptPackages_darkcoin
-		CPUMine_depenancies
-		dependsInstall_darkcoin
-	elif [ $ui_gitSource = 3 ]
-	then
-		list_aptPackages_darkcoin
-		CPUMine_depenancies
-		dependsInstall_darkcoin
-	elif [ $ui_gitSource = 4 ]
-	then
-		
-		CPUMine_depenancies
-		dependsInstall_vertcoin
-	
-	elif [ $ui_gitSource = 5 ]
-	then
-		
-		CPUMine_depenancies
-		
-	elif [ $ui_gitSource = 6 ]
-	then
-		
-		CPUMine_depenancies
-		dependsInstall_xcoin
-	else 
-		echo "Invalid input recived, exiting now..."
-		exit
-	fi
-} 
+
 CPUMine_depenancies () { 
 	# libs
 	$ui_aptgetSudo -yq --force-yes install libusb-1.0-0-dev libudev-dev libudev-dev libevent-dev libmicrohttpd-dev libtool
