@@ -1,6 +1,6 @@
 tmuxSession_ID="MiningStats"
 tmuxWindow_ID="CPU_Mining"
-tmuxTester="$()"
+
 
 dependsInstall_thisScript () { 
 	$ui_aptgetSudo -yq --force-yes install tmux
