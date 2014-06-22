@@ -8,6 +8,10 @@ warningHW_damage () {
 # list packages to be installed
 list_aptPackages_cpuminer () { 
 	echo "The following packages will be installed"
+	echo "automake pkg-config gcc make libcurl3-gnutls-dev"
+}
+list_aptPackages_cpuminerAll () { 
+	echo "The following packages will be installed"
 	echo "libs"
 	echo "	libusb-1.0-0-dev libudev-dev libudev-dev libevent-dev libmicrohttpd-dev"
 	echo "	libtool libjansson-dev libjansson4 hidapilibjansson4"

@@ -1,3 +1,7 @@
+dependsInstall_cpuminer () {
+	$ui_aptgetSudo -yq --force-yes install automake pkg-config gcc make
+	$ui_aptgetSudo -yq --force-yes install libcurl3-gnutls-dev
+} 
 
 CPUMine_depenancies () { 
 	# libs
@@ -10,13 +14,16 @@ CPUMine_depenancies () {
 	# other packages
 	$ui_aptgetSudo -yq --force-yes install uthash-dev curl gawk lzma gcc
 } 
+
 dependsInstall_darkcoin () { 
 	$ui_aptgetSudo -yq --force-yes install m4 libminiupnpc-dev libcurl4-openssl-dev
 	$ui_aptgetSudo -yq --force-yes install libssl-dev libdb++-dev libboost-all-dev
 } 
+
 dependsInstall_vertcoin () { 
 	echo "No further dependencies known, moving on..."
 } 
+
 dependsInstall_xcoin () { 
 	$ui_aptgetSudo -yq --force-yes install libboost-all-dev libcurl4-openssl-dev libdb++-dev
 	$ui_aptgetSudo -yq --force-yes install libleveldb-dev libminiupnpc-dev libssl-dev
@@ -24,15 +31,18 @@ dependsInstall_xcoin () {
 } 
 
 
-dependsInstall_cpuminer () {
-	$ui_aptgetSudo -yq --force-yes install automake
-	$ui_aptgetSudo -yq --force-yes install pkg-config
-	$ui_aptgetSudo -yq --force-yes install gcc
-	$ui_aptgetSudo -yq --force-yes install make
-	$ui_aptgetSudo -yq --force-yes install libcurl3-gnutls-dev
-} 
 
 
+# packages that mwy nead to be in included for cpuminer built from github
+# 	libusb-1.0-0-dev libudev-dev libudev-dev libevent-dev libmicrohttpd-dev libtool
+# 	libjansson-dev libjansson4 hidapilibjansson4
+#	libpcre3-dev libcurl3-dev libcurl3 libpcre3-dev libcurl3-gnutls-dev
+#	libcurl4-gnutls-dev libncursesw5-dev
+# build stuff
+#	build-essential autoconf automake pkg-config make
+# other packages
+#	uthash-dev curl gawk lzma gcc
 
-
+# packages that mwy nead to be in included for cpuminer built from tar
+# 	build-essential libcurl4-openssl-dev gcc make
 

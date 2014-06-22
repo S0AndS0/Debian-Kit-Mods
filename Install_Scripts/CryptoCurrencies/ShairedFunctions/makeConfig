@@ -51,33 +51,5 @@ setMake_Config () {
 sourcePermmision_fixer () { 
 	$ui_chmod +x $sourceDirectory/autogen.sh
 } 
-algoChooser () { 
-	if [ $ui_gitSource = 1 ]
-	then
-		echo -n "Input the algorithem to use : "
-		read ui_Algo
-		ui_mineAlgo="$ui_Algo"
-	elif [ $ui_gitSource = 2 ]
-	then
-		ui_mineAlgo="X11"
-	elif [ $ui_gitSource = 3 ]
-	then
-		ui_mineAlgo="X11"
-	elif [ $ui_gitSource = 4 ]
-	then
-		ui_mineAlgo="scrypt"
-	elif [ $ui_gitSource = 5 ]
-	then
-		echo -n "Input the algorithem to use : "
-		read ui_Algo
-		ui_mineAlgo="$ui_Algo"
-	elif [ $ui_gitSource = 6 ]
-	then
-		ui_mineAlgo="X11"
-	else 
-		echo -n "Input the algorithem to use : "
-		read ui_Algo
-		ui_mineAlgo="$ui_Algo"
-	fi
-} 
+
 

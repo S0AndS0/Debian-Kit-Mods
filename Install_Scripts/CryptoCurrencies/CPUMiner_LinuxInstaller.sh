@@ -27,6 +27,7 @@ echo "___inporting_shaired_functions"
 # list of variables from installDependancies
 
 # list of functions from installDependancies
+# dependsInstall_cpuminer 		# installs listed package dependancies for bace minerd program
 # CPUMine_depenancies 			# installs all package dependancies for bace minerd program
 # dependsInstall_darkcoin 		# installs additinal package dependancies for darkcoin minerd fork
 # dependsInstall_vertcoin 		# installs additinal package dependancies for darkcoin minerd fork that has spicific CPU compatibilaty
@@ -35,7 +36,7 @@ echo "___inporting_shaired_functions"
 . $_ScriptDirectory/ShairedFunctions/makeConfig
 # list of variables set by makeConfig
 # $ui_cflag 					# aids in setting proper cflag settings for use with $ui_configure variable
-# algoChooser 					# sets algorithum to use in minerd commands based on what source was chosen
+
 
 # list of variables set by makeConfig
 # $ui_mineAlgo 					# contains the value to use as the "-a <algo>" option in minerd commands
@@ -52,8 +53,6 @@ echo "___inporting_shaired_functions"
 # 		$ui_mineAddress_port 		# for cex.io the port is usually "3333" but every pool's port settings are different and some network configurations will require opening or forwarding ports
 # 		$ui_mineAddress_password 	# for cex.io the password can be anything but other pools are set a bit stricter
 # 	$ui_Download_Directory 		# sets directory to download source files to a variable
-# 	$gitSource 						# sets web address for minerd forks to a variable
-# 		$sourceDirectory 			# sets directory name of source to be downloaded to a variable for cd commands
 # $ui_aptgetSudo 				# sets apt-get commands up with sudo for non-root users for installing dependancies
 # $ui_teeFile 					# sets tee commands up with sudo for non-root users for writing to protected storage
 # $ui_make 						# sets make commands up with sudo for non-root users
@@ -85,6 +84,7 @@ echo "___inporting_shaired_functions"
 # list of functions from printDialogs
 # warningHW_damage 				# warns users that they are doing something dangerious and costly
 # list_aptPackages_cpuminer 	# lists the packages that will be installed for every minerd fork
+# list_aptPackages_cpuminerAll 	# lists all know packages related to minerd software
 # list_aptPackages_darkcoin 	# lists known package dependancies for darkcoin minerd fork
 # list_aptPackages_xcoin 		# list known package dependancies for X11 based coins minerd fork
 # list_cpuFork_Compatiblitly 	# lists what CPU's the minerd forks will work on
@@ -117,6 +117,12 @@ echo "___inporting_shaired_functions"
 # setDownloadSource 			# sets variabels used to assign which soucre to download
 # dependsChoicer 				# is set by internal variable $ui_gitSource from setDownloadSource function to properly prompt what packages are to be installed and install them
 # install_uiSource 				# installs users choice based on userPrompts and makeConfig options
+# 	algoChooser 					# sets algorithum to use in minerd commands based on what source was chosen
+
+# list of variables set by sourceChoices
+# $gitSource 						# sets web address for minerd forks to a variable
+# 	$sourceDirectory 			# sets directory name of source to be downloaded to a variable for cd commands
+# $sourceTarOrGit 				# sets whether or not the source is a github repo or tar compressed file, used latter for install with make related commands
 
 echo "running functions from : $_ScriptDirectory/ShairedFunctions/ ..."
 echo "_________"
