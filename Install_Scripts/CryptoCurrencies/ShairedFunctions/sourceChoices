@@ -180,6 +180,11 @@ algoChooser () {
 		echo -n "Input the algorithem to use : "
 		read ui_Algo
 		ui_mineAlgo="$ui_Algo"
+	elif [ $ui_gitSource = minerd2 ]
+	then
+		echo -n "Input the algorithem to use : "
+		read ui_Algo
+		ui_mineAlgo="$ui_Algo"
 	elif [ $ui_gitSource = dark1 ]
 	then
 		ui_mineAlgo="X11"
@@ -192,6 +197,16 @@ algoChooser () {
 	elif [ $ui_gitSource = vert1 ]
 	then
 		ui_mineAlgo="scrypt"
+	elif [ $ui_gitSource = quark1 ]
+	then 
+		echo -n "Input the algorithem to use : "
+		read ui_Algo
+		ui_mineAlgo="$ui_Algo"
+	elif [ $ui_gitSource = quark2 ]
+	then 
+		echo -n "Input the algorithem to use : "
+		read ui_Algo
+		ui_mineAlgo="$ui_Algo"
 	elif [ $ui_gitSource = qubit1 ]
 	then
 		echo -n "Input the algorithem to use : "
