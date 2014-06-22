@@ -14,20 +14,66 @@ install_sourceCPUMiner_autogen () {
 		$ui_autogen
 	elif [ $sourceTarOrGit = tar ]
 	then
+		echo "cd command errors are normal and likely can be ignored"
+		setMake_extractDirectory
 		cd $sourceDirectory
 		wget $gitSource
+		move_tarZip
 		tar -xvf $sourceDirectory*
 		cd $sourceDirectory
 	elif [ $sourceTarOrGit = zip ]
 	then
+		echo "cd command errors are normal and likely can be ignored"
+		setMake_extractDirectory
 		cd $sourceDirectory
 		wget $gitSource
+		move_tarZip
 		unzip $sourceDirectory*
 		cd $sourceDirectory
 	else 
 		echo "Invalid input recieved, exiting now..."
 		exit
 	fi
+	
+} 
+
+setCustom_Source () { 
+	echo -n "Past in the address to download :-: "
+	read ui_sourceMiner_Download
+	gitSource="$ui_sourceMiner_Download"
+	echo -n "Input the name of the directory it creats :-: "
+	read ui_sourceMiner_Directory
+	sourceDirectory="$ui_sourceMiner_Directory"
+	echo -n "Input git, tar, or zip for build options :-: "
+	read ui_sourceFile_gitTarZip
+	sourceTarOrGit="$ui_sourceFile_gitTarZip"
+	echo -n "Does a new directory nead to be created for $ui_sourceMiner_Directory? [y/N] "
+	read ui_Make_extractDirectory
+	makeExtract_dir="$ui_Make_extractDirectory"
+} 
+
+setMake_extractDirectory () { 
+	if [ $makeExtract_dir = y ]
+	then 
+		mkdir -p $sourceDirectory
+	elif [ $makeExtract_dir = n ]
+	then 
+		# do nothing
+	else
+	# do nothing
+} 
+move_tarZip () { 
+	if [ $makeExtract_dir = y ]
+	then 
+		mv $sourceDirectory* $sourceDirectory
+		cd $sourceDirectory
+	elif [ $makeExtract_dir = n ]
+	then 
+		# do nothing
+		cd $sourceDirectory
+	else
+	# do nothing
+	cd $sourceDirectory
 	
 } 
 
@@ -57,6 +103,7 @@ setDownloadSource () {
 	
 	echo "	Input - qubit1 - For QubitCoin CPU Miner from : https://github.com/qubitcoin/QubitCoin-cpuminer"
 
+	echo "	Input - 0 - If you want to set custom web address to download and install from"
 	echo -n "Choose your source : "
 	read ui_gitSource
 	if [ $ui_gitSource = minerd1 ]
@@ -64,46 +111,58 @@ setDownloadSource () {
 		gitSource="https://github.com/pooler/cpuminer"
 		sourceDirectory="cpuminer"
 		sourceTarOrGit="git"
+		makeExtract_dir="n"
 	elif [ $ui_gitSource = minerd2 ]
 	then
 		gitSource="http://sourceforge.net/projects/cpuminer/files/pooler-cpuminer-2.4.tar.gz"
 		sourceDirectory="pooler-cpuminer-2.4"
 		sourceTarOrGit="tar"
+		makeExtract_dir="y"
 	elif [ $ui_gitSource = dark1 ]
 	then
 		gitSource="https://github.com/ig0tik3d/darkcoin-cpuminer-1.2c"
 		sourceDirectory="darkcoin-cpuminer-1.2c"
 		sourceTarOrGit="git"
+		makeExtract_dir="n"
 	elif [ $ui_gitSource = dark2 ]
 	then
 		gitSource="https://github.com/elmad/darkcoin-cpuminer-1.3-avx-aes"
 		sourceDirectory="darkcoin-cpuminer-1.3-avx-aes"
 		sourceTarOrGit="git"
+		makeExtract_dir="n"
 	elif [ $ui_gitSource = x11_1 ]
 	then
 		gitSource="https://github.com/ig0tik3d/xcoin-cpuminer"
 		sourceDirectory="xcoin-cpuminer"
 		sourceTarOrGit="git"
+		makeExtract_dir="n"
 	elif [ $ui_gitSource = vert1 ]
 	then
 		gitSource="https://github.com/Bufius/cpuminer-vert"
 		sourceDirectory="cpuminer-vert"
 		sourceTarOrGit="git"
+		makeExtract_dir="n"
 	elif [ $ui_gitSource = quark1 ]
 	then 
 		gitSource="https://github.com/Neisklar/quarkcoin-cpuminer.git"
 		sourceDirectory="quarkcoin-cpuminer.git"
 		sourceTarOrGit="git"
+		makeExtract_dir="n"
 	elif [ $ui_gitSource = quark2 ]
 	then 
 		gitSource="http://stonefoz.myfastmail.com/cpuminer-quark2.zip"
 		sourceDirectory="cpuminer-quark2"
 		sourceTarOrGit="zip"
+		makeExtract_dir="y"
 	elif [ $ui_gitSource = qubit1 ]
 	then
 		gitSource="https://github.com/qubitcoin/QubitCoin-cpuminer"
 		sourceDirectory="QubitCoin-cpuminer"
 		sourceTarOrGit="git"
+		makeExtract_dir="n"
+	elif [ $ui_gitSource = 0 ]
+	then
+		setCustom_Source
 	else 
 		echo "Invalid input recived, exiting now..."
 		exit

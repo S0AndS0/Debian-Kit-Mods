@@ -121,6 +121,9 @@ echo "___inporting_shaired_functions"
 # list of functions from sourceChoises
 # install_uiSource 				# installs users choice based on userPrompts and makeConfig options
 # install_sourceCPUMiner_autogen # sets whether or not to build with autogen.sh bassed on if source is downloaded as github repo or tar file
+# setCustom_Source 				# sets custom address to download from if there is one wwnted that is not curently listed
+# setMake_extractDirectory 		# uses $makeExtract_dir for whether or not to make a directory to download and extract files flto
+# move_tarZip 					# uses $makeExtract_dir for whether or not to move the sorce file into it's own directory
 # setDownloadSource 			# sets variabels used to assign which soucre to download
 # dependsChoicer 				# is set by internal variable $ui_gitSource from setDownloadSource function to properly prompt what packages are to be installed and install them
 # 	algoChooser 					# sets algorithum to use in minerd commands based on what source was chosen
@@ -129,6 +132,7 @@ echo "___inporting_shaired_functions"
 # $gitSource 					# sets web address for minerd forks to a variable
 # 	$sourceDirectory 			# sets directory name of source to be downloaded to a variable for cd commands
 # $sourceTarOrGit 				# sets whether or not the source is a github repo or tar compressed file, used latter for install with make related commands
+# $makeExtract_dir 				# sets setMake_extractDirectory and move_tarZip to go off if zip or tar is being used
 
 echo "running functions from : $_ScriptDirectory/ShairedFunctions/ ..."
 echo "_________"
