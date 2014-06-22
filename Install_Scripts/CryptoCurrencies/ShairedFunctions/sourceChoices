@@ -63,6 +63,7 @@ setMake_extractDirectory () {
 	else
 	# do nothing
 	echo ""
+	fi
 } 
 move_tarZip () { 
 	if [ $makeExtract_dir = y ]
@@ -76,7 +77,7 @@ move_tarZip () {
 	else
 	# do nothing
 	cd $sourceDirectory
-	
+	fi
 } 
 
 setDownloadSource () { 
