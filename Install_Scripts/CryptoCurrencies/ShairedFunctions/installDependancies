@@ -2,6 +2,9 @@ dependsInstall_cpuminer () {
 	$ui_aptgetSudo -yq --force-yes install automake pkg-config gcc make
 	$ui_aptgetSudo -yq --force-yes install libcurl3-gnutls-dev
 } 
+dependsInstall_cpuminer_tar () { 
+	$ui_aptgetSudo -yq --force-yes install build-essential libcurl4-openssl-dev
+} 
 
 CPUMine_depenancies () { 
 	# libs
@@ -21,7 +24,12 @@ dependsInstall_darkcoin () {
 } 
 
 dependsInstall_vertcoin () { 
-	echo "No further dependencies known, moving on..."
+	$ui_aptgetSudo -yq --force-yes install m4 libevent-dev zlibc zlib1g-dev libjansson-dev libcurl4-openssl-dev
+} 
+
+dependsInstall_quarkcoin () { 
+	$ui_aptgetSudo -yq --force-yes install build-essential libcurl4-openssl-dev libjansson4 
+	# libjansson4*dev
 } 
 
 dependsInstall_xcoin () { 

@@ -10,6 +10,10 @@ list_aptPackages_cpuminer () {
 	echo "The following packages will be installed"
 	echo "automake pkg-config gcc make libcurl3-gnutls-dev"
 }
+list_aptPackages_cpuminer_tar () { 
+	echo "The following additinal packages will be installed"
+	echo "build-essential libcurl4-openssl-dev"
+} 
 list_aptPackages_cpuminerAll () { 
 	echo "The following packages will be installed"
 	echo "libs"
@@ -31,6 +35,14 @@ list_aptPackages_xcoin () {
 	echo "automake autoconf build-essential bc curl dos2unix fail2ban git havegedsudo apt-get install libboost-all-dev libcurl4-openssl-dev libdb++-dev libleveldb-dev libminiupnpc-dev libssl-dev m4 nano unzip vim"
 	
 } 
+list_aptPackages_vertcoin () { 
+	echo "The following additinal packages will be installed"
+	echo "m4 libevent-dev zlibc zlib1g-dev libjansson-dev libcurl4-openssl-dev"
+}
+list_aptPackages_quarkcoin () { 
+	echo "The following additinal packages will be installed"
+	echo "build-essential libcurl4-openssl-dev libjansson4"
+}
 
 # list sources of more information
 
@@ -40,11 +52,13 @@ list_aptPackages_xcoin () {
 list_cpuMining_software () { 
 	echo "Curently the following sources of software for CPU mining to install with this script are"
 	echo "	https://github.com/pooler/cpuminer"
+	echo "	http://sourceforge.net/projects/cpuminer/files/pooler-cpuminer-2.4.tar.gz"
 	echo "	https://github.com/ig0tik3d/darkcoin-cpuminer-1.2c"
 	echo "	https://github.com/elmad/darkcoin-cpuminer-1.3-avx-aes"
-	echo "	https://github.com/Bufius/cpuminer-vert"
-	echo "	https://github.com/qubitcoin/QubitCoin-cpuminer"
 	echo "	https://github.com/ig0tik3d/xcoin-cpuminer"
+	echo "	https://github.com/Bufius/cpuminer-vert"
+	
+	echo "	https://github.com/qubitcoin/QubitCoin-cpuminer"
 }
 
 # list cpu compatibility with minerd software forks
@@ -57,5 +71,6 @@ list_cpuFork_Compatiblitly () {
 	echo "	___"
 	echo "CPU mining X11 bassed coins can only be mined on"
 	echo "	64bit CPU's with : CFLAGS=\"-O3\" or CFLAGS=\"-O3 -march=native\" : as the configure flages for building from source."
+	echo "	in my reading x11coin miner may nead \"-O2\" instead of \"O3\" as it's cflag option."
 }
 

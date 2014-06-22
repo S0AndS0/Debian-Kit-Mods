@@ -1,11 +1,34 @@
 install_uiSource () { 
 	cd $ui_Download_Directory
-	$ui_git clone $gitSource
-	sourcePermmision_fixer
-	cd $sourceDirectory
-	$ui_autogen
+	install_sourceCPUMiner_autogen
 	$ui_configure CFLAGS="$ui_cflag"
 	$ui_make
+} 
+
+install_sourceCPUMiner_autogen () { 
+	if [ $sourceTarOrGit = git ]
+	then
+		$ui_git clone $gitSource
+		sourcePermmision_fixer
+		cd $sourceDirectory
+		$ui_autogen
+	elif [ $sourceTarOrGit = tar ]
+	then
+		cd $sourceDirectory
+		wget $gitSource
+		tar -xvf $sourceDirectory*
+		cd $sourceDirectory
+	elif [ $sourceTarOrGit = zip ]
+	then
+		cd $sourceDirectory
+		wget $gitSource
+		unzip $sourceDirectory*
+		cd $sourceDirectory
+	else 
+		echo "Invalid input recieved, exiting now..."
+		exit
+	fi
+	
 } 
 
 setDownloadSource () { 
@@ -16,6 +39,7 @@ setDownloadSource () {
 	echo "_________"
 	echo "For coins based on SHA-256 or Scrypt algorithms~"
 	echo "	Input - minerd1 - For Bitcoin and Litecoin CPU Miner from : https://github.com/pooler/cpuminer"
+	echo " 	Input - minerd2 - For Bitcoin and Litecoin CPU Miner from : http://sourceforge.net/projects/cpuminer/files/pooler-cpuminer-2.4.tar.gz"
 	
 	echo "_________"
 	echo "For coins based on X11 algorithms~"
@@ -28,6 +52,8 @@ setDownloadSource () {
 	echo "	Input - vert1 - For Vertcoin CPU Miner from : https://github.com/Bufius/cpuminer-vert"
 	
 	echo "_________"
+	echo "	Input - quark1 - For QuarkCoin CPU Miner from : https://github.com/Neisklar/quarkcoin-cpuminer.git"
+	
 	echo "	Input - qubit1 - For QubitCoin CPU Miner from : https://github.com/qubitcoin/QubitCoin-cpuminer"
 
 	echo -n "Choose your source : "
@@ -37,6 +63,11 @@ setDownloadSource () {
 		gitSource="https://github.com/pooler/cpuminer"
 		sourceDirectory="cpuminer"
 		sourceTarOrGit="git"
+	elif [ $ui_gitSource = minerd2 ]
+	then
+		gitSource="http://sourceforge.net/projects/cpuminer/files/pooler-cpuminer-2.4.tar.gz"
+		sourceDirectory="pooler-cpuminer-2.4"
+		sourceTarOrGit="tar"
 	elif [ $ui_gitSource = dark1 ]
 	then
 		gitSource="https://github.com/ig0tik3d/darkcoin-cpuminer-1.2c"
@@ -57,6 +88,14 @@ setDownloadSource () {
 		gitSource="https://github.com/Bufius/cpuminer-vert"
 		sourceDirectory="cpuminer-vert"
 		sourceTarOrGit="git"
+	elif [ $ui_gitSource = quark1 ]
+	then 
+		gitSource="https://github.com/Neisklar/quarkcoin-cpuminer.git"
+		sourceDirectory="quarkcoin-cpuminer.git"
+		sourceTarOrGit="git"
+
+
+
 	elif [ $ui_gitSource = qubit1 ]
 	then
 		gitSource="https://github.com/qubitcoin/QubitCoin-cpuminer"
@@ -71,11 +110,19 @@ setDownloadSource () {
 	echo "$sourceDirectory"
 } 
 
+
+
 dependsChooser () { 
 	if [ $ui_gitSource = minerd1 ]
 	then
 		list_aptPackages_cpuminer
 		dependsInstall_cpuminer
+	elif [ $ui_gitSource = minerd2 ]
+	then
+		list_aptPackages_cpuminer
+		list_aptPackages_cpuminer_tar
+		dependsInstall_cpuminer
+		dependsInstall_cpuminer_tar
 	elif [ $ui_gitSource = dark1 ]
 	then
 		list_aptPackages_cpuminer
@@ -97,15 +144,21 @@ dependsChooser () {
 	elif [ $ui_gitSource = vert1 ]
 	then
 		list_aptPackages_cpuminer
-		
+		list_aptPackages_vertcoin
 		dependsInstall_cpuminer
 		dependsInstall_vertcoin
-	
+	elif [ $ui_gitSource = quark1 ]
+	then 
+		list_aptPackages_cpuminer
+		list_aptPackages_quarkcoin
+		dependsInstall_cpuminer
+		dependsInstall_quarkcoin
+		
 	elif [ $ui_gitSource = qubit1 ]
 	then
 		list_aptPackages_cpuminer
 		
-		CPUMine_depenancies
+		dependsInstall_cpuminer
 		
 	else 
 		echo "Invalid input recived, exiting now..."

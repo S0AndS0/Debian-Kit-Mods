@@ -29,9 +29,11 @@ echo "___inporting_shaired_functions"
 # list of functions from installDependancies
 # dependsInstall_cpuminer 		# installs listed package dependancies for bace minerd program
 # CPUMine_depenancies 			# installs all package dependancies for bace minerd program
+# dependsInstall_cpuminer_tar 	# installs additinal package dependancies for bace minerd program from tar file
 # dependsInstall_darkcoin 		# installs additinal package dependancies for darkcoin minerd fork
 # dependsInstall_vertcoin 		# installs additinal package dependancies for darkcoin minerd fork that has spicific CPU compatibilaty
 # dependsInstall_xcoin 			# installs additinal package dependancies for X11 based coins minerd fork
+# dependsInstall_quarkcoin 		# installs additinal package dependancies for quarkcoin minerd fork
 
 . $_ScriptDirectory/ShairedFunctions/makeConfig
 # list of variables set by makeConfig
@@ -84,9 +86,12 @@ echo "___inporting_shaired_functions"
 # list of functions from printDialogs
 # warningHW_damage 				# warns users that they are doing something dangerious and costly
 # list_aptPackages_cpuminer 	# lists the packages that will be installed for every minerd fork
+# list_aptPackages_cpuminer_tar # lists known package dependancies installed for minerd from tar file
 # list_aptPackages_cpuminerAll 	# lists all know packages related to minerd software
 # list_aptPackages_darkcoin 	# lists known package dependancies for darkcoin minerd fork
 # list_aptPackages_xcoin 		# list known package dependancies for X11 based coins minerd fork
+# list_aptPackages_vertcoin 	# list known package dependancies for vertcoin based coins minerd fork
+# list_aptPackages_quarkcoin 	# lists known package dependancies for quarkcoin
 # list_cpuFork_Compatiblitly 	# lists what CPU's the minerd forks will work on
 # list_cpuMining_software 		# lists all curently available to install cpu mining software for easy install with this script
 
@@ -114,13 +119,14 @@ echo "___inporting_shaired_functions"
 
 . $_ScriptDirectory/ShairedFunctions/sourceChoices
 # list of functions from sourceChoises
+# install_uiSource 				# installs users choice based on userPrompts and makeConfig options
+# install_sourceCPUMiner_autogen # sets whether or not to build with autogen.sh bassed on if source is downloaded as github repo or tar file
 # setDownloadSource 			# sets variabels used to assign which soucre to download
 # dependsChoicer 				# is set by internal variable $ui_gitSource from setDownloadSource function to properly prompt what packages are to be installed and install them
-# install_uiSource 				# installs users choice based on userPrompts and makeConfig options
 # 	algoChooser 					# sets algorithum to use in minerd commands based on what source was chosen
 
 # list of variables set by sourceChoices
-# $gitSource 						# sets web address for minerd forks to a variable
+# $gitSource 					# sets web address for minerd forks to a variable
 # 	$sourceDirectory 			# sets directory name of source to be downloaded to a variable for cd commands
 # $sourceTarOrGit 				# sets whether or not the source is a github repo or tar compressed file, used latter for install with make related commands
 

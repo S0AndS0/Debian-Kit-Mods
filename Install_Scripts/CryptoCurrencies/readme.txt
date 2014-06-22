@@ -4,6 +4,7 @@
 
 # 	updated scrypt and sha-256 cpuminer from tar (original cpuminer)
 # 	+ compiles fine on ARM processors
+# 	++ incirperated in script
 # http://webcache.googleusercontent.com/search?q=cache:EiHbDpksWkAJ:https://bitcointalk.org/index.php%3Ftopic%3D55038.0+&cd=3&hl=en&ct=clnk&gl=us
 # apt-get install build-essential libcurl4-openssl-dev gcc make
 # wget http://sourceforge.net/projects/cpuminer/files/pooler-cpuminer-2.4.tar.gz
@@ -14,6 +15,7 @@
 
 # 	darkcoin cpuminer from github
 # 	+ errors on ARM processors :-: emmintrin.h "fatal error : emmintrin.h : No such file or directory."
+# 	++ incirperated in script
 # http://altcoins.com/vps-mining-guide-for-cpu-altcoins.html
 # apt-get install automake autoconf build-essential bc curl dos2unix fail2ban havegedsudo
 # apt-get install libboost-all-dev libcurl4-openssl-dev libdb++-dev libleveldb-dev libminiupnpc-dev libssl-dev m4 nano unzip vim
@@ -49,6 +51,7 @@
 
 # 	quarkcoin cpuminer from github (alternets)
 # 	+ first alternet workes on ARM prossesors for compiling when using :-: ./configure CFLAGS="-O3 -mfpu=neon"
+#	++ first option incorperated
 # http://forum.qrk.cc/thread/173/mine-linux-mining-step-quark
 # apt-get install build-essential libcurl4-openssl-dev libjansson4 libjansson4*dev
 # git clone https://github.com/Neisklar/quarkcoin-cpuminer.git
@@ -81,7 +84,7 @@
 
 # 	vertcoin cpu miner from github
 # http://vertcoinforum.com/index.php?topic=56.0
-# apt-get install make gcc m4 automake libevent-dev zlibc zlib1g-dev libjansson-dev libcurl4-openssl-dev git
+# apt-get install make gcc m4 automake libevent-dev zlibc zlib1g-dev libjansson-dev libcurl4-openssl-dev
 # git clone https://github.com/Bufius/cpuminer-vert
 # cd cpuminer-vert
 # ./autogen.sh
