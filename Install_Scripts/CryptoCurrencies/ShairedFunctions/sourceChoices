@@ -59,8 +59,10 @@ setMake_extractDirectory () {
 	elif [ $makeExtract_dir = n ]
 	then 
 		# do nothing
+		echo ""
 	else
 	# do nothing
+	echo ""
 } 
 move_tarZip () { 
 	if [ $makeExtract_dir = y ]
