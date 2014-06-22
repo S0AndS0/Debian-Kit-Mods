@@ -53,6 +53,7 @@ setDownloadSource () {
 	
 	echo "_________"
 	echo "	Input - quark1 - For QuarkCoin CPU Miner from : https://github.com/Neisklar/quarkcoin-cpuminer.git"
+	echo " 	Input - quark2 - For QuarkCoin CPU Miner from : http://stonefoz.myfastmail.com/cpuminer-quark2.zip"
 	
 	echo "	Input - qubit1 - For QubitCoin CPU Miner from : https://github.com/qubitcoin/QubitCoin-cpuminer"
 
@@ -93,9 +94,11 @@ setDownloadSource () {
 		gitSource="https://github.com/Neisklar/quarkcoin-cpuminer.git"
 		sourceDirectory="quarkcoin-cpuminer.git"
 		sourceTarOrGit="git"
-
-
-
+	elif [ $ui_gitSource = quark2 ]
+	then 
+		gitSource="http://stonefoz.myfastmail.com/cpuminer-quark2.zip"
+		sourceDirectory="cpuminer-quark2"
+		sourceTarOrGit="zip"
 	elif [ $ui_gitSource = qubit1 ]
 	then
 		gitSource="https://github.com/qubitcoin/QubitCoin-cpuminer"
@@ -110,7 +113,8 @@ setDownloadSource () {
 	echo "$sourceDirectory"
 } 
 
-
+# quark2
+# http://stonefoz.myfastmail.com/cpuminer-quark2.zip
 
 dependsChooser () { 
 	if [ $ui_gitSource = minerd1 ]
@@ -153,7 +157,12 @@ dependsChooser () {
 		list_aptPackages_quarkcoin
 		dependsInstall_cpuminer
 		dependsInstall_quarkcoin
-		
+	elif [ $ui_gitSource = quark2 ]
+	then 
+		list_aptPackages_cpuminer
+		list_aptPackages_quarkcoin
+		dependsInstall_cpuminer
+		dependsInstall_quarkcoin
 	elif [ $ui_gitSource = qubit1 ]
 	then
 		list_aptPackages_cpuminer

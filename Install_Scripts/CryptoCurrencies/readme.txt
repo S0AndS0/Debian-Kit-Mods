@@ -51,7 +51,7 @@
 
 # 	quarkcoin cpuminer from github (alternets)
 # 	+ first alternet workes on ARM prossesors for compiling when using :-: ./configure CFLAGS="-O3 -mfpu=neon"
-#	++ first option incorperated
+#	++ both options incorperated now
 # http://forum.qrk.cc/thread/173/mine-linux-mining-step-quark
 # apt-get install build-essential libcurl4-openssl-dev libjansson4 libjansson4*dev
 # git clone https://github.com/Neisklar/quarkcoin-cpuminer.git
