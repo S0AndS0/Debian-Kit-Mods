@@ -3,7 +3,7 @@ tmuxWindow_ID="CPU_Mining"
 
 
 dependsInstall_thisScript () { 
-	$ui_aptgetSudo -yq --force-yes install tmux
+	$ui_aptgetSudo -yq --force-yes install tmux lynx
 } 
 start_tmux_MinerSession () { 
 	tmux list-session 2>1 | grep -E "$tmuxSession_ID:" || tmux new-session -s $tmuxSession_ID -d
@@ -22,7 +22,7 @@ reatach_tmuxMinerSession () {
 # start tmux session named Miner1
 #	tmux new -s Miner1
 
-# start a new session in q detached state
+# start a new session in a detached state
 #	tmux new-session -d -s MiningStats
 # start some windows under the above session and run some commands
 #	tmux new-window -t MiningStats:1 -n 'CPU_Miner' '$minerdOptions'
@@ -59,4 +59,5 @@ reatach_tmuxMinerSession () {
 # http://ricochen.wordpress.com/2011/11/14/tmux-techniques-by-example/
 # http://stackoverflow.com/questions/5447278/bash-scripts-with-tmux-to-launch-a-4-paned-window
 
-
+# http://www.thegeekstuff.com/2009/12/4-ways-to-kill-a-process-kill-killall-pkill-xkill/
+# killall -9 minerd

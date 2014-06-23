@@ -61,8 +61,8 @@ setMake_extractDirectory () {
 		# do nothing
 		echo ""
 	else
-	# do nothing
-	echo ""
+		# do nothing
+		echo ""
 	fi
 } 
 move_tarZip () { 
