@@ -1,0 +1,58 @@
+
+# by default these following variables are set to grab LiteCoin to USD conversion rates from coinmarketcap.com
+url_toScrape="http://coinmarketcap.com/"
+ui_lynxOptions="-anonymous -source"
+ui_coin_toGrep="LiteCoin"
+ui_coin_toBuy"$6"
+sed_toSub="USD"
+sed_subed="$ui_coin_toGrep to $sed_toSub"
+ui_lynxScrap_command="lynx $ui_lynxOptions $url_toScrape | grep -iC 1 \"$ui_coin_toGrep\""
+
+ui_defined-coinScrape="$ui_lynxScrap_command | awk '/$sed_toSub/' {gsub("data-",""); print $ui_coin_toBuy } | sed 's/$sed_toSub/$sed_subed/' | grep -i "$sed_subed"
+
+
+scrape_coinExchange () { 
+	
+} 
+
+checkFile_beforWrite () { 
+FILE=$1 
+	if [ -f $FILE ] 
+	then 
+		fileExsists="yes"
+		echo "... $fileExsists $FILE Exists" 
+	else 
+		fileExsists="no"
+		echo "... $fileExsists $FILE Does Not Exist" 
+	fi
+# use the following elsewhere after assiging $1 to check if the file exists and if not run a command
+# if [ $fileExsists = no ]; then echo "$FILE does not exist. Writing one now..." && # <insert commands here> ; fi
+} 
+
+
+
+# notes on web scraping command variables
+# the following command~
+# lynx $ui_lynxOptions $url_toScrape | grep -iC 1 "ui_coin_toGrep"
+# ~ will out put the line just above and bellow match with the "-C 1" option, for a total of three lines to sort through for each match. The "i" portion tells grep to ignore capitilization differances.
+# 	see bellow example of the two matches for litecoin that pop up when this command runs~
+#				<td class="text-center">2</td>
+#+ match 1		<td class="no-wrap currency-name"><img src="/img/Litecoin.png" class="currency-logo"> <a href="http://litecoin.org" target="_blank">Litecoin</a></td>
+#				<td class="no-wrap market-cap text-right" data-usd="288,243,103" data-eur="211,952,071" data-cny="1,790,906,282" data-gbp="169,399,895" data-cad="309,477,108" data-rub="9,861,943,756" data-btc="487,264">$ 288,243,103</td>
+#				<td class="no-wrap text-right"><a href="/volume.html#ltc" class="price" data-usd="9.75" data-eur="7.17" data-cny="60.59" data-gbp="5.73" data-cad="10.47" data-rub="333.64" data-btc="0.01648480">$ 9.75</a></td>
+#+ match 2		<td class="no-wrap text-right"><a href="http://explorer.litecoin.net/chain/Litecoin" >29,558,404 LTC</a></td>
+#				<td class="no-wrap text-right"> <a href="/volume.html#ltc" class="volume" data-usd="1,358,927" data-eur="999,252" data-cny="8,443,259" data-gbp="798,639" data-cad="1,459,035" data-rub="46,494,306" data-btc="2,297">$ 1,358,927</td>                        
+#	~ from there you can probably see the evolution of what comes latter
+# the "-anonymous -source" in the lynx commands set restrictions on what is saved and tells it to exit after grabbing the web page
+
+# credits
+# 	guide to using lynx with grep
+# http://tips.webdesign10.com/scrape-web-pages-gnu-linux-shell
+# 	grep'ing above and bellow matching argument
+# http://stackoverflow.com/questions/1072643/how-can-i-make-grep-print-the-lines-below-and-above-each-matching-line
+# 	awk scripting examples
+# http://linux.about.com/od/Bash_Scripting_Solutions/a/How-To-Write-Ask-Commands-And-Scripts.htm
+# 	how to check if a file exsists two ways
+# http://www.shellhacks.com/en/HowTo-Check-If-a-File-Exists
+
+
