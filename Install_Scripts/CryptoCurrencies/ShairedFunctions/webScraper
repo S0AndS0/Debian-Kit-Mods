@@ -1,5 +1,7 @@
-
+# $varDATE
 # by default these following variables are set to grab LiteCoin to USD conversion rates from coinmarketcap.com
+fileTo_write="$ui_Download_Directory/temp/Currencies_Exchange.txt"
+fileTo_watch="$ui_Download_Directory/temp/watchList.txt"
 url_toScrape="http://coinmarketcap.com/"
 ui_lynxOptions="-anonymous -source"
 ui_coin_toGrep="LiteCoin"
@@ -8,10 +10,34 @@ sed_toSub="USD"
 sed_subed="$ui_coin_toGrep to $sed_toSub"
 ui_lynxScrap_command="lynx $ui_lynxOptions $url_toScrape | grep -iC 1 \"$ui_coin_toGrep\""
 
-ui_defined-coinScrape="$ui_lynxScrap_command | awk '/$sed_toSub/' {gsub("data-",""); print $ui_coin_toBuy } | sed 's/$sed_toSub/$sed_subed/' | grep -i "$sed_subed"
+ui_defined_coinScrape="$ui_lynxScrap_command | awk '/$sed_toSub/' {gsub("data-",""); print $ui_coin_toBuy } | sed 's/$sed_toSub/$sed_subed/' | grep -i "$sed_subed"
+
+writeFile_ofExchanges () { 
+	filename="$1" 
+	while read -r line 
+	do 
+		name=$line 
+		echo "Name read from file - $name" 
+		
+	done < "$fileTo_watch"
+# 	run with the following example elswhere in script
+# writeFile_ofExchanges <path/to/file_name>
+	
+}
 
 
 scrape_coinExchange () { 
+	# this next line sets the $1 variable in the following called function
+	checkFile_beforWrite "$fileTo_write“
+	if [ $fileExsists = no ]
+	then 
+		echo "$FILE does not exist. Writing one now..."
+		echo '$varDATE : $ui_defined_coinScrape' | $ui_teeFile $fileTo_write
+		# <insert commands here>
+	else
+		echo "$FILE exists. Apending with..."
+		echo '$varDATE : $ui_defined_coinScrape' | $ui_teeFile $fileTo_write
+	fi
 	
 } 
 
@@ -25,8 +51,25 @@ FILE=$1
 		fileExsists="no"
 		echo "... $fileExsists $FILE Does Not Exist" 
 	fi
-# use the following elsewhere after assiging $1 to check if the file exists and if not run a command
+# 	use the following to assigne $1 with a value to check and replace the stuff between the <> with the real file path and name of file.
+# checkFile_beforWrite <file/path/to/some_file>
+# 	use the following elsewhere after assiging $1 to check if the file exists and if not run a command
 # if [ $fileExsists = no ]; then echo "$FILE does not exist. Writing one now..." && # <insert commands here> ; fi
+} 
+
+writeCoins_toWatch () { 
+	# this next line sets theb= $1 variable in the following called function
+	checkFile_beforWrite "$fileTo_watch“
+	if [ $fileExsists = no ]
+	then 
+		echo "$FILE does not exist. Writing one now..."
+		
+	else 
+		echo "$FILE exists. Apending with..."
+		
+	fi
+	
+	
 } 
 
 
@@ -45,7 +88,7 @@ FILE=$1
 #	~ from there you can probably see the evolution of what comes latter
 # the "-anonymous -source" in the lynx commands set restrictions on what is saved and tells it to exit after grabbing the web page
 
-# credits
+# credits for webScraper
 # 	guide to using lynx with grep
 # http://tips.webdesign10.com/scrape-web-pages-gnu-linux-shell
 # 	grep'ing above and bellow matching argument
@@ -54,5 +97,8 @@ FILE=$1
 # http://linux.about.com/od/Bash_Scripting_Solutions/a/How-To-Write-Ask-Commands-And-Scripts.htm
 # 	how to check if a file exsists two ways
 # http://www.shellhacks.com/en/HowTo-Check-If-a-File-Exists
-
+#	how to get date and time
+# http://www.cyberciti.biz/faq/how-to-read-time-in-shell-script/
+#	examples of wile do done read from a file line by line
+# http://stackoverflow.com/questions/10929453/bash-scripting-read-file-line-by-line
 
