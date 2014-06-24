@@ -11,20 +11,31 @@ sed_subed="$ui_coin_toGrep to $sed_toSub"
 ui_lynxScrap_command="lynx $ui_lynxOptions $url_toScrape | grep -iC 1 \"$ui_coin_toGrep\""
 
 ui_defined_coinScrape="$ui_lynxScrap_command | awk '/$sed_toSub/' {gsub("data-",""); print $ui_coin_toBuy } | sed 's/$sed_toSub/$sed_subed/' | grep -i "$sed_subed"
+# default is ten minuets
+ui_sleepTime="600"
+writeFile="false"
 
-writeFile_ofExchanges () { 
+writeFile_ofExchangeRates () { 
 	filename="$1" 
 	while read -r line 
 	do 
 		name=$line 
-		echo "Name read from file - $name" 
-		
-	done < "$fileTo_watch"
+		echo "Writing :-: $name " 
+		scrape_coinExchange
+	done < "$filename"
 # 	run with the following example elswhere in script
 # writeFile_ofExchanges <path/to/file_name>
 	
 }
-
+repeat_fileExchanges_writeOut () { 
+	while [ $writeFile = true ] 
+	do
+		writeFile_ofExchangeRates $fileTo_watch
+		sleep $ui_sleepTime
+	done
+# use this function externally to write exchange rates to $fileTo_write every $ui_sleepTime with the following info
+# 	$varDATE : $name $ui_defined_coinScrape
+} 
 
 scrape_coinExchange () { 
 	# this next line sets the $1 variable in the following called function
@@ -32,11 +43,11 @@ scrape_coinExchange () {
 	if [ $fileExsists = no ]
 	then 
 		echo "$FILE does not exist. Writing one now..."
-		echo '$varDATE : $ui_defined_coinScrape' | $ui_teeFile $fileTo_write
+		echo '$varDATE : $name $ui_defined_coinScrape' | $ui_teeFile $fileTo_write
 		# <insert commands here>
 	else
 		echo "$FILE exists. Apending with..."
-		echo '$varDATE : $ui_defined_coinScrape' | $ui_teeFile $fileTo_write
+		echo '$varDATE :$name $ui_defined_coinScrape' | $ui_teeFile $fileTo_write
 	fi
 	
 } 
@@ -58,21 +69,60 @@ FILE=$1
 } 
 
 writeCoins_toWatch () { 
-	# this next line sets theb= $1 variable in the following called function
+	# this next line sets the $1 variable in the following called function
 	checkFile_beforWrite "$fileTo_watch“
 	if [ $fileExsists = no ]
 	then 
 		echo "$FILE does not exist. Writing one now..."
+		if [ $writeFile = false ]
+		then
+			echo "Choose one of the following options"
+			prompt_coins_toSelect
 		
+			echo -n "Input your choice now : "
+			read ui_coins_toWatch
+			# the above variable neads to be parced and or checked by the following
+			read_ui_coins_toWatch
+		else
+			# do nothing for now
+		fi
 	else 
-		echo "$FILE exists. Apending with..."
-		
+		echo "$FILE exists."
+		writeFile="true"
 	fi
 	
 	
 } 
-
-
+ui_writeParser () { 
+	# read each word, add a new line and save to $fileTo_watch
+	string="$1"
+	for word in $string
+	do 
+		echo '$word' | $ui_teeFile $fileTo_watch
+	done
+}
+read_ui_coins_toWatch () { 
+	if [ $ui_coins_toWatch = 0 ] 
+	then
+		# rename file for watching btc , ltc , dkc
+		
+	elif [ $ui_coins_toWatch = 1 ] 
+	then
+		# rename file for watching btc , dvc , vtc
+		
+	elif [ $ui_coins_toWatch = 2 ] 
+	then
+		# rename file for watching btc , ftc , qbc 
+		
+	else 
+		ui_writeParser $ui_coins_toWatch
+	fi
+	
+} 
+prompt_coins_toSelect () { 
+	
+	
+} 
 
 # notes on web scraping command variables
 # the following command~
@@ -101,4 +151,6 @@ writeCoins_toWatch () {
 # http://www.cyberciti.biz/faq/how-to-read-time-in-shell-script/
 #	examples of wile do done read from a file line by line
 # http://stackoverflow.com/questions/10929453/bash-scripting-read-file-line-by-line
+#	examples of taking a string and adding carage returns for spaces
+# http://stackoverflow.com/questions/1469849/how-to-split-one-string-into-multiple-strings-in-bash-shell
 

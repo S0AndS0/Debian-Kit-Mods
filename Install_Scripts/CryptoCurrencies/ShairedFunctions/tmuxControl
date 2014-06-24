@@ -1,6 +1,11 @@
 tmuxSession_ID="MiningStats"
 tmuxWindow_ID="CPU_Mining"
-
+# 	list of functions that nead controlled
+# repeat_fileExchanges_writeOut 			# used to write a file containining :-: $varDATE : $name $ui_defined_coinScrape 
+# 											# $varDate is the curent date, day and time. $name is set by writeFile_ofExchangeRates function which
+#											#+ reads lines from ~/temp/watchList.txt which is writen to by writeCoins_toWatch function. 
+# 											# $ui_defined_coinScrape is a messy but working way of grabing spicific info from default site assiged to $url_toScrape variable.
+# 											# Got all that? 
 
 dependsInstall_thisScript () { 
 	$ui_aptgetSudo -yq --force-yes install tmux lynx
