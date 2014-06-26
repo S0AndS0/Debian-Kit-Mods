@@ -51,7 +51,7 @@ Multi pool 	~ stratum+tcp://multi.ghash.io:3333
 For ghash.io 	~ S0AndS0.<lett3rs0rNumb3rs>
 
 -> password to use
-For ghash.io 	~ x
+For ghash.io 	~ x 
 	or 			~ aShortMessageWithoutSpaces
 
 ______________________________________________
