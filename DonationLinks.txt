@@ -1,18 +1,30 @@
-This file contains links that you the reader may use to donate to the developer of thiese scripts.
-	The Crypto Currency wallets are devided into two groupes; either set may be used for donations/suport for further development.
+/~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\
+Join me on BitBiz for future requests and discussion of my projects; use the link bellow when you sign up and you will help earn me more shares there. Don't know what that means? Then check the link section of this file.
+http://bitbiz.io/rf/?c=IGQ3ZLRT
+\~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~/
+
+This file contains links that you the reader may use to donate to the developer of these scripts and guides.
+~ The first section covers the wallets I currently support with a small bit about USD's
+~>	The Crypto Currency wallets are divided into two groups; either set may be used for donations/support for further development.
+~ The second section displays links and commands you may use to donate hashing power. The pools in the examples are the ones that I have active accounts on for hash donations and this list is likely to be updated regularly with new or changed addresses
+~> 	So if this is your choice be sure to check back from time to time or suggest one that you prefer I use.
+	
 	If you wish to donate USD instead then please use my email "strangerthanbland" at gmail to sent funds through Google Wallet. See the following link for how to;
 	http://www.google.com/wallet/send-money/
 
-Thank you for considering supporting this developer. All donations will go to advancing Open Source progects that I am developing.
+Thank you for considering supporting this developer's verity of goals. All donations will go to advancing Open Source projects that I am developing here on github and at the linked web addresses at the bottom of this document.
 
-	Crypto Currencies (wallets)
+______________________________________
+___ Crypto Currencies wallet links ___
+______________________________________
 BTC (bitcoin) - 1JJXnF2NMcTT24Rj7g9XkEDN5qP5nRFk1o
 LTC (litecoin) - LKucbsSHxQxDekJquwpdSpnsdbnqEVbTe2
 DOGE (dogecoin) - DS9PXxjQr12s1nAUUSQyR7YQK6HM1GbdkC
 DRK (darkcoin) - XradYSbZ2oZT9Qi1JwmFVx3UCzeqfX5Fvy
 VTC (vertcoin) - VvRePCWBatR5nohf2xXXwLLmvUfWG2mFE4
 
-	Crypto Currencies (online wallets)
+~~~ online wallets for better compatibility with the community
+
 BTC (bitcoin) - 1EnsKTu6cHLhHR9vYmL35872qQBWZZGGmR
 LTC (litecoin) - LP8HHVTCGFm62twydvh5XVjJCdb9Vjy712
 DOGE (dogecoin) - DJNh5UxGEbx4KcL6ikchbZjE9uN5rfk3UE
@@ -21,5 +33,35 @@ AUR (Auroracoin) - ANnsGGarHbiDnP3xRv6oVmU6aBZLqkBCNP
 NMC (namecoin) - N8HdGc2bJss6VcA2isqxFyUsD2LcoV1mgL
 IXC (ixcoin) - xgFr5kTwHr4HPvQHdE3soeaboLEhHjNbxR
 DVC (devcoin) - 1BbwNbCgBa58XYWkWYgdJVmpsZyUVseDtw
+
+______________________________________
+___ Crypto Currencies hash links _____
+
+______________________________________
+-> Links for types of coins you can donait hashing power twords me at:
+BTC 		~ stratum+tcp://uk1.ghash.io:3333
+	or BTC 	~ stratum+tcp://us1.ghash.io:3333
+LTC			~ stratum+tcp://ltc.ghash.io:3333
+Doge 		~ stratum+tcp://doge.ghash.io:3333
+FTC 		~ stratum+tcp://ftc.ghash.io:3333
+AUR 		~ stratum+tcp://aur.ghash.io:3333
+DRK 		~ stratum+tcp://drk.ghash.io:3333
+Multi pool 	~ stratum+tcp://multi.ghash.io:3333
+-> username to use
+For ghash.io 	~ S0AndS0.<lett3rs0rNumb3rs>
+
+-> password to use
+For ghash.io 	~ x
+	or 			~ aShortMessageWithoutSpaces
+
+______________________________________________
+___ Links to some of my public forum posts ___
+______________________________________________
+	\/ Guide \/ for using the CPU Mining software installer scripts I'm writing
+http://bitbiz.io/threads/linux-script-cpu-minerd-installer-android-rpi-vps-32-64bit-pc.138/#post-821
+	\/ Guide \/ Maptools on Android with Linux
+http://forums.rptools.net/viewtopic.php?f=12&t=24082&sid=9941a6b129db11ec48f2eeebdeb18875
+	\/ Guide \/ Wii Android wireless streaming and transferring of local media ~
+http://forum.xda-developers.com/showthread.php?t=2576185
 
 
