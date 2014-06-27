@@ -110,6 +110,16 @@
 # make
 # example command :-: ?
 
+#	heavycoin
+# apt-get install automake build-essential libcurl4-openssl-dev git zip
+# git clone https://github.com/heavycoin/cpuminer-heavycoin
+# sed -i 's/@LIBCURL@ @JANSSON_LIBS@ @PTHREAD_LIBS@ @WS2_LIBS@ -lssl/@LIBCURL@ @JANSSON_LIBS@ @PTHREAD_LIBS@ @WS2_LIBS@ -lssl -lcrypto/' Makefile.am
+# cd cpuminer-heavycoin
+# ./autogen.sh
+# ./configure CFLAGS="?"
+# make
+# example command :-: ./minerd -a heavy -v 32 -o stratum+tcp://stratum01.mycryptopool.info:3333 -u worker.user -p workerPass
+#										-v XX = your vote
 
 ======================
 
