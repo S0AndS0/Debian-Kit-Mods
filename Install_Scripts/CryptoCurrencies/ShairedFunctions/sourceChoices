@@ -106,7 +106,10 @@ setDownloadSource () {
 	
 	echo "	Input - qubit1 - For QubitCoin CPU Miner from : https://github.com/qubitcoin/QubitCoin-cpuminer"
 	
+	echo "_________"
 	echo "	Input - heavy1 - for HeavyCoin CPU Miner from : https://github.com/heavycoin/cpuminer-heavycoin"
+	echo "	Input - skein1 - for SkeinCoin CPU Miner from : https://github.com/skeincoin/skeincoin-cpuminer"
+	echo "	Input - myriad1 - for MyriadCoin CPU Miner from : https://github.com/myriadcoin/groestlcoin-cpuminer"
 	
 	echo "	Input - 0 - If you want to set custom web address to download and install from"
 	echo -n "Choose your source : "
@@ -171,6 +174,18 @@ setDownloadSource () {
 		sourceDirectory="cpuminer-heavycoin"
 		sourceTarOrGit="git"
 		makeExtract_dir="n"
+	elif [ $ui_gitSource = skein1 ]
+	then
+		gitSource="https://github.com/skeincoin/skeincoin-cpuminer"
+		sourceDirectory="cpuminer-skeincoin"
+		sourceTarOrGit="git"
+		makeExtract_dir="n"
+	elif [ $ui_gitSource = myriad1 ]
+	then
+		gitSource="https://github.com/myriadcoin/groestlcoin-cpuminer"
+		sourceDirectory="groestlcoin-cpuminer"
+		sourceTarOrGit="git"
+		makeExtract_dir="n"
 	elif [ $ui_gitSource = 0 ]
 	then
 		setCustom_Source
@@ -183,7 +198,7 @@ setDownloadSource () {
 	echo "$sourceDirectory"
 } 
 
-# 
+#
 
 dependsChooser () { 
 	if [ $ui_gitSource = minerd1 ]
@@ -244,6 +259,18 @@ dependsChooser () {
 		list_aptPackages_heavycoin
 		dependsInstall_cpuminer
 		dependsInstall_heavycoin
+	elif [ $ui_gitSource = skein1 ]
+	then
+		list_aptPackages_cpuminer
+		list_aptPackages_skein
+		dependsInstall_cpuminer
+		dependsInstall_skein
+	elif [ $ui_gitSource = myriad1 ]
+	then
+		list_aptPackages_cpuminer
+		list_aptPackages_myriad
+		dependsInstall_cpuminer
+		dependsInstall_myriad
 	else 
 		echo "Invalid input recived, exiting now..."
 		exit
@@ -288,6 +315,16 @@ algoChooser () {
 		read ui_Algo
 		ui_mineAlgo="$ui_Algo"
 	elif [ $ui_gitSource = heavy1 ]
+	then
+		echo -n "Input the algorithem to use : "
+		read ui_Algo
+		ui_mineAlgo="$ui_Algo"
+	elif [ $ui_gitSource = skein1 ]
+	then
+		echo -n "Input the algorithem to use : "
+		read ui_Algo
+		ui_mineAlgo="$ui_Algo"
+	elif [ $ui_gitSource = myriad1 ]
 	then
 		echo -n "Input the algorithem to use : "
 		read ui_Algo

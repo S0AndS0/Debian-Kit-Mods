@@ -40,7 +40,12 @@ dependsInstall_xcoin () {
 dependsInstall_heavycoin () { 
 	$ui_aptgetSudo -yq --force-yes install automake build-essential libcurl4-openssl-dev zip
 } 
-
+dependsInstall_skein () {
+	echo "No known dependancies..."
+}
+dependsInstall_myriad () {
+	echo "No known dependancies..."
+}
 
 
 # packages that mwy nead to be in included for cpuminer built from github

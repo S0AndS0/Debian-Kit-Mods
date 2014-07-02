@@ -47,6 +47,14 @@ list_aptPackages_heavycoin () {
 	echo "The following additinal packages will be installed"
 	echo "automake build-essential libcurl4-openssl-dev zip"
 }
+list_aptPackages_skein () { 
+	echo "The following additinal packages will be installed"
+	echo "... No additinall apt dependancies known"
+}
+list_aptPackages_myriad () { 
+	echo "The following additinal packages will be installed"
+	echo "... No additinall apt dependancies known"
+}
 
 # list sources of more information
 
