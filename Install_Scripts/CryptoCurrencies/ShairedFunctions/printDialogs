@@ -43,6 +43,10 @@ list_aptPackages_quarkcoin () {
 	echo "The following additinal packages will be installed"
 	echo "build-essential libcurl4-openssl-dev libjansson4"
 }
+list_aptPackages_heavycoin () { 
+	echo "The following additinal packages will be installed"
+	echo "automake build-essential libcurl4-openssl-dev zip"
+}
 
 # list sources of more information
 

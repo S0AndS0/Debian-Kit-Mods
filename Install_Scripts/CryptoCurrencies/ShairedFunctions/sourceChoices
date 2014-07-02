@@ -68,15 +68,15 @@ setMake_extractDirectory () {
 move_tarZip () { 
 	if [ $makeExtract_dir = y ]
 	then 
-		mv $sourceDirectory* $sourceDirectory
+		mv $sourceDirectory $sourceDirectory
 		cd $sourceDirectory
 	elif [ $makeExtract_dir = n ]
 	then 
-		# do nothing
-		cd $sourceDirectory
+		echo "do nothing"
+		# cd $sourceDirectory
 	else
-	# do nothing
-	cd $sourceDirectory
+	echo "do nothing"
+	# cd $sourceDirectory
 	fi
 } 
 
@@ -105,7 +105,9 @@ setDownloadSource () {
 	echo " 	Input - quark2 - For QuarkCoin CPU Miner from : http://stonefoz.myfastmail.com/cpuminer-quark2.zip"
 	
 	echo "	Input - qubit1 - For QubitCoin CPU Miner from : https://github.com/qubitcoin/QubitCoin-cpuminer"
-
+	
+	echo "	Input - heavy1 - for HeavyCoin CPU Miner from : https://github.com/heavycoin/cpuminer-heavycoin"
+	
 	echo "	Input - 0 - If you want to set custom web address to download and install from"
 	echo -n "Choose your source : "
 	read ui_gitSource
@@ -163,6 +165,12 @@ setDownloadSource () {
 		sourceDirectory="QubitCoin-cpuminer"
 		sourceTarOrGit="git"
 		makeExtract_dir="n"
+	elif [ $ui_gitSource = heavy1 ]
+	then
+		gitSource="https://github.com/heavycoin/cpuminer-heavycoin"
+		sourceDirectory="cpuminer-heavycoin"
+		sourceTarOrGit="git"
+		makeExtract_dir="n"
 	elif [ $ui_gitSource = 0 ]
 	then
 		setCustom_Source
@@ -175,8 +183,7 @@ setDownloadSource () {
 	echo "$sourceDirectory"
 } 
 
-# quark2
-# http://stonefoz.myfastmail.com/cpuminer-quark2.zip
+# 
 
 dependsChooser () { 
 	if [ $ui_gitSource = minerd1 ]
@@ -231,6 +238,12 @@ dependsChooser () {
 		
 		dependsInstall_cpuminer
 		
+	elif [ $ui_gitSource = heavy1 ]
+	then
+		list_aptPackages_cpuminer
+		list_aptPackages_heavycoin
+		dependsInstall_cpuminer
+		dependsInstall_heavycoin
 	else 
 		echo "Invalid input recived, exiting now..."
 		exit
@@ -270,6 +283,11 @@ algoChooser () {
 		read ui_Algo
 		ui_mineAlgo="$ui_Algo"
 	elif [ $ui_gitSource = qubit1 ]
+	then
+		echo -n "Input the algorithem to use : "
+		read ui_Algo
+		ui_mineAlgo="$ui_Algo"
+	elif [ $ui_gitSource = heavy1 ]
 	then
 		echo -n "Input the algorithem to use : "
 		read ui_Algo

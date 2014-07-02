@@ -37,7 +37,9 @@ dependsInstall_xcoin () {
 	$ui_aptgetSudo -yq --force-yes install libleveldb-dev libminiupnpc-dev libssl-dev
 	$ui_aptgetSudo -yq --force-yes install bc curl dos2unix fail2ban havegedsudo m4 nano unzip vim
 } 
-
+dependsInstall_heavycoin () { 
+	$ui_aptgetSudo -yq --force-yes install automake build-essential libcurl4-openssl-dev zip
+} 
 
 
 

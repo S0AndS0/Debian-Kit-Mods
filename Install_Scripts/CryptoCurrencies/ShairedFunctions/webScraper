@@ -10,7 +10,7 @@ sed_toSub="USD"
 sed_subed="$ui_coin_toGrep to $sed_toSub"
 ui_lynxScrap_command="lynx $ui_lynxOptions $url_toScrape | grep -iC 1 \"$ui_coin_toGrep\""
 
-ui_defined_coinScrape="$ui_lynxScrap_command | awk '/$sed_toSub/' {gsub("data-",""); print $ui_coin_toBuy } | sed 's/$sed_toSub/$sed_subed/' | grep -i "$sed_subed"
+ui_defined_coinScrape="$ui_lynxScrap_command | awk '/$sed_toSub/ {gsub("data-",""); print $ui_coin_toBuy }' | sed 's/$sed_toSub/$sed_subed/' | grep -i "$sed_subed"
 # default is ten minuets
 ui_sleepTime="600"
 writeFile="false"
