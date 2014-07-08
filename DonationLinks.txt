@@ -33,7 +33,7 @@ AUR (Auroracoin) - ANnsGGarHbiDnP3xRv6oVmU6aBZLqkBCNP
 NMC (namecoin) - N8HdGc2bJss6VcA2isqxFyUsD2LcoV1mgL
 IXC (ixcoin) - xgFr5kTwHr4HPvQHdE3soeaboLEhHjNbxR
 DVC (devcoin) - 1BbwNbCgBa58XYWkWYgdJVmpsZyUVseDtw
-
+POT (potcoin) - PEVCwh9eiq2T68pq2SrgPjUBsKTsp5kFz5
 ______________________________________
 ___ Crypto Currencies hash links _____
 
