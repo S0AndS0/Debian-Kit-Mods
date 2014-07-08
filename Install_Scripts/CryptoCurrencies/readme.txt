@@ -121,6 +121,27 @@
 # example command :-: ./minerd -a heavy -v 32 -o stratum+tcp://stratum01.mycryptopool.info:3333 -u worker.user -p workerPass
 #										-v XX = your vote
 
+# 	groestlcoin
+# apt-get install libcurl4-gnutls-dev autoconf automake libtool yasm m4 make g++ build-essential dos2unix libminiupnpc-dev libdb++-dev libgmp-dev libssl-dev libboost-all-dev
+# git clone https://github.com/ig0tik3d/GroestlCoin-cpu-1.0a
+# or : https://github.com/vitorallo/GroestlCoin-cpu-1.0a
+# cd GroestlCoin-cpu-1.0a
+# ./autogen.sh
+# ./configure CFLAGS="-O3 -msse4"
+# make
+# example command :-: ./minerd -a groestl -o stratum+tcp://erebor.dwarfpool.com:3345 -u <walletAddress> -p workerPass -t <threads>
+
+# bitblockcoin
+# apt-get install ?
+# git clone https://github.com/bitblockproject/Bitblock-CPUminer
+# cd Bitblock-CPUminer
+# ./autogen.sh
+# ./configure CFLAGS="-O3"
+# make
+# example command :-: ?
+
+======================
+apt-get install libghc-byteorder-dev libghc-cpu-dev
 ======================
 
 sources of info and credits
