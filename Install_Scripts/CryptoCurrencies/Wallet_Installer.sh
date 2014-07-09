@@ -30,6 +30,7 @@ echo "___inporting_shaired_functions"
 # $ui_configure 				# sets ./configure commands up with sudo for non-root users which is further modifide with $ui_cflag variable
 # $ui_sensors 					# sets sensors command to sudo or no sudo prefix based on user prompt
 # $ui_git 						# sets git command up with sudo for non-root users
+# $ui_pip
 
 # list of functions from userPrompts
 # promptTo_continue 			# Exits on anything but "yes" or "y" responce from user
@@ -40,5 +41,28 @@ echo "___inporting_shaired_functions"
 # prompt_wheezyUpgrade 			# prompts whether or not to mess with source lists and the installs dependancies set by dependsChooser
 # prompt_tempMonitor 			# prompts for whether or not to run commands with temp monitering 
 
+. $_ScriptDirectory/WalletFunctions/aptget_dependancies
+
+# list of functions from aptget_dependancies
+# install_Armory_github_aptget 		# installs Armory wallet from apt-get and github
+# install_electrum_github_aptget 	# installs electrum wallet from apt-get and github
+
+. $_ScriptDirectory/WalletFunctions/sourceChoices
+# list of variables from sourceChoices
+# $ui_walletSource 					# used internally for setting which source to install in an if then statement
+
+# list of functions from sourceChoices
+# choose_walletInstall_method 		# sets which wallet to install and from where
+
+# script start
+echo "This script currently make use of an internet connection but after installation has compleated it is advised to perminatly disconect your cold storage wallet from any network."
+promptTo_continue
+setDownload_Directory
+ui_rootNOroot
+choose_walletInstall_method
+
+# script end
+echo "Exiting now"
+echo exit
 
 
