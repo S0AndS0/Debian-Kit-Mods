@@ -81,6 +81,7 @@ case "$response" in
  		ui_configure="./configure"
  		ui_sensors="sensors"
  		ui_git="git"
+ 		ui_pip="pip"
 		;;
 	*)
  #		 Otherwise use sudo apt-get for installs..
@@ -94,6 +95,7 @@ case "$response" in
  	ui_configure="sudo ./configure"
  	ui_sensors="sudo sensors"
  	ui_git="sudo git"
+ 	ui_pip="sudo pip"
 	;;
 esac
 } 
