@@ -1,1 +1,18 @@
 # under construction
+choose_walletInstall_method () { 
+	echo "	Input - armory - to install from : github.com/etotheipi/BitcoinArmory.git"
+	echo "	Input - electrum - to install from : github.com/spesmilo/electrum.git"
+	echo -n "Please make your choice now : "
+	read ui_walletSource
+	if [ $ui_walletSource = armory ]
+	then
+		install_Armory_github_aptget
+	elif [ $ui_walletSource = electrum ]
+	then
+		install_electrum_github_aptget
+	else 
+		echo "Invalid input recived, exiting now..."
+		echo exit
+	fi
+} 
+
