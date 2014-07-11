@@ -1,0 +1,201 @@
+
+prompt_sourceChooser () { 
+	echo "	Input - p2pool1 - to install from : github.com/forrestv/p2pool.git"
+	echo "Which will set up a mured mining pool for Bitcoin and compatible block chains"
+	echo "	Input -  - to install from : "
+	echo "	Input -  - to install from : "
+	echo -n "Please choose now :-: "
+	read ui_sourcePool_choise
+	if
+	elif [ $ui_sourcePool_choise = p2pool1 ]
+	then
+		poolChoice="p2pool1"
+		poolSource="git://github.com/forrestv/p2pool.git"
+		poolDir="p2pool"
+		coinDir1="/.bitcoin/"
+		echo "$poolChoice"
+	elif [ $ui_sourcePool_choise = ]
+	then
+		
+	elif [ $ui_sourcePool_choise = ]
+	then
+		
+	else
+	echo "Invalid input recived, exiting now..."
+	echo exit
+	fi
+	
+}
+
+prompt_poolComands () { 
+	echo "	Input - screen - or - tmux - to run your pool software within that service."
+	echo -n "Please choose now :-: "
+	read ui_tmuxORscreen
+	echo -n "Please input a name to call your tmux or screen session :-: "
+	read ui_tmuxORscreen_Name
+	
+	
+	
+	if 
+	elif [ $poolChoice = p2pool1 ] 
+	then
+		echo "	Input a user name and supper secrit password for use in following example command;"
+		echo "$ui_poolServiceStart_header ~/run_p2pool.py --give-author 0 usuariox SupEr3421Senha_SECRETAandGRandE" 
+		echo -n "Set the \"usuariox\" argument :-: "
+		read ui_poolHost_user
+		echo -n "Set the \"SupEr3421Senha_SECRETAandGRandE\" argument :-: " 
+		read ui_poolHost_password
+		echo -n "Set pool fee percent :-: "
+		read ui_poolHost_fee
+		
+	elif [  ]
+	then
+		
+	elif [  ]
+	then 
+		
+	else
+	echo "Invalid input recived, exiting now..."
+	echo exit
+	fi
+	
+	# --give-author $ui_poolHost_fee $ui_poolHost_user $ui_poolHost_password
+} 
+
+poolSession_hostStart () { 
+if 
+	elif [ $ui_tmuxORscreen = screen ] 
+	then
+		screenStart_poolHost
+		
+	elif [ $ui_tmuxORscreen = tmux ]
+	then
+		tmuxStart_poolHost
+		tmuxReatach_poolHost
+	else
+	echo "Invalid input recived, exiting now..."
+	echo exit
+	fi
+	
+} 
+
+screenStart_poolHost () { 
+	screen -d -m -S $ui_tmuxORscreen_Name ~/run_p2pool.py --give-author $ui_poolHost_fee $ui_poolHost_user $ui_poolHost_password
+} 
+
+tmuxStart_poolHost () { 
+	# start tmux session if not allready started
+	tmux list-session 2>1 | grep -E "$ui_tmuxORscreen_Name:" || tmux new-session -s $ui_tmuxORscreen_Name -d
+	# start tmux window if not already started
+	tmux list-window -t ui_tmuxORscreen_Name 2>1 | grep -E ": $ui_tmuxORscreen_Name" || tmux new-window -t $ui_tmuxORscreen_Name -n $ui_tmuxORscreen_Name
+	# Start pool service within tmux window
+	tmux send-keys -t $ui_tmuxORscreen_Name:$ui_tmuxORscreen_Name "~/run_p2pool.py --give-author $ui_poolHost_fee $ui_poolHost_user $ui_poolHost_password" Enter
+
+} 
+
+tmuxReatach_poolHost () { 
+	# reatach to tmux and pool service within
+	tmux list-session 2>1 | grep -E "$ui_tmuxORscreen_Name:" | tmux select-window -t $ui_tmuxORscreen_Name
+} 
+
+sourceChooser_dependsInstaller () { 
+	if 
+	elif [ $poolChoice = p2pool1 ] 
+	then
+		echo "Installing python-software-properties with : "
+		$ui_aptgetSudo -yq --force-yes install python-software-properties
+		$ui_aptReppo_add ppa:bitcoin/bitcoin
+		$ui_aptgetSudo update
+		# for bitcoin
+		$ui_aptgetSudo -yq --force-yes install bitcoind
+		# optinal package for gui
+		$ui_aptgetSudo -yq --force-yes install bitcoin-qt
+		# for p2pool1 software dependancies
+		$ui_aptgetSudo -yq --force-yes install python-rrdtool python-pygame python-scipy python-twisted python-twisted-web python-imaging
+		
+	elif [  ]
+	then
+		
+	elif [  ]
+	then 
+		
+	else
+	echo "Invalid input recived, exiting now..."
+	echo exit
+	fi
+	
+} 
+
+pool_sourceChooser_gitCloner () { 
+	cd $ui_Download_Directory
+	if 
+	elif [ $poolChoice = p2pool1 ] 
+	then
+		$ui_git clone $poolSource
+	elif [  ]
+	then
+		
+	elif [  ]
+	then 
+		
+	else
+	echo "Invalid input recived, exiting now..."
+	echo exit
+	fi
+	
+} 
+
+pool_sourceChooser_gitInstaller () {
+	if 
+	elif [ $poolChoice = p2pool1 ] 
+	then
+		cd $poolDir
+		poolSession_hostStart
+	elif [  ]
+	then
+		
+	elif [  ]
+	then 
+		
+	else
+	echo "Invalid input recived, exiting now..."
+	echo exit
+	fi
+} 
+
+sourceChooser_confConfigurer () { 
+	if 
+	elif [ $poolChoice = p2pool1 ] 
+	then
+		
+	elif [  ]
+	then
+		
+	elif [  ]
+	then 
+		
+	else
+	echo "Invalid input recived, exiting now..."
+	echo exit
+	fi
+	
+} 
+
+helpfullExamples_poolCommands () { 
+	if 
+	elif [ $poolChoice = p2pool1 ] 
+	then
+		
+	elif [  ]
+	then
+		
+	elif [  ]
+	then 
+		
+	else
+	echo "Invalid input recived, exiting now..."
+	echo exit
+	fi
+	
+} 
+
