@@ -62,7 +62,7 @@ setDownload_Directory () {
 		exit
 	fi
 # Make directory for downloads
-	mkdir -p $ui_Download_Directory
+	$ui_mkdir $ui_Download_Directory
 	echo "$ui_Download_Directory"
 }
 
@@ -82,6 +82,8 @@ case "$response" in
  		ui_sensors="sensors"
  		ui_git="git"
  		ui_pip="pip"
+ 		ui_aptReppo_add="add-apt-repository"
+ 		ui_mkdir="mkdir -p"
 		;;
 	*)
  #		 Otherwise use sudo apt-get for installs..
@@ -96,6 +98,8 @@ case "$response" in
  	ui_sensors="sudo sensors"
  	ui_git="sudo git"
  	ui_pip="sudo pip"
+ 	ui_aptReppo_add="sudo add-apt-repository"
+ 	ui_mkdir="sudo mkdir -p"
 	;;
 esac
 } 
