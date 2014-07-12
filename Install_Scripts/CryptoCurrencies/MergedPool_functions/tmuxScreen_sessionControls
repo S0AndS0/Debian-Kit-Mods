@@ -1,0 +1,32 @@
+start_tmuxSession () { 
+	tmuxSession_ID=$1
+	tmuxWindow_ID=$2
+	tmuxCommand_insert="$( shift 2 && echo $@ )"
+
+	tmux list-session 2>1 | grep -E "$tmuxSession_ID:" || tmux new-session -s $tmuxSession_ID -d
+	tmux list-window -t $tmuxSession_ID 2>1 | grep -E ": $tmuxWindow_ID" || tmux new-window -t $tmuxSession_ID -n $tmuxWindow_ID
+	tmux send-keys -t $tmuxSession_ID:$tmuxWindow_ID "$tmuxCommand_insert" Enter
+}
+end_tmuxSession () { 
+	tmuxSession_ID=$1
+	
+	tmux list-session 2>1 | grep -E "$tmuxSession_ID:" | tmux kill-session -t $tmuxSession_ID
+} 
+reatach_tmuxSession () { 
+	tmuxSession_ID=$1
+	tmuxWindow_ID=$2
+	
+	tmux list-session 2>1 | grep -E "$tmuxSession_ID:$tmuxWindow_ID" | tmux select-window -t $tmuxSession_ID -n $tmuxWindow_ID
+} 
+
+screenStart_services () { 
+	screenSession=$1
+	screenCommand_insert="$( shift 1 && echo $@ )"
+	
+	screen -d -m -S $screenSession $screenCommand_insert
+} 
+screenReatach_services () { 
+	screenSession_name=$1
+	
+	screen -x $screenSession_name
+} 
