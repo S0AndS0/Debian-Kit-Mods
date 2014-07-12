@@ -1,0 +1,151 @@
+
+config_Pool_sources () { 
+	if 
+	elif [ $poolChoice = p2pool1 ] 
+	then
+		echo "	Input a user name and supper secrit password for use in following example command;"
+		echo "$ui_poolServiceStart_header ~/run_p2pool.py --give-author 0 usuariox SupEr3421Senha_SECRETAandGRandE" 
+		
+		echo -n "Set the \"usuariox\" argument :-: "
+		read ui_poolHost_userBitcoiin
+		echo -n "Set the \"SupEr3421Senha_SECRETAandGRandE\" argument :-: " 
+		read ui_poolHost_passwordBitcoin
+		echo -n "Set pool fee percent :-: "
+		read ui_poolHost_feeBitcoin
+		
+		echo "	Input a name and supper secrit password for use in the following example command;"
+		echo "~/p2pool/run_p2pool.py --give-author 0 --net litecoin --bitcoind-rpc-port 9334 --bitcoind-p2p-port 9335 liteuserx nkrt345udsdfjhgjhsdfuyrt78rtTJHRFHTDTYD"
+		
+		echo -n "Set the \"liteuserx\" argument :-: "
+		read ui_poolHostuserLitecoin
+		echo -n "Set the \"nkrt345udsdfjhgjhsdfuyrt78rtTJHRFHTDTYD\" argument :-: "
+		read ui_poolhost_passwordLitecoin
+		echo -n "Set pool fee percent :-: "
+		read ui_poolHost_feeLitecoin
+		
+	elif [  ]
+	then
+		
+	elif [  ]
+	then 
+		
+	else
+	echo "Invalid input recived, exiting now..."
+	echo exit
+	fi
+
+} 
+
+prompt_poolComands () { 
+	echo -n "Please input tmux or screen for running pool and coin sessions :-: "
+	read ui_tmuxORscreen
+	
+		if 
+		elif [ $ui_tmuxORscreen = screen ] 
+		then
+			echo -n "Please choose a name for your bitcoin pool service :-: "
+			read ui_screen_pool1
+			echo -n "Please choose a name for your litecoin pool service :-: "
+			read ui_screen_pool2
+			
+		elif [ $ui_tmuxORscreen = tmux ]
+		then
+			echo -n "Please choose a name for tmux session :-: "
+			read ui_tmuxSession
+			echo -n "Please choose a name for your bitcoin pool service :-: "
+			read ui_tmux_pool1
+			echo -n "Please chooose a name for your litecoin pool service :-: "
+			read ui_tmux_pool2
+		else
+		echo "Invalid input recived, exiting now..."
+		echo exit
+		fi
+	
+	
+	
+} 
+poolSession_hostStart () { 
+	if 
+	elif [ $poolChoice = p2pool1 ] 
+	then
+		if 
+		elif [ $ui_tmuxORscreen = screen ] 
+		then
+			echo "Starting Bitcoin pool"
+			screenStart_services $ui_screen_pool1 "~/p2pool/run_p2pool.py --give-author $ui_poolHost_feeBitcoin $ui_poolHost_userBitcoiin $ui_poolHost_passwordBitcoin"
+			echo "Starting Litecon pool"
+			screenStart_services $ui_screen_pool2 "~/p2pool/run_p2pool.py --give-author $ui_poolHost_feeLitecoin --net litecoin --bitcoind-rpc-port 9334 --bitcoind-p2p-port 9335 $ui_poolHostuserLitecoin $ui_poolhost_passwordLitecoin"
+			
+			echo "Re-attacching to $ui_screen_pool1 "
+			screenReatach_services $ui_screen_pool1
+			echo "Re-attaching to $ui_screen_pool2 "
+			screenReatach_services $ui_screen_pool2
+		
+		elif [ $ui_tmuxORscreen = tmux ]
+		then
+			echo "Staring Bitcoin pool"
+			start_tmuxSession $ui_tmuxSession $ui_tmux_pool1 "~/p2pool/run_p2pool.py --give-author $ui_poolHost_feeBitcoin $ui_poolHost_userBitcoiin $ui_poolHost_passwordBitcoin"
+			echo "Starting Litecon pool"
+			start_tmuxSession $ui_tmuxSession $ui_tmux_pool2 "~/p2pool/run_p2pool.py --give-author $ui_poolHost_feeLitecoin --net litecoin --bitcoind-rpc-port 9334 --bitcoind-p2p-port 9335 $ui_poolHostuserLitecoin $ui_poolhost_passwordLitecoin"
+			
+			echo "Re-attacching to $ui_tmuxSession:$ui_tmux_pool1 "
+			reatach_tmuxSession $ui_tmuxSession $ui_tmux_pool1
+			
+			echo "Re-attaching to $ui_tmuxSession:$ui_tmux_pool2 "
+			reatach_tmuxSession $ui_tmuxSession $ui_tmux_pool2
+			
+		else
+		echo "Invalid input recived, exiting now..."
+		echo exit
+		fi
+		
+	elif [  ]
+	then
+		
+	elif [  ]
+	then 
+		
+	else
+	echo "Invalid input recived, exiting now..."
+	echo exit
+	fi
+
+
+	
+} 
+
+
+
+
+####
+	if 
+	elif [ $poolChoice = p2pool1 ] 
+	then
+		
+		
+	elif [  ]
+	then
+		
+	elif [  ]
+	then 
+		
+	else
+	echo "Invalid input recived, exiting now..."
+	echo exit
+	fi
+####
+	if 
+	elif [ $ui_tmuxORscreen = screen ] 
+	then
+		
+		
+	elif [ $ui_tmuxORscreen = tmux ]
+	then
+		
+	else
+	echo "Invalid input recived, exiting now..."
+	echo exit
+	fi
+####
+
+
