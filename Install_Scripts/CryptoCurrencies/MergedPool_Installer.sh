@@ -47,35 +47,89 @@ echo "___inporting_shaired_functions"
 # $ui_sourcePool_choise 			# used internally with sourceChooser_promt and $poolChoice
 # 	$poolChoice 					# used externally : to set which dependancies to install and source files to download
 # 	$poolSource 					# used externally : sets link to be downloaded for pool server software
+# 	$poolSource_coin1 				# used externally : sets a coins source from github to be downloaded
+# 	$poolSource_coin2 				# 
+# 	$poolSource_coin3 				# 
+# 	$poolSource_coin4 				# 
+# 	$poolSource_coin5 				# 
 # 	$poolDir 						# used externally : sets directory of source for pool server software to a
 # $ui_tmuxORscreen 					# used internally : sets whether or not to use screen or tmux to start commands
 # 	$ui_poolServiceStart_header 	# used externally : sets which header or prefix to use for starting your pool service
 # 	$ui_poolHost_user 				# 
 # 	$ui_poolHost_password 			# 
 # 	$$ui_poolHost_fee  				# 
+# $ui_poolHost_userLitecoin 		# 
+# $ui_poolHost_passwordLitecoin 	# 
+# $ui_poolHost_userNamecoin 		# 
+# $ui_poolHost_passwordNamecoin 	# 
+# $ui_poolHost_userDevcoin 			# 
+# $ui_poolHost_passwordDevcoin 		# 
+# $ui_poolHost_userIXCoin 			# 
+# $ui_poolHost_passwordIXCoin 		# 
+# $ui_poolHost_userIOCoin 			# 
+# $ui_poolHost_passwordIOCoin 		# 
 
 # list of functions from SourceChooser
 # prompt_sourceChooser 				# sets $poolChoice, $poolSource, $poolDir variables for use in other functions
-# prompt_poolComands 				# 
-# poolSession_hostStart 			# starts pool host services based on variables set by prompt_poolComands
+# config_Coin_sources 				# 
 # sourceChooser_dependsInstaller 	# installs all know dependancies for both pool and coins
 # pool_sourceChooser_gitCloner 		# clones the sellected pool software
 # pool_sourceChooser_gitInstaller 	# installs pool software
-# sourceChooser_confConfigurer 		# 
-# helpfullExamples_poolCommands 	# 
+# sourceChooser_confConfigurer 		# writes config files based on user inputs
+# helpfullExamples_poolCommands 	# prints all known usefull pool commands
+
+. $_ScriptDirectory/MergedPool_functions/startSoftware_commands
+# list of variables in startSoftware_commands
+# $tmuxSession_ID 					# set with first arg when calling start_tmuxSession or end_tmuxSession or reatach_tmuxSession functions
+# $tmuxWindow_ID 					# set with second arg when calling start_tmuxSession or reatach_tmuxSession functions
+# $tmuxCommand_insert 				# set with thrid and all following args in start_tmuxSession function
+# $screenSession 					# set with first arg when calling screenStart_services or functions
+# $screenCommand_insert 			# set with second and all following args passed to screenStart_services fuction
+
+# list of functions from startSoftware_commands
+# config_Pool_sources 				# 
+# prompt_poolComands 				# 
+# poolSession_hostStart 			# 
+
+. $_ScriptDirectory/MergedPool_functions/tmuxScreen_sessionControls
+# list of variables in tmuxScreen_sessionControls
+
+# list of functions from tmuxScreen_sessionControls
+# start_tmuxSession 				# 
+# end_tmuxSession 
+# reatach_tmuxSession 
+# screenStart_services 
+# screenReatach_services 
 
 echo "Starting script run time..."
+
 promptTo_continue
 ui_rootNOroot
 setDownload_Directory
+
 cd $ui_Download_Directory
+
 prompt_sourceChooser
 prompt_poolComands
+
 sourceChooser_dependsInstaller
-
 pool_sourceChooser_gitCloner
-pool_sourceChooser_gitInstaller
+sourceChooser_confConfigurer
 
+echo "This next part will take more than a minuet..."
+bitcoind
+pool_sourceChooser_gitInstaller
+helpfullExamples_poolCommands
+
+promptTo_continue
+
+~/litecoin/src/litecoind
+~/namecoin/src/namecoind
+~/old-devcoind/src/bitcoind
+~/ixcoin/src/ixcoind
+~/i0coin/src/i0coind
+
+poolSession_hostStart
 
 echo "End of script. Exiting now..."
 echo exit
