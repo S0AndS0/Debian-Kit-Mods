@@ -11,6 +11,11 @@ prompt_sourceChooser () {
 	then
 		poolChoice="p2pool1"
 		poolSource="git://github.com/forrestv/p2pool.git"
+		poolSource_coin1="https://github.com/coblee/litecoin.git"
+		poolSource_coin2="git://github.com/namecoin/namecoin.git"
+		poolSource_coin3="git://github.com/knotwork/old-devcoind.git"
+		poolSource_coin4="git://github.com/ixcoin/ixcoin.git"
+		# poolSource_coin5="git://github.com/doublec/i0coin"
 		poolDir="p2pool"
 		coinDir1="/.bitcoin/"
 		echo "$poolChoice"
@@ -27,26 +32,74 @@ prompt_sourceChooser () {
 	
 }
 
-prompt_poolComands () { 
-	echo "	Input - screen - or - tmux - to run your pool software within that service."
-	echo -n "Please choose now :-: "
-	read ui_tmuxORscreen
-	echo -n "Please input a name to call your tmux or screen session :-: "
-	read ui_tmuxORscreen_Name
-	
-	
-	
+sourceChooser_dependsInstaller () { 
 	if 
 	elif [ $poolChoice = p2pool1 ] 
 	then
-		echo "	Input a user name and supper secrit password for use in following example command;"
-		echo "$ui_poolServiceStart_header ~/run_p2pool.py --give-author 0 usuariox SupEr3421Senha_SECRETAandGRandE" 
-		echo -n "Set the \"usuariox\" argument :-: "
-		read ui_poolHost_user
-		echo -n "Set the \"SupEr3421Senha_SECRETAandGRandE\" argument :-: " 
-		read ui_poolHost_password
-		echo -n "Set pool fee percent :-: "
-		read ui_poolHost_fee
+		echo "Installing python-software-properties with : "
+		$ui_aptgetSudo -yq --force-yes install python-software-properties
+		$ui_aptReppo_add ppa:bitcoin/bitcoin
+		$ui_aptgetSudo update
+		echo "Installing : bitcoind and bitcoin-qt : for bitcoin"
+		$ui_aptgetSudo -yq --force-yes install bitcoind
+		# optinal package for gui
+		$ui_aptgetSudo -yq --force-yes install bitcoin-qt
+		
+		# for litecoin
+		$ui_aptgetSudo build-dep bitcoin
+		$ui_aptgetSudo -yq --force-yes install build-essential libglib2.0-dev libglibmm-2.4-dev libqt4-dev python-dev libcurl4-gnutls-dev
+		
+		# for p2pool1 software dependancies
+		$ui_aptgetSudo -yq --force-yes install python-rrdtool python-pygame python-scipy python-twisted python-twisted-web python-imaging
+		
+		
+	elif [  ]
+	then
+		
+	elif [  ]
+	then 
+		
+	else
+	echo "Invalid input recived, exiting now..."
+	echo exit
+	fi
+	
+} 
+
+config_Coin_sources () { 
+	if 
+	elif [ $poolChoice = p2pool1 ] 
+	then
+		
+		echo "	Input a user name and supper secrit password for Litcoin mining services"
+		echo -n "Set Litecoin user name :-: "
+		read ui_poolHost_userLitecoin
+		echo -n "Set Litecooin password :-: "
+		read ui_poolHost_passwordLitecoin
+		
+		echo "	Input a user name and password for Namecoin"
+		echo -n "Set Namecoin user name :-: "
+		read ui_poolHost_userNamecoin
+		echo -n "Set Namecoin password :-: "
+		read ui_poolHost_passwordNamecoin
+		
+		echo "	Input a user name and password for Devcoin"
+		echo -n "Set Devcoin user name :-: "
+		read ui_poolHost_userDevcoin
+		echo -n "Set Devcoin password :-: "
+		read ui_poolHost_passwordDevcoin
+		
+		echo "	Input a user name and password for IXCoin"
+		echo -n "Set user name for IXCoin :-: "
+		read ui_poolHost_userIXCoin
+		echo -n "Set password for IXCoin :-: "
+		read ui_poolHost_passwordIXCoin
+		
+		echo "	Input a user name and password for IOCion"
+		echo -n "Set user name for IOCoin :-: "
+		read ui_poolHost_userIOCoin
+		echo -n "Set password for IOCoin :-: "
+		read ui_poolHost_passwordIOCoin
 		
 	elif [  ]
 	then
@@ -62,76 +115,16 @@ prompt_poolComands () {
 	# --give-author $ui_poolHost_fee $ui_poolHost_user $ui_poolHost_password
 } 
 
-poolSession_hostStart () { 
-if 
-	elif [ $ui_tmuxORscreen = screen ] 
-	then
-		screenStart_poolHost
-		
-	elif [ $ui_tmuxORscreen = tmux ]
-	then
-		tmuxStart_poolHost
-		tmuxReatach_poolHost
-	else
-	echo "Invalid input recived, exiting now..."
-	echo exit
-	fi
-	
-} 
-
-screenStart_poolHost () { 
-	screen -d -m -S $ui_tmuxORscreen_Name ~/run_p2pool.py --give-author $ui_poolHost_fee $ui_poolHost_user $ui_poolHost_password
-} 
-
-tmuxStart_poolHost () { 
-	# start tmux session if not allready started
-	tmux list-session 2>1 | grep -E "$ui_tmuxORscreen_Name:" || tmux new-session -s $ui_tmuxORscreen_Name -d
-	# start tmux window if not already started
-	tmux list-window -t ui_tmuxORscreen_Name 2>1 | grep -E ": $ui_tmuxORscreen_Name" || tmux new-window -t $ui_tmuxORscreen_Name -n $ui_tmuxORscreen_Name
-	# Start pool service within tmux window
-	tmux send-keys -t $ui_tmuxORscreen_Name:$ui_tmuxORscreen_Name "~/run_p2pool.py --give-author $ui_poolHost_fee $ui_poolHost_user $ui_poolHost_password" Enter
-
-} 
-
-tmuxReatach_poolHost () { 
-	# reatach to tmux and pool service within
-	tmux list-session 2>1 | grep -E "$ui_tmuxORscreen_Name:" | tmux select-window -t $ui_tmuxORscreen_Name
-} 
-
-sourceChooser_dependsInstaller () { 
-	if 
-	elif [ $poolChoice = p2pool1 ] 
-	then
-		echo "Installing python-software-properties with : "
-		$ui_aptgetSudo -yq --force-yes install python-software-properties
-		$ui_aptReppo_add ppa:bitcoin/bitcoin
-		$ui_aptgetSudo update
-		# for bitcoin
-		$ui_aptgetSudo -yq --force-yes install bitcoind
-		# optinal package for gui
-		$ui_aptgetSudo -yq --force-yes install bitcoin-qt
-		# for p2pool1 software dependancies
-		$ui_aptgetSudo -yq --force-yes install python-rrdtool python-pygame python-scipy python-twisted python-twisted-web python-imaging
-		
-	elif [  ]
-	then
-		
-	elif [  ]
-	then 
-		
-	else
-	echo "Invalid input recived, exiting now..."
-	echo exit
-	fi
-	
-} 
-
 pool_sourceChooser_gitCloner () { 
 	cd $ui_Download_Directory
 	if 
 	elif [ $poolChoice = p2pool1 ] 
 	then
 		$ui_git clone $poolSource
+		$ui_git clone $poolSource_coin1
+		$ui_git clone $poolSource_coin2
+		$ui_git clone $poolSource_coin3
+		$ui_git clone $poolSource_coin4
 	elif [  ]
 	then
 		
@@ -149,8 +142,35 @@ pool_sourceChooser_gitInstaller () {
 	if 
 	elif [ $poolChoice = p2pool1 ] 
 	then
-		cd $poolDir
-		poolSession_hostStart
+		echo "Building Litecoin"
+		cd ~/litecoin/src/
+		make -f makefile.unix litecoind
+		mkdir ~/.litecoin/
+		cd ~
+		cd ~/p2pool/litecoin_scrypt
+		sudo python setup.py install
+		cd ~
+		echo "Building Namecoin"
+		cd ~/namecoin/src/
+		make -f makefile.unix namecoind
+		mkdir ~/.namecoin/
+		cd ~
+		echo "Building Devcoin"
+		cd ~/old-devcoind/src/
+		make -f makefile.unix bitcoind
+		mkdir ~/.devcoin/
+		cd ~
+		echo "Building IXCoin"
+		cd ~/ixcoin/src/
+		make -f makefile.unix ixcoind
+		mkdir ~/.ixcoin/
+		cd ~
+		echo "Building IOCoin"
+		cd ~/i0coin/src/
+		make -f makefile.unix i0coind
+		mkdir ~/.i0coin/
+		cd ~
+		
 	elif [  ]
 	then
 		
@@ -167,6 +187,43 @@ sourceChooser_confConfigurer () {
 	if 
 	elif [ $poolChoice = p2pool1 ] 
 	then
+		echo 'server=1
+		daemon=1
+		rpcuser=$ui_poolHost_user
+		rpcpassword=$ui_poolHost_password' | $ui_teeFile -a ~/$coinDir1/bitcoin.conf
+		
+		echo 'server=1
+		daemon=1
+		rpcuser=$ui_poolHost_userLitecoin
+		rpcpassword=$ui_poolHost_passwordLitecoin
+		rpcport=9334
+		port=9335
+		gen=0' | $ui_teeFile -a ~/.litecoin/litecoin.conf
+		
+		echo 'server=1
+		daemon=1
+		rpcuser=$ui_poolHost_userNamecoin
+		rpcpassword=$ui_poolHost_passwordNamecoin
+		rpcport=7333' | $ui_teeFile -a ~/.namecoin/bitcoin.conf
+		
+		echo 'server=1
+		daemon=1
+		rpcuser=$ui_poolHost_userDevcoin
+		rpcpassword=$ui_poolHost_passwordDevcoin
+		rpcport=6333
+		port=6334' | $ui_teeFile -a ~/.devcoin/devcoin.conf
+		
+		echo 'server=1
+		daemon=1
+		rpcuser=$ui_poolHost_userIXCoin
+		rpcpassword=$ui_poolHost_passwordIXCoin' | $ui_teeFile -a ~/.ixcoin/ixcoin.conf
+		
+		echo 'server=1
+		daemon=1
+		rpcuser=$ui_poolHost_userIOCoin
+		rpcpassword=$ui_poolHost_passwordIOCoin
+		port=7337
+		rpcport=7338' | $ui_teeFile -a ~/.i0coin/i0coin.conf
 		
 	elif [  ]
 	then
@@ -185,6 +242,27 @@ helpfullExamples_poolCommands () {
 	if 
 	elif [ $poolChoice = p2pool1 ] 
 	then
+		echo "	Accessing your P2Pool statistics"
+		echo "http://IP_P2POOL_SERVER:9332/graphs/"
+		echo "	Blocks mined by P2Pool since you're in"
+		echo "grep BLOCK ~/p2pool/data/bitcoin/log"
+		echo "	Got shares"
+		echo "grep GOT\ SHARE ~/p2pool/data/bitcoin/log"
+		echo "	Upgrading P2Pool to a newer version"
+		echo "cd ~/p2pool"
+		echo "git pull"
+		echo "	Point your miners to your new P2Pool"
+		echo "cgminer -o http://IP_P2POOL_SERVER:9332/ -u garimpeiro1 -p x -g 1 --auto-fan --auto-gpu --gpu-engine 600-900 --gpu-memclock 180 -I 8 --submit-stale --gpu-reorder --api-listen --api-network"
+		echo "	Help command for Litecoin"
+		echo "~/litecoin/src/litecoind help"
+		echo "	Help command for Namecoin"
+		echo "~/namecoin/src/namecoind help"
+		echo "	Help command for Devcoin"
+		echo "~/old-devcoind/src/bitcoind help"
+		echo "	Help command for IXCoin"
+		echo "~/ixcoin/src/ixcoind help"
+		echo "help commands IOCoin"
+		echo "~/i0coin/src/i0coind help"
 		
 	elif [  ]
 	then
