@@ -19,12 +19,12 @@ prompt_sourceChooser () {
 		poolDir="p2pool"
 		coinDir1="/.bitcoin/"
 		echo "$poolChoice"
-	elif [ $ui_sourcePool_choise = ]
-	then
-		
-	elif [ $ui_sourcePool_choise = ]
-	then
-		
+#	elif [ $ui_sourcePool_choise = ]
+#	then
+#		
+#	elif [ $ui_sourcePool_choise = ]
+#	then
+#		
 	else
 	echo "Invalid input recived, exiting now..."
 	echo exit
@@ -53,12 +53,12 @@ sourceChooser_dependsInstaller () {
 		$ui_aptgetSudo -yq --force-yes install python-rrdtool python-pygame python-scipy python-twisted python-twisted-web python-imaging
 		
 		
-	elif [  ]
-	then
-		
-	elif [  ]
-	then 
-		
+#	elif [  ]
+#	then
+#		
+#	elif [  ]
+#	then 
+#		
 	else
 	echo "Invalid input recived, exiting now..."
 	echo exit
@@ -70,6 +70,12 @@ config_Coin_sources () {
 	if 
 	elif [ $poolChoice = p2pool1 ] 
 	then
+		
+		echo "	Input a user name and supper secrit password for Bitcoin mining services"
+		echo -n "Set Bitcoin user name :-: "
+		read ui_poolHost_user
+		echo -n "Set Bitcoin password :-: "
+		read ui_poolHost_password
 		
 		echo "	Input a user name and supper secrit password for Litcoin mining services"
 		echo -n "Set Litecoin user name :-: "
@@ -101,12 +107,12 @@ config_Coin_sources () {
 		echo -n "Set password for IOCoin :-: "
 		read ui_poolHost_passwordIOCoin
 		
-	elif [  ]
-	then
-		
-	elif [  ]
-	then 
-		
+#	elif [  ]
+#	then
+#		
+#	elif [  ]
+#	then 
+#		
 	else
 	echo "Invalid input recived, exiting now..."
 	echo exit
@@ -125,12 +131,12 @@ pool_sourceChooser_gitCloner () {
 		$ui_git clone $poolSource_coin2
 		$ui_git clone $poolSource_coin3
 		$ui_git clone $poolSource_coin4
-	elif [  ]
-	then
-		
-	elif [  ]
-	then 
-		
+#	elif [  ]
+#	then
+#		
+#	elif [  ]
+#	then 
+#		
 	else
 	echo "Invalid input recived, exiting now..."
 	echo exit
@@ -171,12 +177,12 @@ pool_sourceChooser_gitInstaller () {
 		mkdir ~/.i0coin/
 		cd ~
 		
-	elif [  ]
-	then
-		
-	elif [  ]
-	then 
-		
+#	elif [  ]
+#	then
+#		
+#	elif [  ]
+#	then 
+#		
 	else
 	echo "Invalid input recived, exiting now..."
 	echo exit
@@ -225,12 +231,12 @@ sourceChooser_confConfigurer () {
 		port=7337
 		rpcport=7338' | $ui_teeFile -a ~/.i0coin/i0coin.conf
 		
-	elif [  ]
-	then
-		
-	elif [  ]
-	then 
-		
+#	elif [  ]
+#	then
+#		
+#	elif [  ]
+#	then 
+#		
 	else
 	echo "Invalid input recived, exiting now..."
 	echo exit
@@ -244,15 +250,18 @@ helpfullExamples_poolCommands () {
 	then
 		echo "	Accessing your P2Pool statistics"
 		echo "http://IP_P2POOL_SERVER:9332/graphs/"
-		echo "	Blocks mined by P2Pool since you're in"
+		echo "	Blocks mined by Bitcoin P2Pool"
 		echo "grep BLOCK ~/p2pool/data/bitcoin/log"
 		echo "	Got shares"
 		echo "grep GOT\ SHARE ~/p2pool/data/bitcoin/log"
+		echo "___________________________________________"
 		echo "	Upgrading P2Pool to a newer version"
 		echo "cd ~/p2pool"
 		echo "git pull"
+		echo "___________________________________________"
 		echo "	Point your miners to your new P2Pool"
 		echo "cgminer -o http://IP_P2POOL_SERVER:9332/ -u garimpeiro1 -p x -g 1 --auto-fan --auto-gpu --gpu-engine 600-900 --gpu-memclock 180 -I 8 --submit-stale --gpu-reorder --api-listen --api-network"
+		echo "___________________________________________"
 		echo "	Help command for Litecoin"
 		echo "~/litecoin/src/litecoind help"
 		echo "	Help command for Namecoin"
@@ -261,15 +270,27 @@ helpfullExamples_poolCommands () {
 		echo "~/old-devcoind/src/bitcoind help"
 		echo "	Help command for IXCoin"
 		echo "~/ixcoin/src/ixcoind help"
-		echo "help commands IOCoin"
+		echo "	Help commands IOCoin"
 		echo "~/i0coin/src/i0coind help"
+		echo "___________________________________________"
+		echo "	Blocks mined by Litecoin P2Pool"
+		echo "grep BLOCK ~/p2pool/data/litecoin/log"
+		echo "	Got shares"
+		echo "grep GOT\ SHARE ~/p2pool/data/litecoin/log"
+		echo "___________________________________________"
+		echo "	Point your miners to your newly Litecoin P2Pool"
+		echo "minerd --url http://IP_P2POOL_SERVER:9327/ --userpass ltcminer0:x"
+		echo "___________________________________________"
+		echo "	Accessing your Litecoin P2Pool statistics"
+		echo "http://IP_P2POOL_SERVER:9327/graphs/"
+		echo "___________________________________________"
 		
-	elif [  ]
-	then
-		
-	elif [  ]
-	then 
-		
+#	elif [  ]
+#	then
+#		
+#	elif [  ]
+#	then 
+#		
 	else
 	echo "Invalid input recived, exiting now..."
 	echo exit

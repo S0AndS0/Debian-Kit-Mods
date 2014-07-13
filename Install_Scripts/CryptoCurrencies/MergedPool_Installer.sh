@@ -90,6 +90,7 @@ echo "___inporting_shaired_functions"
 # config_Pool_sources 				# 
 # prompt_poolComands 				# 
 # poolSession_hostStart 			# 
+# coinSession_start 				# 
 
 . $_ScriptDirectory/MergedPool_functions/tmuxScreen_sessionControls
 # list of variables in tmuxScreen_sessionControls
@@ -123,11 +124,7 @@ helpfullExamples_poolCommands
 
 promptTo_continue
 
-~/litecoin/src/litecoind
-~/namecoin/src/namecoind
-~/old-devcoind/src/bitcoind
-~/ixcoin/src/ixcoind
-~/i0coin/src/i0coind
+coinSession_start
 
 poolSession_hostStart
 
@@ -137,5 +134,7 @@ echo exit
 # credits and sources
 # guide that was used for p2pool1 option
 # http://www.bitcointrading.com/forum/mining-pools/a-complete-guide-to-p2pool-merged-mining-(btcnmcdvcixci0c)-plus-ltc-linux/
-
+# Guide auther's known donation links for the above guide not this script
+# Bitcoin Wallet Address: 13Ygcd5spiSnexGkhL29y6J8EokMKX4jW9
+# Litecoin Wallet Address: LcYAMfZpVfDeNEMxU2n45snWKzznG3c7on
 
