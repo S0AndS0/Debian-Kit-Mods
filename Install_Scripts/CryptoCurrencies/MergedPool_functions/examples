@@ -1,3 +1,13 @@
+# Start P2Pool for Bitcoin with Merged Mining enabled
+# screen -d -m -S multip2pool ~/p2pool/run_p2pool.py --give-author 0 usuariox SupEr3421Senha_SECRETAandGRandE --merged http://usuarioy:dasdGfhoiu35BCV47586fgdh234GDFSEG@127.0.0.1:7333/
+# Multi-Merged-Mining
+# screen -d -m -S multip2pool ~/p2pool/run_p2pool.py --give-author 0 usuariox SupEr3421Senha_SECRETAandGRandE --merged http://usuarioy:dasdGfhoiu35BCV47586fgdh234GDFSEG@127.0.0.1:7333/ --merged http://devuser:nggdhuiBGFhgf534746783ujghmgndf@127.0.0.1:6333/ --merged http://ixuser:DsadsavgfhgfhRt356345fgdfgGSDF@127.0.0.1:8338/ --merged http://i0user:fHEWQhkhjbcvBCVfhsd32r23rvgfuufGFDgdf@127.0.0.1:7338/
+
+litecoind
+namecoind
+bitcoind
+ixcoind
+i0coind
 
 ####
 	if 
