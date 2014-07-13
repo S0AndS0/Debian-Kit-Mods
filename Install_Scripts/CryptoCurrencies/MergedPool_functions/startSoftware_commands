@@ -37,6 +37,34 @@ config_Pool_sources () {
 #		read ui_poolHost_passwordBitcoin_merged
 #		echo -n "Set pool fee percent :-: "
 #		read ui_poolHost_feeBitcoin_merged
+
+#		echo -n "Set the \"127.0.0.1\" argument"
+#		read ui_poolIP_bitcoin
+
+#		echo "	Input a user name and supper secrit password for use in the following example command;"
+#		echo "~/p2pool/run_p2pool.py --give-author 0 usuariox SupEr3421Senha_SECRETAandGRandE --merged http://usuarioy:dasdGfhoiu35BCV47586fgdh234GDFSEG@127.0.0.1:7333/ --merged http://devuser:nggdhuiBGFhgf534746783ujghmgndf@127.0.0.1:6333/ --merged http://ixuser:DsadsavgfhgfhRt356345fgdfgGSDF@127.0.0.1:8338/ --merged http://i0user:fHEWQhkhjbcvBCVfhsd32r23rvgfuufGFDgdf@127.0.0.1:7338/"
+
+#		echo -n "Set the \"devuser\" argument"
+#		read ui_poolHost_userDevcoin
+#		echo -n "Set the \"nggdhuiBGFhgf534746783ujghmgndf\" argument"
+#		read ui_poolHost_passwordDevcoin
+#		echo -n "Set the \"127.0.0.1\" argument for DevCoin"
+#		read ui_poolHost_IPDevCoin
+
+#		echo -n "Set the \"ixuser\" argument"
+#		read ui_poolHost_userIXCoin
+#		echo -n "Set the \"DsadsavgfhgfhRt356345fgdfgGSDF\" argument"
+#		read ui_poolHost_passwordIXCoin
+#		echo -n "Set the \"127.0.0.1\" argument for IXCoin"
+#		read ui_poolHost_IPIXCoin
+
+#		echo -n "Set the \"i0user\" argument"
+#		read ui_poolHost_userI0Coin
+#		echo -n "Set the \"fHEWQhkhjbcvBCVfhsd32r23rvgfuufGFDgdf\" argument"
+#		read ui_poolHost_passwordI0Coin
+#		echo "Set the \"127.0.0.1\" argument for I0Coin"
+#		read ui_poolHost_IPI0Coin
+# "~/p2pool/run_p2pool.py --give-author $ui_poolHost_feeBitcoin_merged $ui_poolHostuserBitcoin_merged $ui_poolHost_passwordBitcoin_merged --merged http://usuarioy:dasdGfhoiu35BCV47586fgdh234GDFSEG@127.0.0.1:7333/ --merged http://$ui_poolHost_userDevcoin:$ui_poolHost_passwordDevcoin@$ui_poolHost_IPDevCoin:6333/ --merged http://$ui_poolHost_userIXCoin:$ui_poolHost_passwordIXCoin@$ui_poolHost_IPIXCoin:8338/ --merged http://i0user:fHEWQhkhjbcvBCVfhsd32r23rvgfuufGFDgdf@127.0.0.1:7338/"
 		
 #	elif [  ]
 #	then
@@ -93,12 +121,14 @@ poolSession_hostStart () {
 			echo "Starting Litecon pool"
 			screenStart_services $ui_screen_pool2 "~/p2pool/run_p2pool.py --give-author $ui_poolHost_feeLitecoin --net litecoin --bitcoind-rpc-port 9334 --bitcoind-p2p-port 9335 $ui_poolHostuserLitecoin $ui_poolhost_passwordLitecoin"
 			
+#			screenStart_services $ui_tmux_pool3 "~/p2pool/run_p2pool.py --give-author $ui_poolHost_feeBitcoin_merged $ui_poolHostuserBitcoin_merged $ui_poolHost_passwordBitcoin_merged --merged http://$ui_poolHost_userBitcoiin:$ui_poolHost_passwordBitcoin@$ui_poolIP_bitcoin:7333/"
+			
 			echo "Re-attacching to $ui_screen_pool1 "
 			screenReatach_services $ui_screen_pool1
 			echo "Re-attaching to $ui_screen_pool2 "
 			screenReatach_services $ui_screen_pool2
-			echp ""
-			screenReatach_services
+#			echp "Re-attaching to $ui_tmux_pool3 "
+			screenReatach_services $ui_tmux_pool3
 		
 		elif [ $ui_tmuxORscreen = tmux ]
 		then
@@ -106,12 +136,17 @@ poolSession_hostStart () {
 			start_tmuxSession $ui_tmuxSession $ui_tmux_pool1 "~/p2pool/run_p2pool.py --give-author $ui_poolHost_feeBitcoin $ui_poolHost_userBitcoiin $ui_poolHost_passwordBitcoin"
 			echo "Starting Litecon pool"
 			start_tmuxSession $ui_tmuxSession $ui_tmux_pool2 "~/p2pool/run_p2pool.py --give-author $ui_poolHost_feeLitecoin --net litecoin --bitcoind-rpc-port 9334 --bitcoind-p2p-port 9335 $ui_poolHostuserLitecoin $ui_poolhost_passwordLitecoin"
+#			echo "Starting Bitcoin merged pool"
+#			start_tmuxSession $ui_tmuxSession $ui_tmux_pool3 "~/p2pool/run_p2pool.py --give-author $ui_poolHost_feeBitcoin_merged $ui_poolHostuserBitcoin_merged $ui_poolHost_passwordBitcoin_merged --merged http://$ui_poolHost_userBitcoiin:$ui_poolHost_passwordBitcoin@$ui_poolIP_bitcoin:7333/"
 			
 			echo "Re-attacching to $ui_tmuxSession:$ui_tmux_pool1 "
 			reatach_tmuxSession $ui_tmuxSession $ui_tmux_pool1
 			
 			echo "Re-attaching to $ui_tmuxSession:$ui_tmux_pool2 "
 			reatach_tmuxSession $ui_tmuxSession $ui_tmux_pool2
+			
+#			echo "Re-attaching to $ui_tmuxSession:$ui_tmux_pool3 "
+#			reatach_tmuxSession $ui_tmuxSession $ui_tmux_pool3
 			
 		else
 		echo "Invalid input recived, exiting now..."
