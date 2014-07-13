@@ -1,0 +1,33 @@
+
+####
+	if 
+	elif [ $poolChoice = p2pool1 ] 
+	then
+		
+		
+	elif [  ]
+	then
+		
+	elif [  ]
+	then 
+		
+	else
+	echo "Invalid input recived, exiting now..."
+	echo exit
+	fi
+####
+	if 
+	elif [ $ui_tmuxORscreen = screen ] 
+	then
+		
+		
+	elif [ $ui_tmuxORscreen = tmux ]
+	then
+		
+	else
+	echo "Invalid input recived, exiting now..."
+	echo exit
+	fi
+####
+
+
