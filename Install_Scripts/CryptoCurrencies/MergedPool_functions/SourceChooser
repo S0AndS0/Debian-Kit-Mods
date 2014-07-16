@@ -6,8 +6,7 @@ prompt_sourceChooser () {
 	echo "	Input -  - to install from : "
 	echo -n "Please choose now :-: "
 	read ui_sourcePool_choise
-	if
-	elif [ $ui_sourcePool_choise = p2pool1 ]
+	if [ $ui_sourcePool_choise = p2pool1 ]
 	then
 		poolChoice="p2pool1"
 		poolSource="git://github.com/forrestv/p2pool.git"
@@ -33,8 +32,7 @@ prompt_sourceChooser () {
 }
 
 sourceChooser_dependsInstaller () { 
-	if 
-	elif [ $poolChoice = p2pool1 ] 
+	if [ $poolChoice = p2pool1 ] 
 	then
 		echo "Installing python-software-properties with : "
 		$ui_aptgetSudo -yq --force-yes install python-software-properties
@@ -67,8 +65,7 @@ sourceChooser_dependsInstaller () {
 } 
 
 config_Coin_sources () { 
-	if 
-	elif [ $poolChoice = p2pool1 ] 
+	if [ $poolChoice = p2pool1 ] 
 	then
 		
 		echo "	Input a user name and supper secrit password for Bitcoin mining services"
@@ -123,8 +120,7 @@ config_Coin_sources () {
 
 pool_sourceChooser_gitCloner () { 
 	cd $ui_Download_Directory
-	if 
-	elif [ $poolChoice = p2pool1 ] 
+	if [ $poolChoice = p2pool1 ] 
 	then
 		$ui_git clone $poolSource
 		$ui_git clone $poolSource_coin1
@@ -145,8 +141,7 @@ pool_sourceChooser_gitCloner () {
 } 
 
 pool_sourceChooser_gitInstaller () {
-	if 
-	elif [ $poolChoice = p2pool1 ] 
+	if [ $poolChoice = p2pool1 ] 
 	then
 		echo "Building Litecoin"
 		cd ~/litecoin/src/
@@ -190,8 +185,7 @@ pool_sourceChooser_gitInstaller () {
 } 
 
 sourceChooser_confConfigurer () { 
-	if 
-	elif [ $poolChoice = p2pool1 ] 
+	if [ $poolChoice = p2pool1 ] 
 	then
 		echo 'server=1
 		daemon=1
@@ -245,8 +239,7 @@ sourceChooser_confConfigurer () {
 } 
 
 helpfullExamples_poolCommands () { 
-	if 
-	elif [ $poolChoice = p2pool1 ] 
+	if [ $poolChoice = p2pool1 ] 
 	then
 		echo "	Accessing your P2Pool statistics"
 		echo "http://IP_P2POOL_SERVER:9332/graphs/"
