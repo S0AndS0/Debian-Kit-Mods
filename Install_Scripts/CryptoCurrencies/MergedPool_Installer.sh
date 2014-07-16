@@ -71,13 +71,13 @@ echo "___inporting_shaired_functions"
 # $ui_poolHost_passwordIOCoin 		# 
 
 # list of functions from SourceChooser
-# prompt_sourceChooser 				# sets $poolChoice, $poolSource, $poolDir variables for use in other functions
 # config_Coin_sources 				# 
 # sourceChooser_dependsInstaller 	# installs all know dependancies for both pool and coins
 # pool_sourceChooser_gitCloner 		# clones the sellected pool software
 # pool_sourceChooser_gitInstaller 	# installs pool software
 # sourceChooser_confConfigurer 		# writes config files based on user inputs
 # helpfullExamples_poolCommands 	# prints all known usefull pool commands
+# prompt_wheezyUpgrade 				# temp addition to make this work on squeeze Linux
 
 . $_ScriptDirectory/MergedPool_functions/startSoftware_commands
 # list of variables in startSoftware_commands
@@ -103,6 +103,19 @@ echo "___inporting_shaired_functions"
 # screenStart_services 
 # screenReatach_services 
 
+. $_ScriptDirectory/ShairedFunctions/tempWheezy_upgrade
+# list of functions from tempWheezy_upgrade
+# addWheezy_toSources 			# adds wheezy sources to a temp file if prompt_wheezyUpgrade gets a "yes" or "y" responce from user
+# removeWheezy_fromSources 		# removes wheezy sources to a temp file if prompt_wheezyUpgrade gets a "yes" or "y" responce from user
+# tempSource_permissionFixer 	# fixes permissions of wheezy sources to a temp file if prompt_wheezyUpgrade gets a "yes" or "y" responce from user
+# keyFixer 						# adds any missing keys of wheezy sources to a temp file if prompt_wheezyUpgrade gets a "yes" or "y" responce from user
+
+. $_ScriptDirectory/MergedPool_functions/userPrompts
+# list of variables in userPrompts
+
+# list of functions from userPrompts
+# prompt_sourceChooser 				# sets $poolChoice, $poolSource, $poolDir variables for use in other functions
+
 echo "Starting script run time..."
 
 promptTo_continue
@@ -114,8 +127,14 @@ cd $ui_Download_Directory
 prompt_sourceChooser
 prompt_poolComands
 
+prompt_wheezyUpgrade
+
+echo "Script run time taking care of everthing for a liitle while..."
+
 sourceChooser_dependsInstaller
 pool_sourceChooser_gitCloner
+
+config_Coin_sources
 sourceChooser_confConfigurer
 
 echo "This next part will take more than a minuet..."
