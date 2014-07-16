@@ -4,7 +4,8 @@ echo "Please consider donating to the maintainer of this github by following the
 echo "https://github.com/S0AndS0/Debian-Kit-Mods/blob/master/DonationLinks.txt"
 echo "___setting_variables"
 # Variables
- : ${USER?} ${HOME?}
+#  : ${USER?}
+ : ${HOME?}
 varDATE="$(echo $(date))"
 # find the name of this script and store it to a variable
 _fullScriptPath="$(readlink -f $0)"
