@@ -10,8 +10,7 @@ ixcoind
 i0coind
 
 ####
-	if 
-	elif [ $poolChoice = p2pool1 ] 
+	if [ $poolChoice = p2pool1 ] 
 	then
 		
 		
@@ -26,8 +25,7 @@ i0coind
 	echo exit
 	fi
 ####
-	if 
-	elif [ $ui_tmuxORscreen = screen ] 
+	if [ $ui_tmuxORscreen = screen ] 
 	then
 		
 		
