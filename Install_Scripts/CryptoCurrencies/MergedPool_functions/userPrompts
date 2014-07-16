@@ -1,0 +1,85 @@
+prompt_sourceChooser () { 
+	echo "	Input - p2pool1 - to install from : github.com/forrestv/p2pool.git"
+	echo "Which will set up a mured mining pool for Bitcoin and compatible block chains"
+	echo "	Input -  - to install from : "
+	echo "	Input -  - to install from : "
+	echo -n "Please choose now :-: "
+	read ui_sourcePool_choise
+	if [ $ui_sourcePool_choise = p2pool1 ]
+	then
+		poolChoice="p2pool1"
+		poolSource="git://github.com/forrestv/p2pool.git"
+		poolSource_coin1="https://github.com/litecoin-project/litecoin"
+		poolSource_coin2="git://github.com/namecoin/namecoin.git"
+		poolSource_coin3="git://github.com/knotwork/old-devcoind.git"
+		poolSource_coin4="git://github.com/ixcoin/ixcoin.git"
+		# poolSource_coin5="git://github.com/doublec/i0coin"
+		poolDir="p2pool"
+		coinDir1="/.bitcoin/"
+		echo "$poolChoice"
+#	elif [ $ui_sourcePool_choise = ]
+#	then
+#		
+#	elif [ $ui_sourcePool_choise = ]
+#	then
+#		
+	else
+	echo "Invalid input recived, exiting now..."
+	echo exit
+	fi
+	
+}
+
+helpfullExamples_poolCommands () { 
+	if [ $poolChoice = p2pool1 ] 
+	then
+		echo "	Accessing your P2Pool statistics"
+		echo "http://IP_P2POOL_SERVER:9332/graphs/"
+		echo "	Blocks mined by Bitcoin P2Pool"
+		echo "grep BLOCK ~/p2pool/data/bitcoin/log"
+		echo "	Got shares"
+		echo "grep GOT\ SHARE ~/p2pool/data/bitcoin/log"
+		echo "___________________________________________"
+		echo "	Upgrading P2Pool to a newer version"
+		echo "cd ~/p2pool"
+		echo "git pull"
+		echo "___________________________________________"
+		echo "	Point your miners to your new P2Pool"
+		echo "cgminer -o http://IP_P2POOL_SERVER:9332/ -u garimpeiro1 -p x -g 1 --auto-fan --auto-gpu --gpu-engine 600-900 --gpu-memclock 180 -I 8 --submit-stale --gpu-reorder --api-listen --api-network"
+		echo "___________________________________________"
+		echo "	Help command for Litecoin"
+		echo "~/litecoin/src/litecoind help"
+		echo "	Help command for Namecoin"
+		echo "~/namecoin/src/namecoind help"
+		echo "	Help command for Devcoin"
+		echo "~/old-devcoind/src/bitcoind help"
+		echo "	Help command for IXCoin"
+		echo "~/ixcoin/src/ixcoind help"
+		echo "	Help commands IOCoin"
+		echo "~/i0coin/src/i0coind help"
+		echo "___________________________________________"
+		echo "	Blocks mined by Litecoin P2Pool"
+		echo "grep BLOCK ~/p2pool/data/litecoin/log"
+		echo "	Got shares"
+		echo "grep GOT\ SHARE ~/p2pool/data/litecoin/log"
+		echo "___________________________________________"
+		echo "	Point your miners to your newly Litecoin P2Pool"
+		echo "minerd --url http://IP_P2POOL_SERVER:9327/ --userpass ltcminer0:x"
+		echo "___________________________________________"
+		echo "	Accessing your Litecoin P2Pool statistics"
+		echo "http://IP_P2POOL_SERVER:9327/graphs/"
+		echo "___________________________________________"
+		
+#	elif [  ]
+#	then
+#		
+#	elif [  ]
+#	then 
+#		
+	else
+	echo "Invalid input recived, exiting now..."
+	echo exit
+	fi
+	
+} 
+
