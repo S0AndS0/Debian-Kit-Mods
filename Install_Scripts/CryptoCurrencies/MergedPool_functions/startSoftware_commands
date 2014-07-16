@@ -5,8 +5,7 @@
 # screen -d -m -S multip2pool ~/p2pool/run_p2pool.py --give-author 0 usuariox SupEr3421Senha_SECRETAandGRandE --merged http://usuarioy:dasdGfhoiu35BCV47586fgdh234GDFSEG@127.0.0.1:7333/ --merged http://devuser:nggdhuiBGFhgf534746783ujghmgndf@127.0.0.1:6333/ --merged http://ixuser:DsadsavgfhgfhRt356345fgdfgGSDF@127.0.0.1:8338/ --merged http://i0user:fHEWQhkhjbcvBCVfhsd32r23rvgfuufGFDgdf@127.0.0.1:7338/
 
 config_Pool_sources () { 
-	if 
-	elif [ $poolChoice = p2pool1 ] 
+	if [ $poolChoice = p2pool1 ] 
 	then
 		echo "	Input a user name and supper secrit password for use in following example command;"
 		echo "$ui_poolServiceStart_header ~/run_p2pool.py --give-author 0 usuariox SupEr3421Senha_SECRETAandGRandE" 
@@ -83,8 +82,7 @@ prompt_poolComands () {
 	echo -n "Please input tmux or screen for running pool and coin sessions :-: "
 	read ui_tmuxORscreen
 	
-		if 
-		elif [ $ui_tmuxORscreen = screen ] 
+		if [ $ui_tmuxORscreen = screen ] 
 		then
 			echo -n "Please choose a name for your bitcoin pool service :-: "
 			read ui_screen_pool1
@@ -110,8 +108,7 @@ prompt_poolComands () {
 	
 } 
 poolSession_hostStart () { 
-	if 
-	elif [ $poolChoice = p2pool1 ] 
+	if [ $poolChoice = p2pool1 ] 
 	then
 		if 
 		elif [ $ui_tmuxORscreen = screen ] 
@@ -168,8 +165,7 @@ poolSession_hostStart () {
 
 coinSession_start () { 
 
-	if 
-	elif [ $poolChoice = p2pool1 ] 
+	if [ $poolChoice = p2pool1 ] 
 	then
 		~/litecoin/src/litecoind
 		~/namecoin/src/namecoind
