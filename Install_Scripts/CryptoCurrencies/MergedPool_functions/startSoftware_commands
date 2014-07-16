@@ -110,8 +110,7 @@ prompt_poolComands () {
 poolSession_hostStart () { 
 	if [ $poolChoice = p2pool1 ] 
 	then
-		if 
-		elif [ $ui_tmuxORscreen = screen ] 
+		if [ $ui_tmuxORscreen = screen ] 
 		then
 			echo "Starting Bitcoin pool"
 			screenStart_services $ui_screen_pool1 "~/p2pool/run_p2pool.py --give-author $ui_poolHost_feeBitcoin $ui_poolHost_userBitcoiin $ui_poolHost_passwordBitcoin"
