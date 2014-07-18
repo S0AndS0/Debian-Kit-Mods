@@ -104,7 +104,8 @@
 # 	myriadcoin cpu miner from github
 # apt-get install ?
 # git clone https://github.com/myriadcoin/groestlcoin-cpuminer
-# cd skeincoin-cpuminer
+# or :-: https://github.com/ig0tik3d/myriadcoin-groestl-cpuminer-v1.0b
+# cd groestlcoin-cpuminer
 # ./autogen.sh
 # ./configure CFLAGS="?"
 # make
