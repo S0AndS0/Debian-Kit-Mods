@@ -33,3 +33,13 @@ echo exit
 # πfs -o mdd=<metadata directory> <mountpoint>
 # where the metadata directory is where πfs should store its metadata (such as filenames or the locations of your files in π) and mountpoint is your usual filesystem mountpoint.
 
+# Install FUSE from sourceforge with git commands
+git clone git://git.code.sf.net/p/fuse/fuse
+# change directories and install with make commands
+cd fuse
+./makeconf.sh
+./configure 
+make 
+make install 
+modprobe fuse
+
