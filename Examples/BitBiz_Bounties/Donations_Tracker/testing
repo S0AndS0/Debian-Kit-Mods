@@ -1,0 +1,71 @@
+#!/bin/bash
+PATH=/bin:/usr/bin:/usr/local/bin ; export PATH 
+# find the name of this script and store it to a variable
+_fullScriptPath="$(readlink -f $0)"
+# delete last component from ThisScript and store to another variable
+_ScriptDirectory="$(dirname $_fullScriptPath)"
+_varSave_path="$_ScriptDirectory/BitBiz_Records"
+
+mkdir -p $_varSave_path
+cd $_varSave_path
+
+_lynxOptions="-anonymous -source"
+# variables used internally
+url_toScrape_All="https://blockchain.info/address/12C4Ua3zZHJWMyuZ4MTUZaZm3KPNFgo69A"
+url_toScrape_Recived="https://blockchain.info/address/12C4Ua3zZHJWMyuZ4MTUZaZm3KPNFgo69A?filter=2#"
+referallAddress_printer=`lynx $_lynxOptions $url_toScrape_Recived | grep -iC 1 "hash-link" | awk '/href/ {gsub(" "," "); print $12 }' | sed 's/"/ /g' | awk '/href/ {gsub(">",""); print $2}'`
+referallDate_printer=`lynx $_lynxOptions $url_toScrape_Recived | grep -iC 1 "hash-link" | awk '/pull-right/ {gsub(" "," "); print $14 }' | sed 's/"/ /g' | awk '/pull-right/ {gsub(">",""); print $3}'`
+donationAddress_lister=`for address in $referallAddress_printer; do echo "https://blockchain.info$address"; done`
+# sorting file variables that output new files
+donationSorter_Coins=`for coins in AmmountsAddresses.txt; do sort -nr -k1 $coins; done`
+addressGrouper_FromCoins=`for lines1 in CoinGrouped_DonationsHigher.txt; do for lines2 in DatesAddresses.txt; do sort -k2 $lines1 $lines2; done; done`
+dateAddressGrouper=`for dates in DatesAddresses.txt; do sort -t- -n -k1,3 -r $dates; done`
+# variables that output files for sorting
+write_Date_fullAddress=`lynx $_lynxOptions $url_toScrape_Recived | grep -iC 1 "hash-link" | sed 's/"/ /g' | awk '// {gsub(">",""); print}' | awk '// {gsub("<",""); print $30,$25}' | awk '// {gsub("/tx/","https://blockchain.info/tx/"); print}' | sort -t- -n -k1,3 -r | tee -a DatesAddresses.txt`
+write_Ammount_fullAddress=`for address in $referallAddress_printer; do _amount_address=\`lynx $_lynxOptions https://blockchain.info$address | grep -iC 1 "Total Output" | sed 's/"/ /g' | sed 's/>//g' | awk '{print $6}' | sort -n -k1 -u\` && echo $_amount_address https://blockchain.info$address | tee -a AmmountsAddresses.txt; done`
+write_DonationSorted=`for coins in CoinGrouped_DonationsHigher.txt; do sort -nr -k1 $coins | tee -a CoinGrouped_DonationsHigher.txt; done`
+write_compiledDonations=`for lines1 in CoinGrouped_DonationsHigher.txt; do for lines2 in DatesAddresses.txt; do sort -k2 $lines1 $lines2 | tee -a DonationsBy_Generoisit.txt; done; done`
+
+# works
+write_DateDonations_compiled=`for addresses1 in AmmountsAddresses.txt; do for addresses2 in dateSorted_Adresses.txt; do sort -k2 $addresses1 $addresses2 | tee -a DonationsBy_Date.txt; done; done`
+write_dateSortedfullAddress=`for dates in DatesAddresses.txt; do sort -t- -n -k1,3 -r $dates | tee -a dateSorted_Adresses.txt; done`
+
+
+
+
+echo "Writing two files to contain date, coins, and referall address information temerarely"
+echo "___ The date and refferal addresses that have donatted"
+$write_Date_fullAddress
+echo "___ The ammount and refferall addresses that have donated"
+$write_Ammount_fullAddress
+echo "___ Sorting the contence of AmmountsAddresses.txt based on level of generosity and writing a new file to contain this sorted version..."
+$write_DonationSorted
+echo "Compiling all that into one file sorted by generosity with dates listed under"
+$write_compiledDonations
+echo "___ Writing sorted dates file"
+$write_dateSortedfullAddress
+echo "Compiling sorted dates with donations to a file"
+$write_DateDonations_compiled
+echo "___________________________"
+echo "___ Cleanning up temp files"
+rm DatesAddresses.txt AmmountsAddresses.txt dateSorted_Adresses.txt
+# 
+cat DonationsBy_Generoisit.txt
+cat DonationsBy_Date.txt
+cd ~
+
+
+# files to be written
+# DatesAddresses.txt 					# temperary
+# AmmountsAddresses.txt 				# temperary
+# CoinGrouped_DonationsHigher.txt 		# usefull 
+# DonationsBy_Generoisit.txt 			# veryusefull
+# dateSorted_Adresses.txt 				# temperary
+# DonationsBy_Date.txt 					# veryusefull
+
+
+# info sources
+# http://www.skorks.com/2010/05/sort-files-like-a-master-with-the-linux-sort-command-bash/
+# http://stackoverflow.com/questions/9473060/how-to-insert-newline-character-after-comma-in-with-sed
+# http://www.cyberciti.biz/tips/howto-running-commands-from-a-variable.html
+

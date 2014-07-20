@@ -1,0 +1,37 @@
+url_toScrape_All="https://blockchain.info/address/12C4Ua3zZHJWMyuZ4MTUZaZm3KPNFgo69A"
+url_toScrape_Recived="https://blockchain.info/address/12C4Ua3zZHJWMyuZ4MTUZaZm3KPNFgo69A?filter=2#"
+
+url_toScrape_base="https://blockchain.info"
+
+_lynxOptions="-anonymous -source"
+sortNumbers="sort -n"
+
+# 	single arguments per line
+referallAddress_printer=`lynx $_lynxOptions $url_toScrape_Recived | grep -iC 1 "hash-link" | awk '/href/ {gsub(" "," "); print $12 }' | sed 's/"/ /g' | awk '/href/ {gsub(">",""); print $2}'`
+referallDate_printer=`lynx $_lynxOptions $url_toScrape_Recived | grep -iC 1 "hash-link" | awk '/pull-right/ {gsub(" "," "); print $14 }' | sed 's/"/ /g' | awk '/pull-right/ {gsub(">",""); print $3}'`
+
+bitcoinAmount_printer=`for address in $referallAddress_printer; do _ammount=\`lynx $_lynxOptions https://blockchain.info$address | grep -iC 1 "Total Output" | sed 's/"/ /g' | sed 's/>//g' | awk '{print $6}'\` && echo $_ammount; done`
+donationAddress_lister=`for address in $referallAddress_printer; do echo "https://blockchain.info$address"; done`
+
+
+# 	dubbles
+# lists <amountOf_BTC> <fullURL_to_referance>
+donationAmmount_andAddress_forEach=`for address in $referallAddress_printer; do _amount_address=\`lynx $_lynxOptions https://blockchain.info$address | grep -iC 1 "Total Output" | sed 's/"/ /g' | sed 's/>//g' | awk '{print $6}' | sort -n -k1 -u\` && echo "$_amount_address https://blockchain.info$address"; done`
+# lists <amount> <fullReferal_Address>
+donationDate_andAddress=`lynx $_lynxOptions $url_toScrape_Recived | grep -iC 1 "hash-link" | sed 's/"/ /g' | awk '// {gsub(">",""); print}' | awk '// {gsub("<",""); print $30,$25}'`
+# lists <date> <partalRefferance_Address>
+# note around $64 is a ruff estomet of btc donnated but this only works half the time which is why functions/variables have been created for that task
+#+ $30 outputs the date and $25 is the address that donated with prefix intact
+
+# 	triples
+# bellow outputs : <date> <time> <referal_addressTail>
+dateTimeAddress_lister=`for date in $referallDate_printer; do lynx $_lynxOptions $url_toScrape_Recived | grep -iC 1 "$date" | sed 's/"/ /g' | sed 's/>//g' | sed 's/</ /g' | awk '{print $32,$33,$26}' | sed 's/\/tx\///g'; done`
+
+# 	sorters
+# _bitcoinAmount=`lynx $_lynxOptions https://blockchain.info$address | grep -iC 1 "Total Output" | sed 's/"/ /g' | sed 's/>//g' | awk '{print $6}'`
+# _dateTimeAddress=`lynx $_lynxOptions $url_toScrape_Recived | grep -iC 1 "$date" | sed 's/"/ /g' | sed 's/>//g'; done | sed 's/</ /g' | awk '{print $32,$33,$26}' | sed 's/\/tx\///g'`
+# combinedDonation_info=`for (( address , date )) in $referallAddress_printer , $referallDate_printer; do echo $_bitcoinAmount $_dateTimeAddress ; done`
+#
+# for address in $referallAddress_printer; do _addressDate=`lynx $_lynxOptions https://blockchain.info$address | grep -iC 1 "Total Output" | sed 's/"/ /g' | sed 's/>//g' | awk '{print $6}'`; for date in $referallDate_printer; do _vallue=`lynx $_lynxOptions $url_toScrape_Recived | grep -iC 1 "$date" | sed 's/"/ /g' | sed 's/>//g' | sed 's/</ /g' | awk '{print $32,$33,$26}' | sed 's/\/tx\///g'`; done; for c in $@; do echo "$@" && echo "$c"; done; done
+
+

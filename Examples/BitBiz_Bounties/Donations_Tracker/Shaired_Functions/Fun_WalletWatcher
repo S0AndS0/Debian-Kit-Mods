@@ -1,0 +1,35 @@
+donationAddress_Explorer () { 
+	mkdir -p $2
+	# $referallAddress_printer
+	for address in $referallAddress_printer
+	do 
+		ammount=`lynx $_lynxOptions $1$address | grep -iC 1 "Total Output" | sed 's/"/ /g' | awk '/data-time/ {gsub(">",""); print $6}'`
+		Donation_perAddress=`lynx $_lynxOptions $1$address | grep -iC 1 "Total Output" | sed 's/"/ /g' | sed 's/>//g' | awk '{print $6}' && echo $1$address`
+		
+		echo "$1$address"
+		echo "$ammount BTC have been donated from above"
+		echo $Donation_perAddress
+		echo "Saving these lines to a document called Deposits_unsorted.txt"
+		echo "$Donation_perAddress"
+		echo '$Donation_perAddress' | tee -a $2/Deposits_unsorted.txt
+	done
+}
+
+addDate_toDonationFile () { 
+	for date in $referallDate_printer 
+	do
+		mkdir -p $1
+		echo "sorting donations by date or firts collum of what follows;"
+		$dateTimeAddress_lister | sort -n -k1 -u
+		dateTimeAddress_dateSorted=`$dateTimeAddress_lister | sort -n -k1`
+		echo "saving above lines to file Deposits_dateSorted.txt"
+		echo '$dateTimeAddress_dateSorted' | tee -a $1/Deposits_dateSorted.txt
+	done
+} 
+
+mergSort_donationFiles () { 
+	$sortNumbers -m -k1 -u $1/Deposits_dateSorted.txt -k 2,2n -u $2/Deposits_unsorted.txt -o $3/donationsDateAmount_Compiled.txt
+	cat $3/donationsDateAmount_Compiled.txt
+} 
+
+

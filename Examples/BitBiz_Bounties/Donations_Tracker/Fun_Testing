@@ -1,0 +1,34 @@
+
+
+_lynxOptions="-anonymous -source"
+url_toScrape_All="https://blockchain.info/address/12C4Ua3zZHJWMyuZ4MTUZaZm3KPNFgo69A"
+url_toScrape_Recived="https://blockchain.info/address/12C4Ua3zZHJWMyuZ4MTUZaZm3KPNFgo69A?filter=2#"
+Var_referallAddress_printer=`lynx $_lynxOptions $url_toScrape_Recived | grep -iC 1 "hash-link" | awk '/href/ {gsub(" "," "); print $12 }' | sed 's/"/ /g' | awk '/href/ {gsub(">",""); print $2}'`
+
+
+Fun_referallAddress_printer () { 
+	lynx $_lynxOptions $url_toScrape_Recived |\
+	grep -iC 1 "hash-link" |\
+	awk '/href/ {gsub(" "," "); print $12 }' |\
+	sed 's/"/ /g' |\
+	awk '/href/ {gsub(">",""); print $2}'
+} 
+
+Fun_referallDate_printer () { 
+	lynx $_lynxOptions $url_toScrape_Recived |\
+	grep -iC 1 "hash-link" |\
+	awk '/pull-right/ {gsub(" "," "); print $14 }' |\
+	sed 's/"/ /g' |\
+	awk '/pull-right/ {gsub(">",""); print $3}'
+} 
+
+Fun_donationAddress_lister () { 
+	for address in $Var_referallAddress_printer 
+	do
+		echo "https://blockchain.info$address"
+	done
+} 
+
+
+
+
