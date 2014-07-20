@@ -35,9 +35,9 @@ NMC (namecoin) - N8HdGc2bJss6VcA2isqxFyUsD2LcoV1mgL
 IXC (ixcoin) - xgFr5kTwHr4HPvQHdE3soeaboLEhHjNbxR
 DVC (devcoin) - 1BbwNbCgBa58XYWkWYgdJVmpsZyUVseDtw
 POT (potcoin) - PEVCwh9eiq2T68pq2SrgPjUBsKTsp5kFz5
+
 ______________________________________
 ___ Crypto Currencies hash links _____
-
 ______________________________________
 -> Links for types of coins you can donait hashing power twords me at:
 BTC 		~ stratum+tcp://uk1.ghash.io:3333
@@ -54,6 +54,12 @@ For ghash.io 	~ S0AndS0.<lett3rs0rNumb3rs>
 -> password to use
 For ghash.io 	~ x 
 	or 			~ aShortMessageWithoutSpaces
+
+______________________________________________
+___ Referal links you can use that help me ___
+______________________________________________
+	\/Referal\/ for a site that allows for trading of cloud hosted hashing power for SHA-256, Scrypt, and X11 algos. Better still there offering 10 days of free 5 Khash of power that you can use to try it out; you get to keep the mined coins :-)
+https://www.crypto-coinstrade.com/?refid=1835
 
 ______________________________________________
 ___ Links to some of my public forum posts ___
