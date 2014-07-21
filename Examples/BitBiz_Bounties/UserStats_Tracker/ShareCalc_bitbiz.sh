@@ -26,3 +26,22 @@ Likes_usersReceived=`lynx $_lynxOptions $url_toScrape_likes | grep -iC 1 "Likes 
 Likes_usersMessage_total=`lynx $_lynxOptions $url_toScrape_likes | grep -iC 1 "Likes Received" | sed 's/>/ /g' | sed 's/</ /g' | awk '/messages/ {gsub("",""); print}'`
 
 
+######
+# display what the variables do
+echo "________"
+echo "\$Latest_userStatus will list all users latest status updates."
+echo "________"
+$Latest_userStatus
+
+echo "________"
+echo "\$Likes_usersReceived will list all users likes recieved for their posts."
+echo "________"
+$Likes_usersReceived
+
+echo "________"
+echo "\$Likes_usersMessage_total will list all users total post count."
+echo "________"
+$Likes_usersMessage_total
+
+######
+
