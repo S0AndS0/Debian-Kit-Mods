@@ -31,17 +31,25 @@ Likes_usersMessage_total=`lynx $_lynxOptions $url_toScrape_likes | grep -iC 1 "L
 echo "________"
 echo "\$Latest_userStatus will list all users latest status updates."
 echo "________"
-$Latest_userStatus
+lynx $_lynxOptions $url_toScrape_All | grep -iC 1 "<h3 class=\"username\"><a" | sed 's/=/ /g' | sed 's/>/ /g' | awk '/title/ {gsub("<"," "); print}'
 
 echo "________"
 echo "\$Likes_usersReceived will list all users likes recieved for their posts."
 echo "________"
-$Likes_usersReceived
+echo $Likes_usersReceived
 
 echo "________"
 echo "\$Likes_usersMessage_total will list all users total post count."
 echo "________"
-$Likes_usersMessage_total
+echo $Likes_usersMessage_total
 
 ######
+
+outputStatus_byUser () { 
+	for userName in $Latest_userStatus
+		do
+		echo $userName
+		done
+}
+outputStatus_byUser
 

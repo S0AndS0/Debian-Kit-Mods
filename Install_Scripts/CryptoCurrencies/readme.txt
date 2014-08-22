@@ -2,6 +2,8 @@
 # 	notes on packages
 # libcurl4-gnutls-dev and libcurl4-openssl-dev will remove one another if the other is to be installed
 
+# https://github.com/slimcoin/slimminer
+
 # 	updated scrypt and sha-256 cpuminer from tar (original cpuminer)
 # 	+ compiles fine on ARM processors
 # 	++ incirperated in script

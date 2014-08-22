@@ -60,6 +60,10 @@ ___ Referal links you can use that help me ___
 ______________________________________________
 	\/Referal\/ for a site that allows for trading of cloud hosted hashing power for SHA-256, Scrypt, and X11 algos. Better still there offering 10 days of free 5 Khash of power that you can use to try it out; you get to keep the mined coins :-)
 https://www.crypto-coinstrade.com/?refid=1835
+	\/Referal\/ for another site that allows for trading of cloud hosted mining power
+https://cex.io/r/0/S0AndS0/0/
+	\/Referal\/ for a site/game where you can 'mine' Dogecoin just by playing a sweet game
+http://strt.cc/?r=c3RyYW5nZXJ0aGFuYmxhbmRAZ21haWwuY29t
 
 ______________________________________________
 ___ Links to some of my public forum posts ___
