@@ -1,0 +1,1955 @@
+# ./minerd --algo=sha256d -o stratum+tcp://bitbizpool.hopto.org:9332 -u 1JJXnF2NMcTT24Rj7g9XkEDN5qP5nRFk1o -p x
+[2014-08-30 19:28:54] 1 miner threads started, using 'sha256d' algorithm.
+[2014-08-30 19:28:54] Starting Stratum on stratum+tcp://bitbizpool.hopto.org:9332
+[2014-08-30 19:28:56] Stratum detected new block
+[2014-08-30 19:28:56] Stratum detected new block
+[2014-08-30 19:28:57] Stratum detected new block
+[2014-08-30 19:28:57] thread 0: 126211 hashes, 157.14 khash/s
+[2014-08-30 19:29:46] Stratum detected new block
+[2014-08-30 19:29:46] thread 0: 6877535 hashes, 141.30 khash/s
+[2014-08-30 19:29:59] stratum_recv_line failed
+[2014-08-30 19:29:59] Stratum connection interrupted
+[2014-08-30 19:29:59] thread 0: 1844211 hashes, 142.58 khash/s
+[2014-08-30 19:30:00] Stratum detected new block
+[2014-08-30 19:30:01] Stratum detected new block
+[2014-08-30 19:30:01] thread 0: 288 hashes, 15.83 khash/s
+[2014-08-30 19:30:02] Stratum detected new block
+[2014-08-30 19:30:02] thread 0: 235135 hashes, 149.78 khash/s
+[2014-08-30 19:30:03] Stratum detected new block
+[2014-08-30 19:30:03] thread 0: 35706 hashes, 88.74 khash/s
+[2014-08-30 19:30:03] Stratum detected new block
+[2014-08-30 19:30:03] thread 0: 39079 hashes, 84.73 khash/s
+[2014-08-30 19:30:38] thread 0: 5083866 hashes, 144.13 khash/s
+[2014-08-30 19:30:55] Stratum detected new block
+[2014-08-30 19:30:55] thread 0: 2467680 hashes, 144.79 khash/s
+[2014-08-30 19:31:04] Stratum detected new block
+[2014-08-30 19:31:04] thread 0: 1187661 hashes, 139.24 khash/s
+[2014-08-30 19:31:19] Stratum detected new block
+[2014-08-30 19:31:19] thread 0: 2180360 hashes, 144.99 khash/s
+[2014-08-30 19:31:21] Stratum detected new block
+[2014-08-30 19:31:21] thread 0: 271359 hashes, 165.83 khash/s
+[2014-08-30 19:31:21] Stratum detected new block
+[2014-08-30 19:31:21] thread 0: 40932 hashes, 137.19 khash/s
+[2014-08-30 19:31:26] Stratum detected new block
+[2014-08-30 19:31:26] thread 0: 602013 hashes, 123.82 khash/s
+[2014-08-30 19:31:43] Stratum detected new block
+[2014-08-30 19:31:43] thread 0: 2521563 hashes, 145.31 khash/s
+[2014-08-30 19:31:44] Stratum detected new block
+[2014-08-30 19:31:44] thread 0: 213007 hashes, 162.31 khash/s
+[2014-08-30 19:32:04] Stratum detected new block
+[2014-08-30 19:32:04] thread 0: 2814522 hashes, 140.77 khash/s
+[2014-08-30 19:32:25] Stratum detected new block
+[2014-08-30 19:32:25] thread 0: 3026824 hashes, 149.04 khash/s
+[2014-08-30 19:32:58] stratum_recv_line failed
+[2014-08-30 19:32:58] Stratum connection interrupted
+[2014-08-30 19:32:58] thread 0: 4755983 hashes, 144.14 khash/s
+[2014-08-30 19:33:00] Stratum detected new block
+[2014-08-30 19:33:00] Stratum detected new block
+[2014-08-30 19:33:00] thread 0: 4463 hashes, 59.67 khash/s
+[2014-08-30 19:33:14] Stratum detected new block
+[2014-08-30 19:33:15] thread 0: 1965912 hashes, 134.16 khash/s
+[2014-08-30 19:33:58] stratum_recv_line failed
+[2014-08-30 19:33:58] Stratum connection interrupted
+[2014-08-30 19:33:58] thread 0: 6197294 hashes, 143.81 khash/s
+[2014-08-30 19:33:59] Stratum detected new block
+[2014-08-30 19:33:59] Stratum detected new block
+[2014-08-30 19:34:12] Stratum detected new block
+[2014-08-30 19:34:12] thread 0: 1519218 hashes, 125.40 khash/s
+[2014-08-30 19:34:12] Stratum detected new block
+[2014-08-30 19:34:12] thread 0: 76404 hashes, 151.19 khash/s
+[2014-08-30 19:34:51] Stratum detected new block
+[2014-08-30 19:34:51] thread 0: 5620813 hashes, 143.81 khash/s
+[2014-08-30 19:35:51] thread 0: 8628487 hashes, 144.67 khash/s
+[2014-08-30 19:36:06] Stratum detected new block
+[2014-08-30 19:36:06] thread 0: 2266123 hashes, 150.86 khash/s
+[2014-08-30 19:36:24] Stratum detected new block
+[2014-08-30 19:36:24] thread 0: 2672822 hashes, 146.59 khash/s
+[2014-08-30 19:36:37] Stratum detected new block
+[2014-08-30 19:36:37] thread 0: 1743294 hashes, 135.32 khash/s
+[2014-08-30 19:37:08] Stratum detected new block
+[2014-08-30 19:37:08] thread 0: 4378212 hashes, 143.16 khash/s
+[2014-08-30 19:37:10] Stratum detected new block
+[2014-08-30 19:37:10] thread 0: 454571 hashes, 167.94 khash/s
+[2014-08-30 19:37:20] Stratum detected new block
+[2014-08-30 19:37:20] thread 0: 1387969 hashes, 140.22 khash/s
+[2014-08-30 19:37:50] stratum_recv_line failed
+[2014-08-30 19:37:50] Stratum connection interrupted
+[2014-08-30 19:37:50] thread 0: 4303561 hashes, 146.20 khash/s
+[2014-08-30 19:37:52] Stratum detected new block
+[2014-08-30 19:37:52] Stratum detected new block
+[2014-08-30 19:38:28] Stratum detected new block
+[2014-08-30 19:38:28] thread 0: 4872421 hashes, 139.87 khash/s
+[2014-08-30 19:38:31] Stratum detected new block
+[2014-08-30 19:38:31] thread 0: 510546 hashes, 130.20 khash/s
+[2014-08-30 19:38:43] Stratum detected new block
+[2014-08-30 19:38:43] thread 0: 1567829 hashes, 135.31 khash/s
+[2014-08-30 19:39:12] Stratum detected new block
+[2014-08-30 19:39:12] thread 0: 4269854 hashes, 145.73 khash/s
+[2014-08-30 19:39:30] Stratum detected new block
+[2014-08-30 19:39:30] thread 0: 2595275 hashes, 144.99 khash/s
+[2014-08-30 19:39:33] Stratum detected new block
+[2014-08-30 19:39:33] thread 0: 433861 hashes, 168.61 khash/s
+[2014-08-30 19:40:41] Stratum detected new block
+[2014-08-30 19:40:42] thread 0: 9922014 hashes, 143.71 khash/s
+[2014-08-30 19:41:23] stratum_recv_line failed
+[2014-08-30 19:41:23] Stratum connection interrupted
+[2014-08-30 19:41:23] thread 0: 6048288 hashes, 146.63 khash/s
+[2014-08-30 19:41:25] Stratum detected new block
+[2014-08-30 19:41:26] Stratum detected new block
+[2014-08-30 19:41:26] thread 0: 68109 hashes, 105.93 khash/s
+[2014-08-30 19:42:04] Stratum detected new block
+[2014-08-30 19:42:04] thread 0: 5497252 hashes, 144.66 khash/s
+[2014-08-30 19:42:59] Stratum detected new block
+[2014-08-30 19:42:59] thread 0: 7897443 hashes, 142.25 khash/s
+[2014-08-30 19:43:36] stratum_recv_line failed
+[2014-08-30 19:43:36] Stratum connection interrupted
+[2014-08-30 19:43:36] thread 0: 5362557 hashes, 146.72 khash/s
+[2014-08-30 19:43:38] Stratum detected new block
+[2014-08-30 19:43:38] Stratum detected new block
+[2014-08-30 19:43:38] thread 0: 8842 hashes, 46.89 khash/s
+[2014-08-30 19:43:43] Stratum detected new block
+[2014-08-30 19:43:43] thread 0: 422526 hashes, 91.96 khash/s
+[2014-08-30 19:43:51] Stratum detected new block
+[2014-08-30 19:43:51] thread 0: 1195810 hashes, 151.71 khash/s
+[2014-08-30 19:44:06] Stratum detected new block
+[2014-08-30 19:44:06] thread 0: 2119038 hashes, 140.05 khash/s
+[2014-08-30 19:44:06] Stratum detected new block
+[2014-08-30 19:44:06] thread 0: 32605 hashes, 131.33 khash/s
+[2014-08-30 19:44:16] Stratum detected new block
+[2014-08-30 19:44:17] thread 0: 1407016 hashes, 131.69 khash/s
+[2014-08-30 19:44:20] Stratum detected new block
+[2014-08-30 19:44:20] thread 0: 653080 hashes, 169.17 khash/s
+[2014-08-30 19:44:52] Stratum detected new block
+[2014-08-30 19:44:52] thread 0: 4509341 hashes, 142.66 khash/s
+[2014-08-30 19:44:58] Stratum detected new block
+[2014-08-30 19:44:58] thread 0: 859038 hashes, 144.08 khash/s
+[2014-08-30 19:45:04] Stratum detected new block
+[2014-08-30 19:45:04] thread 0: 891391 hashes, 144.44 khash/s
+[2014-08-30 19:45:05] Stratum detected new block
+[2014-08-30 19:45:05] thread 0: 147452 hashes, 158.40 khash/s
+[2014-08-30 19:45:15] Stratum detected new block
+[2014-08-30 19:45:16] thread 0: 1520921 hashes, 144.45 khash/s
+[2014-08-30 19:45:20] Stratum detected new block
+[2014-08-30 19:45:20] thread 0: 732926 hashes, 164.37 khash/s
+[2014-08-30 19:45:23] Stratum detected new block
+[2014-08-30 19:45:23] thread 0: 396831 hashes, 121.65 khash/s
+[2014-08-30 19:45:26] Stratum detected new block
+[2014-08-30 19:45:26] thread 0: 379586 hashes, 167.99 khash/s
+[2014-08-30 19:45:38] Stratum detected new block
+[2014-08-30 19:45:38] thread 0: 1814997 hashes, 146.71 khash/s
+[2014-08-30 19:46:40] thread 0: 8802374 hashes, 143.01 khash/s
+[2014-08-30 19:47:10] Stratum detected new block
+[2014-08-30 19:47:10] thread 0: 4524908 hashes, 146.95 khash/s
+[2014-08-30 19:47:11] Stratum detected new block
+[2014-08-30 19:47:11] thread 0: 62740 hashes, 148.53 khash/s
+[2014-08-30 19:47:36] Stratum detected new block
+[2014-08-30 19:47:36] thread 0: 3699883 hashes, 147.54 khash/s
+[2014-08-30 19:47:40] Stratum detected new block
+[2014-08-30 19:47:40] thread 0: 478830 hashes, 128.17 khash/s
+[2014-08-30 19:48:06] Stratum detected new block
+[2014-08-30 19:48:06] thread 0: 3820500 hashes, 144.32 khash/s
+[2014-08-30 19:48:07] Stratum detected new block
+[2014-08-30 19:48:07] thread 0: 193325 hashes, 163.89 khash/s
+[2014-08-30 19:48:22] Stratum detected new block
+[2014-08-30 19:48:22] thread 0: 2031831 hashes, 139.95 khash/s
+[2014-08-30 19:48:23] Stratum detected new block
+[2014-08-30 19:48:23] thread 0: 242971 hashes, 163.67 khash/s
+[2014-08-30 19:48:24] Stratum detected new block
+[2014-08-30 19:48:24] thread 0: 127133 hashes, 160.01 khash/s
+[2014-08-30 19:48:38] Stratum detected new block
+[2014-08-30 19:48:38] thread 0: 1970680 hashes, 139.06 khash/s
+[2014-08-30 19:48:53] Stratum detected new block
+[2014-08-30 19:48:53] thread 0: 2186455 hashes, 148.96 khash/s
+[2014-08-30 19:48:53] Stratum detected new block
+[2014-08-30 19:48:53] thread 0: 90619 hashes, 156.01 khash/s
+[2014-08-30 19:49:08] Stratum detected new block
+[2014-08-30 19:49:08] thread 0: 2074719 hashes, 140.06 khash/s
+[2014-08-30 19:49:28] Stratum detected new block
+[2014-08-30 19:49:28] thread 0: 2855047 hashes, 148.05 khash/s
+[2014-08-30 19:49:39] Stratum detected new block
+[2014-08-30 19:49:39] thread 0: 1563380 hashes, 140.53 khash/s
+[2014-08-30 19:49:50] Stratum detected new block
+[2014-08-30 19:49:50] thread 0: 1585383 hashes, 138.36 khash/s
+[2014-08-30 19:50:07] Stratum detected new block
+[2014-08-30 19:50:07] thread 0: 2490609 hashes, 144.62 khash/s
+[2014-08-30 19:51:07] thread 0: 8677234 hashes, 146.40 khash/s
+[2014-08-30 19:51:16] Stratum detected new block
+[2014-08-30 19:51:16] thread 0: 1496266 hashes, 155.47 khash/s
+[2014-08-30 19:51:17] Stratum detected new block
+[2014-08-30 19:51:17] thread 0: 102952 hashes, 132.67 khash/s
+[2014-08-30 19:51:21] Stratum detected new block
+[2014-08-30 19:51:21] thread 0: 592666 hashes, 137.90 khash/s
+[2014-08-30 19:51:37] Stratum detected new block
+[2014-08-30 19:51:37] thread 0: 2058233 hashes, 134.39 khash/s
+[2014-08-30 19:52:18] Stratum detected new block
+[2014-08-30 19:52:18] thread 0: 6036579 hashes, 146.05 khash/s
+[2014-08-30 19:52:19] Stratum detected new block
+[2014-08-30 19:52:19] thread 0: 245265 hashes, 165.87 khash/s
+[2014-08-30 19:52:20] Stratum detected new block
+[2014-08-30 19:52:20] thread 0: 113452 hashes, 158.31 khash/s
+[2014-08-30 19:52:22] Stratum detected new block
+[2014-08-30 19:52:22] thread 0: 251796 hashes, 165.21 khash/s
+[2014-08-30 19:52:52] Stratum detected new block
+[2014-08-30 19:52:53] thread 0: 4476284 hashes, 142.65 khash/s
+[2014-08-30 19:53:05] Stratum detected new block
+[2014-08-30 19:53:05] thread 0: 1711876 hashes, 145.77 khash/s
+[2014-08-30 19:53:26] Stratum detected new block
+[2014-08-30 19:53:26] thread 0: 2999370 hashes, 143.56 khash/s
+[2014-08-30 19:54:11] Stratum detected new block
+[2014-08-30 19:54:11] thread 0: 6490274 hashes, 144.65 khash/s
+[2014-08-30 19:55:10] thread 0: 8679138 hashes, 145.60 khash/s
+[2014-08-30 19:56:11] thread 0: 8735790 hashes, 144.75 khash/s
+[2014-08-30 19:56:11] Stratum connection timed out
+[2014-08-30 19:56:11] Stratum connection interrupted
+[2014-08-30 19:56:12] Stratum detected new block
+[2014-08-30 19:56:13] Stratum detected new block
+[2014-08-30 19:56:13] thread 0: 2364 hashes, 77.31 khash/s
+[2014-08-30 19:56:43] Stratum detected new block
+[2014-08-30 19:56:43] thread 0: 4185546 hashes, 138.25 khash/s
+[2014-08-30 19:57:02] Stratum detected new block
+[2014-08-30 19:57:03] thread 0: 2799346 hashes, 142.16 khash/s
+[2014-08-30 19:57:45] Stratum detected new block
+[2014-08-30 19:57:45] thread 0: 6137040 hashes, 142.89 khash/s
+[2014-08-30 19:58:00] Stratum detected new block
+[2014-08-30 19:58:00] thread 0: 2147758 hashes, 149.65 khash/s
+[2014-08-30 19:59:02] thread 0: 8979043 hashes, 143.40 khash/s
+[2014-08-30 19:59:18] Stratum detected new block
+[2014-08-30 19:59:18] thread 0: 2386881 hashes, 152.06 khash/s
+[2014-08-30 19:59:20] Stratum detected new block
+[2014-08-30 19:59:20] thread 0: 160595 hashes, 83.80 khash/s
+[2014-08-30 19:59:46] Stratum detected new block
+[2014-08-30 19:59:46] thread 0: 3841004 hashes, 148.25 khash/s
+[2014-08-30 20:00:25] stratum_recv_line failed
+[2014-08-30 20:00:25] Stratum connection interrupted
+[2014-08-30 20:00:25] thread 0: 5703450 hashes, 144.75 khash/s
+[2014-08-30 20:00:28] Stratum detected new block
+[2014-08-30 20:00:29] Stratum detected new block
+[2014-08-30 20:00:29] thread 0: 8095 hashes, 51.19 khash/s
+[2014-08-30 20:00:51] thread 0: 3071291 hashes, 134.42 khash/s
+[2014-08-30 20:01:24] Stratum detected new block
+[2014-08-30 20:01:25] thread 0: 4808489 hashes, 144.16 khash/s
+[2014-08-30 20:02:24] thread 0: 8649608 hashes, 145.94 khash/s
+[2014-08-30 20:03:04] Stratum detected new block
+[2014-08-30 20:03:04] thread 0: 5781805 hashes, 145.79 khash/s
+[2014-08-30 20:04:03] thread 0: 8747198 hashes, 146.35 khash/s
+[2014-08-30 20:04:08] Stratum detected new block
+[2014-08-30 20:04:08] thread 0: 684520 hashes, 138.48 khash/s
+[2014-08-30 20:04:14] Stratum detected new block
+[2014-08-30 20:04:14] thread 0: 811295 hashes, 142.89 khash/s
+[2014-08-30 20:04:50] Stratum detected new block
+[2014-08-30 20:04:50] thread 0: 5123243 hashes, 143.34 khash/s
+[2014-08-30 20:05:10] Stratum detected new block
+[2014-08-30 20:05:10] thread 0: 2922440 hashes, 148.14 khash/s
+[2014-08-30 20:05:30] Stratum detected new block
+[2014-08-30 20:05:30] thread 0: 2926056 hashes, 142.03 khash/s
+[2014-08-30 20:05:31] Stratum detected new block
+[2014-08-30 20:05:31] thread 0: 74144 hashes, 145.76 khash/s
+[2014-08-30 20:05:55] Stratum detected new block
+[2014-08-30 20:05:55] thread 0: 3560096 hashes, 146.68 khash/s
+[2014-08-30 20:06:11] Stratum detected new block
+[2014-08-30 20:06:11] thread 0: 2360285 hashes, 143.05 khash/s
+[2014-08-30 20:06:30] Stratum detected new block
+[2014-08-30 20:06:30] thread 0: 2696981 hashes, 143.49 khash/s
+[2014-08-30 20:07:29] thread 0: 8609670 hashes, 146.20 khash/s
+[2014-08-30 20:08:28] Stratum detected new block
+[2014-08-30 20:08:28] thread 0: 8556286 hashes, 144.36 khash/s
+[2014-08-30 20:08:29] Stratum detected new block
+[2014-08-30 20:08:29] thread 0: 44455 hashes, 140.74 khash/s
+[2014-08-30 20:08:49] Stratum detected new block
+[2014-08-30 20:08:50] thread 0: 3036712 hashes, 143.99 khash/s
+[2014-08-30 20:09:06] Stratum detected new block
+[2014-08-30 20:09:06] thread 0: 2477995 hashes, 150.69 khash/s
+[2014-08-30 20:09:08] Stratum detected new block
+[2014-08-30 20:09:08] thread 0: 163358 hashes, 84.52 khash/s
+[2014-08-30 20:09:32] Stratum detected new block
+[2014-08-30 20:09:32] thread 0: 3508063 hashes, 145.37 khash/s
+[2014-08-30 20:10:32] thread 0: 8722444 hashes, 144.95 khash/s
+[2014-08-30 20:10:56] Stratum detected new block
+[2014-08-30 20:10:56] thread 0: 3453872 hashes, 146.06 khash/s
+[2014-08-30 20:11:19] Stratum detected new block
+[2014-08-30 20:11:19] thread 0: 3229079 hashes, 144.18 khash/s
+[2014-08-30 20:11:21] Stratum detected new block
+[2014-08-30 20:11:21] thread 0: 364682 hashes, 167.89 khash/s
+[2014-08-30 20:11:21] Stratum detected new block
+[2014-08-30 20:11:21] thread 0: 57334 hashes, 146.80 khash/s
+[2014-08-30 20:11:22] Stratum detected new block
+[2014-08-30 20:11:22] thread 0: 86609 hashes, 154.59 khash/s
+[2014-08-30 20:12:10] Stratum detected new block
+[2014-08-30 20:12:10] thread 0: 6958832 hashes, 144.98 khash/s
+[2014-08-30 20:12:20] Stratum detected new block
+[2014-08-30 20:12:20] thread 0: 1394356 hashes, 140.41 khash/s
+[2014-08-30 20:12:22] Stratum detected new block
+[2014-08-30 20:12:22] thread 0: 395836 hashes, 168.39 khash/s
+[2014-08-30 20:12:38] Stratum detected new block
+[2014-08-30 20:12:38] thread 0: 2270347 hashes, 142.79 khash/s
+[2014-08-30 20:12:40] Stratum detected new block
+[2014-08-30 20:12:40] thread 0: 434013 hashes, 168.78 khash/s
+[2014-08-30 20:12:47] Stratum detected new block
+[2014-08-30 20:12:48] thread 0: 917093 hashes, 127.47 khash/s
+[2014-08-30 20:13:09] Stratum detected new block
+[2014-08-30 20:13:09] thread 0: 3127548 hashes, 149.42 khash/s
+[2014-08-30 20:13:10] Stratum detected new block
+[2014-08-30 20:13:10] thread 0: 211126 hashes, 164.58 khash/s
+[2014-08-30 20:13:11] Stratum detected new block
+[2014-08-30 20:13:11] thread 0: 83846 hashes, 57.35 khash/s
+[2014-08-30 20:13:25] Stratum detected new block
+[2014-08-30 20:13:25] thread 0: 2103786 hashes, 149.72 khash/s
+[2014-08-30 20:13:48] Stratum detected new block
+[2014-08-30 20:13:48] thread 0: 3202972 hashes, 140.15 khash/s
+[2014-08-30 20:13:59] Stratum detected new block
+[2014-08-30 20:13:59] thread 0: 1592853 hashes, 143.66 khash/s
+[2014-08-30 20:14:01] Stratum detected new block
+[2014-08-30 20:14:01] thread 0: 341206 hashes, 164.95 khash/s
+[2014-08-30 20:14:04] Stratum detected new block
+[2014-08-30 20:14:04] thread 0: 474109 hashes, 161.30 khash/s
+[2014-08-30 20:14:22] Stratum detected new block
+[2014-08-30 20:14:22] thread 0: 2566117 hashes, 146.62 khash/s
+[2014-08-30 20:14:48] Stratum detected new block
+[2014-08-30 20:14:48] thread 0: 3730430 hashes, 142.35 khash/s
+[2014-08-30 20:15:09] Stratum detected new block
+[2014-08-30 20:15:10] thread 0: 3171395 hashes, 146.06 khash/s
+[2014-08-30 20:15:26] Stratum detected new block
+[2014-08-30 20:15:26] thread 0: 2490448 hashes, 149.24 khash/s
+[2014-08-30 20:16:29] thread 0: 8954404 hashes, 142.95 khash/s
+[2014-08-30 20:16:45] Stratum detected new block
+[2014-08-30 20:16:45] thread 0: 2356822 hashes, 147.38 khash/s
+[2014-08-30 20:16:47] Stratum detected new block
+[2014-08-30 20:16:47] thread 0: 313818 hashes, 135.10 khash/s
+[2014-08-30 20:16:52] Stratum detected new block
+[2014-08-30 20:16:52] thread 0: 604331 hashes, 135.35 khash/s
+[2014-08-30 20:17:02] Stratum detected new block
+[2014-08-30 20:17:02] thread 0: 1516266 hashes, 155.20 khash/s
+[2014-08-30 20:17:33] Stratum detected new block
+[2014-08-30 20:17:33] thread 0: 4441292 hashes, 140.44 khash/s
+[2014-08-30 20:18:30] Stratum detected new block
+[2014-08-30 20:18:30] thread 0: 8304445 hashes, 147.43 khash/s
+[2014-08-30 20:18:39] Stratum detected new block
+[2014-08-30 20:18:39] thread 0: 1290575 hashes, 138.33 khash/s
+[2014-08-30 20:19:01] Stratum detected new block
+[2014-08-30 20:19:02] thread 0: 3330098 hashes, 144.87 khash/s
+[2014-08-30 20:19:22] Stratum detected new block
+[2014-08-30 20:19:22] thread 0: 2971438 hashes, 144.10 khash/s
+[2014-08-30 20:19:30] Stratum detected new block
+[2014-08-30 20:19:30] thread 0: 1219131 hashes, 152.10 khash/s
+[2014-08-30 20:19:54] Stratum detected new block
+[2014-08-30 20:19:54] thread 0: 3367020 hashes, 145.49 khash/s
+[2014-08-30 20:20:19] Stratum detected new block
+[2014-08-30 20:20:19] thread 0: 3610601 hashes, 141.75 khash/s
+[2014-08-30 20:20:42] Stratum detected new block
+[2014-08-30 20:20:42] thread 0: 3452109 hashes, 151.54 khash/s
+[2014-08-30 20:20:48] Stratum detected new block
+[2014-08-30 20:20:49] thread 0: 870663 hashes, 125.61 khash/s
+[2014-08-30 20:21:33] Stratum detected new block
+[2014-08-30 20:21:33] thread 0: 6356044 hashes, 144.98 khash/s
+[2014-08-30 20:21:35] Stratum detected new block
+[2014-08-30 20:21:35] thread 0: 314675 hashes, 165.98 khash/s
+[2014-08-30 20:21:45] Stratum detected new block
+[2014-08-30 20:21:45] thread 0: 1468401 hashes, 141.72 khash/s
+[2014-08-30 20:21:59] Stratum detected new block
+[2014-08-30 20:21:59] thread 0: 2133858 hashes, 150.18 khash/s
+[2014-08-30 20:22:33] stratum_recv_line failed
+[2014-08-30 20:22:33] Stratum connection interrupted
+[2014-08-30 20:22:33] thread 0: 4924670 hashes, 144.94 khash/s
+[2014-08-30 20:22:36] Stratum detected new block
+[2014-08-30 20:22:37] Stratum detected new block
+[2014-08-30 20:23:38] thread 0: 8696652 hashes, 143.87 khash/s
+[2014-08-30 20:23:48] Stratum detected new block
+[2014-08-30 20:23:48] thread 0: 1499385 hashes, 142.08 khash/s
+[2014-08-30 20:24:08] Stratum detected new block
+[2014-08-30 20:24:08] thread 0: 2915039 hashes, 148.13 khash/s
+[2014-08-30 20:24:09] Stratum detected new block
+[2014-08-30 20:24:09] thread 0: 212636 hashes, 164.86 khash/s
+[2014-08-30 20:24:26] Stratum detected new block
+[2014-08-30 20:24:26] thread 0: 2380236 hashes, 143.94 khash/s
+[2014-08-30 20:24:53] Stratum detected new block
+[2014-08-30 20:24:54] thread 0: 3936290 hashes, 140.62 khash/s
+[2014-08-30 20:25:10] Stratum detected new block
+[2014-08-30 20:25:10] thread 0: 2543947 hashes, 153.06 khash/s
+[2014-08-30 20:25:10] Stratum detected new block
+[2014-08-30 20:25:11] thread 0: 27442 hashes, 102.11 khash/s
+[2014-08-30 20:25:16] Stratum detected new block
+[2014-08-30 20:25:16] thread 0: 822747 hashes, 144.52 khash/s
+[2014-08-30 20:25:32] Stratum detected new block
+[2014-08-30 20:25:32] thread 0: 2177372 hashes, 141.80 khash/s
+[2014-08-30 20:25:44] Stratum detected new block
+[2014-08-30 20:25:44] thread 0: 1906596 hashes, 147.90 khash/s
+[2014-08-30 20:26:46] thread 0: 8874233 hashes, 145.07 khash/s
+[2014-08-30 20:26:47] stratum_recv_line failed
+[2014-08-30 20:26:47] Stratum connection interrupted
+[2014-08-30 20:26:47] thread 0: 155715 hashes, 84.69 khash/s
+[2014-08-30 20:26:50] Stratum detected new block
+[2014-08-30 20:26:50] Stratum detected new block
+[2014-08-30 20:27:00] Stratum detected new block
+[2014-08-30 20:27:00] thread 0: 1405097 hashes, 140.10 khash/s
+[2014-08-30 20:27:21] Stratum detected new block
+[2014-08-30 20:27:21] thread 0: 3013323 hashes, 149.09 khash/s
+[2014-08-30 20:27:46] Stratum detected new block
+[2014-08-30 20:27:46] thread 0: 3618175 hashes, 141.90 khash/s
+[2014-08-30 20:28:02] Stratum detected new block
+[2014-08-30 20:28:02] thread 0: 2332114 hashes, 151.68 khash/s
+[2014-08-30 20:29:05] thread 0: 9100879 hashes, 144.31 khash/s
+[2014-08-30 20:29:27] Stratum detected new block
+[2014-08-30 20:29:27] thread 0: 3210214 hashes, 144.47 khash/s
+[2014-08-30 20:29:46] Stratum detected new block
+[2014-08-30 20:29:46] thread 0: 2826494 hashes, 146.35 khash/s
+[2014-08-30 20:30:13] Stratum detected new block
+[2014-08-30 20:30:14] thread 0: 3956068 hashes, 143.47 khash/s
+[2014-08-30 20:30:34] Stratum detected new block
+[2014-08-30 20:30:34] thread 0: 2931667 hashes, 144.39 khash/s
+[2014-08-30 20:31:33] thread 0: 8663338 hashes, 146.37 khash/s
+[2014-08-30 20:31:43] Stratum detected new block
+[2014-08-30 20:31:43] thread 0: 1327334 hashes, 138.84 khash/s
+[2014-08-30 20:32:06] Stratum detected new block
+[2014-08-30 20:32:07] thread 0: 3448998 hashes, 143.91 khash/s
+[2014-08-30 20:32:13] Stratum detected new block
+[2014-08-30 20:32:13] thread 0: 855072 hashes, 136.60 khash/s
+[2014-08-30 20:32:20] Stratum detected new block
+[2014-08-30 20:32:20] thread 0: 990411 hashes, 148.06 khash/s
+[2014-08-30 20:32:26] Stratum detected new block
+[2014-08-30 20:32:26] thread 0: 970356 hashes, 147.55 khash/s
+[2014-08-30 20:32:27] Stratum detected new block
+[2014-08-30 20:32:27] thread 0: 140605 hashes, 161.16 khash/s
+[2014-08-30 20:32:35] Stratum detected new block
+[2014-08-30 20:32:35] thread 0: 1154534 hashes, 150.72 khash/s
+[2014-08-30 20:32:37] Stratum detected new block
+[2014-08-30 20:32:37] thread 0: 210012 hashes, 96.29 khash/s
+[2014-08-30 20:32:57] Stratum detected new block
+[2014-08-30 20:32:57] thread 0: 2989140 hashes, 148.92 khash/s
+[2014-08-30 20:32:59] Stratum detected new block
+[2014-08-30 20:32:59] thread 0: 344254 hashes, 167.71 khash/s
+[2014-08-30 20:33:07] Stratum detected new block
+[2014-08-30 20:33:07] thread 0: 996760 hashes, 129.73 khash/s
+[2014-08-30 20:33:07] Stratum detected new block
+[2014-08-30 20:33:07] thread 0: 45297 hashes, 136.46 khash/s
+[2014-08-30 20:33:33] Stratum detected new block
+[2014-08-30 20:33:33] thread 0: 3786970 hashes, 147.90 khash/s
+[2014-08-30 20:33:35] Stratum detected new block
+[2014-08-30 20:33:35] thread 0: 343032 hashes, 167.74 khash/s
+[2014-08-30 20:33:43] Stratum detected new block
+[2014-08-30 20:33:43] thread 0: 1104746 hashes, 133.55 khash/s
+[2014-08-30 20:33:54] Stratum detected new block
+[2014-08-30 20:33:54] thread 0: 1592574 hashes, 143.79 khash/s
+[2014-08-30 20:34:26] Stratum detected new block
+[2014-08-30 20:34:26] thread 0: 4575690 hashes, 145.34 khash/s
+[2014-08-30 20:34:42] Stratum detected new block
+[2014-08-30 20:34:42] thread 0: 2353110 hashes, 143.72 khash/s
+[2014-08-30 20:34:44] Stratum detected new block
+[2014-08-30 20:34:44] thread 0: 372846 hashes, 168.11 khash/s
+[2014-08-30 20:34:45] Stratum detected new block
+[2014-08-30 20:34:45] thread 0: 55414 hashes, 146.73 khash/s
+[2014-08-30 20:34:45] Stratum detected new block
+[2014-08-30 20:34:45] thread 0: 3734 hashes, 44.24 khash/s
+[2014-08-30 20:34:48] Stratum detected new block
+[2014-08-30 20:34:48] thread 0: 378858 hashes, 120.34 khash/s
+[2014-08-30 20:35:03] Stratum detected new block
+[2014-08-30 20:35:03] thread 0: 2213596 hashes, 150.63 khash/s
+[2014-08-30 20:35:49] Stratum detected new block
+[2014-08-30 20:35:49] thread 0: 6698880 hashes, 144.79 khash/s
+[2014-08-30 20:36:11] Stratum detected new block
+[2014-08-30 20:36:11] thread 0: 3088105 hashes, 140.47 khash/s
+[2014-08-30 20:36:18] Stratum detected new block
+[2014-08-30 20:36:18] thread 0: 1076537 hashes, 149.85 khash/s
+[2014-08-30 20:37:02] Stratum detected new block
+[2014-08-30 20:37:02] thread 0: 6438655 hashes, 147.00 khash/s
+[2014-08-30 20:37:21] Stratum detected new block
+[2014-08-30 20:37:21] thread 0: 2733487 hashes, 140.13 khash/s
+[2014-08-30 20:37:36] Stratum detected new block
+[2014-08-30 20:37:36] thread 0: 2141627 hashes, 150.30 khash/s
+[2014-08-30 20:38:05] Stratum detected new block
+[2014-08-30 20:38:05] thread 0: 4259554 hashes, 142.50 khash/s
+[2014-08-30 20:38:08] Stratum detected new block
+[2014-08-30 20:38:08] thread 0: 432927 hashes, 168.81 khash/s
+[2014-08-30 20:38:15] Stratum detected new block
+[2014-08-30 20:38:15] thread 0: 948751 hashes, 129.02 khash/s
+[2014-08-30 20:38:37] Stratum detected new block
+[2014-08-30 20:38:37] thread 0: 3280694 hashes, 150.94 khash/s
+[2014-08-30 20:39:09] Stratum detected new block
+[2014-08-30 20:39:09] thread 0: 4572500 hashes, 143.11 khash/s
+[2014-08-30 20:39:23] Stratum detected new block
+[2014-08-30 20:39:23] thread 0: 2123253 hashes, 150.11 khash/s
+[2014-08-30 20:39:24] Stratum detected new block
+[2014-08-30 20:39:24] thread 0: 112699 hashes, 158.81 khash/s
+[2014-08-30 20:39:24] Stratum detected new block
+[2014-08-30 20:39:24] thread 0: 56135 hashes, 146.53 khash/s
+[2014-08-30 20:39:29] Stratum detected new block
+[2014-08-30 20:39:29] thread 0: 569726 hashes, 133.88 khash/s
+[2014-08-30 20:39:36] Stratum detected new block
+[2014-08-30 20:39:36] thread 0: 1066813 hashes, 142.76 khash/s
+[2014-08-30 20:40:03] Stratum detected new block
+[2014-08-30 20:40:03] thread 0: 3888324 hashes, 142.84 khash/s
+[2014-08-30 20:40:07] Stratum detected new block
+[2014-08-30 20:40:07] thread 0: 572625 hashes, 168.83 khash/s
+[2014-08-30 20:40:35] Stratum detected new block
+[2014-08-30 20:40:35] thread 0: 4160753 hashes, 145.34 khash/s
+[2014-08-30 20:40:46] Stratum detected new block
+[2014-08-30 20:40:46] thread 0: 1513336 hashes, 142.55 khash/s
+[2014-08-30 20:40:56] Stratum detected new block
+[2014-08-30 20:40:56] thread 0: 1402457 hashes, 140.72 khash/s
+[2014-08-30 20:41:08] Stratum detected new block
+[2014-08-30 20:41:08] thread 0: 1816853 hashes, 146.34 khash/s
+[2014-08-30 20:41:12] Stratum detected new block
+[2014-08-30 20:41:12] thread 0: 606363 hashes, 148.45 khash/s
+[2014-08-30 20:41:12] Stratum detected new block
+[2014-08-30 20:41:13] thread 0: 1668 hashes, 3.37 khash/s
+[2014-08-30 20:41:14] thread 0: 201936 hashes, 169.00 khash/s
+[2014-08-30 20:41:27] Stratum detected new block
+[2014-08-30 20:41:27] thread 0: 1872685 hashes, 140.46 khash/s
+[2014-08-30 20:41:39] Stratum detected new block
+[2014-08-30 20:41:39] thread 0: 1664197 hashes, 144.64 khash/s
+[2014-08-30 20:41:45] Stratum detected new block
+[2014-08-30 20:41:45] thread 0: 903409 hashes, 145.96 khash/s
+[2014-08-30 20:41:48] Stratum detected new block
+[2014-08-30 20:41:48] thread 0: 463554 hashes, 169.04 khash/s
+[2014-08-30 20:42:01] Stratum detected new block
+[2014-08-30 20:42:01] thread 0: 1888283 hashes, 137.72 khash/s
+[2014-08-30 20:42:57] Stratum detected new block
+[2014-08-30 20:42:57] thread 0: 8188690 hashes, 147.37 khash/s
+[2014-08-30 20:42:59] Stratum detected new block
+[2014-08-30 20:43:00] thread 0: 280183 hashes, 105.70 khash/s
+[2014-08-30 20:43:17] Stratum detected new block
+[2014-08-30 20:43:17] thread 0: 2570528 hashes, 146.88 khash/s
+[2014-08-30 20:43:17] Stratum detected new block
+[2014-08-30 20:43:18] Stratum detected new block
+[2014-08-30 20:43:18] thread 0: 1657 hashes, 1.73 khash/s
+[2014-08-30 20:43:19] thread 0: 103603 hashes, 129.45 khash/s
+[2014-08-30 20:43:24] Stratum detected new block
+[2014-08-30 20:43:24] thread 0: 756185 hashes, 141.89 khash/s
+[2014-08-30 20:43:27] Stratum detected new block
+[2014-08-30 20:43:27] thread 0: 535660 hashes, 167.83 khash/s
+[2014-08-30 20:44:13] Stratum detected new block
+[2014-08-30 20:44:13] thread 0: 6562717 hashes, 144.97 khash/s
+[2014-08-30 20:44:25] Stratum detected new block
+[2014-08-30 20:44:25] thread 0: 1782993 hashes, 146.47 khash/s
+[2014-08-30 20:45:07] Stratum detected new block
+[2014-08-30 20:45:07] thread 0: 6044743 hashes, 144.63 khash/s
+[2014-08-30 20:45:10] Stratum detected new block
+[2014-08-30 20:45:11] thread 0: 584208 hashes, 147.58 khash/s
+[2014-08-30 20:45:53] Stratum detected new block
+[2014-08-30 20:45:53] thread 0: 6146696 hashes, 144.96 khash/s
+[2014-08-30 20:46:12] Stratum detected new block
+[2014-08-30 20:46:12] thread 0: 2739858 hashes, 146.80 khash/s
+[2014-08-30 20:46:30] stratum_recv_line failed
+[2014-08-30 20:46:30] Stratum connection interrupted
+[2014-08-30 20:46:30] thread 0: 2765038 hashes, 147.57 khash/s
+[2014-08-30 20:46:33] Stratum detected new block
+[2014-08-30 20:46:33] Stratum detected new block
+[2014-08-30 20:46:46] Stratum detected new block
+[2014-08-30 20:46:46] thread 0: 1760223 hashes, 141.27 khash/s
+[2014-08-30 20:46:51] Stratum detected new block
+[2014-08-30 20:46:51] Stratum detected new block
+[2014-08-30 20:46:52] thread 0: 827368 hashes, 138.91 khash/s
+[2014-08-30 20:47:06] Stratum detected new block
+[2014-08-30 20:47:06] thread 0: 1965299 hashes, 142.68 khash/s
+[2014-08-30 20:47:20] Stratum detected new block
+[2014-08-30 20:47:20] thread 0: 2117703 hashes, 150.11 khash/s
+[2014-08-30 20:47:34] Stratum detected new block
+[2014-08-30 20:47:34] thread 0: 2057529 hashes, 140.36 khash/s
+[2014-08-30 20:47:38] Stratum detected new block
+[2014-08-30 20:47:38] thread 0: 519286 hashes, 169.57 khash/s
+[2014-08-30 20:47:42] Stratum detected new block
+[2014-08-30 20:47:42] thread 0: 666207 hashes, 138.50 khash/s
+[2014-08-30 20:47:49] Stratum detected new block
+[2014-08-30 20:47:49] thread 0: 1004390 hashes, 148.39 khash/s
+[2014-08-30 20:48:21] Stratum detected new block
+[2014-08-30 20:48:21] thread 0: 4617270 hashes, 143.33 khash/s
+[2014-08-30 20:48:49] Stratum detected new block
+[2014-08-30 20:48:49] thread 0: 4079466 hashes, 147.74 khash/s
+[2014-08-30 20:49:22] Stratum detected new block
+[2014-08-30 20:49:22] thread 0: 4739574 hashes, 142.56 khash/s
+[2014-08-30 20:49:25] Stratum detected new block
+[2014-08-30 20:49:25] thread 0: 429204 hashes, 168.75 khash/s
+[2014-08-30 20:50:23] Stratum detected new block
+[2014-08-30 20:50:23] thread 0: 8517629 hashes, 145.52 khash/s
+[2014-08-30 20:50:55] Stratum detected new block
+[2014-08-30 20:50:56] thread 0: 4569556 hashes, 141.35 khash/s
+[2014-08-30 20:51:25] Stratum detected new block
+[2014-08-30 20:51:25] thread 0: 4313977 hashes, 146.42 khash/s
+[2014-08-30 20:51:37] Stratum detected new block
+[2014-08-30 20:51:37] thread 0: 1759549 hashes, 144.41 khash/s
+[2014-08-30 20:52:11] Stratum detected new block
+[2014-08-30 20:52:11] thread 0: 5034266 hashes, 149.28 khash/s
+[2014-08-30 20:52:24] Stratum detected new block
+[2014-08-30 20:52:24] thread 0: 1831893 hashes, 138.05 khash/s
+[2014-08-30 20:52:25] Stratum detected new block
+[2014-08-30 20:52:25] thread 0: 34857 hashes, 48.76 khash/s
+[2014-08-30 20:52:44] Stratum detected new block
+[2014-08-30 20:52:44] thread 0: 2823646 hashes, 144.68 khash/s
+[2014-08-30 20:52:52] Stratum detected new block
+[2014-08-30 20:52:52] thread 0: 1127123 hashes, 150.50 khash/s
+[2014-08-30 20:53:17] Stratum detected new block
+[2014-08-30 20:53:17] thread 0: 3637028 hashes, 146.79 khash/s
+[2014-08-30 20:53:26] Stratum detected new block
+[2014-08-30 20:53:26] thread 0: 1327113 hashes, 139.15 khash/s
+[2014-08-30 20:53:50] Stratum detected new block
+[2014-08-30 20:53:50] thread 0: 3456673 hashes, 145.98 khash/s
+[2014-08-30 20:54:17] Stratum detected new block
+[2014-08-30 20:54:17] thread 0: 3918910 hashes, 142.51 khash/s
+[2014-08-30 20:54:22] Stratum detected new block
+[2014-08-30 20:54:22] thread 0: 698141 hashes, 164.63 khash/s
+[2014-08-30 20:54:25] Stratum detected new block
+[2014-08-30 20:54:25] thread 0: 310320 hashes, 100.83 khash/s
+[2014-08-30 20:54:25] Stratum detected new block
+[2014-08-30 20:54:25] thread 0: 35972 hashes, 136.11 khash/s
+[2014-08-30 20:54:27] Stratum detected new block
+[2014-08-30 20:54:27] thread 0: 382918 hashes, 168.31 khash/s
+[2014-08-30 20:54:35] Stratum detected new block
+[2014-08-30 20:54:35] thread 0: 1079594 hashes, 149.70 khash/s
+[2014-08-30 20:55:02] Stratum detected new block
+[2014-08-30 20:55:02] thread 0: 3944810 hashes, 143.60 khash/s
+[2014-08-30 20:55:29] Stratum detected new block
+[2014-08-30 20:55:29] thread 0: 3846002 hashes, 143.13 khash/s
+[2014-08-30 20:55:41] Stratum detected new block
+[2014-08-30 20:55:41] thread 0: 1792859 hashes, 146.54 khash/s
+[2014-08-30 20:55:52] Stratum detected new block
+[2014-08-30 20:55:52] thread 0: 1651723 hashes, 147.58 khash/s
+[2014-08-30 20:56:29] Stratum detected new block
+[2014-08-30 20:56:29] thread 0: 5315730 hashes, 143.99 khash/s
+[2014-08-30 20:57:09] Stratum detected new block
+[2014-08-30 20:57:09] thread 0: 5894538 hashes, 146.50 khash/s
+[2014-08-30 20:57:11] Stratum detected new block
+[2014-08-30 20:57:11] thread 0: 100625 hashes, 89.99 khash/s
+[2014-08-30 20:57:17] Stratum detected new block
+[2014-08-30 20:57:17] thread 0: 925034 hashes, 146.62 khash/s
+[2014-08-30 20:57:30] Stratum detected new block
+[2014-08-30 20:57:30] thread 0: 2016544 hashes, 149.12 khash/s
+[2014-08-30 20:57:31] Stratum detected new block
+[2014-08-30 20:57:31] thread 0: 138782 hashes, 160.59 khash/s
+[2014-08-30 20:57:45] Stratum detected new block
+[2014-08-30 20:57:45] thread 0: 1966168 hashes, 138.83 khash/s
+[2014-08-30 20:57:58] Stratum detected new block
+[2014-08-30 20:57:58] thread 0: 1775536 hashes, 143.58 khash/s
+[2014-08-30 20:57:59] Stratum detected new block
+[2014-08-30 20:57:59] thread 0: 201992 hashes, 164.15 khash/s
+[2014-08-30 20:58:00] Stratum detected new block
+[2014-08-30 20:58:00] thread 0: 91650 hashes, 147.98 khash/s
+[2014-08-30 20:58:03] Stratum detected new block
+[2014-08-30 20:58:03] thread 0: 457111 hashes, 147.35 khash/s
+[2014-08-30 20:58:06] Stratum detected new block
+[2014-08-30 20:58:06] thread 0: 424067 hashes, 121.85 khash/s
+[2014-08-30 20:58:51] Stratum detected new block
+[2014-08-30 20:58:51] thread 0: 6486557 hashes, 144.73 khash/s
+[2014-08-30 20:58:56] Stratum detected new block
+[2014-08-30 20:58:56] thread 0: 818350 hashes, 170.77 khash/s
+[2014-08-30 20:59:04] Stratum detected new block
+[2014-08-30 20:59:04] thread 0: 1108312 hashes, 133.26 khash/s
+[2014-08-30 20:59:19] Stratum detected new block
+[2014-08-30 20:59:19] thread 0: 2217975 hashes, 150.84 khash/s
+[2014-08-30 20:59:28] Stratum detected new block
+[2014-08-30 20:59:28] thread 0: 1190500 hashes, 136.14 khash/s
+[2014-08-30 20:59:46] Stratum detected new block
+[2014-08-30 20:59:46] thread 0: 2629344 hashes, 146.25 khash/s
+[2014-08-30 21:00:02] Stratum detected new block
+[2014-08-30 21:00:02] thread 0: 2338911 hashes, 139.03 khash/s
+[2014-08-30 21:00:04] Stratum detected new block
+[2014-08-30 21:00:04] thread 0: 268599 hashes, 150.81 khash/s
+[2014-08-30 21:01:05] Stratum detected new block
+[2014-08-30 21:01:05] thread 0: 8943019 hashes, 146.93 khash/s
+[2014-08-30 21:01:29] Stratum detected new block
+[2014-08-30 21:01:29] thread 0: 3467354 hashes, 146.17 khash/s
+[2014-08-30 21:02:07] Stratum detected new block
+[2014-08-30 21:02:07] thread 0: 5435643 hashes, 141.99 khash/s
+[2014-08-30 21:02:09] Stratum detected new block
+[2014-08-30 21:02:09] thread 0: 303793 hashes, 166.99 khash/s
+[2014-08-30 21:02:28] Stratum detected new block
+[2014-08-30 21:02:28] thread 0: 2885443 hashes, 148.28 khash/s
+[2014-08-30 21:02:35] Stratum detected new block
+[2014-08-30 21:02:35] thread 0: 968765 hashes, 147.61 khash/s
+[2014-08-30 21:02:54] Stratum detected new block
+[2014-08-30 21:02:54] thread 0: 2725751 hashes, 142.14 khash/s
+[2014-08-30 21:03:08] Stratum detected new block
+[2014-08-30 21:03:08] thread 0: 2073629 hashes, 145.97 khash/s
+[2014-08-30 21:04:08] Stratum detected new block
+[2014-08-30 21:04:08] thread 0: 8555459 hashes, 143.90 khash/s
+[2014-08-30 21:04:21] Stratum detected new block
+[2014-08-30 21:04:21] thread 0: 2038575 hashes, 149.33 khash/s
+[2014-08-30 21:04:24] Stratum detected new block
+[2014-08-30 21:04:24] thread 0: 321001 hashes, 114.06 khash/s
+[2014-08-30 21:05:09] Stratum detected new block
+[2014-08-30 21:05:09] thread 0: 6651332 hashes, 148.22 khash/s
+[2014-08-30 21:05:29] Stratum detected new block
+[2014-08-30 21:05:29] thread 0: 2748559 hashes, 136.10 khash/s
+[2014-08-30 21:05:37] Stratum detected new block
+[2014-08-30 21:05:37] thread 0: 1212199 hashes, 152.09 khash/s
+[2014-08-30 21:05:38] Stratum detected new block
+[2014-08-30 21:05:38] thread 0: 201190 hashes, 164.38 khash/s
+[2014-08-30 21:05:39] Stratum detected new block
+[2014-08-30 21:05:39] thread 0: 164883 hashes, 162.73 khash/s
+[2014-08-30 21:06:04] Stratum detected new block
+[2014-08-30 21:06:04] thread 0: 3547428 hashes, 146.51 khash/s
+[2014-08-30 21:06:23] Stratum detected new block
+[2014-08-30 21:06:23] thread 0: 2755296 hashes, 140.43 khash/s
+[2014-08-30 21:06:40] Stratum detected new block
+[2014-08-30 21:06:40] thread 0: 2438170 hashes, 146.08 khash/s
+[2014-08-30 21:07:11] Stratum detected new block
+[2014-08-30 21:07:11] thread 0: 4502410 hashes, 145.93 khash/s
+[2014-08-30 21:07:25] Stratum detected new block
+[2014-08-30 21:07:25] thread 0: 2024415 hashes, 144.85 khash/s
+[2014-08-30 21:07:41] Stratum detected new block
+[2014-08-30 21:07:41] thread 0: 2324786 hashes, 143.21 khash/s
+[2014-08-30 21:07:45] Stratum detected new block
+[2014-08-30 21:07:45] thread 0: 597159 hashes, 170.13 khash/s
+[2014-08-30 21:08:42] Stratum detected new block
+[2014-08-30 21:08:42] thread 0: 8389936 hashes, 145.57 khash/s
+[2014-08-30 21:08:43] Stratum detected new block
+[2014-08-30 21:08:43] thread 0: 110625 hashes, 158.30 khash/s
+[2014-08-30 21:09:37] Stratum detected new block
+[2014-08-30 21:09:37] thread 0: 7708914 hashes, 143.72 khash/s
+[2014-08-30 21:09:43] Stratum detected new block
+[2014-08-30 21:09:43] thread 0: 927703 hashes, 146.61 khash/s
+[2014-08-30 21:09:59] Stratum detected new block
+[2014-08-30 21:09:59] thread 0: 2338488 hashes, 143.53 khash/s
+[2014-08-30 21:10:34] Stratum detected new block
+[2014-08-30 21:10:34] thread 0: 5031183 hashes, 145.32 khash/s
+[2014-08-30 21:10:38] Stratum detected new block
+[2014-08-30 21:10:38] thread 0: 539521 hashes, 127.59 khash/s
+[2014-08-30 21:10:44] Stratum detected new block
+[2014-08-30 21:10:44] thread 0: 942064 hashes, 146.14 khash/s
+[2014-08-30 21:11:01] Stratum detected new block
+[2014-08-30 21:11:02] thread 0: 2408642 hashes, 139.13 khash/s
+[2014-08-30 21:11:46] Stratum detected new block
+[2014-08-30 21:11:46] thread 0: 6461397 hashes, 147.38 khash/s
+[2014-08-30 21:11:52] Stratum detected new block
+[2014-08-30 21:11:52] thread 0: 912152 hashes, 146.06 khash/s
+[2014-08-30 21:12:05] Stratum detected new block
+[2014-08-30 21:12:05] thread 0: 2020348 hashes, 148.61 khash/s
+[2014-08-30 21:12:47] Stratum detected new block
+[2014-08-30 21:12:48] Stratum detected new block
+[2014-08-30 21:12:48] thread 0: 6140774 hashes, 144.91 khash/s
+[2014-08-30 21:13:10] Stratum detected new block
+[2014-08-30 21:13:10] thread 0: 3211121 hashes, 144.02 khash/s
+[2014-08-30 21:13:26] Stratum detected new block
+[2014-08-30 21:13:26] thread 0: 2301914 hashes, 143.15 khash/s
+[2014-08-30 21:13:47] Stratum detected new block
+[2014-08-30 21:13:47] thread 0: 3099272 hashes, 145.62 khash/s
+[2014-08-30 21:13:57] Stratum detected new block
+[2014-08-30 21:13:57] thread 0: 1352569 hashes, 148.45 khash/s
+[2014-08-30 21:14:04] Stratum detected new block
+[2014-08-30 21:14:04] thread 0: 1193678 hashes, 151.26 khash/s
+[2014-08-30 21:14:05] Stratum detected new block
+[2014-08-30 21:14:06] thread 0: 28309 hashes, 27.06 khash/s
+[2014-08-30 21:14:11] Stratum detected new block
+[2014-08-30 21:14:11] thread 0: 864278 hashes, 160.14 khash/s
+[2014-08-30 21:14:11] Stratum detected new block
+[2014-08-30 21:14:12] thread 0: 2112 hashes, 2.61 khash/s
+[2014-08-30 21:14:13] thread 0: 156428 hashes, 168.33 khash/s
+[2014-08-30 21:14:15] Stratum detected new block
+[2014-08-30 21:14:15] thread 0: 350463 hashes, 167.86 khash/s
+[2014-08-30 21:14:48] Stratum detected new block
+[2014-08-30 21:14:48] thread 0: 4765499 hashes, 141.38 khash/s
+[2014-08-30 21:14:53] Stratum detected new block
+[2014-08-30 21:14:54] thread 0: 725844 hashes, 139.80 khash/s
+[2014-08-30 21:14:58] Stratum detected new block
+[2014-08-30 21:14:58] thread 0: 678967 hashes, 170.19 khash/s
+[2014-08-30 21:14:58] Stratum detected new block
+[2014-08-30 21:14:58] thread 0: 100727 hashes, 156.64 khash/s
+[2014-08-30 21:14:59] Stratum detected new block
+[2014-08-30 21:14:59] thread 0: 55503 hashes, 80.10 khash/s
+[2014-08-30 21:15:15] Stratum detected new block
+[2014-08-30 21:15:15] thread 0: 2393917 hashes, 146.18 khash/s
+[2014-08-30 21:15:38] Stratum detected new block
+[2014-08-30 21:15:38] thread 0: 3205664 hashes, 144.38 khash/s
+[2014-08-30 21:15:49] Stratum detected new block
+[2014-08-30 21:15:49] thread 0: 1664665 hashes, 144.86 khash/s
+[2014-08-30 21:15:50] Stratum detected new block
+[2014-08-30 21:15:50] thread 0: 130426 hashes, 160.41 khash/s
+[2014-08-30 21:16:11] Stratum detected new block
+[2014-08-30 21:16:11] thread 0: 2964478 hashes, 142.15 khash/s
+[2014-08-30 21:16:25] stratum_recv_line failed
+[2014-08-30 21:16:25] Stratum connection interrupted
+[2014-08-30 21:16:25] thread 0: 2193151 hashes, 151.00 khash/s
+[2014-08-30 21:16:28] Stratum detected new block
+[2014-08-30 21:16:28] Stratum detected new block
+[2014-08-30 21:16:29] Stratum detected new block
+[2014-08-30 21:16:29] thread 0: 720 hashes, 1.43 khash/s
+[2014-08-30 21:16:29] Stratum detected new block
+[2014-08-30 21:16:29] thread 0: 35907 hashes, 115.64 khash/s
+[2014-08-30 21:16:35] Stratum detected new block
+[2014-08-30 21:16:35] thread 0: 816563 hashes, 136.06 khash/s
+[2014-08-30 21:16:38] Stratum detected new block
+[2014-08-30 21:16:38] thread 0: 435358 hashes, 168.72 khash/s
+[2014-08-30 21:17:21] Stratum detected new block
+[2014-08-30 21:17:21] thread 0: 6332218 hashes, 146.68 khash/s
+[2014-08-30 21:17:40] stratum_recv_line failed
+[2014-08-30 21:17:40] Stratum connection interrupted
+[2014-08-30 21:17:40] thread 0: 2711816 hashes, 139.84 khash/s
+[2014-08-30 21:17:42] Stratum detected new block
+[2014-08-30 21:17:42] Stratum detected new block
+[2014-08-30 21:18:30] Stratum detected new block
+[2014-08-30 21:18:30] thread 0: 6863356 hashes, 143.16 khash/s
+[2014-08-30 21:18:40] Stratum detected new block
+[2014-08-30 21:18:40] thread 0: 1417546 hashes, 140.77 khash/s
+[2014-08-30 21:18:57] Stratum detected new block
+[2014-08-30 21:18:58] thread 0: 2506421 hashes, 144.96 khash/s
+[2014-08-30 21:19:28] Stratum detected new block
+[2014-08-30 21:19:28] thread 0: 4524847 hashes, 146.93 khash/s
+[2014-08-30 21:19:41] Stratum detected new block
+[2014-08-30 21:19:41] thread 0: 1836033 hashes, 147.01 khash/s
+[2014-08-30 21:19:41] Stratum detected new block
+[2014-08-30 21:19:41] thread 0: 98446 hashes, 156.70 khash/s
+[2014-08-30 21:20:43] Stratum detected new block
+[2014-08-30 21:20:43] thread 0: 8865951 hashes, 144.87 khash/s
+[2014-08-30 21:20:51] Stratum detected new block
+[2014-08-30 21:20:51] thread 0: 1176317 hashes, 135.57 khash/s
+[2014-08-30 21:21:31] Stratum detected new block
+[2014-08-30 21:21:31] thread 0: 5849615 hashes, 148.58 khash/s
+[2014-08-30 21:21:39] Stratum detected new block
+[2014-08-30 21:21:39] thread 0: 1157512 hashes, 135.17 khash/s
+[2014-08-30 21:21:43] Stratum detected new block
+[2014-08-30 21:21:43] thread 0: 584999 hashes, 150.29 khash/s
+[2014-08-30 21:22:14] Stratum detected new block
+[2014-08-30 21:22:14] thread 0: 4312979 hashes, 141.02 khash/s
+[2014-08-30 21:22:44] Stratum detected new block
+[2014-08-30 21:22:44] thread 0: 4473984 hashes, 146.94 khash/s
+[2014-08-30 21:23:02] Stratum detected new block
+[2014-08-30 21:23:02] thread 0: 2510857 hashes, 144.56 khash/s
+[2014-08-30 21:23:04] Stratum detected new block
+[2014-08-30 21:23:04] thread 0: 407594 hashes, 168.45 khash/s
+[2014-08-30 21:23:16] Stratum detected new block
+[2014-08-30 21:23:16] thread 0: 1711445 hashes, 145.50 khash/s
+[2014-08-30 21:23:46] Stratum detected new block
+[2014-08-30 21:23:46] thread 0: 4442336 hashes, 146.59 khash/s
+[2014-08-30 21:23:48] Stratum detected new block
+[2014-08-30 21:23:48] thread 0: 229661 hashes, 95.62 khash/s
+[2014-08-30 21:24:12] Stratum detected new block
+[2014-08-30 21:24:13] thread 0: 3396022 hashes, 141.03 khash/s
+[2014-08-30 21:24:46] Stratum detected new block
+[2014-08-30 21:24:46] thread 0: 5001312 hashes, 149.05 khash/s
+[2014-08-30 21:24:54] Stratum detected new block
+[2014-08-30 21:24:54] thread 0: 1046657 hashes, 137.83 khash/s
+[2014-08-30 21:25:08] Stratum detected new block
+[2014-08-30 21:25:08] thread 0: 2138157 hashes, 146.12 khash/s
+[2014-08-30 21:25:48] Stratum detected new block
+[2014-08-30 21:25:48] thread 0: 5630696 hashes, 142.14 khash/s
+[2014-08-30 21:25:48] Stratum detected new block
+[2014-08-30 21:25:48] thread 0: 7063 hashes, 80.08 khash/s
+[2014-08-30 21:26:20] thread 0: 4804980 hashes, 148.38 khash/s
+[2014-08-30 21:26:28] Stratum detected new block
+[2014-08-30 21:26:28] thread 0: 1183165 hashes, 151.57 khash/s
+[2014-08-30 21:26:49] Stratum detected new block
+[2014-08-30 21:26:49] thread 0: 2908047 hashes, 141.86 khash/s
+[2014-08-30 21:27:02] Stratum detected new block
+[2014-08-30 21:27:02] thread 0: 2012468 hashes, 148.64 khash/s
+[2014-08-30 21:27:23] Stratum detected new block
+[2014-08-30 21:27:23] thread 0: 3015989 hashes, 142.66 khash/s
+[2014-08-30 21:27:43] Stratum detected new block
+[2014-08-30 21:27:43] thread 0: 2823519 hashes, 144.70 khash/s
+[2014-08-30 21:27:50] Stratum detected new block
+[2014-08-30 21:27:50] thread 0: 1016047 hashes, 148.60 khash/s
+[2014-08-30 21:28:04] Stratum detected new block
+[2014-08-30 21:28:04] thread 0: 2035959 hashes, 139.36 khash/s
+[2014-08-30 21:28:20] Stratum detected new block
+[2014-08-30 21:28:20] thread 0: 2359107 hashes, 151.87 khash/s
+[2014-08-30 21:28:37] Stratum detected new block
+[2014-08-30 21:28:37] thread 0: 2454419 hashes, 144.49 khash/s
+[2014-08-30 21:28:50] Stratum detected new block
+[2014-08-30 21:28:50] thread 0: 1929834 hashes, 148.10 khash/s
+[2014-08-30 21:28:50] Stratum detected new block
+[2014-08-30 21:28:50] thread 0: 55961 hashes, 145.81 khash/s
+[2014-08-30 21:28:55] Stratum detected new block
+[2014-08-30 21:28:55] thread 0: 624239 hashes, 136.47 khash/s
+[2014-08-30 21:29:15] Stratum detected new block
+[2014-08-30 21:29:15] thread 0: 2887344 hashes, 142.35 khash/s
+[2014-08-30 21:29:26] Stratum detected new block
+[2014-08-30 21:29:26] thread 0: 1663260 hashes, 150.13 khash/s
+[2014-08-30 21:29:42] Stratum detected new block
+[2014-08-30 21:29:42] thread 0: 2100400 hashes, 136.76 khash/s
+[2014-08-30 21:29:51] Stratum detected new block
+[2014-08-30 21:29:51] thread 0: 1358952 hashes, 140.82 khash/s
+[2014-08-30 21:30:21] Stratum detected new block
+[2014-08-30 21:30:21] thread 0: 4370648 hashes, 145.63 khash/s
+[2014-08-30 21:30:52] Stratum detected new block
+[2014-08-30 21:30:52] thread 0: 4527851 hashes, 146.96 khash/s
+[2014-08-30 21:31:04] Stratum detected new block
+[2014-08-30 21:31:04] thread 0: 1655655 hashes, 142.70 khash/s
+[2014-08-30 21:31:42] Stratum detected new block
+[2014-08-30 21:31:42] thread 0: 5631762 hashes, 144.92 khash/s
+[2014-08-30 21:31:54] Stratum detected new block
+[2014-08-30 21:31:54] thread 0: 1639817 hashes, 144.37 khash/s
+[2014-08-30 21:32:00] Stratum detected new block
+[2014-08-30 21:32:00] thread 0: 808735 hashes, 142.57 khash/s
+[2014-08-30 21:32:04] Stratum detected new block
+[2014-08-30 21:32:04] thread 0: 574368 hashes, 133.26 khash/s
+[2014-08-30 21:32:58] thread 0: 7995507 hashes, 146.80 khash/s
+[2014-08-30 21:33:21] Stratum detected new block
+[2014-08-30 21:33:21] thread 0: 3241837 hashes, 140.79 khash/s
+[2014-08-30 21:33:31] Stratum detected new block
+[2014-08-30 21:33:31] thread 0: 1430776 hashes, 140.92 khash/s
+[2014-08-30 21:33:48] Stratum detected new block
+[2014-08-30 21:33:48] thread 0: 2469767 hashes, 152.94 khash/s
+[2014-08-30 21:34:41] Stratum detected new block
+[2014-08-30 21:34:42] thread 0: 7846405 hashes, 145.49 khash/s
+[2014-08-30 21:35:30] Stratum detected new block
+[2014-08-30 21:35:30] thread 0: 6880424 hashes, 142.22 khash/s
+[2014-08-30 21:35:55] Stratum detected new block
+[2014-08-30 21:35:55] thread 0: 3732911 hashes, 147.47 khash/s
+[2014-08-30 21:36:15] Stratum detected new block
+[2014-08-30 21:36:15] thread 0: 2960191 hashes, 148.45 khash/s
+[2014-08-30 21:36:24] Stratum detected new block
+[2014-08-30 21:36:24] thread 0: 1169656 hashes, 135.45 khash/s
+[2014-08-30 21:36:34] Stratum detected new block
+[2014-08-30 21:36:35] thread 0: 1624250 hashes, 150.51 khash/s
+[2014-08-30 21:36:43] Stratum detected new block
+[2014-08-30 21:36:43] thread 0: 1273472 hashes, 144.29 khash/s
+[2014-08-30 21:36:53] Stratum detected new block
+[2014-08-30 21:36:54] thread 0: 1307020 hashes, 129.88 khash/s
+[2014-08-30 21:37:47] thread 0: 7792632 hashes, 145.92 khash/s
+[2014-08-30 21:37:54] Stratum detected new block
+[2014-08-30 21:37:54] thread 0: 1088485 hashes, 149.22 khash/s
+[2014-08-30 21:38:11] Stratum detected new block
+[2014-08-30 21:38:11] thread 0: 2470067 hashes, 144.39 khash/s
+[2014-08-30 21:38:25] Stratum detected new block
+[2014-08-30 21:38:25] thread 0: 2047063 hashes, 149.30 khash/s
+[2014-08-30 21:38:39] Stratum detected new block
+[2014-08-30 21:38:40] thread 0: 2124191 hashes, 139.19 khash/s
+[2014-08-30 21:38:45] Stratum detected new block
+[2014-08-30 21:38:45] thread 0: 750738 hashes, 157.42 khash/s
+[2014-08-30 21:38:51] Stratum detected new block
+[2014-08-30 21:38:51] thread 0: 896409 hashes, 145.33 khash/s
+[2014-08-30 21:39:05] Stratum detected new block
+[2014-08-30 21:39:05] thread 0: 1956833 hashes, 138.36 khash/s
+[2014-08-30 21:40:02] thread 0: 8301450 hashes, 147.70 khash/s
+[2014-08-30 21:40:03] Stratum detected new block
+[2014-08-30 21:40:03] thread 0: 158908 hashes, 83.50 khash/s
+[2014-08-30 21:40:38] thread 0: 5009955 hashes, 146.53 khash/s
+[2014-08-30 21:40:56] Stratum detected new block
+[2014-08-30 21:40:57] thread 0: 2724373 hashes, 141.54 khash/s
+[2014-08-30 21:40:58] Stratum detected new block
+[2014-08-30 21:40:58] thread 0: 221418 hashes, 145.06 khash/s
+[2014-08-30 21:41:04] Stratum detected new block
+[2014-08-30 21:41:04] thread 0: 777014 hashes, 141.51 khash/s
+[2014-08-30 21:41:04] Stratum detected new block
+[2014-08-30 21:41:04] thread 0: 6282 hashes, 70.86 khash/s
+[2014-08-30 21:41:11] Stratum detected new block
+[2014-08-30 21:41:11] thread 0: 1018528 hashes, 148.21 khash/s
+[2014-08-30 21:41:20] Stratum detected new block
+[2014-08-30 21:41:21] thread 0: 1391112 hashes, 140.36 khash/s
+[2014-08-30 21:42:18] thread 0: 8421668 hashes, 147.88 khash/s
+[2014-08-30 21:42:30] Stratum detected new block
+[2014-08-30 21:42:30] thread 0: 1623060 hashes, 136.69 khash/s
+[2014-08-30 21:43:09] Stratum detected new block
+[2014-08-30 21:43:09] thread 0: 5679067 hashes, 144.45 khash/s
+[2014-08-30 21:43:42] Stratum detected new block
+[2014-08-30 21:43:42] thread 0: 4956067 hashes, 149.05 khash/s
+[2014-08-30 21:44:10] Stratum detected new block
+[2014-08-30 21:44:10] thread 0: 3941213 hashes, 143.70 khash/s
+[2014-08-30 21:44:15] Stratum detected new block
+[2014-08-30 21:44:15] thread 0: 623986 hashes, 126.15 khash/s
+[2014-08-30 21:44:36] Stratum detected new block
+[2014-08-30 21:44:37] thread 0: 3186296 hashes, 144.86 khash/s
+[2014-08-30 21:44:58] stratum_recv_line failed
+[2014-08-30 21:44:58] Stratum connection interrupted
+[2014-08-30 21:44:58] thread 0: 3244739 hashes, 148.19 khash/s
+[2014-08-30 21:45:01] Stratum detected new block
+[2014-08-30 21:45:02] Stratum detected new block
+[2014-08-30 21:45:02] thread 0: 25112 hashes, 100.09 khash/s
+[2014-08-30 21:45:07] Stratum detected new block
+[2014-08-30 21:45:07] thread 0: 677364 hashes, 121.52 khash/s
+[2014-08-30 21:45:57] thread 0: 7290999 hashes, 147.54 khash/s
+[2014-08-30 21:46:40] Stratum detected new block
+[2014-08-30 21:46:40] thread 0: 6298245 hashes, 144.70 khash/s
+[2014-08-30 21:47:04] Stratum detected new block
+[2014-08-30 21:47:04] thread 0: 3408620 hashes, 144.74 khash/s
+[2014-08-30 21:47:05] Stratum detected new block
+[2014-08-30 21:47:05] thread 0: 78546 hashes, 78.59 khash/s
+[2014-08-30 21:47:08] Stratum detected new block
+[2014-08-30 21:47:08] thread 0: 525474 hashes, 146.66 khash/s
+[2014-08-30 21:47:13] Stratum detected new block
+[2014-08-30 21:47:13] thread 0: 650079 hashes, 137.74 khash/s
+[2014-08-30 21:47:17] Stratum detected new block
+[2014-08-30 21:47:17] thread 0: 588451 hashes, 134.70 khash/s
+[2014-08-30 21:47:57] Stratum detected new block
+[2014-08-30 21:47:57] thread 0: 5914505 hashes, 147.98 khash/s
+[2014-08-30 21:47:58] Stratum detected new block
+[2014-08-30 21:47:59] Stratum detected new block
+[2014-08-30 21:47:59] thread 0: 60099 hashes, 49.25 khash/s
+[2014-08-30 21:48:05] Stratum detected new block
+[2014-08-30 21:48:05] thread 0: 857971 hashes, 131.88 khash/s
+[2014-08-30 21:48:31] Stratum detected new block
+[2014-08-30 21:48:31] thread 0: 3776195 hashes, 147.97 khash/s
+[2014-08-30 21:48:40] Stratum detected new block
+[2014-08-30 21:48:41] thread 0: 1394567 hashes, 139.81 khash/s
+[2014-08-30 21:49:07] Stratum detected new block
+[2014-08-30 21:49:07] thread 0: 3953249 hashes, 148.69 khash/s
+[2014-08-30 21:49:51] Stratum detected new block
+[2014-08-30 21:49:51] thread 0: 6315681 hashes, 145.48 khash/s
+[2014-08-30 21:49:53] Stratum detected new block
+[2014-08-30 21:49:53] thread 0: 235676 hashes, 100.32 khash/s
+[2014-08-30 21:49:55] Stratum detected new block
+[2014-08-30 21:49:55] thread 0: 265793 hashes, 165.98 khash/s
+[2014-08-30 21:50:26] Stratum detected new block
+[2014-08-30 21:50:26] thread 0: 4602439 hashes, 147.38 khash/s
+[2014-08-30 21:50:29] Stratum detected new block
+[2014-08-30 21:50:29] thread 0: 431416 hashes, 124.78 khash/s
+[2014-08-30 21:50:40] Stratum detected new block
+[2014-08-30 21:50:40] thread 0: 1556776 hashes, 143.22 khash/s
+[2014-08-30 21:50:54] Stratum detected new block
+[2014-08-30 21:50:54] thread 0: 2142158 hashes, 150.32 khash/s
+[2014-08-30 21:50:56] Stratum detected new block
+[2014-08-30 21:50:56] thread 0: 229738 hashes, 165.21 khash/s
+[2014-08-30 21:51:30] Stratum detected new block
+[2014-08-30 21:51:30] thread 0: 4921861 hashes, 144.86 khash/s
+[2014-08-30 21:51:31] Stratum detected new block
+[2014-08-30 21:51:31] thread 0: 153023 hashes, 160.08 khash/s
+[2014-08-30 21:51:31] Stratum detected new block
+[2014-08-30 21:51:31] thread 0: 44853 hashes, 146.81 khash/s
+[2014-08-30 21:51:41] Stratum detected new block
+[2014-08-30 21:51:41] thread 0: 1256368 hashes, 126.59 khash/s
+[2014-08-30 21:52:33] thread 0: 7595696 hashes, 145.79 khash/s
+[2014-08-30 21:52:49] Stratum detected new block
+[2014-08-30 21:52:50] thread 0: 2424090 hashes, 144.28 khash/s
+[2014-08-30 21:52:56] Stratum detected new block
+[2014-08-30 21:52:56] thread 0: 859708 hashes, 144.89 khash/s
+[2014-08-30 21:53:24] Stratum detected new block
+[2014-08-30 21:53:24] thread 0: 4156087 hashes, 149.39 khash/s
+[2014-08-30 21:53:24] Stratum detected new block
+[2014-08-30 21:53:24] thread 0: 100350 hashes, 156.77 khash/s
+[2014-08-30 21:53:25] Stratum detected new block
+[2014-08-30 21:53:25] thread 0: 37649 hashes, 46.56 khash/s
+[2014-08-30 21:53:45] thread 0: 2793561 hashes, 140.39 khash/s
+[2014-08-30 21:53:51] Stratum detected new block
+[2014-08-30 21:53:51] thread 0: 863143 hashes, 144.99 khash/s
+[2014-08-30 21:54:03] Stratum detected new block
+[2014-08-30 21:54:03] thread 0: 1705927 hashes, 144.68 khash/s
+[2014-08-30 21:54:14] Stratum detected new block
+[2014-08-30 21:54:14] thread 0: 1563840 hashes, 142.63 khash/s
+[2014-08-30 21:54:39] Stratum detected new block
+[2014-08-30 21:54:39] thread 0: 3818653 hashes, 148.28 khash/s
+[2014-08-30 21:55:00] stratum_recv_line failed
+[2014-08-30 21:55:00] Stratum connection interrupted
+[2014-08-30 21:55:01] thread 0: 3029746 hashes, 142.73 khash/s
+[2014-08-30 21:55:02] Stratum detected new block
+[2014-08-30 21:55:02] Stratum detected new block
+[2014-08-30 21:55:41] Stratum detected new block
+[2014-08-30 21:55:41] thread 0: 5458139 hashes, 144.13 khash/s
+[2014-08-30 21:55:41] Stratum detected new block
+[2014-08-30 21:55:41] thread 0: 51978 hashes, 142.54 khash/s
+[2014-08-30 21:55:42] Stratum detected new block
+[2014-08-30 21:55:42] thread 0: 122764 hashes, 92.76 khash/s
+[2014-08-30 21:56:20] thread 0: 5565611 hashes, 146.29 khash/s
+[2014-08-30 21:56:22] Stratum detected new block
+[2014-08-30 21:56:22] thread 0: 263339 hashes, 165.98 khash/s
+[2014-08-30 21:56:53] Stratum detected new block
+[2014-08-30 21:56:54] thread 0: 4540219 hashes, 143.40 khash/s
+[2014-08-30 21:56:55] Stratum detected new block
+[2014-08-30 21:56:55] thread 0: 144491 hashes, 145.94 khash/s
+[2014-08-30 21:56:58] Stratum detected new block
+[2014-08-30 21:56:58] thread 0: 601399 hashes, 169.80 khash/s
+[2014-08-30 21:57:44] Stratum detected new block
+[2014-08-30 21:57:44] thread 0: 6490486 hashes, 142.69 khash/s
+[2014-08-30 21:58:04] Stratum detected new block
+[2014-08-30 21:58:04] thread 0: 3075677 hashes, 148.28 khash/s
+[2014-08-30 21:58:15] Stratum detected new block
+[2014-08-30 21:58:15] thread 0: 1511076 hashes, 144.20 khash/s
+[2014-08-30 21:58:19] Stratum detected new block
+[2014-08-30 21:58:19] thread 0: 608610 hashes, 131.94 khash/s
+[2014-08-30 21:59:14] thread 0: 7916480 hashes, 144.98 khash/s
+[2014-08-30 21:59:22] Stratum detected new block
+[2014-08-30 21:59:22] thread 0: 1149295 hashes, 150.89 khash/s
+[2014-08-30 21:59:33] Stratum detected new block
+[2014-08-30 21:59:33] thread 0: 1667166 hashes, 144.78 khash/s
+[2014-08-30 21:59:52] Stratum detected new block
+[2014-08-30 21:59:52] thread 0: 2663674 hashes, 139.44 khash/s
+[2014-08-30 22:00:12] Stratum detected new block
+[2014-08-30 22:00:12] thread 0: 2962752 hashes, 148.52 khash/s
+[2014-08-30 22:00:22] Stratum detected new block
+[2014-08-30 22:00:22] thread 0: 1388725 hashes, 140.17 khash/s
+[2014-08-30 22:00:31] Stratum detected new block
+[2014-08-30 22:00:31] thread 0: 1399427 hashes, 154.15 khash/s
+[2014-08-30 22:00:34] stratum_recv_line failed
+[2014-08-30 22:00:34] Stratum connection interrupted
+[2014-08-30 22:00:34] thread 0: 258810 hashes, 105.15 khash/s
+[2014-08-30 22:00:36] Stratum detected new block
+[2014-08-30 22:00:37] Stratum detected new block
+[2014-08-30 22:00:37] thread 0: 2608 hashes, 41.93 khash/s
+[2014-08-30 22:00:54] thread 0: 2515999 hashes, 142.60 khash/s
+[2014-08-30 22:01:22] Stratum detected new block
+[2014-08-30 22:01:22] thread 0: 3913337 hashes, 143.27 khash/s
+[2014-08-30 22:01:23] Stratum detected new block
+[2014-08-30 22:01:23] thread 0: 227981 hashes, 165.09 khash/s
+[2014-08-30 22:01:30] Stratum detected new block
+[2014-08-30 22:01:30] thread 0: 998827 hashes, 147.93 khash/s
+[2014-08-30 22:02:10] Stratum detected new block
+[2014-08-30 22:02:10] thread 0: 5811110 hashes, 145.12 khash/s
+[2014-08-30 22:02:14] Stratum detected new block
+[2014-08-30 22:02:14] thread 0: 640502 hashes, 145.37 khash/s
+[2014-08-30 22:02:23] Stratum detected new block
+[2014-08-30 22:02:23] thread 0: 1349718 hashes, 148.70 khash/s
+[2014-08-30 22:02:42] Stratum detected new block
+[2014-08-30 22:02:42] thread 0: 2690627 hashes, 144.98 khash/s
+[2014-08-30 22:03:04] Stratum detected new block
+[2014-08-30 22:03:04] thread 0: 3091439 hashes, 140.14 khash/s
+[2014-08-30 22:03:15] Stratum detected new block
+[2014-08-30 22:03:15] thread 0: 1633637 hashes, 144.38 khash/s
+[2014-08-30 22:03:27] Stratum detected new block
+[2014-08-30 22:03:27] thread 0: 1685876 hashes, 145.05 khash/s
+[2014-08-30 22:03:42] Stratum detected new block
+[2014-08-30 22:03:42] thread 0: 2360215 hashes, 152.05 khash/s
+[2014-08-30 22:03:43] Stratum detected new block
+[2014-08-30 22:03:44] thread 0: 54403 hashes, 43.40 khash/s
+[2014-08-30 22:04:00] Stratum detected new block
+[2014-08-30 22:04:00] thread 0: 2422836 hashes, 151.79 khash/s
+[2014-08-30 22:04:23] Stratum detected new block
+[2014-08-30 22:04:23] thread 0: 3488347 hashes, 146.21 khash/s
+[2014-08-30 22:04:39] Stratum detected new block
+[2014-08-30 22:04:39] thread 0: 2121767 hashes, 135.53 khash/s
+[2014-08-30 22:04:43] Stratum detected new block
+[2014-08-30 22:04:43] thread 0: 578234 hashes, 133.29 khash/s
+[2014-08-30 22:05:14] Stratum detected new block
+[2014-08-30 22:05:14] thread 0: 4512393 hashes, 146.10 khash/s
+[2014-08-30 22:05:21] Stratum detected new block
+[2014-08-30 22:05:21] thread 0: 995954 hashes, 148.11 khash/s
+[2014-08-30 22:05:29] Stratum detected new block
+[2014-08-30 22:05:29] thread 0: 1131671 hashes, 150.72 khash/s
+[2014-08-30 22:06:31] thread 0: 9042992 hashes, 144.22 khash/s
+[2014-08-30 22:06:33] Stratum detected new block
+[2014-08-30 22:06:33] thread 0: 261501 hashes, 166.06 khash/s
+[2014-08-30 22:06:57] Stratum detected new block
+[2014-08-30 22:06:57] thread 0: 3542802 hashes, 146.69 khash/s
+[2014-08-30 22:06:58] Stratum detected new block
+[2014-08-30 22:06:58] thread 0: 219566 hashes, 165.03 khash/s
+[2014-08-30 22:07:12] Stratum detected new block
+[2014-08-30 22:07:12] thread 0: 1864635 hashes, 137.08 khash/s
+[2014-08-30 22:07:28] Stratum detected new block
+[2014-08-30 22:07:28] thread 0: 2424300 hashes, 152.56 khash/s
+[2014-08-30 22:07:33] Stratum detected new block
+[2014-08-30 22:07:33] thread 0: 740825 hashes, 141.07 khash/s
+[2014-08-30 22:07:58] Stratum detected new block
+[2014-08-30 22:07:58] thread 0: 3694255 hashes, 145.62 khash/s
+[2014-08-30 22:08:44] Stratum detected new block
+[2014-08-30 22:08:44] thread 0: 6601295 hashes, 143.95 khash/s
+[2014-08-30 22:08:46] Stratum detected new block
+[2014-08-30 22:08:46] thread 0: 244270 hashes, 165.91 khash/s
+[2014-08-30 22:08:53] Stratum detected new block
+[2014-08-30 22:08:53] thread 0: 895108 hashes, 127.04 khash/s
+[2014-08-30 22:09:44] thread 0: 7622606 hashes, 148.27 khash/s
+[2014-08-30 22:10:46] thread 0: 8896142 hashes, 143.30 khash/s
+[2014-08-30 22:10:53] Stratum connection timed out
+[2014-08-30 22:10:53] Stratum connection interrupted
+[2014-08-30 22:10:53] thread 0: 981398 hashes, 148.68 khash/s
+[2014-08-30 22:10:55] Stratum detected new block
+[2014-08-30 22:10:56] Stratum detected new block
+[2014-08-30 22:10:59] Stratum detected new block
+[2014-08-30 22:10:59] thread 0: 394324 hashes, 111.82 khash/s
+[2014-08-30 22:11:25] Stratum detected new block
+[2014-08-30 22:11:25] thread 0: 3740783 hashes, 147.56 khash/s
+[2014-08-30 22:11:41] Stratum detected new block
+[2014-08-30 22:11:41] thread 0: 2406824 hashes, 144.20 khash/s
+[2014-08-30 22:11:43] Stratum detected new block
+[2014-08-30 22:11:43] thread 0: 301478 hashes, 166.87 khash/s
+[2014-08-30 22:11:55] Stratum detected new block
+[2014-08-30 22:11:55] thread 0: 1743927 hashes, 145.87 khash/s
+[2014-08-30 22:12:15] Stratum detected new block
+[2014-08-30 22:12:15] thread 0: 2655440 hashes, 133.97 khash/s
+[2014-08-30 22:12:30] Stratum detected new block
+[2014-08-30 22:12:30] thread 0: 2250879 hashes, 151.04 khash/s
+[2014-08-30 22:12:45] Stratum detected new block
+[2014-08-30 22:12:45] thread 0: 2192041 hashes, 141.75 khash/s
+[2014-08-30 22:13:43] thread 0: 8505164 hashes, 146.75 khash/s
+[2014-08-30 22:14:07] Stratum detected new block
+[2014-08-30 22:14:08] thread 0: 3411896 hashes, 141.15 khash/s
+[2014-08-30 22:14:53] Stratum detected new block
+[2014-08-30 22:14:53] thread 0: 6659424 hashes, 146.98 khash/s
+[2014-08-30 22:15:54] thread 0: 8818911 hashes, 145.20 khash/s
+[2014-08-30 22:16:26] Stratum detected new block
+[2014-08-30 22:16:26] thread 0: 4614930 hashes, 143.26 khash/s
+[2014-08-30 22:16:46] Stratum detected new block
+[2014-08-30 22:16:46] thread 0: 3080178 hashes, 149.60 khash/s
+[2014-08-30 22:17:49] thread 0: 8976244 hashes, 143.73 khash/s
+[2014-08-30 22:17:53] Stratum detected new block
+[2014-08-30 22:17:54] thread 0: 638283 hashes, 136.17 khash/s
+[2014-08-30 22:18:09] Stratum detected new block
+[2014-08-30 22:18:09] thread 0: 2290681 hashes, 151.16 khash/s
+[2014-08-30 22:18:29] Stratum detected new block
+[2014-08-30 22:18:29] thread 0: 2877952 hashes, 141.47 khash/s
+[2014-08-30 22:19:27] thread 0: 8488326 hashes, 146.18 khash/s
+[2014-08-30 22:19:28] Stratum detected new block
+[2014-08-30 22:19:28] thread 0: 78345 hashes, 152.00 khash/s
+[2014-08-30 22:19:55] Stratum detected new block
+[2014-08-30 22:19:55] thread 0: 3993647 hashes, 144.41 khash/s
+[2014-08-30 22:20:28] Stratum detected new block
+[2014-08-30 22:20:28] thread 0: 4738550 hashes, 143.97 khash/s
+[2014-08-30 22:21:28] thread 0: 8638321 hashes, 144.82 khash/s
+[2014-08-30 22:21:30] Stratum detected new block
+[2014-08-30 22:21:30] thread 0: 286929 hashes, 166.59 khash/s
+[2014-08-30 22:21:58] Stratum detected new block
+[2014-08-30 22:21:58] thread 0: 4082418 hashes, 144.86 khash/s
+[2014-08-30 22:22:34] Stratum detected new block
+[2014-08-30 22:22:34] thread 0: 5399492 hashes, 146.97 khash/s
+[2014-08-30 22:22:46] Stratum detected new block
+[2014-08-30 22:22:46] thread 0: 1683098 hashes, 145.22 khash/s
+[2014-08-30 22:22:53] Stratum detected new block
+[2014-08-30 22:22:53] thread 0: 1050150 hashes, 149.27 khash/s
+[2014-08-30 22:22:53] Stratum detected new block
+[2014-08-30 22:22:53] thread 0: 48092 hashes, 144.01 khash/s
+[2014-08-30 22:23:14] Stratum detected new block
+[2014-08-30 22:23:14] thread 0: 2916607 hashes, 138.76 khash/s
+[2014-08-30 22:23:40] Stratum detected new block
+[2014-08-30 22:23:40] thread 0: 3773867 hashes, 147.99 khash/s
+[2014-08-30 22:23:47] Stratum detected new block
+[2014-08-30 22:23:47] thread 0: 1099387 hashes, 149.88 khash/s
+[2014-08-30 22:23:58] Stratum detected new block
+[2014-08-30 22:23:58] thread 0: 1481012 hashes, 141.95 khash/s
+[2014-08-30 22:24:38] Stratum detected new block
+[2014-08-30 22:24:38] thread 0: 5910170 hashes, 145.44 khash/s
+[2014-08-30 22:24:40] Stratum detected new block
+[2014-08-30 22:24:40] thread 0: 271326 hashes, 166.13 khash/s
+[2014-08-30 22:24:52] stratum_recv_line failed
+[2014-08-30 22:24:52] Stratum connection interrupted
+[2014-08-30 22:24:52] thread 0: 1712502 hashes, 143.07 khash/s
+[2014-08-30 22:25:07] Stratum detected new block
+[2014-08-30 22:25:07] Stratum detected new block
+[2014-08-30 22:25:07] thread 0: 9258 hashes, 47.88 khash/s
+[2014-08-30 22:25:28] thread 0: 2872777 hashes, 141.49 khash/s
+[2014-08-30 22:25:30] Stratum detected new block
+[2014-08-30 22:25:30] thread 0: 393529 hashes, 168.39 khash/s
+[2014-08-30 22:25:33] Stratum detected new block
+[2014-08-30 22:25:33] thread 0: 363654 hashes, 113.85 khash/s
+[2014-08-30 22:25:36] Stratum detected new block
+[2014-08-30 22:25:36] thread 0: 476738 hashes, 169.27 khash/s
+[2014-08-30 22:25:36] Stratum detected new block
+[2014-08-30 22:25:36] thread 0: 52316 hashes, 144.95 khash/s
+[2014-08-30 22:25:36] Stratum detected new block
+[2014-08-30 22:25:36] thread 0: 16625 hashes, 109.08 khash/s
+[2014-08-30 22:26:08] Stratum detected new block
+[2014-08-30 22:26:08] thread 0: 4537617 hashes, 142.74 khash/s
+[2014-08-30 22:26:39] Stratum detected new block
+[2014-08-30 22:26:39] thread 0: 4563420 hashes, 147.39 khash/s
+[2014-08-30 22:26:52] Stratum detected new block
+[2014-08-30 22:26:52] thread 0: 1807513 hashes, 139.28 khash/s
+[2014-08-30 22:27:09] Stratum detected new block
+[2014-08-30 22:27:09] thread 0: 2368701 hashes, 143.45 khash/s
+[2014-08-30 22:27:41] Stratum detected new block
+[2014-08-30 22:27:41] thread 0: 4833438 hashes, 148.63 khash/s
+[2014-08-30 22:28:07] Stratum detected new block
+[2014-08-30 22:28:07] thread 0: 3652942 hashes, 141.88 khash/s
+[2014-08-30 22:28:17] Stratum detected new block
+[2014-08-30 22:28:17] thread 0: 1563873 hashes, 155.90 khash/s
+[2014-08-30 22:28:40] Stratum detected new block
+[2014-08-30 22:28:40] thread 0: 3213167 hashes, 142.18 khash/s
+[2014-08-30 22:28:42] Stratum detected new block
+[2014-08-30 22:28:42] thread 0: 282935 hashes, 123.07 khash/s
+[2014-08-30 22:28:48] Stratum detected new block
+[2014-08-30 22:28:48] thread 0: 866376 hashes, 136.25 khash/s
+[2014-08-30 22:28:51] Stratum detected new block
+[2014-08-30 22:28:51] thread 0: 533185 hashes, 169.57 khash/s
+[2014-08-30 22:29:10] Stratum detected new block
+[2014-08-30 22:29:10] thread 0: 2755117 hashes, 146.98 khash/s
+[2014-08-30 22:29:41] Stratum detected new block
+[2014-08-30 22:29:41] thread 0: 4469143 hashes, 142.69 khash/s
+[2014-08-30 22:29:43] Stratum detected new block
+[2014-08-30 22:29:43] thread 0: 201327 hashes, 161.80 khash/s
+[2014-08-30 22:30:25] Stratum detected new block
+[2014-08-30 22:30:25] thread 0: 6176216 hashes, 145.81 khash/s
+[2014-08-30 22:30:42] Stratum detected new block
+[2014-08-30 22:30:42] thread 0: 2325224 hashes, 139.90 khash/s
+[2014-08-30 22:31:06] Stratum detected new block
+[2014-08-30 22:31:06] thread 0: 3641048 hashes, 146.95 khash/s
+[2014-08-30 22:31:32] stratum_recv_line failed
+[2014-08-30 22:31:32] Stratum connection interrupted
+[2014-08-30 22:31:32] thread 0: 3772331 hashes, 148.22 khash/s
+[2014-08-30 22:31:34] Stratum detected new block
+[2014-08-30 22:31:35] Stratum detected new block
+[2014-08-30 22:31:35] thread 0: 52255 hashes, 73.27 khash/s
+[2014-08-30 22:31:42] Stratum detected new block
+[2014-08-30 22:31:42] thread 0: 1183788 hashes, 151.01 khash/s
+[2014-08-30 22:31:48] Stratum detected new block
+[2014-08-30 22:31:48] thread 0: 801438 hashes, 142.69 khash/s
+[2014-08-30 22:31:50] Stratum detected new block
+[2014-08-30 22:31:50] thread 0: 406567 hashes, 168.51 khash/s
+[2014-08-30 22:31:51] Stratum detected new block
+[2014-08-30 22:31:52] thread 0: 103108 hashes, 67.07 khash/s
+[2014-08-30 22:32:01] Stratum detected new block
+[2014-08-30 22:32:01] thread 0: 1377019 hashes, 153.38 khash/s
+[2014-08-30 22:32:17] Stratum detected new block
+[2014-08-30 22:32:17] thread 0: 2257554 hashes, 139.64 khash/s
+[2014-08-30 22:32:33] stratum_recv_line failed
+[2014-08-30 22:32:33] Stratum connection interrupted
+[2014-08-30 22:32:34] thread 0: 2373458 hashes, 144.42 khash/s
+[2014-08-30 22:32:35] Stratum detected new block
+[2014-08-30 22:32:36] Stratum detected new block
+[2014-08-30 22:32:43] Stratum detected new block
+[2014-08-30 22:32:43] thread 0: 965156 hashes, 139.21 khash/s
+[2014-08-30 22:32:51] Stratum detected new block
+[2014-08-30 22:32:51] thread 0: 1261047 hashes, 152.84 khash/s
+[2014-08-30 22:33:08] Stratum detected new block
+[2014-08-30 22:33:08] thread 0: 2553364 hashes, 144.97 khash/s
+[2014-08-30 22:33:24] Stratum detected new block
+[2014-08-30 22:33:24] thread 0: 2260543 hashes, 142.59 khash/s
+[2014-08-30 22:33:44] Stratum detected new block
+[2014-08-30 22:33:45] thread 0: 2969575 hashes, 146.25 khash/s
+[2014-08-30 22:34:40] Stratum detected new block
+[2014-08-30 22:34:40] thread 0: 8036343 hashes, 143.98 khash/s
+[2014-08-30 22:34:52] Stratum detected new block
+[2014-08-30 22:34:52] thread 0: 1622541 hashes, 144.25 khash/s
+[2014-08-30 22:35:36] Stratum detected new block
+[2014-08-30 22:35:36] thread 0: 6592805 hashes, 147.67 khash/s
+[2014-08-30 22:35:50] Stratum detected new block
+[2014-08-30 22:35:50] thread 0: 1857689 hashes, 137.23 khash/s
+[2014-08-30 22:36:18] Stratum detected new block
+[2014-08-30 22:36:18] thread 0: 4129649 hashes, 146.29 khash/s
+[2014-08-30 22:36:39] Stratum detected new block
+[2014-08-30 22:36:39] thread 0: 2944588 hashes, 142.25 khash/s
+[2014-08-30 22:36:55] Stratum detected new block
+[2014-08-30 22:36:55] thread 0: 2375326 hashes, 143.75 khash/s
+[2014-08-30 22:37:00] Stratum detected new block
+[2014-08-30 22:37:00] thread 0: 730147 hashes, 169.17 khash/s
+[2014-08-30 22:37:31] Stratum detected new block
+[2014-08-30 22:37:31] thread 0: 4492776 hashes, 142.79 khash/s
+[2014-08-30 22:38:11] Stratum detected new block
+[2014-08-30 22:38:11] thread 0: 5853898 hashes, 146.43 khash/s
+[2014-08-30 22:38:37] Stratum detected new block
+[2014-08-30 22:38:37] thread 0: 3652965 hashes, 142.15 khash/s
+[2014-08-30 22:38:57] Stratum detected new block
+[2014-08-30 22:38:57] thread 0: 2947053 hashes, 148.75 khash/s
+[2014-08-30 22:39:17] Stratum detected new block
+[2014-08-30 22:39:18] thread 0: 3009102 hashes, 142.09 khash/s
+[2014-08-30 22:39:20] Stratum detected new block
+[2014-08-30 22:39:20] thread 0: 372664 hashes, 157.56 khash/s
+[2014-08-30 22:40:04] Stratum detected new block
+[2014-08-30 22:40:04] thread 0: 6374139 hashes, 145.66 khash/s
+[2014-08-30 22:41:01] Stratum detected new block
+[2014-08-30 22:41:01] thread 0: 8320848 hashes, 145.30 khash/s
+[2014-08-30 22:41:13] Stratum detected new block
+[2014-08-30 22:41:13] thread 0: 1757063 hashes, 145.84 khash/s
+[2014-08-30 22:41:46] Stratum detected new block
+[2014-08-30 22:41:46] thread 0: 4683619 hashes, 141.67 khash/s
+[2014-08-30 22:41:59] Stratum detected new block
+[2014-08-30 22:41:59] thread 0: 1871896 hashes, 144.35 khash/s
+[2014-08-30 22:42:12] Stratum detected new block
+[2014-08-30 22:42:12] thread 0: 1821240 hashes, 146.36 khash/s
+[2014-08-30 22:43:11] thread 0: 8781379 hashes, 146.64 khash/s
+[2014-08-30 22:44:12] Stratum connection timed out
+[2014-08-30 22:44:12] Stratum connection interrupted
+[2014-08-30 22:44:12] thread 0: 8732316 hashes, 145.02 khash/s
+[2014-08-30 22:44:15] Stratum detected new block
+[2014-08-30 22:44:15] Stratum detected new block
+[2014-08-30 22:44:15] thread 0: 916 hashes, 2.27 khash/s
+[2014-08-30 22:44:16] thread 0: 135930 hashes, 164.06 khash/s
+[2014-08-30 22:44:42] Stratum detected new block
+[2014-08-30 22:44:42] thread 0: 3904193 hashes, 148.55 khash/s
+[2014-08-30 22:45:11] Stratum detected new block
+[2014-08-30 22:45:11] thread 0: 4194920 hashes, 145.03 khash/s
+[2014-08-30 22:46:02] Stratum detected new block
+[2014-08-30 22:46:02] thread 0: 7273264 hashes, 142.55 khash/s
+[2014-08-30 22:46:20] Stratum detected new block
+[2014-08-30 22:46:20] thread 0: 2635356 hashes, 146.15 khash/s
+[2014-08-30 22:46:50] Stratum detected new block
+[2014-08-30 22:46:50] thread 0: 4359299 hashes, 146.46 khash/s
+[2014-08-30 22:47:04] Stratum detected new block
+[2014-08-30 22:47:04] thread 0: 1993998 hashes, 146.06 khash/s
+[2014-08-30 22:47:29] stratum_recv_line failed
+[2014-08-30 22:47:29] Stratum connection interrupted
+[2014-08-30 22:47:29] thread 0: 3734476 hashes, 145.53 khash/s
+[2014-08-30 22:47:31] Stratum detected new block
+[2014-08-30 22:47:32] Stratum detected new block
+[2014-08-30 22:47:32] thread 0: 33484 hashes, 66.75 khash/s
+[2014-08-30 22:47:35] Stratum detected new block
+[2014-08-30 22:47:35] thread 0: 449192 hashes, 156.87 khash/s
+[2014-08-30 22:47:54] Stratum detected new block
+[2014-08-30 22:47:55] thread 0: 2911067 hashes, 142.02 khash/s
+[2014-08-30 22:47:58] Stratum detected new block
+[2014-08-30 22:47:58] thread 0: 444807 hashes, 167.32 khash/s
+[2014-08-30 22:49:07] thread 0: 10039333 hashes, 144.24 khash/s
+[2014-08-30 22:49:57] Stratum detected new block
+[2014-08-30 22:49:57] thread 0: 7353923 hashes, 147.68 khash/s
+[2014-08-30 22:50:48] Stratum detected new block
+[2014-08-30 22:50:48] thread 0: 7329059 hashes, 143.43 khash/s
+[2014-08-30 22:51:04] Stratum detected new block
+[2014-08-30 22:51:04] thread 0: 2304363 hashes, 150.77 khash/s
+[2014-08-30 22:51:40] stratum_recv_line failed
+[2014-08-30 22:51:40] Stratum connection interrupted
+[2014-08-30 22:51:40] thread 0: 5325714 hashes, 146.85 khash/s
+[2014-08-30 22:51:42] Stratum detected new block
+[2014-08-30 22:51:42] Stratum detected new block
+[2014-08-30 22:51:42] thread 0: 42443 hashes, 156.11 khash/s
+[2014-08-30 22:52:16] Stratum detected new block
+[2014-08-30 22:52:16] thread 0: 4804965 hashes, 140.53 khash/s
+[2014-08-30 22:53:14] thread 0: 8431604 hashes, 145.85 khash/s
+[2014-08-30 22:53:26] Stratum detected new block
+[2014-08-30 22:53:26] thread 0: 1807796 hashes, 146.63 khash/s
+[2014-08-30 22:53:29] Stratum detected new block
+[2014-08-30 22:53:29] thread 0: 235164 hashes, 101.25 khash/s
+[2014-08-30 22:53:29] Stratum detected new block
+[2014-08-30 22:53:29] thread 0: 84492 hashes, 154.45 khash/s
+[2014-08-30 22:53:35] Stratum detected new block
+[2014-08-30 22:53:35] thread 0: 780215 hashes, 142.42 khash/s
+[2014-08-30 22:53:35] Stratum detected new block
+[2014-08-30 22:53:35] thread 0: 62750 hashes, 149.39 khash/s
+[2014-08-30 22:53:50] Stratum detected new block
+[2014-08-30 22:53:50] thread 0: 2295948 hashes, 151.60 khash/s
+[2014-08-30 22:53:58] Stratum detected new block
+[2014-08-30 22:53:58] thread 0: 982243 hashes, 130.02 khash/s
+[2014-08-30 22:54:19] Stratum detected new block
+[2014-08-30 22:54:19] thread 0: 3207824 hashes, 150.02 khash/s
+[2014-08-30 22:54:30] Stratum detected new block
+[2014-08-30 22:54:30] thread 0: 1492066 hashes, 137.41 khash/s
+[2014-08-30 22:55:27] thread 0: 8244397 hashes, 144.35 khash/s
+[2014-08-30 22:55:32] Stratum detected new block
+[2014-08-30 22:55:32] thread 0: 721047 hashes, 152.33 khash/s
+[2014-08-30 22:56:11] Stratum detected new block
+[2014-08-30 22:56:11] thread 0: 5644443 hashes, 146.22 khash/s
+[2014-08-30 22:57:11] thread 0: 8773190 hashes, 145.15 khash/s
+[2014-08-30 22:57:12] Stratum detected new block
+[2014-08-30 22:57:12] thread 0: 138960 hashes, 160.71 khash/s
+[2014-08-30 22:57:21] Stratum detected new block
+[2014-08-30 22:57:21] thread 0: 1298024 hashes, 138.41 khash/s
+[2014-08-30 22:57:29] Stratum detected new block
+[2014-08-30 22:57:29] thread 0: 1187388 hashes, 151.63 khash/s
+[2014-08-30 22:57:46] Stratum detected new block
+[2014-08-30 22:57:46] thread 0: 2351084 hashes, 143.62 khash/s
+[2014-08-30 22:58:14] Stratum detected new block
+[2014-08-30 22:58:14] thread 0: 4008257 hashes, 140.82 khash/s
+[2014-08-30 22:58:15] Stratum detected new block
+[2014-08-30 22:58:15] thread 0: 130564 hashes, 160.00 khash/s
+[2014-08-30 22:58:25] stratum_recv_line failed
+[2014-08-30 22:58:25] Stratum connection interrupted
+[2014-08-30 22:58:25] thread 0: 1492952 hashes, 142.09 khash/s
+[2014-08-30 22:58:27] Stratum detected new block
+[2014-08-30 22:58:27] Stratum detected new block
+[2014-08-30 22:59:27] thread 0: 8525109 hashes, 142.43 khash/s
+[2014-08-30 22:59:41] Stratum detected new block
+[2014-08-30 22:59:41] thread 0: 2016056 hashes, 149.06 khash/s
+[2014-08-30 23:00:04] stratum_recv_line failed
+[2014-08-30 23:00:04] Stratum connection interrupted
+[2014-08-30 23:00:04] thread 0: 3347649 hashes, 142.45 khash/s
+[2014-08-30 23:00:06] Stratum detected new block
+[2014-08-30 23:00:06] Stratum detected new block
+[2014-08-30 23:00:06] Stratum detected new block
+[2014-08-30 23:00:07] thread 0: 644 hashes, 1.36 khash/s
+[2014-08-30 23:00:07] thread 0: 81378 hashes, 99.57 khash/s
+[2014-08-30 23:00:17] Stratum detected new block
+[2014-08-30 23:00:17] thread 0: 1389436 hashes, 152.44 khash/s
+[2014-08-30 23:00:30] Stratum detected new block
+[2014-08-30 23:00:30] thread 0: 1933842 hashes, 141.91 khash/s
+[2014-08-30 23:01:11] Stratum detected new block
+[2014-08-30 23:01:12] thread 0: 6053994 hashes, 144.90 khash/s
+[2014-08-30 23:01:17] Stratum detected new block
+[2014-08-30 23:01:17] thread 0: 853078 hashes, 170.31 khash/s
+[2014-08-30 23:01:50] Stratum detected new block
+[2014-08-30 23:01:50] thread 0: 4735488 hashes, 144.03 khash/s
+[2014-08-30 23:01:59] Stratum detected new block
+[2014-08-30 23:02:00] thread 0: 1307620 hashes, 133.82 khash/s
+[2014-08-30 23:02:05] Stratum detected new block
+[2014-08-30 23:02:05] thread 0: 822532 hashes, 161.25 khash/s
+[2014-08-30 23:02:05] Stratum detected new block
+[2014-08-30 23:02:06] thread 0: 30175 hashes, 27.47 khash/s
+[2014-08-30 23:02:14] Stratum detected new block
+[2014-08-30 23:02:14] thread 0: 1293723 hashes, 152.14 khash/s
+[2014-08-30 23:02:43] Stratum detected new block
+[2014-08-30 23:02:43] thread 0: 4181481 hashes, 145.39 khash/s
+[2014-08-30 23:02:43] Stratum detected new block
+[2014-08-30 23:02:43] thread 0: 44852 hashes, 140.43 khash/s
+[2014-08-30 23:02:44] Stratum detected new block
+[2014-08-30 23:02:44] thread 0: 49674 hashes, 144.17 khash/s
+[2014-08-30 23:02:55] Stratum detected new block
+[2014-08-30 23:02:55] thread 0: 1621268 hashes, 144.29 khash/s
+[2014-08-30 23:03:14] Stratum detected new block
+[2014-08-30 23:03:14] thread 0: 2708350 hashes, 146.41 khash/s
+[2014-08-30 23:03:18] Stratum detected new block
+[2014-08-30 23:03:18] thread 0: 628431 hashes, 136.78 khash/s
+[2014-08-30 23:03:19] Stratum detected new block
+[2014-08-30 23:03:19] thread 0: 197624 hashes, 163.98 khash/s
+[2014-08-30 23:03:20] Stratum detected new block
+[2014-08-30 23:03:20] thread 0: 134999 hashes, 160.71 khash/s
+[2014-08-30 23:03:21] Stratum detected new block
+[2014-08-30 23:03:21] thread 0: 108138 hashes, 157.74 khash/s
+[2014-08-30 23:03:25] Stratum detected new block
+[2014-08-30 23:03:25] thread 0: 591017 hashes, 134.88 khash/s
+[2014-08-30 23:04:19] Stratum detected new block
+[2014-08-30 23:04:19] thread 0: 7693687 hashes, 144.23 khash/s
+[2014-08-30 23:05:04] Stratum detected new block
+[2014-08-30 23:05:04] thread 0: 6543894 hashes, 144.87 khash/s
+[2014-08-30 23:05:34] Stratum detected new block
+[2014-08-30 23:05:34] thread 0: 4405004 hashes, 145.21 khash/s
+[2014-08-30 23:05:52] Stratum detected new block
+[2014-08-30 23:05:52] thread 0: 2512315 hashes, 142.51 khash/s
+[2014-08-30 23:06:41] Stratum detected new block
+[2014-08-30 23:06:41] thread 0: 7220683 hashes, 146.75 khash/s
+[2014-08-30 23:06:51] Stratum detected new block
+[2014-08-30 23:06:51] thread 0: 1436119 hashes, 140.86 khash/s
+[2014-08-30 23:07:17] Stratum detected new block
+[2014-08-30 23:07:17] thread 0: 3754268 hashes, 147.69 khash/s
+[2014-08-30 23:07:32] Stratum detected new block
+[2014-08-30 23:07:33] thread 0: 2224814 hashes, 138.86 khash/s
+[2014-08-30 23:07:42] Stratum detected new block
+[2014-08-30 23:07:42] thread 0: 1452211 hashes, 151.95 khash/s
+[2014-08-30 23:07:49] Stratum detected new block
+[2014-08-30 23:07:49] thread 0: 957259 hashes, 147.21 khash/s
+[2014-08-30 23:07:52] Stratum detected new block
+[2014-08-30 23:07:52] thread 0: 476892 hashes, 127.55 khash/s
+[2014-08-30 23:08:11] Stratum detected new block
+[2014-08-30 23:08:11] thread 0: 2773121 hashes, 147.12 khash/s
+[2014-08-30 23:08:49] Stratum detected new block
+[2014-08-30 23:08:49] thread 0: 5507775 hashes, 147.59 khash/s
+[2014-08-30 23:08:50] Stratum detected new block
+[2014-08-30 23:08:50] thread 0: 167571 hashes, 86.90 khash/s
+[2014-08-30 23:09:26] Stratum detected new block
+[2014-08-30 23:09:26] thread 0: 5012588 hashes, 142.60 khash/s
+[2014-08-30 23:09:42] Stratum detected new block
+[2014-08-30 23:09:42] thread 0: 2550810 hashes, 153.27 khash/s
+[2014-08-30 23:09:47] Stratum detected new block
+[2014-08-30 23:09:47] thread 0: 589444 hashes, 134.24 khash/s
+[2014-08-30 23:09:52] Stratum detected new block
+[2014-08-30 23:09:52] thread 0: 673584 hashes, 135.50 khash/s
+[2014-08-30 23:10:31] Stratum detected new block
+[2014-08-30 23:10:31] thread 0: 5724156 hashes, 144.77 khash/s
+[2014-08-30 23:10:53] Stratum detected new block
+[2014-08-30 23:10:53] thread 0: 3234906 hashes, 150.44 khash/s
+[2014-08-30 23:11:56] thread 0: 9026389 hashes, 143.42 khash/s
+[2014-08-30 23:12:12] Stratum detected new block
+[2014-08-30 23:12:12] thread 0: 2387197 hashes, 143.62 khash/s
+[2014-08-30 23:12:13] Stratum detected new block
+[2014-08-30 23:12:13] thread 0: 48554 hashes, 134.17 khash/s
+[2014-08-30 23:12:13] Stratum detected new block
+[2014-08-30 23:12:13] thread 0: 75067 hashes, 151.98 khash/s
+[2014-08-30 23:12:16] Stratum detected new block
+[2014-08-30 23:12:16] thread 0: 454969 hashes, 169.08 khash/s
+[2014-08-30 23:12:17] Stratum detected new block
+[2014-08-30 23:12:17] thread 0: 137216 hashes, 160.77 khash/s
+[2014-08-30 23:12:49] Stratum detected new block
+[2014-08-30 23:12:49] thread 0: 4686587 hashes, 143.94 khash/s
+[2014-08-30 23:12:53] Stratum detected new block
+[2014-08-30 23:12:53] thread 0: 509101 hashes, 129.47 khash/s
+[2014-08-30 23:13:31] stratum_recv_line failed
+[2014-08-30 23:13:31] Stratum connection interrupted
+[2014-08-30 23:13:31] thread 0: 5471911 hashes, 144.42 khash/s
+[2014-08-30 23:13:33] Stratum detected new block
+[2014-08-30 23:13:33] Stratum detected new block
+[2014-08-30 23:13:33] thread 0: 23503 hashes, 93.11 khash/s
+[2014-08-30 23:14:01] Stratum detected new block
+[2014-08-30 23:14:01] thread 0: 3752992 hashes, 135.60 khash/s
+[2014-08-30 23:14:01] Stratum detected new block
+[2014-08-30 23:14:01] thread 0: 60223 hashes, 147.31 khash/s
+[2014-08-30 23:14:26] Stratum detected new block
+[2014-08-30 23:14:26] thread 0: 3666997 hashes, 147.10 khash/s
+[2014-08-30 23:14:27] Stratum detected new block
+[2014-08-30 23:14:27] thread 0: 57556 hashes, 138.18 khash/s
+[2014-08-30 23:14:27] Stratum detected new block
+[2014-08-30 23:14:27] thread 0: 42993 hashes, 141.76 khash/s
+[2014-08-30 23:14:27] Stratum detected new block
+[2014-08-30 23:14:27] thread 0: 47758 hashes, 143.22 khash/s
+[2014-08-30 23:14:28] Stratum detected new block
+[2014-08-30 23:14:28] thread 0: 67915 hashes, 150.56 khash/s
+[2014-08-30 23:15:28] Stratum detected new block
+[2014-08-30 23:15:28] thread 0: 8677830 hashes, 143.44 khash/s
+[2014-08-30 23:15:32] Stratum detected new block
+[2014-08-30 23:15:32] thread 0: 576407 hashes, 152.96 khash/s
+[2014-08-30 23:16:08] Stratum detected new block
+[2014-08-30 23:16:08] thread 0: 5222039 hashes, 146.16 khash/s
+[2014-08-30 23:16:51] stratum_recv_line failed
+[2014-08-30 23:16:51] Stratum connection interrupted
+[2014-08-30 23:16:51] thread 0: 6186981 hashes, 144.75 khash/s
+[2014-08-30 23:18:01] stratum_recv_line failed
+[2014-08-30 23:18:01] ...retry after 30 seconds
+[2014-08-30 23:19:11] Stratum connection failed: Couldn't resolve host 'bitbizpool.hopto.org'
+[2014-08-30 23:19:11] ...retry after 30 seconds
+[2014-08-30 23:19:53] stratum_recv_line failed
+[2014-08-30 23:19:53] ...retry after 30 seconds
+[2014-08-30 23:21:11] stratum_recv_line failed
+[2014-08-30 23:21:11] ...retry after 30 seconds
+[2014-08-30 23:21:48] stratum_recv_line failed
+[2014-08-30 23:21:48] ...retry after 30 seconds
+[2014-08-30 23:22:24] Stratum detected new block
+[2014-08-30 23:22:25] Stratum detected new block
+[2014-08-30 23:22:30] Stratum detected new block
+[2014-08-30 23:22:30] thread 0: 532405 hashes, 109.63 khash/s
+[2014-08-30 23:23:10] Stratum detected new block
+[2014-08-30 23:23:10] thread 0: 5862594 hashes, 147.59 khash/s
+[2014-08-30 23:24:11] thread 0: 8855528 hashes, 143.79 khash/s
+[2014-08-30 23:24:26] Stratum detected new block
+[2014-08-30 23:24:26] thread 0: 2227017 hashes, 151.10 khash/s
+[2014-08-30 23:25:03] Stratum detected new block
+[2014-08-30 23:25:04] thread 0: 5331649 hashes, 140.47 khash/s
+[2014-08-30 23:25:07] Stratum detected new block
+[2014-08-30 23:25:07] thread 0: 497571 hashes, 161.92 khash/s
+[2014-08-30 23:26:13] thread 0: 9715319 hashes, 146.80 khash/s
+[2014-08-30 23:26:33] Stratum detected new block
+[2014-08-30 23:26:33] thread 0: 2821329 hashes, 141.15 khash/s
+[2014-08-30 23:26:36] Stratum detected new block
+[2014-08-30 23:26:36] thread 0: 587548 hashes, 169.85 khash/s
+[2014-08-30 23:27:20] stratum_recv_line failed
+[2014-08-30 23:27:20] Stratum connection interrupted
+[2014-08-30 23:27:20] thread 0: 6224039 hashes, 141.64 khash/s
+[2014-08-30 23:27:23] Stratum detected new block
+[2014-08-30 23:27:23] Stratum detected new block
+[2014-08-30 23:27:30] Stratum detected new block
+[2014-08-30 23:27:30] thread 0: 771407 hashes, 119.52 khash/s
+[2014-08-30 23:28:01] Stratum detected new block
+[2014-08-30 23:28:02] thread 0: 4570197 hashes, 143.15 khash/s
+[2014-08-30 23:28:36] Stratum detected new block
+[2014-08-30 23:28:36] thread 0: 5110752 hashes, 148.56 khash/s
+[2014-08-30 23:28:37] Stratum detected new block
+[2014-08-30 23:28:38] thread 0: 59848 hashes, 34.29 khash/s
+[2014-08-30 23:28:50] Stratum detected new block
+[2014-08-30 23:28:50] thread 0: 1803006 hashes, 146.59 khash/s
+[2014-08-30 23:28:57] Stratum detected new block
+[2014-08-30 23:28:57] thread 0: 1036902 hashes, 148.90 khash/s
+[2014-08-30 23:29:05] Stratum detected new block
+[2014-08-30 23:29:05] thread 0: 1243428 hashes, 151.70 khash/s
+[2014-08-30 23:29:11] Stratum detected new block
+[2014-08-30 23:29:11] thread 0: 802041 hashes, 143.21 khash/s
+[2014-08-30 23:29:18] Stratum detected new block
+[2014-08-30 23:29:18] thread 0: 970609 hashes, 147.46 khash/s
+[2014-08-30 23:29:34] Stratum detected new block
+[2014-08-30 23:29:34] thread 0: 2276958 hashes, 142.86 khash/s
+[2014-08-30 23:29:37] Stratum detected new block
+[2014-08-30 23:29:37] thread 0: 448549 hashes, 126.06 khash/s
+[2014-08-30 23:30:04] Stratum detected new block
+[2014-08-30 23:30:04] thread 0: 3976838 hashes, 148.98 khash/s
+[2014-08-30 23:31:06] thread 0: 8939092 hashes, 143.40 khash/s
+[2014-08-30 23:32:04] Stratum connection timed out
+[2014-08-30 23:32:04] Stratum connection interrupted
+[2014-08-30 23:32:04] thread 0: 8577117 hashes, 148.48 khash/s
+[2014-08-30 23:32:08] Stratum detected new block
+[2014-08-30 23:32:08] Stratum detected new block
+[2014-08-30 23:32:35] Stratum detected new block
+[2014-08-30 23:32:36] thread 0: 3555971 hashes, 131.60 khash/s
+[2014-08-30 23:33:30] thread 0: 7896179 hashes, 146.28 khash/s
+[2014-08-30 23:33:32] Stratum detected new block
+[2014-08-30 23:33:32] thread 0: 372092 hashes, 168.19 khash/s
+[2014-08-30 23:33:35] Stratum detected new block
+[2014-08-30 23:33:35] thread 0: 374906 hashes, 119.65 khash/s
+[2014-08-30 23:33:39] Stratum detected new block
+[2014-08-30 23:33:39] thread 0: 630351 hashes, 170.15 khash/s
+[2014-08-30 23:34:23] Stratum detected new block
+[2014-08-30 23:34:23] thread 0: 6244947 hashes, 141.54 khash/s
+[2014-08-30 23:34:25] Stratum detected new block
+[2014-08-30 23:34:25] thread 0: 300600 hashes, 167.05 khash/s
+[2014-08-30 23:34:46] Stratum detected new block
+[2014-08-30 23:34:46] thread 0: 3101971 hashes, 149.72 khash/s
+[2014-08-30 23:34:54] Stratum detected new block
+[2014-08-30 23:34:54] thread 0: 1154527 hashes, 135.19 khash/s
+[2014-08-30 23:35:26] Stratum detected new block
+[2014-08-30 23:35:26] thread 0: 4726972 hashes, 147.94 khash/s
+[2014-08-30 23:36:17] Stratum detected new block
+[2014-08-30 23:36:17] thread 0: 7247150 hashes, 142.66 khash/s
+[2014-08-30 23:36:19] Stratum detected new block
+[2014-08-30 23:36:19] thread 0: 308930 hashes, 167.41 khash/s
+[2014-08-30 23:36:22] Stratum detected new block
+[2014-08-30 23:36:22] thread 0: 447745 hashes, 125.86 khash/s
+[2014-08-30 23:36:23] Stratum detected new block
+[2014-08-30 23:36:23] thread 0: 73940 hashes, 152.95 khash/s
+[2014-08-30 23:37:25] thread 0: 9176943 hashes, 147.48 khash/s
+[2014-08-30 23:37:54] Stratum detected new block
+[2014-08-30 23:37:54] thread 0: 4193495 hashes, 142.27 khash/s
+[2014-08-30 23:38:19] Stratum detected new block
+[2014-08-30 23:38:19] thread 0: 3620958 hashes, 146.82 khash/s
+[2014-08-30 23:38:50] Stratum detected new block
+[2014-08-30 23:38:50] thread 0: 4403677 hashes, 142.29 khash/s
+[2014-08-30 23:39:28] Stratum detected new block
+[2014-08-30 23:39:28] thread 0: 5543106 hashes, 145.69 khash/s
+[2014-08-30 23:39:30] Stratum detected new block
+[2014-08-30 23:39:30] thread 0: 397588 hashes, 168.47 khash/s
+[2014-08-30 23:39:31] Stratum detected new block
+[2014-08-30 23:39:31] thread 0: 63982 hashes, 68.69 khash/s
+[2014-08-30 23:40:00] thread 0: 4121547 hashes, 145.36 khash/s
+[2014-08-30 23:40:13] Stratum detected new block
+[2014-08-30 23:40:13] thread 0: 1923501 hashes, 140.57 khash/s
+[2014-08-30 23:40:18] stratum_recv_line failed
+[2014-08-30 23:40:18] Stratum connection interrupted
+[2014-08-30 23:40:18] thread 0: 774897 hashes, 161.48 khash/s
+[2014-08-30 23:40:23] Stratum detected new block
+[2014-08-30 23:40:24] Stratum detected new block
+[2014-08-30 23:40:24] thread 0: 64244 hashes, 147.77 khash/s
+[2014-08-30 23:40:44] Stratum detected new block
+[2014-08-30 23:40:44] thread 0: 2845433 hashes, 141.43 khash/s
+[2014-08-30 23:41:13] Stratum detected new block
+[2014-08-30 23:41:13] thread 0: 4271060 hashes, 145.72 khash/s
+[2014-08-30 23:41:20] Stratum detected new block
+[2014-08-30 23:41:20] thread 0: 895146 hashes, 135.01 khash/s
+[2014-08-30 23:41:52] Stratum detected new block
+[2014-08-30 23:41:52] thread 0: 4783890 hashes, 147.71 khash/s
+[2014-08-30 23:42:24] Stratum detected new block
+[2014-08-30 23:42:24] thread 0: 4614515 hashes, 144.99 khash/s
+[2014-08-30 23:42:56] Stratum detected new block
+[2014-08-30 23:42:56] thread 0: 4602238 hashes, 145.79 khash/s
+[2014-08-30 23:43:18] Stratum detected new block
+[2014-08-30 23:43:18] thread 0: 3164550 hashes, 139.32 khash/s
+[2014-08-30 23:43:19] Stratum detected new block
+[2014-08-30 23:43:19] thread 0: 121969 hashes, 159.92 khash/s
+[2014-08-30 23:43:20] Stratum detected new block
+[2014-08-30 23:43:20] thread 0: 143618 hashes, 161.60 khash/s
+[2014-08-30 23:43:21] Stratum detected new block
+[2014-08-30 23:43:21] thread 0: 185365 hashes, 163.98 khash/s
+[2014-08-30 23:43:33] Stratum detected new block
+[2014-08-30 23:43:33] thread 0: 1703976 hashes, 145.38 khash/s
+[2014-08-30 23:43:34] Stratum detected new block
+[2014-08-30 23:43:34] thread 0: 189571 hashes, 164.26 khash/s
+[2014-08-30 23:43:52] Stratum detected new block
+[2014-08-30 23:43:52] thread 0: 2595870 hashes, 146.03 khash/s
+[2014-08-30 23:43:58] Stratum detected new block
+[2014-08-30 23:43:58] thread 0: 923038 hashes, 146.61 khash/s
+[2014-08-30 23:43:59] Stratum detected new block
+[2014-08-30 23:44:00] thread 0: 116811 hashes, 71.08 khash/s
+[2014-08-30 23:44:00] Stratum detected new block
+[2014-08-30 23:44:00] thread 0: 75006 hashes, 140.45 khash/s
+[2014-08-30 23:44:57] thread 0: 8426741 hashes, 147.52 khash/s
+[2014-08-30 23:45:59] thread 0: 8850939 hashes, 143.36 khash/s
+[2014-08-30 23:46:00] Stratum connection timed out
+[2014-08-30 23:46:00] Stratum connection interrupted
+[2014-08-30 23:46:00] thread 0: 204220 hashes, 164.91 khash/s
+[2014-08-30 23:46:03] Stratum detected new block
+[2014-08-30 23:46:03] Stratum detected new block
+[2014-08-30 23:46:56] Stratum detected new block
+[2014-08-30 23:46:56] thread 0: 7529859 hashes, 143.55 khash/s
+[2014-08-30 23:47:29] Stratum detected new block
+[2014-08-30 23:47:29] thread 0: 4710828 hashes, 143.72 khash/s
+[2014-08-30 23:47:47] Stratum detected new block
+[2014-08-30 23:47:47] thread 0: 2734989 hashes, 147.14 khash/s
+[2014-08-30 23:47:48] Stratum detected new block
+[2014-08-30 23:47:48] thread 0: 134750 hashes, 160.81 khash/s
+[2014-08-30 23:47:49] Stratum detected new block
+[2014-08-30 23:47:49] thread 0: 107956 hashes, 157.42 khash/s
+[2014-08-30 23:48:09] Stratum detected new block
+[2014-08-30 23:48:09] thread 0: 2913932 hashes, 141.52 khash/s
+[2014-08-30 23:48:20] Stratum detected new block
+[2014-08-30 23:48:20] thread 0: 1703460 hashes, 157.39 khash/s
+[2014-08-30 23:48:21] Stratum detected new block
+[2014-08-30 23:48:21] thread 0: 3912 hashes, 3.87 khash/s
+[2014-08-30 23:48:22] thread 0: 232107 hashes, 169.65 khash/s
+[2014-08-30 23:49:01] Stratum detected new block
+[2014-08-30 23:49:01] thread 0: 5533589 hashes, 144.55 khash/s
+[2014-08-30 23:49:02] Stratum detected new block
+[2014-08-30 23:49:03] thread 0: 236158 hashes, 124.93 khash/s
+[2014-08-30 23:49:26] Stratum detected new block
+[2014-08-30 23:49:27] thread 0: 3455605 hashes, 143.26 khash/s
+[2014-08-30 23:49:47] stratum_recv_line failed
+[2014-08-30 23:49:47] Stratum connection interrupted
+[2014-08-30 23:49:47] thread 0: 3003050 hashes, 148.97 khash/s
+[2014-08-30 23:49:49] Stratum detected new block
+[2014-08-30 23:49:49] Stratum detected new block
+[2014-08-30 23:49:49] thread 0: 12115 hashes, 53.44 khash/s
+[2014-08-30 23:50:13] thread 0: 3206667 hashes, 136.40 khash/s
+[2014-08-30 23:50:18] Stratum detected new block
+[2014-08-30 23:50:18] thread 0: 737692 hashes, 141.04 khash/s
+[2014-08-30 23:50:44] Stratum detected new block
+[2014-08-30 23:50:45] thread 0: 3810489 hashes, 140.39 khash/s
+[2014-08-30 23:50:57] Stratum detected new block
+[2014-08-30 23:50:57] thread 0: 1733012 hashes, 143.98 khash/s
+[2014-08-30 23:51:03] Stratum detected new block
+[2014-08-30 23:51:03] thread 0: 915869 hashes, 145.53 khash/s
+[2014-08-30 23:51:19] Stratum detected new block
+[2014-08-30 23:51:19] thread 0: 2333468 hashes, 150.59 khash/s
+[2014-08-30 23:51:22] Stratum detected new block
+[2014-08-30 23:51:22] thread 0: 334357 hashes, 115.33 khash/s
+[2014-08-30 23:51:33] Stratum detected new block
+[2014-08-30 23:51:33] thread 0: 1688217 hashes, 145.11 khash/s
+[2014-08-30 23:51:39] Stratum detected new block
+[2014-08-30 23:51:39] thread 0: 767390 hashes, 141.82 khash/s
+[2014-08-30 23:52:00] Stratum detected new block
+[2014-08-30 23:52:00] thread 0: 3133829 hashes, 149.73 khash/s
+[2014-08-30 23:52:10] Stratum detected new block
+[2014-08-30 23:52:10] thread 0: 1430280 hashes, 139.68 khash/s
+[2014-08-30 23:52:41] Stratum detected new block
+[2014-08-30 23:52:41] thread 0: 4463055 hashes, 143.15 khash/s
+[2014-08-30 23:52:42] Stratum detected new block
+[2014-08-30 23:52:42] thread 0: 118270 hashes, 158.73 khash/s
+[2014-08-30 23:52:43] Stratum detected new block
+[2014-08-30 23:52:43] thread 0: 102463 hashes, 157.93 khash/s
+[2014-08-30 23:52:54] Stratum detected new block
+[2014-08-30 23:52:54] thread 0: 1638443 hashes, 144.46 khash/s
+[2014-08-30 23:52:57] Stratum detected new block
+[2014-08-30 23:52:57] thread 0: 392133 hashes, 120.30 khash/s
+[2014-08-30 23:53:42] Stratum detected new block
+[2014-08-30 23:53:42] thread 0: 6617740 hashes, 148.03 khash/s
+[2014-08-30 23:53:43] Stratum detected new block
+[2014-08-30 23:53:43] Stratum detected new block
+[2014-08-30 23:53:43] thread 0: 79207 hashes, 53.89 khash/s
+[2014-08-30 23:53:55] Stratum detected new block
+[2014-08-30 23:53:55] thread 0: 1733192 hashes, 144.68 khash/s
+[2014-08-30 23:54:03] Stratum detected new block
+[2014-08-30 23:54:03] thread 0: 1110812 hashes, 145.07 khash/s
+[2014-08-30 23:54:39] stratum_recv_line failed
+[2014-08-30 23:54:39] Stratum connection interrupted
+[2014-08-30 23:54:39] thread 0: 5250935 hashes, 144.92 khash/s
+[2014-08-30 23:54:43] Stratum detected new block
+[2014-08-30 23:54:43] Stratum detected new block
+[2014-08-30 23:54:44] thread 0: 237 hashes, 0.62 khash/s
+[2014-08-30 23:54:44] thread 0: 37073 hashes, 41.09 khash/s
+[2014-08-30 23:55:01] thread 0: 2465614 hashes, 152.93 khash/s
+[2014-08-30 23:55:08] Stratum detected new block
+[2014-08-30 23:55:08] thread 0: 989167 hashes, 130.18 khash/s
+[2014-08-30 23:55:10] Stratum detected new block
+[2014-08-30 23:55:10] thread 0: 302147 hashes, 165.68 khash/s
+[2014-08-30 23:55:31] Stratum detected new block
+[2014-08-30 23:55:32] thread 0: 3090893 hashes, 143.68 khash/s
+[2014-08-30 23:56:17] Stratum detected new block
+[2014-08-30 23:56:17] thread 0: 6551647 hashes, 145.50 khash/s
+[2014-08-30 23:56:26] Stratum detected new block
+[2014-08-30 23:56:26] thread 0: 1373957 hashes, 139.99 khash/s
+[2014-08-30 23:57:11] thread 0: 6629392 hashes, 148.24 khash/s
+[2014-08-30 23:57:13] accepted: 1/1 (100.00%), 148.24 khash/s (yay!!!)
+[2014-08-30 23:57:18] Stratum detected new block
+[2014-08-30 23:57:18] thread 0: 939793 hashes, 128.32 khash/s
+[2014-08-30 23:57:31] stratum_recv_line failed
+[2014-08-30 23:57:31] Stratum connection interrupted
+[2014-08-30 23:57:31] thread 0: 1792771 hashes, 146.50 khash/s
+[2014-08-30 23:57:32] Stratum detected new block
+[2014-08-30 23:57:33] Stratum detected new block
+[2014-08-30 23:57:33] thread 0: 373 hashes, 14.40 khash/s
+[2014-08-30 23:57:39] thread 0: 863760 hashes, 138.87 khash/s
+[2014-08-30 23:57:52] Stratum detected new block
+[2014-08-30 23:57:52] thread 0: 1910854 hashes, 141.04 khash/s
+[2014-08-30 23:57:54] Stratum detected new block
+[2014-08-30 23:57:54] thread 0: 192445 hashes, 111.41 khash/s
+[2014-08-30 23:57:55] Stratum detected new block
+[2014-08-30 23:57:55] thread 0: 27799 hashes, 45.73 khash/s
+[2014-08-30 23:58:13] thread 0: 2744004 hashes, 147.17 khash/s
+[2014-08-30 23:58:19] Stratum detected new block
+[2014-08-30 23:58:19] thread 0: 730941 hashes, 140.86 khash/s
+[2014-08-30 23:58:34] stratum_recv_line failed
+[2014-08-30 23:58:34] Stratum connection interrupted
+[2014-08-30 23:58:34] thread 0: 2388419 hashes, 152.58 khash/s
+[2014-08-30 23:58:37] Stratum detected new block
+[2014-08-30 23:58:38] Stratum detected new block
+[2014-08-30 23:58:38] thread 0: 38107 hashes, 97.41 khash/s
+[2014-08-30 23:58:48] Stratum detected new block
+[2014-08-30 23:58:48] thread 0: 1324058 hashes, 130.86 khash/s
+[2014-08-30 23:59:42] thread 0: 7851690 hashes, 144.33 khash/s
+[2014-08-31 00:00:18] Stratum detected new block
+[2014-08-31 00:00:18] thread 0: 5292777 hashes, 146.25 khash/s
+[2014-08-31 00:00:19] Stratum detected new block
+[2014-08-31 00:00:19] thread 0: 123400 hashes, 155.80 khash/s
+[2014-08-31 00:01:03] stratum_recv_line failed
+[2014-08-31 00:01:03] Stratum connection interrupted
+[2014-08-31 00:01:03] thread 0: 6484531 hashes, 147.73 khash/s
+[2014-08-31 00:01:11] Stratum detected new block
+[2014-08-31 00:01:11] Stratum detected new block
+[2014-08-31 00:01:11] thread 0: 1717 hashes, 98.71 khash/s
+[2014-08-31 00:01:12] Stratum detected new block
+[2014-08-31 00:01:12] thread 0: 73226 hashes, 152.08 khash/s
+[2014-08-31 00:01:47] Stratum detected new block
+[2014-08-31 00:01:47] thread 0: 5070923 hashes, 142.95 khash/s
+[2014-08-31 00:02:14] Stratum detected new block
+[2014-08-31 00:02:14] thread 0: 3952929 hashes, 148.61 khash/s
+[2014-08-31 00:02:21] Stratum detected new block
+[2014-08-31 00:02:22] thread 0: 1072885 hashes, 132.97 khash/s
+[2014-08-31 00:03:00] stratum_recv_line failed
+[2014-08-31 00:03:00] Stratum connection interrupted
+[2014-08-31 00:03:00] thread 0: 5741942 hashes, 148.06 khash/s
+[2014-08-31 00:03:11] Stratum connection failed: couldn't connect to host
+[2014-08-31 00:03:11] ...retry after 30 seconds
+[2014-08-31 00:04:14] Stratum connection failed: Couldn't resolve host 'bitbizpool.hopto.org'
+[2014-08-31 00:04:14] ...retry after 30 seconds
+[2014-08-31 00:04:52] stratum_recv_line failed
+[2014-08-31 00:04:52] ...retry after 30 seconds
+[2014-08-31 00:05:25] Stratum detected new block
+[2014-08-31 00:05:25] Stratum detected new block
+[2014-08-31 00:05:25] thread 0: 21004 hashes, 53.99 khash/s
+[2014-08-31 00:05:38] Stratum detected new block
+[2014-08-31 00:05:38] thread 0: 1871505 hashes, 140.75 khash/s
+[2014-08-31 00:05:49] Stratum detected new block
+[2014-08-31 00:05:49] thread 0: 1461008 hashes, 141.44 khash/s
+[2014-08-31 00:06:35] Stratum detected new block
+[2014-08-31 00:06:35] thread 0: 6757065 hashes, 145.15 khash/s
+[2014-08-31 00:06:36] Stratum detected new block
+[2014-08-31 00:06:36] thread 0: 137923 hashes, 156.62 khash/s
+[2014-08-31 00:07:25] Stratum detected new block
+[2014-08-31 00:07:25] thread 0: 7144020 hashes, 144.99 khash/s
+[2014-08-31 00:07:29] Stratum detected new block
+[2014-08-31 00:07:29] thread 0: 451374 hashes, 126.36 khash/s
+[2014-08-31 00:08:04] stratum_recv_line failed
+[2014-08-31 00:08:04] Stratum connection interrupted
+[2014-08-31 00:08:04] thread 0: 5061601 hashes, 145.69 khash/s
+[2014-08-31 00:08:39] Stratum connection failed: Couldn't resolve host 'bitbizpool.hopto.org'
+[2014-08-31 00:08:39] ...retry after 30 seconds
+[2014-08-31 00:09:42] stratum_recv_line failed
+[2014-08-31 00:09:42] ...retry after 30 seconds
+[2014-08-31 00:10:20] Stratum detected new block
+[2014-08-31 00:10:21] Stratum detected new block
+[2014-08-31 00:10:22] Stratum detected new block
+[2014-08-31 00:10:22] thread 0: 220201 hashes, 151.30 khash/s
+[2014-08-31 00:11:06] Stratum detected new block
+[2014-08-31 00:11:06] thread 0: 6333639 hashes, 143.81 khash/s
+[2014-08-31 00:12:05] thread 0: 8628708 hashes, 146.25 khash/s
+[2014-08-31 00:12:54] stratum_recv_line failed
+[2014-08-31 00:12:54] Stratum connection interrupted
+[2014-08-31 00:12:55] thread 0: 6990732 hashes, 142.13 khash/s
+[2014-08-31 00:13:10] Stratum detected new block
+[2014-08-31 00:13:11] Stratum detected new block
+[2014-08-31 00:13:11] thread 0: 50879 hashes, 64.16 khash/s
+[2014-08-31 00:13:39] thread 0: 3849464 hashes, 140.37 khash/s
+[2014-08-31 00:14:26] Stratum detected new block
+[2014-08-31 00:14:26] thread 0: 6819757 hashes, 143.84 khash/s
+[2014-08-31 00:14:28] Stratum detected new block
+[2014-08-31 00:14:28] thread 0: 239130 hashes, 165.39 khash/s
+[2014-08-31 00:14:52] stratum_recv_line failed
+[2014-08-31 00:14:52] Stratum connection interrupted
+[2014-08-31 00:14:52] thread 0: 3605890 hashes, 146.96 khash/s
+[2014-08-31 00:14:58] Stratum detected new block
+[2014-08-31 00:14:58] Stratum detected new block
+[2014-08-31 00:15:12] Stratum detected new block
+[2014-08-31 00:15:12] thread 0: 2007931 hashes, 143.06 khash/s
+[2014-08-31 00:15:23] Stratum detected new block
+[2014-08-31 00:15:23] thread 0: 1627345 hashes, 149.22 khash/s
+[2014-08-31 00:16:04] stratum_recv_line failed
+[2014-08-31 00:16:04] Stratum connection interrupted
+[2014-08-31 00:16:04] thread 0: 5848243 hashes, 143.72 khash/s
+[2014-08-31 00:16:07] Stratum detected new block
+[2014-08-31 00:16:07] Stratum detected new block
+[2014-08-31 00:16:07] thread 0: 429 hashes, 0.72 khash/s
+[2014-08-31 00:16:08] thread 0: 43166 hashes, 43.43 khash/s
+[2014-08-31 00:16:26] thread 0: 2605785 hashes, 146.32 khash/s
+[2014-08-31 00:17:07] Stratum detected new block
+[2014-08-31 00:17:07] thread 0: 5975688 hashes, 145.84 khash/s
+[2014-08-31 00:18:01] stratum_recv_line failed
+[2014-08-31 00:18:01] Stratum connection interrupted
+[2014-08-31 00:18:01] thread 0: 7761502 hashes, 144.39 khash/s
+[2014-08-31 00:18:03] Stratum detected new block
+[2014-08-31 00:18:03] Stratum detected new block
+[2014-08-31 00:18:23] Stratum detected new block
+[2014-08-31 00:18:23] thread 0: 2757181 hashes, 136.51 khash/s
+[2014-08-31 00:18:59] stratum_recv_line failed
+[2014-08-31 00:18:59] Stratum connection interrupted
+[2014-08-31 00:18:59] thread 0: 5281596 hashes, 146.74 khash/s
+[2014-08-31 00:19:06] Stratum detected new block
+[2014-08-31 00:19:07] Stratum detected new block
+[2014-08-31 00:19:26] Stratum detected new block
+[2014-08-31 00:19:26] thread 0: 2680330 hashes, 139.74 khash/s
+[2014-08-31 00:19:57] Stratum detected new block
+[2014-08-31 00:19:57] thread 0: 4444444 hashes, 143.69 khash/s
+[2014-08-31 00:20:20] stratum_recv_line failed
+[2014-08-31 00:20:20] Stratum connection interrupted
+[2014-08-31 00:20:20] thread 0: 3238384 hashes, 143.17 khash/s
+[2014-08-31 00:20:23] Stratum detected new block
+[2014-08-31 00:20:24] Stratum detected new block
+[2014-08-31 00:20:24] thread 0: 22783 hashes, 150.00 khash/s
+[2014-08-31 00:20:51] stratum_recv_line failed
+[2014-08-31 00:20:51] Stratum connection interrupted
+[2014-08-31 00:20:51] thread 0: 4009549 hashes, 149.33 khash/s
+[2014-08-31 00:21:16] stratum_recv_line failed
+[2014-08-31 00:21:16] ...retry after 30 seconds
+[2014-08-31 00:22:13] Stratum connection failed: Couldn't resolve host 'bitbizpool.hopto.org'
+[2014-08-31 00:22:13] ...retry after 30 seconds
+[2014-08-31 00:23:13] Stratum connection failed: connect() timed out!
+[2014-08-31 00:23:13] ...retry after 30 seconds
+[2014-08-31 00:24:05] stratum_recv_line failed
+[2014-08-31 00:24:05] ...retry after 30 seconds
+[2014-08-31 00:25:56] stratum_recv_line timed out
+[2014-08-31 00:25:56] ...retry after 30 seconds
+[2014-08-31 00:27:06] Stratum connection failed: Couldn't resolve host 'bitbizpool.hopto.org'
+[2014-08-31 00:27:06] ...retry after 30 seconds
+[2014-08-31 00:28:08] Stratum detected new block
+[2014-08-31 00:28:08] Stratum detected new block
+[2014-08-31 00:28:09] Stratum detected new block
+[2014-08-31 00:28:09] thread 0: 1140 hashes, 1.24 khash/s
+[2014-08-31 00:28:10] thread 0: 74352 hashes, 99.02 khash/s
+[2014-08-31 00:28:39] Stratum detected new block
+[2014-08-31 00:28:39] thread 0: 4103996 hashes, 141.61 khash/s
+[2014-08-31 00:28:51] Stratum detected new block
+[2014-08-31 00:28:51] thread 0: 1652708 hashes, 138.97 khash/s
+[2014-08-31 00:28:52] Stratum detected new block
+[2014-08-31 00:28:52] thread 0: 164482 hashes, 162.97 khash/s
+[2014-08-31 00:28:53] Stratum detected new block
+[2014-08-31 00:28:53] thread 0: 80331 hashes, 153.93 khash/s
+[2014-08-31 00:29:18] stratum_recv_line failed
+[2014-08-31 00:29:18] Stratum connection interrupted
+[2014-08-31 00:29:18] thread 0: 3700679 hashes, 147.47 khash/s
+[2014-08-31 00:29:58] Stratum connection failed: Couldn't resolve host 'bitbizpool.hopto.org'
+[2014-08-31 00:29:58] ...retry after 30 seconds
+[2014-08-31 00:31:05] Stratum connection failed: Couldn't resolve host 'bitbizpool.hopto.org'
+[2014-08-31 00:31:05] ...retry after 30 seconds
+[2014-08-31 00:31:35] Stratum connection failed: Couldn't resolve host 'bitbizpool.hopto.org'
+[2014-08-31 00:31:35] ...retry after 30 seconds
+[2014-08-31 00:32:13] Stratum detected new block
+[2014-08-31 00:32:13] Stratum detected new block
