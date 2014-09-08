@@ -9,6 +9,7 @@
 # Licence:    Free to use, copy and distribute as long as I'm credited
 #             Provided as is, use at your own risk and for your own benefit
 # Donate BTC: 1Lehv8uMSMyYyY7ZFTN1NiRj8X24E56rvV
+# Edits by S0AndS0 09-07-2014
 #-------------------------------------------------------------------------------
 
 from __future__ import print_function
@@ -339,11 +340,11 @@ def TradeLoop(context, settings):
     if (TargetCoin[0] == "BTC"):
         if ( arbitrate ):
             ## We will assume that on arbitrate, we also respect the Reserve
-            ReinvestCoinByClass(context, settings.LTC, TargetCoin[0] )
+            ReinvestCoinByClass(context, settings.LTC , TargetCoin[0] )
 
         else:
             if ( settings.HoldCoins == False ):
-                ReinvestCoinByClass(context, settings.LTC, "GHS")
+                ReinvestCoinByClass(context, settings.LTC , "GHS")
 
         ReinvestCoinByClass(context, settings.BTC, "GHS" )
 
@@ -395,7 +396,7 @@ def CancelOrder(context):
         except:
             log.Output ("Cancel order failed")
 
-   ## LTC Order cancel
+    ## LTC Order cancel
     order = context.current_orders("GHS/LTC")
     for item in order:
         try:
@@ -410,15 +411,6 @@ def CancelOrder(context):
         try:
             context.cancel_order(item['id'])
             log.Output ("BTC/LTC Order %s canceled" % item['id'])
-        except:
-            log.Output ("Cancel order failed")
-
-    ## NMC Order cancel
-    order = context.current_orders("NMC/BTC")
-    for item in order:
-        try:
-            context.cancel_order(item['id'])
-            log.Output ("BTC/NMC Order %s canceled" % item['id'])
         except:
             log.Output ("Cancel order failed")
 
@@ -646,9 +638,9 @@ def FormatFloat( number):
 
 ## Get TargetCoin, reveal what coin we should use to buy GHS
 def GetTargetCoin(Context):
-    ## Get the Price LTC/BTC
+    ## Get the Price NMC/BTC
 
-    GHS_LTCPrice = GetPrice(Context, "GHS/NTC")
+    GHS_LTCPrice = GetPrice(Context, "GHS/LTC")
     GHS_BTCPrice = GetPrice(Context, "GHS/BTC")
     LTC_BTCPrice = GetPrice(Context, "LTC/BTC")
 
@@ -713,14 +705,11 @@ def GetTickerName( CoinName, TargetCoin ):
         if TargetCoin == "LTC" :
             Ticker = "LTC/BTC"
 
-    if CoinName == "NMC" :
-        Ticker = "NMV/BTC"
-        
     if CoinName == "IXC" :
         Ticker = "IXC/BTC"
 
-    if CoinName == "LTC" :
-        Ticker = "LTC/BTC"
+    if CoinName == "NMC" :
+        Ticker = "NMC/BTC"
 
     return Ticker
 
