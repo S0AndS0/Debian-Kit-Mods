@@ -5,7 +5,7 @@ git clone https://github.com/Eloque/CexControl
 I'll be testing and updating with results on the following BitBiz forum link and here on github
 http://bitbiz.io/threads/mining-operation.401/
 http://bitbiz.io/threads/guide-make-coins-make-coins-with-cloud-hashing-and-trading.357/
-
+... And it works again :-D !!! now for LTC/GHS ... Happy hashing to you all.
 
 
 _______________________________________________________________________________________________
