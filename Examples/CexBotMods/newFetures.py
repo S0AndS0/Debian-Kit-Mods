@@ -9,7 +9,9 @@
 # Licence:    Free to use, copy and distribute as long as I'm credited
 #             Provided as is, use at your own risk and for your own benefit
 # Donate BTC: 1Lehv8uMSMyYyY7ZFTN1NiRj8X24E56rvV
-# Edits by S0AndS0 09-07-2014 1JJXnF2NMcTT24Rj7g9XkEDN5qP5nRFk1o
+# Edits by S0AndS0 09-07-2014 
+# DRK (darkcoin) - Xbt2yWvFL5KaSH1F5Fv4B35tbqToQXotKq
+# BTC (bitcoin) - 1EnsKTu6cHLhHR9vYmL35872qQBWZZGGmR
 #	added support for GHS/LTC/BTC trading
 #	removed support for GHS/NMC/BTC trading
 # adding support for DRK/LTC/BTC 
