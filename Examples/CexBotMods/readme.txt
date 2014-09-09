@@ -5,9 +5,9 @@ git clone https://github.com/Eloque/CexControl
 I'll be testing and updating with results on the following BitBiz forum link and here on github
 http://bitbiz.io/threads/mining-operation.401/
 http://bitbiz.io/threads/guide-make-coins-make-coins-with-cloud-hashing-and-trading.357/
-... And it works again :-D !!! now for LTC/GHS ... Happy hashing to you all.
 
 
+Mod notes for CexControl.py
 _______________________________________________________________________________________________
 # Line 343 settings.NMC changed to settings.LTC
 ReinvestCoinByClass(context, settings.NMC, TargetCoin[0] )
@@ -93,3 +93,143 @@ if CoinName == "NMC" :
         Ticker = "LTC/BTC"
 
 _______________________________________________________________________________________________
+
+
+Mod notes for newFetures.py
+_______________________________________________________________________________________________
+# line 60 added DRK line
+self.DRK = Coin("DRK", 0.10000, 0.00)
+
+# LINE 139-147 added DRK options
+try:
+    self.DRK.Threshold = float(LoadedFromFile['DRKThreshold'])
+except:
+    log.Output ("DRK Threshold Setting not present, using default")
+
+try:
+    self.DRK.Reserve = float(LoadedFromFile['DRKReserve'])
+except:
+    log.Output ("DRK Reserve Setting not present, using default")
+
+# line 187-188 added DRK options
+"DRKThreshold"           :str(self.DRK.Threshold),
+"DRKReserve"             :str(self.DRK.Reserve),
+
+# line 221-222 added DRK options
+self.DRK.Threshold = raw_input("Threshold to trade DRK: ")
+self.DRK.Reserve   = raw_input("Reserve for DRK: ")
+
+# line 273-274 added DRK options
+log.Output ("DRK Threshold: %0.8f" % settings.DRK.Threshold)
+log.Output ("DRK Reserve  : %0.8f" % settings.DRK.Reserve)
+
+# line 355 added DRK option
+PrintBalance( context, "DRK")
+
+# Line 360-361 Corrected nmc/ltc edits from privios mod
+## Trade in NMC
+ReinvestCoinByClass(context, settings.NMC, "BTC")
+
+# line 363-371 added arbitration for DRK between BTC and LTC before trading for GHS
+    ## Trade in DRK for BTC or LTC then GHS
+    ## Trade for BTC
+    if (TargetCoin[0] == "BTC"):
+        if ( arbitrate ):
+            ## We will assume that on arbitrate, we also respect the Reserve
+            ReinvestCoinByClass(context, settings.DRK , TargetCoin[0] )
+
+        else:
+            if ( settings.HoldCoins == True ):
+                ReinvestCoinByClass(context, settings.DRK , "LTC")
+
+    ## Trade for LTC
+    if (TargetCoin[0] == "LTC"):
+        if ( arbitrate ):
+            ## We will assume that on arbitrate, we also respect the Reserve
+            ReinvestCoinByClass(context, settings.DRK, TargetCoin[0] )
+        else:
+            if ( settings.HoldCoins == True ):
+                ReinvestCoinByClass(context, settings.DRK, "BTC" )
+
+# line 461-477 added cancel order options for DRK
+    ## DRK Order cancel
+    order = context.current_orders("DRK/LTC")
+    for item in order:
+        try:
+            context.cancel_order(item['id'])
+            log.Output ("DRK/LTC Order %s canceled" % item['id'])
+        except:
+            log.Output ("Cancel order failed")
+
+    ## DRK Order cancel
+    order = context.current_orders("DRK/BTC")
+    for item in order:
+        try:
+            context.cancel_order(item['id'])
+            log.Output ("BTC/DRK Order %s canceled" % item['id'])
+        except:
+            log.Output ("Cancel order failed")
+
+# line 709-710 added DRK options for BTC/LTC
+    DRK_LTCPrice = GetPrice(Context, "DRK/LTC")
+    DRK_BTCPrice = GetPrice(Context, "DRK/BTC")
+    
+# line 717-718 added DRK options
+    DRK_LTCPrice = 1/DRK_LTCPrice
+    DRK_BTCPrice = 1/DRK_BTCPrice
+
+# line 720-721 added DRK price logging
+    log.Output ("1 LTC is %s DRK" % FormatFloat(DRK_LTCPrice))
+    log.Output ("1 BTC is %s DRK" % FormatFloat(DRK_BTCPrice))
+
+# line 728-729 added DRK calculations for buying GHS via BTC  or LTC
+    DRKviaBTC = DRK_BTCPrice * GHS_BTCPrice
+    DRKviaLTC = DRK_LTCPrice * GHS_LTCPrice
+
+# line 734-735 added DRK price caculations
+    DRKviaBTCPercentage = DRKviaBTC / DRK_BTCPrice * 100
+    DRKviaLTCPercentage = DRKviaLTC / DRK_LTCPrice * 100
+
+# line 741-744 added DRK logging for buying GHS with LTC or BTC
+    log.Output ("1 BTC via DRK is %s GHS" % FormatFloat(DRKviaBTC) )
+    log.Output ("Efficiency : %2.2f" % DRKviaBTCPercentage)
+    log.Output ("1 LTC via DRK is %s GHS" % FormatFloat(DRKviaLTC) )
+    log.Output ("Efficiency : %2.2f" % DRKviaLTCPercentage)
+
+# line 750-755 added DRK caculations
+    if DRKviaBTCPercentage > DRKviaLTCPercentage:
+        coin = "BTC"
+        efficiency = DRKviaBTCPercentage - 100
+    else:
+        coin = "LTC"
+        efficiency = DRKviaLTCPercentage - 100
+
+# line 784-788 added DRK ticker options
+    if CoinName == "DRK" :
+        if TargetCoin == "LTC" :
+            Ticker = "DRK/LTC"
+        if TargetCoin == "BTC" :
+            Ticker = "DRK/BTC"
+_______________________________________________________________________________________________
+
+
+    if CoinName == "LTC" :
+        if TargetCoin == "GHS" :
+            Ticker = "GHS/LTC"
+        if TargetCoin == "BTC" :
+            Ticker = "LTC/BTC"
+
+
+_________
+
+    if CoinName == "DRK" :
+        if TargetCoin == "LTC" :
+            Ticker = "DRK/LTC"
+        if TargetCoin == "BTC" :
+            Ticker = "DRK/BTC"
+
+
+
+
+
+

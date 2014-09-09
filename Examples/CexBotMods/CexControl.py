@@ -9,7 +9,9 @@
 # Licence:    Free to use, copy and distribute as long as I'm credited
 #             Provided as is, use at your own risk and for your own benefit
 # Donate BTC: 1Lehv8uMSMyYyY7ZFTN1NiRj8X24E56rvV
-# Edits by S0AndS0 09-07-2014
+# Edits by S0AndS0 09-07-2014 1JJXnF2NMcTT24Rj7g9XkEDN5qP5nRFk1o
+#	added support for GHS/LTC/BTC trading
+#	removed support for GHS/NMC/BTC trading
 #-------------------------------------------------------------------------------
 
 from __future__ import print_function
