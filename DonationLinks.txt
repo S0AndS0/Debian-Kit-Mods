@@ -35,6 +35,7 @@ NMC (namecoin) - N8HdGc2bJss6VcA2isqxFyUsD2LcoV1mgL
 IXC (ixcoin) - xgFr5kTwHr4HPvQHdE3soeaboLEhHjNbxR
 DVC (devcoin) - 1BbwNbCgBa58XYWkWYgdJVmpsZyUVseDtw
 POT (potcoin) - P8sbKiRPYu8jtb131qz2CgRFAKUCm9qiKH
+DRK (darkcoin) - Xbt2yWvFL5KaSH1F5Fv4B35tbqToQXotKq
 
 ______________________________________
 ___ Crypto Currencies hash links _____
