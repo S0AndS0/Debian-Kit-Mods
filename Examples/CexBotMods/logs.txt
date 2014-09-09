@@ -1,0 +1,97 @@
+android:/home/CexControl # python CexControl.py setthreshold
+======= CexControl version 0.9.4 =======
+Attempting to load Settings
+File found, loaded
+DRK Threshold Setting not present, using default
+DRK Reserve Setting not present, using default
+File found, loaded
+
+Configuration created, attempting save
+Save successfull, attempting reload
+CexControl started with arguments
+
+setthreshold:
+  Creeate new threshold settings
+
+Please enter your thresholds
+
+Threshold to trade BTC: 0.00000100
+Reserve for BTC: 0.00000020
+Threshold to trade NMC: 1
+Reserve for NMC: 1
+Threshold to trade IXC: 1
+Reserve for IXC: 1
+Threshold to trade LTC: 0.00000100
+Reserve for LTC: 0.00000010
+Threshold to trade DRK: 0.00000010
+Reserve for DRK: 0.00000010
+Efficiency at which to arbitrate: 100
+Hold Coins at low efficiency (Yes/No): yes
+
+Configuration created, attempting save
+Save successfull, attempting reload
+Attempting to load Settings
+File found, loaded
+File found, loaded
+
+Configuration created, attempting save
+Save successfull, attempting reload
+========================================
+Account       : S0AndS0
+GHS balance   : 5.41482894
+========================================
+BTC Threshold: 0.00000100
+BTC Reserve  : 0.00000020
+NMC Threshold: 1.00000000
+NMC Reserve  : 1.00000000
+IXC Threshold: 1.00000000
+IXC Reserve  : 1.00000000
+LTC Threshold: 0.00000100
+LTC Reserve  : 0.00000010
+DRK Threshold: 0.00000010
+DRK Reserve  : 0.00000010
+Efficiency Threshold: 100.0
+Hold coins below efficiency threshold: False
+
+Start cycle at Tue Sep  9 03:17:17 2014
+GHS balance: 5.41482894
+
+1 LTC is 1.79244202 DRK
+1 BTC is 170.70089789 DRK
+1 LTC is 2.75634338 GHS
+1 LTC is 0.01063550 BTC
+1 BTC is 261.04207998 GHS
+1 BTC is 94.02472850 LTC
+
+1 BTC via DRK is 44560.11743937 GHS
+Efficiency : 26104.21
+1 LTC via DRK is 4.94058571 GHS
+Efficiency : 275.63
+1 BTC via LTC is 259.16443794 GHS
+Efficiency : 99.28
+1 LTC via BTC is 2.77631304 GHS
+Efficiency : 100.72
+
+Buy BTC then use that to buy GHS
+Target Coin set to: BTC
+
+Efficiency threshold: 100.0
+Efficiency possible: 0.72
+Arbitration not desired, reinvest all coins this cycle
+BTC Balance: 0.00000970
+NMC Balance: 0.00103970
+IXC Balance: 0.00479258
+LTC Balance: 0.00000010
+DRK Balance: 0.00000000
+----------------------------------------
+BTC for GHS
+Amount to buy 0.00242300
+
+Placed order at GHS/BTC
+   Buy 0.00242300
+   at 0.00383550
+   Total 0.00000948
+   Funds 0.00000970
+
+   Gain 0.00242300 GHS
+
