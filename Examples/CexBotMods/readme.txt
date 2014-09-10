@@ -97,10 +97,10 @@ ________________________________________________________________________________
 
 Mod notes for newFetures.py
 _______________________________________________________________________________________________
-# line 60 added DRK line
+# line 60 added DRK line 				## works
 self.DRK = Coin("DRK", 0.10000, 0.00)
 
-# LINE 139-147 added DRK options
+# LINE 139-147 added DRK options 		## works
 try:
     self.DRK.Threshold = float(LoadedFromFile['DRKThreshold'])
 except:
@@ -111,26 +111,26 @@ try:
 except:
     log.Output ("DRK Reserve Setting not present, using default")
 
-# line 187-188 added DRK options
+# line 187-188 added DRK options 		## works
 "DRKThreshold"           :str(self.DRK.Threshold),
 "DRKReserve"             :str(self.DRK.Reserve),
 
-# line 221-222 added DRK options
+# line 221-222 added DRK options 		## works
 self.DRK.Threshold = raw_input("Threshold to trade DRK: ")
 self.DRK.Reserve   = raw_input("Reserve for DRK: ")
 
-# line 273-274 added DRK options
+# line 273-274 added DRK options 		## works
 log.Output ("DRK Threshold: %0.8f" % settings.DRK.Threshold)
 log.Output ("DRK Reserve  : %0.8f" % settings.DRK.Reserve)
 
-# line 355 added DRK option
+# line 355 added DRK option 			## works
 PrintBalance( context, "DRK")
 
-# Line 360-361 Corrected nmc/ltc edits from privios mod
+# Line 360-361 Corrected nmc/ltc edits from privios mod 		## seems ok
 ## Trade in NMC
 ReinvestCoinByClass(context, settings.NMC, "BTC")
-
-# line 363-371 added arbitration for DRK between BTC and LTC before trading for GHS
+____
+# line 363-371 added arbitration for DRK between BTC and LTC before trading for GHS 		## popping weird caculations?
     ## Trade in DRK for BTC or LTC then GHS
     ## Trade for BTC
     if (TargetCoin[0] == "BTC"):
@@ -150,8 +150,8 @@ ReinvestCoinByClass(context, settings.NMC, "BTC")
         else:
             if ( settings.HoldCoins == True ):
                 ReinvestCoinByClass(context, settings.DRK, "BTC" )
-
-# line 461-477 added cancel order options for DRK
+____
+# line 461-477 added cancel order options for DRK 		## seems ok
     ## DRK Order cancel
     order = context.current_orders("DRK/LTC")
     for item in order:
@@ -169,16 +169,16 @@ ReinvestCoinByClass(context, settings.NMC, "BTC")
             log.Output ("BTC/DRK Order %s canceled" % item['id'])
         except:
             log.Output ("Cancel order failed")
-
+____ ## popping odd calculations...
 # line 709-710 added DRK options for BTC/LTC
     DRK_LTCPrice = GetPrice(Context, "DRK/LTC")
     DRK_BTCPrice = GetPrice(Context, "DRK/BTC")
     
-# line 717-718 added DRK options
+# line 717-718 added DRK options 		## looks good
     DRK_LTCPrice = 1/DRK_LTCPrice
     DRK_BTCPrice = 1/DRK_BTCPrice
 
-# line 720-721 added DRK price logging
+# line 720-721 added DRK price logging 	## looks good
     log.Output ("1 LTC is %s DRK" % FormatFloat(DRK_LTCPrice))
     log.Output ("1 BTC is %s DRK" % FormatFloat(DRK_BTCPrice))
 
@@ -203,6 +203,7 @@ ReinvestCoinByClass(context, settings.NMC, "BTC")
     else:
         coin = "LTC"
         efficiency = DRKviaLTCPercentage - 100
+_____
 
 # line 784-788 added DRK ticker options
     if CoinName == "DRK" :
@@ -210,6 +211,24 @@ ReinvestCoinByClass(context, settings.NMC, "BTC")
             Ticker = "DRK/LTC"
         if TargetCoin == "BTC" :
             Ticker = "DRK/BTC"
+            
+~~~~~~~ ## sample output start
+1 LTC is 1.79244202 DRK
+1 BTC is 170.70089789 DRK
+1 LTC is 2.75634338 GHS
+1 LTC is 0.01063550 BTC
+1 BTC is 261.04207998 GHS
+1 BTC is 94.02472850 LTC
+
+1 BTC via DRK is 44560.11743937 GHS
+Efficiency : 26104.21
+1 LTC via DRK is 4.94058571 GHS
+Efficiency : 275.63
+1 BTC via LTC is 259.16443794 GHS
+Efficiency : 99.28
+1 LTC via BTC is 2.77631304 GHS
+Efficiency : 100.72
+~~~~~~~ ## sample output end
 _______________________________________________________________________________________________
 
 
