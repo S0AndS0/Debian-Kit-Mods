@@ -474,7 +474,7 @@ def CancelOrder(context):
     for item in order:
         try:
             context.cancel_order(item['id'])
-            log.Output ("BTC/DRK Order %s canceled" % item['id'])
+            log.Output ("DRK/BTC Order %s canceled" % item['id'])
         except:
             log.Output ("Cancel order failed")
 
@@ -708,8 +708,8 @@ def GetTargetCoin(Context):
     GHS_BTCPrice = GetPrice(Context, "GHS/BTC")
     LTC_BTCPrice = GetPrice(Context, "LTC/BTC")
     
-    DRK_LTCPrice = GetPrice(Context, "DRK/LTC")
-    DRK_BTCPrice = GetPrice(Context, "DRK/BTC")
+    DRK_LTCPrice = GetPrice(Context, "LTC/DRK")
+    DRK_BTCPrice = GetPrice(Context, "BTC/DRK")
 
     BTC_LTCPrice = 1/LTC_BTCPrice
 
@@ -740,9 +740,9 @@ def GetTargetCoin(Context):
     LTCviaBTCPercentage = LTCviaBTC / GHS_LTCPrice * 100
 
     log.Output ("")
-    log.Output ("1 BTC via DRK is %s GHS" % FormatFloat(DRKviaBTC) )
+    log.Output ("1 DRK via BTC is %s GHS" % FormatFloat(DRKviaBTC) )
     log.Output ("Efficiency : %2.2f" % DRKviaBTCPercentage)
-    log.Output ("1 LTC via DRK is %s GHS" % FormatFloat(DRKviaLTC) )
+    log.Output ("1 DRK via LTC is %s GHS" % FormatFloat(DRKviaLTC) )
     log.Output ("Efficiency : %2.2f" % DRKviaLTCPercentage)
     log.Output ("1 BTC via LTC is %s GHS" % FormatFloat(BTCviaLTC) )
     log.Output ("Efficiency : %2.2f" % BTCviaLTCPercentage)
@@ -785,9 +785,9 @@ def GetTickerName( CoinName, TargetCoin ):
 
     if CoinName == "DRK" :
         if TargetCoin == "LTC" :
-            Ticker = "DRK/LTC"
+            Ticker = "LTC/DRK"
         if TargetCoin == "BTC" :
-            Ticker = "DRK/BTC"
+            Ticker = "BTC/DRK"
 
     if CoinName == "LTC" :
         if TargetCoin == "GHS" :
