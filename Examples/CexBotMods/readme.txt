@@ -170,9 +170,10 @@ ____
         except:
             log.Output ("Cancel order failed")
 ____ ## popping odd calculations...
-# line 709-710 added DRK options for BTC/LTC
-    DRK_LTCPrice = GetPrice(Context, "DRK/LTC")
-    DRK_BTCPrice = GetPrice(Context, "DRK/BTC")
+
+# line 709-710 added DRK options for BTC/LTC 		# does what it should
+    DRK_LTCPrice = GetPrice(Context, "LTC/DRK")
+    DRK_BTCPrice = GetPrice(Context, "BTC/DRK")
     
 # line 717-718 added DRK options 		## looks good
     DRK_LTCPrice = 1/DRK_LTCPrice
@@ -208,9 +209,9 @@ _____
 # line 784-788 added DRK ticker options
     if CoinName == "DRK" :
         if TargetCoin == "LTC" :
-            Ticker = "DRK/LTC"
+            Ticker = "LTC/DRK"
         if TargetCoin == "BTC" :
-            Ticker = "DRK/BTC"
+            Ticker = "BTC/DRK"
             
 ~~~~~~~ ## sample output start
 1 LTC is 1.79244202 DRK
@@ -229,23 +230,73 @@ Efficiency : 99.28
 1 LTC via BTC is 2.77631304 GHS
 Efficiency : 100.72
 ~~~~~~~ ## sample output end
+~~~~~~~ ## notes start
+
+__ code sample start
+    DRK_LTCPrice = GetPrice(Context, "LTC/DRK")
+    DRK_BTCPrice = GetPrice(Context, "BTC/DRK")
+    DRK_LTCPrice = 1/DRK_LTCPrice 					## 
+    DRK_BTCPrice = 1/DRK_BTCPrice 					## 
+__ code sample end
+~	>	the first set of variable assignment seems to make a network call and the second temperaroly saves this data for a round such that it only makes one netwok request per pare.
+	>	if true then this is a clever way to avoid a IP ban from cex for making to many API calls to close togeather.
+__ code sample start
+    DRKviaBTC = DRK_BTCPrice * GHS_BTCPrice 		## 
+    DRKviaLTC = DRK_LTCPrice * GHS_LTCPrice 		## 
+    LTCviaBTC = LTC_BTCPrice * GHS_BTCPrice 		## 
+    BTCviaLTC = BTC_LTCPrice * GHS_LTCPrice 		## 
+__ code sample end
+~	>	These variables store exchange data
+
+~~~~~~~ ## notes end
 _______________________________________________________________________________________________
 
 
-    if CoinName == "LTC" :
-        if TargetCoin == "GHS" :
-            Ticker = "GHS/LTC"
-        if TargetCoin == "BTC" :
-            Ticker = "LTC/BTC"
+    ## Trade for BTC
+    if (TargetCoin[0] == "BTC"):
+        if ( arbitrate ):
+            ## We will assume that on arbitrate, we also respect the Reserve
+            ReinvestCoinByClass(context, settings.LTC , TargetCoin[0] )
+
+        else:
+            if ( settings.HoldCoins == False ):
+                ReinvestCoinByClass(context, settings.LTC , "GHS")
+
+        ReinvestCoinByClass(context, settings.BTC, "GHS" )
+
+    ## Trade for LTC
+    if (TargetCoin[0] == "LTC"):
+        if ( arbitrate ):
+            ## We will assume that on arbitrate, we also respect the Reserve
+            ReinvestCoinByClass(context, settings.BTC, TargetCoin[0] )
+        else:
+            if ( settings.HoldCoins == False ):
+                ReinvestCoinByClass(context, settings.BTC, "GHS" )
+
+        ReinvestCoinByClass(context, settings.LTC, "GHS" )
 
 
 _________
 
-    if CoinName == "DRK" :
-        if TargetCoin == "LTC" :
-            Ticker = "DRK/LTC"
-        if TargetCoin == "BTC" :
-            Ticker = "DRK/BTC"
+    ## Trade in DRK for BTC or LTC then GHS
+    ## Trade for BTC
+    if (TargetCoin[0] == "BTC"):
+        if ( arbitrate ):
+            ## We will assume that on arbitrate, we also respect the Reserve
+            ReinvestCoinByClass(context, settings.DRK , TargetCoin[0] )
+
+        else:
+            if ( settings.HoldCoins == False ):
+                ReinvestCoinByClass(context, settings.DRK , "LTC")
+
+    ## Trade for LTC
+    if (TargetCoin[0] == "LTC"):
+        if ( arbitrate ):
+            ## We will assume that on arbitrate, we also respect the Reserve
+            ReinvestCoinByClass(context, settings.DRK, TargetCoin[0] )
+        else:
+            if ( settings.HoldCoins == False ):
+                ReinvestCoinByClass(context, settings.DRK, "BTC" )
 
 
 
