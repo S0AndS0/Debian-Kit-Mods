@@ -63,9 +63,9 @@ GHS balance: 5.41482894
 1 BTC is 261.04207998 GHS
 1 BTC is 94.02472850 LTC
 
-1 BTC via DRK is 44560.11743937 GHS
+1 BTC via DRK is 44560.11743937 GHS 			## should equal something like 1.47308657 GHS
 Efficiency : 26104.21
-1 LTC via DRK is 4.94058571 GHS
+1 LTC via DRK is 4.94058571 GHS 				## should equal something like 1.46392594 GHS
 Efficiency : 275.63
 1 BTC via LTC is 259.16443794 GHS
 Efficiency : 99.28
