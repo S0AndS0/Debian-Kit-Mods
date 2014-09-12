@@ -702,59 +702,49 @@ def FormatFloat( number):
 
 ## Get TargetCoin, reveal what coin we should use to buy GHS
 def GetTargetCoin(Context):
-    ## Get the Price NMC/BTC
+    ## Get the Price LTC/BTC
 
     GHS_LTCPrice = GetPrice(Context, "GHS/LTC")
     GHS_BTCPrice = GetPrice(Context, "GHS/BTC")
     LTC_BTCPrice = GetPrice(Context, "LTC/BTC")
-    
-    DRK_LTCPrice = GetPrice(Context, "LTC/DRK")
-    DRK_BTCPrice = GetPrice(Context, "BTC/DRK")
+    DRK_BTCPrice = GetPrice(Context, "DRK/BTC")
+    DRK_LTCPrice = GetPrice(Context, "DRK/LTC")
 
     BTC_LTCPrice = 1/LTC_BTCPrice
 
     GHS_LTCPrice = 1/GHS_LTCPrice
     GHS_BTCPrice = 1/GHS_BTCPrice
+    BTC_DRKPrice = 1/DRK_BTCPrice
+    LTC_DRKPrice = 1/DRK_LTCPrice
 
-    DRK_LTCPrice = 1/DRK_LTCPrice
-    DRK_BTCPrice = 1/DRK_BTCPrice
-
-    log.Output ("1 LTC is %s DRK" % FormatFloat(DRK_LTCPrice))
-    log.Output ("1 BTC is %s DRK" % FormatFloat(DRK_BTCPrice))
-    
     log.Output ("1 LTC is %s GHS" % FormatFloat(GHS_LTCPrice))
     log.Output ("1 LTC is %s BTC" % FormatFloat(LTC_BTCPrice))
     log.Output ("1 BTC is %s GHS" % FormatFloat(GHS_BTCPrice))
     log.Output ("1 BTC is %s LTC" % FormatFloat(BTC_LTCPrice))
-
-    DRKviaBTC = DRK_BTCPrice * GHS_BTCPrice
-    DRKviaLTC = DRK_LTCPrice * GHS_LTCPrice
+    log.Output ("1 BTC is %s DRK" % FormatFloat(BTC_DRKPrice))
+    log.Output ("1 DRK is %s BTC" % FormatFloat(DRK_BTCPrice))
+    log.Output ("1 LTC is %s DRK" % FormatFloat(LTC_DRKPrice))
+    log.Output ("1 DRK is %s LTC" % FormatFloat(DRK_LTCPrice))
 
     LTCviaBTC = LTC_BTCPrice * GHS_BTCPrice
     BTCviaLTC = BTC_LTCPrice * GHS_LTCPrice
-
-    DRKviaBTCPercentage = DRKviaBTC / DRK_BTCPrice * 100
-    DRKviaLTCPercentage = DRKviaLTC / DRK_LTCPrice * 100
+    DRKviaBTC = DRK_BTCPrice * GHS_BTCPrice
+    DRKviaLTC = DRK_LTCPrice * GHS_LTCPrice
 
     BTCviaLTCPercentage = BTCviaLTC / GHS_BTCPrice * 100
     LTCviaBTCPercentage = LTCviaBTC / GHS_LTCPrice * 100
+    DRKviaBTCPercentage = DRKviaBTC / GHS_BTCPrice * 100
+    DRKviaLTCPercentage = DRKviaBTC / GHS_LTCPrice * 100
 
     log.Output ("")
-    log.Output ("1 DRK via BTC is %s GHS" % FormatFloat(DRKviaBTC) )
-    log.Output ("Efficiency : %2.2f" % DRKviaBTCPercentage)
-    log.Output ("1 DRK via LTC is %s GHS" % FormatFloat(DRKviaLTC) )
-    log.Output ("Efficiency : %2.2f" % DRKviaLTCPercentage)
     log.Output ("1 BTC via LTC is %s GHS" % FormatFloat(BTCviaLTC) )
     log.Output ("Efficiency : %2.2f" % BTCviaLTCPercentage)
     log.Output ("1 LTC via BTC is %s GHS" % FormatFloat(LTCviaBTC) )
     log.Output ("Efficiency : %2.2f" % LTCviaBTCPercentage)
-
-    if DRKviaBTCPercentage > DRKviaLTCPercentage:
-        coin = "BTC"
-        efficiency = DRKviaBTCPercentage - 100
-    else:
-        coin = "LTC"
-        efficiency = DRKviaLTCPercentage - 100
+    log.Output ("1 DRK via BTC is %s GHS" % FormatFloat(DRKviaBTC) )
+    log.Output ("Efficiency : %2.2f" % DRKviaBTCPercentage)
+    log.Output ("1 DRK via LTC is %s GHS" % FormatFloat(DRKviaLTC) )
+    log.Output ("Efficiency : %2.2f" % DRKviaLTCPercentage)
 
     if LTCviaBTCPercentage > BTCviaLTCPercentage:
         coin = "BTC"
@@ -762,6 +752,12 @@ def GetTargetCoin(Context):
     else:
         coin = "LTC"
         efficiency = BTCviaLTCPercentage - 100
+    if DRKviaBTCPercentage > DRKviaLTCPercentage:
+        coin = "BTC"
+        efficiency = DRKviaBTCPercentage - 100
+    else:
+        coin = "LTC"
+        efficiency = DRKviaLTCPercentage - 100
 
     returnvalue = (coin, efficiency)
 
@@ -785,9 +781,9 @@ def GetTickerName( CoinName, TargetCoin ):
 
     if CoinName == "DRK" :
         if TargetCoin == "LTC" :
-            Ticker = "LTC/DRK"
+            Ticker = "DRK/LTC"
         if TargetCoin == "BTC" :
-            Ticker = "BTC/DRK"
+            Ticker = "DRK/BTC"
 
     if CoinName == "LTC" :
         if TargetCoin == "GHS" :
