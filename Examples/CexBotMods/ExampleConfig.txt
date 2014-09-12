@@ -1,0 +1,1 @@
+{"username": "S0AndS0", "LTCReserve": "1e-08", "BTCReserve": "1e-07", "IXCThreshold": "0.1", "key": "<left-hand side of API settings screen>", "NMCReserve": "2e-08", "BTCThreshold": "1e-07", "NMCThreshold": "5e-06", "LTCThreshold": "1.0", "EfficiencyThreshold": "100.0", "secret": "<right-hand side of API settings screen>", "IXCReserve": "1e-08", "HoldCoins": false}
