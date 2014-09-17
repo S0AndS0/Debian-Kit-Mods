@@ -7,6 +7,11 @@ http://bitbiz.io/threads/mining-operation.401/
 http://bitbiz.io/threads/guide-make-coins-make-coins-with-cloud-hashing-and-trading.357/
 
 
+____
+python -i ## interactive mode
+quit() ## to quit
+____
+
 Mod notes for CexControl.py
 _______________________________________________________________________________________________
 # Line 343 settings.NMC changed to settings.LTC
