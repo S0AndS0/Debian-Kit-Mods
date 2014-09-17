@@ -1,0 +1,12 @@
+#!/usr/bin/python
+
+def someFun():
+	return ('yes', 'no')
+
+(truth, nonTruth) = someFun()
+print " 	truth = %s" % truth
+print " nonTruth = %s" % nonTruth
+
+noob_truth2 = someFun()
+noob_print "truth[0] = %s" % noob_truth2[0]
+noob_print "truth[1] = %s" % noob_truth2[1]

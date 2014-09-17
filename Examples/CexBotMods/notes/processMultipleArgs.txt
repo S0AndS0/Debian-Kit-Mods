@@ -1,0 +1,10 @@
+#!/usr/bin/python
+## will print out name of file and any following agruments
+import sys
+
+n=0
+for arg in sys.argv:
+	print 'arg [%d] = "%s"' % (n, sys.argv[n])
+	n+=1
+
+	

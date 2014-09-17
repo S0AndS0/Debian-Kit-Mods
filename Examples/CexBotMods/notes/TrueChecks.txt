@@ -1,0 +1,16 @@
+#!/usr/bin/python
+
+oneEqOne = (1 == 1)
+
+if (oneEqOne == True): 		# noobe way
+	print "oneEqOne == True"
+if (oneEqOne): 				# pro way
+	print "Just 'oneEqOne' is also true"
+	
+oneEqTwo = (1 == 2)
+if (oneEqTwu == False): 	# noobe way
+	print "oneEqTwo == False"
+if (not oneEqTwo): 			# pro way
+	print "just 'oneEqTwo' is also false"
+	print "Put another way, 'not oneEqTwo' is true"
+	

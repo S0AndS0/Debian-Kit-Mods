@@ -1,0 +1,15 @@
+#!/usr/bin/python
+## will accept yes or Yes or anything starting with a y as permission to continue.
+import sys
+import re
+
+yes = re.compile('^[Yy]')
+
+answer = sys.argv[1]
+if yes.match(answer):
+	print "Thank you"
+elif no.match(answer):
+	print "Why not"
+else:
+	print "yes or now please"	
+

@@ -1,0 +1,19 @@
+The FormatFloat function is useless Lines : 697 
+_____
+## Simply reformat a float to 8 numbers behind the comma
+def FormatFloat( number):
+
+    number = unicode("%.8f" % number)
+    return number
+    
+
+_____
+log.Output ("")
+    log.Output ("1 BTC via LTC is %s GHS" % FormatFloat(BTCviaLTC) )
+_____
+Instead remove it and use
+    log.Output (u"1 BTC via LTC is %.8f GHS" % BTCviaLTC)
+    
+_____
+... and repeat for all calls to FormatFloat
+
