@@ -233,7 +233,7 @@ EOF
 # added calls for F above and bellow
 # added kali as an option above and bellow
 
-while getopts "d:m:s:i:t:L:D:M:uUCh" opt;do
+while getopts "d:m:s:i:t:L:D:M:F:uUCh" opt;do
 	case ${opt} in d)
 		DISTRO=${OPTARG}
 	;;m)
