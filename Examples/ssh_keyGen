@@ -17,7 +17,7 @@
 # best practices sugest to never have root-to-root user connections but instead to limit with a normal user that has been given sudo permissions.
 # 
 # See example command and explenation of options used
-# ssh-keygen -b 4048 -t rsa -C "home machine"
+# ssh-keygen -b 4048 -t rsa -C "home machine" -f /some/custom/path
 # ssh-keygen is a program. see -h or --help or man pages for usage help.
 # option : -b : tells ssh-keygen how many bits long the keys generated should be. For rsa : default is 2048 and minimum is 768 and there is no maximum.
 # option : -t : tells ssh-keygen to use either rsa or DSA. Google it and you will find most preffer rsa dew to no limit on lingth of key where as DSA is limited to 1024 making it far easier to crack.
