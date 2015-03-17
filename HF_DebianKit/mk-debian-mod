@@ -9,9 +9,6 @@
 # hard or soft float variable :-: armel v armhf
 SFvHF="armhf"
 
-# the following can be updated from: http://ftp.debian.org/debian/pool/main/d/debootstrap/
-# latest version is: 1.0.59 :-: http://sourceforge.net/p/debian-kit/code/ci/master/tree/kit/debootstrap_1.0.59_all.deb
-# debootstrap version variable
 DEBoot_version="debootstrap_1.0.38_all.deb"
 
 # variable for setting source list country code
@@ -183,6 +180,7 @@ Usage:
 
 Options:
   -d <distro>	specify squeeze/wheezy/lucid/precise/kali
+  -b <debootstrap>	specify debootstrap version default/updated/kali
   -m <path>	specify mount point for disk/device
   -s <megabyte>	specify size for new loop disk file
   -i <file|dev>	specify loop disk file name or device
@@ -198,6 +196,7 @@ Options:
 
 Settings:
   -d ${DISTRO:-<none>}
+  -b ${DEBoot_version:-<none>}
   -m ${MNT}
   -s ${LOOPSIZE} Mb
   -i ${IMG}${i:+,
@@ -233,9 +232,11 @@ EOF
 # added calls for F above and bellow
 # added kali as an option above and bellow
 
-while getopts "d:m:s:i:t:L:D:M:F:uUCh" opt;do
+while getopts "d:b:m:s:i:t:L:D:M:F:uUCh" opt;do
 	case ${opt} in d)
 		DISTRO=${OPTARG}
+	;;b)
+		DEBoot_version={OPTARG}
 	;;m)
 		MNT=${OPTARG}
 	;;s)
@@ -345,6 +346,20 @@ done
 DISTRO_SEC=	# Default: no DISTRO-Sections
 DISTRO_UPD=	# Default: no extra security mirror
 
+## added deboot version control
+# the following can be updated from: http://ftp.debian.org/debian/pool/main/d/debootstrap/
+# latest version is: 1.0.59 :-: http://sourceforge.net/p/debian-kit/code/ci/master/tree/kit/debootstrap_1.0.59_all.deb
+# for Kali: http://repo.kali.org/kali/pool/main/d/debootstrap/
+case ${DEBoot_version} in default)
+	DEBoot_version="debootstrap_1.0.38_all.deb"
+;;updated)
+	DEBoot_version="debootstrap_1.0.59_all.deb"
+;;kali)
+	DEBoot_version="debootstrap_1.0.66+kali1_all.deb"
+;;*)
+	echo "Unknown distro: ${DEBoot_version}" >&2
+	exit 1
+;;esac
 ### this is where to add more distro options
 # 	an entry should also be modifide around lines 40, 180, 200, 240
 #
