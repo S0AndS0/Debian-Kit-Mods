@@ -1,0 +1,640 @@
+#!/system/bin/sh
+
+# Script for bootstrapping Debian on Android (needs root)
+# Version 1.5, Copyright 2013 by Sven-Ola, License: GPLv3
+# Docs and downloads: http://sven-ola.dyndns.org/repo/
+# modifide thanks to: http://www.timelesssky.com/blog/running-debian-armhf-alongside-android
+# 	scroll down to line 336 for notes block about adding more sources
+
+# hard or soft float variable :-: armel v armhf
+SFvHF="armhf"
+
+# the following can be updated from: http://ftp.debian.org/debian/pool/main/d/debootstrap/
+# latest version is: 1.0.59 :-: http://sourceforge.net/p/debian-kit/code/ci/master/tree/kit/debootstrap_1.0.59_all.deb
+# debootstrap version variable
+DEBoot_version="debootstrap_1.0.38_all.deb"
+
+# variable for setting source list country code
+DEBReagen="us"
+
+case ${0%/*} in ${0}) DIR=${PWD};;*) case ${0} in /*) DIR=${0%/*};;*) DIR=${PWD}/${0%/*};DIR=${DIR%%/.};;esac;;esac
+
+# Note: on i386, qemu may execute armel code as well. Reason to query i386 fist here.
+# 	added calls for armhf befor armel. Note though that not all distros have a hard floating point option.
+CPU=$(${DIR}/i386/busybox ash -c "echo i386" 2>&- || ${DIR}/armhf/busybox ash -c "echo armhf" 2>&- || ${DIR}/armel/busybox ash -c "echo armel" 2>&-)
+case ${CPU} in "") echo "Unsupported CPU or architecture." >&2 && exit 1;;esac
+${DIR}/${CPU}/busybox ash -c "test /proc/$$/exe -ef ${DIR}/${CPU}/busybox" || exec ${DIR}/${CPU}/busybox ash -- "${0}" "$@"
+# Our busybox shell from here on
+
+# Read some critical locations from bootdeb script.
+# after testing the bootdeb-mod call should be changed back to just bootdeb
+eval IMG=$(sed -n 's/^[[:space:]]*IMG[[:space:]]*=//p' ${DIR}/bootdeb-mod|sed -n '$p')
+eval MNT=$(sed -n 's/^[[:space:]]*MNT[[:space:]]*=//p' ${DIR}/bootdeb-mod|sed -n '$p')
+SAVED_IMG=${IMG}
+
+# Preset some defaults
+ACTION=install
+# on non vFat file systems this can be larger than 4096 if the MAX_loopsize variable is also modifide.
+LOOPSIZE=1024
+DNS=$(${ANDROID_ROOT:-/system}/bin/getprop net.dns1 2>&-)
+FSYS=$(sed -n '/\bext[234]$/p' /proc/filesystems|sort|sed -n '$s/[[:space:]]\+//p')
+LABEL=
+DISTRO=wheezy
+MIRROR_DEBIAN="http://ftp.$DEBReagen.debian.org/debian"
+case ${CPU} in armel|armhf|powerpc)
+	MIRROR_UBUNTU="http://ports.ubuntu.com/ubuntu-ports"
+;;*)
+	MIRROR_UBUNTU="http://$DEBReagen.archive.ubuntu.com/ubuntu"
+;;esac
+case ${CPU} in armhf)
+	MIRROR_KALI="http://http.kali.org/kali"
+;;esac
+
+##### Functions #####
+
+source ${DIR}/functions
+
+clean_umount() {
+	# Unmounts device $1
+	local i
+	for i in $(sed -n "s,^${1}[[:space:]]\+\([^[:space:]]\+\).*,\1,p" /proc/mounts);do
+		debug_umount ${i}/proc 2>&-
+		debug_umount ${1}
+	done
+}
+
+clean() {
+	# Free up device/loop file ${IMG}
+	if [ -b ${IMG} ];then
+		clean_umount ${IMG}
+	elif [ -f ${IMG} ];then
+		local p
+		for p in 0 1;do
+			local i
+			IFS="
+"
+			for i in $(losetup);do
+				unset IFS
+				set ${i}
+				if [ ${3} -ef ${IMG} ];then
+					case ${p} in 0)
+						clean_umount ${i%%:*}
+					;;*)
+						losetup -d ${i%%:*}
+					;;esac
+				fi
+				IFS="
+"
+			done
+			unset IFS
+		done
+	fi
+}
+
+system_addons()
+{
+	# Convenience: add some symlinks to Android system
+	# 	after testing the deb-mod call should be changed back to deb
+
+	rm -f ${DIR}/deb-mod ${DIR}/ash ${DIR}/busybox ${DIR}/openvpn
+	# Call up "bootdeb" script with parameter given in \${DEB},
+	# prevents Superuser.apk from asking for every single command
+	# Note: some 'su' don't accept shell a single cmd with '-c',
+	# instead they expect -c /filename arg1 arg2 without quotes.
+
+	cat > ${DIR}/deb << EOF
+#!${ANDROID_ROOT:-/system}/bin/sh
+# after testing the bootdeb-mod call should be changed back to bootdeb
+DEB="\${1}" exec su -c "${DIR}/bootdeb-mod"
+EOF
+	chmod 755 ${DIR}/deb-mod
+	ln -s ${DIR}/${CPU}/busybox ${DIR}/ash
+	ln -s ${DIR}/${CPU}/busybox ${DIR}/busybox
+	test -x ${DIR}/${CPU}/openvpn && ln -s ${DIR}/${CPU}/openvpn ${DIR}/openvpn
+
+	if debug_mount -o remount,rw ${ANDROID_ROOT:-/system};then
+		# after testing the deb-mod call should be changed back to deb
+		if rm -f ${ANDROID_ROOT:-/system}/bin/deb-mod && ln -s ${DIR}/deb-mod ${ANDROID_ROOT:-/system}/bin/deb-mod;then
+			if [ -h ${ANDROID_ROOT:-/system}/bin/ash ] || [ ! -x ${ANDROID_ROOT:-/system}/bin/ash ];then
+				# Note: with ICS, /system/bin/ash binary exists
+				cp -a ${DIR}/ash ${ANDROID_ROOT:-/system}/bin/
+			fi
+			if ! which busybox >/dev/null && [ ! -x ${ANDROID_ROOT:-/system}/bin/busybox ];then
+				# Make busybox consuments happy, e.g. VNC server
+				cp -a ${DIR}/busybox ${ANDROID_ROOT:-/system}/bin/
+			fi
+		else
+			# after testing the deb-mod call should be changed back to deb
+			echo "Cannot create symlink ${ANDROID_ROOT:-/system}/bin/deb-mod. You need to start with ${DIR}/deb-mod" >&2
+		fi
+		if [ -b $(get_mount ${ANDROID_ROOT:-/system}) ];then
+			debug_mount -o remount,ro ${ANDROID_ROOT:-/system}
+		fi
+	else
+		# after testing the deb-mod call should be changed back to deb
+		echo "Cannot remount ${ANDROID_ROOT:-/system} RW. You need to start with ${DIR}/deb-mod" >&2
+	fi
+}
+
+sources_list()
+{
+	cat << EOF
+deb ${DISTRO_URL} ${DISTRO} ${DISTRO_COM}
+deb-src ${DISTRO_URL} ${DISTRO} ${DISTRO_COM}
+EOF
+	for i in ${DISTRO_SEC};do
+		cat << EOF
+
+deb ${DISTRO_URL} ${DISTRO}-${i} ${DISTRO_COM}
+deb-src ${DISTRO_URL} ${DISTRO}-${i} ${DISTRO_COM}
+EOF
+	done
+	case ${DISTRO_UPD} in "");;*)
+		cat << EOF
+
+deb ${DISTRO_UPD} ${DISTRO_COM}
+deb-src ${DISTRO_UPD} ${DISTRO_COM}
+EOF
+	;;esac
+}
+
+unpack_deb()
+{
+	ar x ${1} data.tar.gz
+	tar -xzf data.tar.gz
+	rm -f data.tar.gz
+}
+
+# after testing change deb-mod to deb
+
+usage() {
+	local i=
+	case ${IMG} in uuid:*)
+		if ! i=$(get_uuid ${IMG#uuid:});then
+			i="<Error: not found>"
+		fi
+	;;esac
+	cat<<EOF
+Script to format a loop disk file or disk partition \
+with ext2/3/4 and install a Debian Linux there.
+
+Usage:
+  ${0##*/} [Options]
+
+Options:
+  -d <distro>	specify squeeze/wheezy/lucid/precise/kali
+  -m <path>	specify mount point for disk/device
+  -s <megabyte>	specify size for new loop disk file
+  -i <file|dev>	specify loop disk file name or device
+  -t <ext2/3/4>	specify file system to be created
+  -L <label>	specify disk label for formatting
+  -D <ip>	specify DNS server to be used
+  -M <url>	specify Mirror URL for downloading
+  -u		update ${ANDROID_ROOT:-/system}/bin/deb-mod script and exit
+  -U		uninstall Debian kit (not debian.img!)
+  -C		clean files not required to run Debian
+  -h		display usage text and settings
+  -F		set Hard Float, ARMhf vs Soft Float, ARMel compatibility
+
+Settings:
+  -d ${DISTRO:-<none>}
+  -m ${MNT}
+  -s ${LOOPSIZE} Mb
+  -i ${IMG}${i:+,
+     device to be formatted: ${i}}
+  -t ${FSYS:-<none>}
+  -L ${LABEL:-<none>}
+  -D ${DNS:-<none>}
+  -M(squeeze/wheezy) ${MIRROR_DEBIAN}
+  -M(lucid/precise) ${MIRROR_UBUNTU}
+  -M(kali) ${MIRROR_KALI}
+  -F ${SFvHF:-<none>}
+  Action: ${ACTION}
+
+Notes:
+For creating a loop disk file, you may want to change \
+the default size (in Mb, 512-2047). For formatting a \
+device (-i /dev/xxx) or if overwriting an existing \
+loop disk file, the size is ignored. The loop disk file \
+name or the device name will be written to the bootdeb \
+script's IMG= line if this script succeeds.
+
+If you specify a device, the UUID of the formatted \
+device is instead saved into bootdeb (IMG=uuid:<hexid>). \
+With this, the correct device can be found even after \
+some mixed USB drive/SD card eject-insert sequences.
+
+Check your settings by adding '-h' as the last switch.
+EOF
+	exit ${1}
+}
+
+##### Main #####
+# added calls for F above and bellow
+# added kali as an option above and bellow
+
+while getopts "d:m:s:i:t:L:D:M:uUCh" opt;do
+	case ${opt} in d)
+		DISTRO=${OPTARG}
+	;;m)
+		MNT=${OPTARG}
+	;;s)
+		LOOPSIZE=${OPTARG}
+	;;i)
+		IMG=${OPTARG}
+	;;t)
+		FSYS=${OPTARG}
+	;;L)
+		LABEL=${OPTARG}
+	;;D)
+		DNS=${OPTARG}
+	;;M)
+		MIRROR_DEBIAN=${OPTARG}
+		MIRROR_UBUNTU=${OPTARG}
+		MIRROR_KALI=${OPTARG}
+	;;F)
+		SFvHF=${OPTARG}
+	;;h)
+		usage 0
+	;;u)
+		ACTION=update
+	;;U)
+		ACTION=uninstall
+	;;C)
+		ACTION=clean
+	;;*)
+		usage 1
+	;;esac
+done
+
+shift $(( ${OPTIND} - 1 ))
+
+if [ ${1} -gt 0 ] 2>&-;then
+	# Backwards compat: older mk-debian expects loop disk size here
+	LOOPSIZE=${1}
+	shift
+fi
+
+if [ $# -gt 0 ];then
+	echo "Unknown arguments: ${*}" >&2
+	usage 1
+fi
+
+case $(id -u) in 0);;*)
+	echo "You need to run this script as root." >&2
+	exit 1
+;;esac
+
+case $(echo /.*.debian-android) in "/.*.debian-android");;*)
+	echo "You currently have a Debian file system mounted. Start 'deb u' to unmount first." >&2
+	exit 1
+;;esac
+
+case ${MNT} in "")
+	# after testing the bootdeb-mod call should be changed back to bootdeb
+	echo "MNT= not set in ${DIR}/bootdeb-mod." >&2
+	exit 1
+;;*)
+	if [ ! -d ${MNT%/*} ];then
+		echo "Directory for MNT=${MNT} does not exist." >&2
+		exit 1
+	fi
+;;esac
+
+case ${ACTION} in uninstall)
+	exec ash -- "${DIR}/uninstall"
+	exit 1
+;;clean)
+	exec ash -- "${DIR}/cleanup"
+	exit 1
+;;update)
+	system_addons
+	echo Ok.
+	exit 0
+;;install)
+	# Fall through
+;;*)
+	echo "Unknown action: ${ACTION}" >&2
+	exit 1
+;;esac 
+
+case ${IMG} in "")
+	# after testing the bootdeb-mod call should be changed back to bootdeb
+	echo "IMG= not set in ${DIR}/bootdeb-mod." >&2
+	exit 1
+;;uuid:*)
+	if ! i=$(get_uuid ${IMG#uuid:});then
+		echo "Device ${IMG} not found." >&2
+		exit 1
+	fi
+	IMG=${i}
+;;*)
+	if [ ! -b ${IMG} ] && [ ! -d ${IMG%/*} ];then
+		echo "Directory for IMG=${IMG} does not exist." >&2
+		exit 1
+	fi
+;;esac
+# after testing the bootdeb-mod call should be changed back to bootdeb
+for i in ${DIR}/$DEBoot_version ${DIR}/bootdeb-mod ${DIR}/${CPU}/pkgdetails;do
+	if [ ! -f ${i} ];then
+		echo "${i} file not found." >&2
+		exit 1
+	fi
+done
+
+DISTRO_SEC=	# Default: no DISTRO-Sections
+DISTRO_UPD=	# Default: no extra security mirror
+
+### this is where to add more distro options
+# 	an entry should also be modifide around lines 40, 180, 200, 240
+#
+# 	/etc/apt/sources.list
+# deb http://http.kali.org/kali kali main non-free contrib
+# deb http://security.kali.org/kali-security kali/updates main contrib non-free
+# deb-src http://http.kali.org/kali kali main non-free contrib
+# deb-src http://security.kali.org/kali-security kali/updates main contrib non-free
+#__ default flavor line 40
+# 	DISTRO=wheezy
+#__ displays and sets flavors available line 180
+# 	-d <distro>	specify squeeze/wheezy/lucid/precise
+#__ displays and grabs user choice of flavor line 200
+# 	-M(squeeze/wheezy) ${MIRROR_DEBIAN}
+# 	-M(lucid/precise) ${MIRROR_UBUNTU}
+#__ sets sources list to write from flavor choice line 240
+# 	deb ${DISTRO_UPD} ${DISTRO_COM}
+# 	deb-src ${DISTRO_UPD} ${DISTRO_COM}
+case ${DISTRO} in squeeze|wheezy)
+	DISTRO_URL=${MIRROR_DEBIAN}
+	DISTRO_COM="main non-free contrib"
+	DISTRO_SEC="updates"
+	DISTRO_UPD="http://security.debian.org ${DISTRO}/updates"
+;;lucid|precise)
+	DISTRO_URL=${MIRROR_UBUNTU}
+	DISTRO_COM="main restricted universe"
+	DISTRO_SEC="updates security backports"
+;;kali)
+	DISTRO_URL=${MIRROR_KALI}
+	DISTRO_COM="main non-free contrib"
+	DISTRO_SEC="updates"
+	DISTRO_UPD="http://security.kali.org/kali-security ${DISTRO}/updates"
+;;*)
+	echo "Unknown distro: ${DISTRO}" >&2
+	exit 1
+;;esac
+### no further modifications nessisary
+for i in ${DIR}/${CPU}/$(uname -r)/*.ko;do
+	mod=${i##*/}
+	case ${mod} in "*.ko");;*)
+		grep -q "^${mod%.*} " /proc/modules || insmod ${i}
+	;;esac
+done
+
+case ${FSYS} in "")
+	cat >&2 <<EOF
+Your kernel does not support the ext2/3/4 file systems. Place at \
+least an ext2.ko kernel module to ${DIR}/${CPU}/$(uname -r)/ \
+and try again.
+EOF
+	exit 1
+;;esac
+
+case $(sed -n 's/ loop$/&/p' /proc/devices) in "")
+	cat >&2 <<EOF
+Your kernel does not support mounting loop disks. You may use \
+"${DIR}/${CPU}/busybox fdisk" to create a new partition on one \
+of your SD cards and continue with "mk-debian -i /dev/xxx". Or \
+place a loop.ko kernel module to ${DIR}/${CPU}/$(uname -r)/ \
+and try again.
+EOF
+	exit 1
+;;esac
+
+if [ -b ${IMG} ];then
+	case $(echo ${IMG##*/} | sed -n '/^[[:digit:]]\+:[[:digit:]]\+$/p') in "")
+		fdisk -lu $(echo ${IMG} | sed 's/[[:digit:]]\+$//') | grep ${IMG%/*} >&2
+	;;*)
+		i=${IMG##*/}
+		m=16
+		case ${i%:*} in 3)
+			# Old IDE, MFM, ATA
+			m=64
+		;;8)
+			# SCSI (includes USB, SATA)
+			m=16
+		;;179)
+			# MMC
+			m=8
+		;;*)
+			echo "Warning: major device type ${i%:*}: ${m} partitions assumed." >&2
+		;;esac
+		m=$(( $(( 0x10000 )) - ${m} ))
+		fdisk -lu "${IMG%/*}/${i%:*}:$(( ${i#*:} & ${m} ))" | grep ${IMG%/*} >&2
+	;;esac
+	echo >&2
+	echo -n "Format (e)xisting device ${IMG} or (A)bort? " >&2
+	read n
+	case ${n} in e|E)
+		# Use existing
+	;;u|U)
+		system_addons
+		exit 0
+	;;*)
+		exit 1
+	;;esac
+elif [ -e ${IMG} ];then
+	echo -n "${IMG} exists. Format (e)xisting, (c)reate new or (A)bort? " >&2
+	read n
+	case ${n} in e|E)
+		# Use existing
+	;;c|C)
+		rm -f ${IMG}
+	;;u|U)
+		system_addons
+		exit 0
+	;;*)
+		exit 1
+	;;esac
+fi
+
+case ${DNS} in "")
+	echo "No DNS configuration. Switch on network first." >&2
+	exit 1
+;;esac
+
+if [ ! -d ${MNT} ];then
+	if ! mkdir ${MNT};then
+		echo "Oops: cannot create ${MNT}." >&2
+		exit 1
+	fi
+fi
+
+if [ ! -e ${IMG} ];then
+	case ${IMG} in /dev/*)
+		echo "Device ${IMG} does not exist." >&2
+		exit 1
+	;;esac
+
+	if [ -z "${LOOPSIZE}" ] || [ "${LOOPSIZE}" -lt 512 ] || [ "${LOOPSIZE}" -ge 2048 ];then
+		echo "You need to specify loop disk file size in Megabyte (512-2047)." >&2
+		exit 1
+	fi
+
+	FREE=$(get_free "${IMG%/*}")
+	if [ -z "${FREE}" ] || [ ${FREE} -le 0 ];then
+		echo "Cannot determine free storage space for ${IMG}." >&2
+		exit 1
+	fi
+
+	if [ ${LOOPSIZE} -ge ${FREE} ];then
+		echo "Only ${FREE} Mb storage space left for ${IMG}." >&2
+		exit 1
+	fi
+
+	echo "Creating ${IMG}, size is ${LOOPSIZE} Mb..."
+	if ! dd if=/dev/zero of=${IMG} bs=$(( 0x100000 )) count=${LOOPSIZE};then
+		echo "Cannot create ${IMG}." >&2
+		exit 1
+	fi
+fi
+
+# Note: Std Inodes is too small for hdd 512..2047, because debian has a lot of small files.
+echo "Creating ${FSYS} filesystem on ${IMG}"
+${DIR}/${CPU}/mke2fs -i 12288 -t ${FSYS} -F ${LABEL:+-L ${LABEL}} ${IMG}
+
+# Note: You will forget to unmount often ;-) In that case the 'bootdeb' script will check...
+${DIR}/${CPU}/tune2fs -c 0 -i 0 ${IMG}
+
+term() {
+	echo "Script terminates. Unmounting and removing..." >&2
+	clean
+	exit 1
+}
+
+if [ ! -b ${IMG} ];then
+	make_loop_dev
+	clean
+fi
+
+trap term SIGINT SIGTERM
+
+debug_mount -o noatime ${IMG} ${MNT}
+
+for i in ${MNT}/bin ${MNT}/etc ${MNT}/proc ${MNT}/root;do
+	if [ ! -d ${i} ];then
+		if ! mkdir ${i};then
+			echo "Oops: cannot create ${i}." >&2
+			exit 1
+		fi
+	fi
+done
+
+debug_mount -t proc none ${MNT}/proc
+
+echo "Using DNS=${DNS} for /etc/resolv.conf..."
+echo "nameserver ${DNS}" > ${MNT}/etc/resolv.conf
+(
+	cd ${MNT}
+	unpack_deb ${DIR}/$DEBoot_version
+)
+
+if [ ! -x ${MNT}/bin/busybox ];then
+	cp ${DIR}/${CPU}/busybox ${MNT}/bin
+fi
+
+for i in sh ar zcat gunzip bunzip2 md5sum sha1sum;do
+	ln -sf busybox ${MNT}/bin/${i}
+done
+
+if [ ! -x ${MNT}/usr/share/debootstrap/pkgdetails ];then
+	cp ${DIR}/${CPU}/pkgdetails ${MNT}/usr/share/debootstrap/
+fi
+
+for i in ${MNT}/usr/sbin/debootstrap ${MNT}/usr/share/debootstrap/functions;do
+	if grep -q /dev/null ${i};then
+		sed -i 's,> */dev/null,>\&-,g;s, *>&- \+2>&1; *then,;then,g' ${i}
+	fi
+done
+
+SUCCESS=no
+if PATH=/usr/sbin:/usr/bin:/sbin:/bin chroot ${MNT} debootstrap --no-check-gpg --verbose --arch $SFvHF --foreign ${DISTRO} /new-root ${DISTRO_URL};then
+	test -d ${MNT}/new-root && SUCCESS=yes
+fi
+
+debug_umount ${MNT}/proc 2>&-
+rmdir ${MNT}/proc
+rm -r ${MNT}/etc ${MNT}/bin ${MNT}/usr
+
+case ${SUCCESS} in yes)
+	if [ -f ${MNT}/new-root/var/lib/dpkg/status ] && [ $(cat ${MNT}/new-root/var/lib/dpkg/status|wc -l) -le 4 ];then
+		# Zero wrong status file (seems to be a leftover)
+		:> ${MNT}/new-root/var/lib/dpkg/status
+	fi
+
+	if [ ! -f "${MNT}/new-root/etc/default/console-setup" ];then
+		test -d "${MNT}/new-root/etc/default" || mkdir "${MNT}/new-root/etc/default"
+		cat > "${MNT}/new-root/etc/default/console-setup" << EOF
+# Prevents setupcon from interfering with Android sceen setup
+# See /usr/share/doc/console-setup/examples/console-setup
+FONT=" "
+FONTFACE=
+FONTSIZE=
+EOF
+	fi
+	if [ ! -f "${MNT}/new-root/etc/default/keyboard" ];then
+		test -d "${MNT}/new-root/etc/default" || mkdir "${MNT}/new-root/etc/default"
+		cat > "${MNT}/new-root/etc/default/keyboard" << EOF
+# Prevents keyboard-setup from starting query
+# dialogs, not relevant for an Android setup
+XKBMODEL=pc105
+XKBLAYOUT=us
+XKBVARIANT=
+XKBOPTIONS=
+EOF
+	fi
+
+	mv ${MNT}/new-root/* ${MNT}/
+	rmdir ${MNT}/new-root
+
+	if [ $(cat ${MNT}/var/lib/dpkg/status|wc -l) -le 4 ];then
+		# Zero wrong status file (seems to be a leftover)
+		:> ${MNT}/var/lib/dpkg/status
+	fi
+
+	# Generate sources.list for 'apt-get update'
+	if [ ! -d ${MNT}/etc/apt/sources.list.d ];then
+		mkdir -p ${MNT}/etc/apt/sources.list.d
+	fi
+
+	sources_list > ${MNT}/etc/apt/sources.list.d/sources.list
+
+	cat << EOF > ${MNT}/etc/apt/sources.list.d/sven-ola.list
+deb http://sven-ola.dyndns.org/repo ${DISTRO} main
+deb-src http://sven-ola.dyndns.org/repo ${DISTRO} main
+EOF
+	system_addons
+	case $(cat /proc/$PPID/cmdline) in *autorun);;*)
+		cat << EOF
+
+Everything looks fine. Type "deb" to start the second installation \
+stage. Refer to ${DIR}/debian-kit-*.html for further hints.
+EOF
+	;;esac
+	if [ "${SAVED_IMG}" != "${IMG}" ] || [ -b ${IMG} ];then
+		SAVED_IMG=${IMG}
+		if [ -b ${IMG} ];then
+			SAVED_IMG=$(${DIR}/${CPU}/tune2fs -l ${IMG}|sed -n 's/.*\bUUID:[[:space:]]*//p')
+			case ${SAVED_IMG} in "")
+				echo "Cannot get UUID of ${IMG}" >&2
+				exit 1				
+			;;esac
+			SAVED_IMG="uuid:${SAVED_IMG}"
+		fi
+		sed -i "s ^[[:space:]]*IMG[[:space:]]*=.* IMG=${SAVED_IMG} " ${DIR}/bootdeb
+	fi
+;;*)
+	echo "Error during first installation stage. Aborted..." >&2
+	exit 1
+;;esac
+
+clean
+exit 0

@@ -1,0 +1,578 @@
+#!/system/bin/sh
+
+# Script for starting Debian on Android (needs root)
+# Version 1.5, Copyright 2013 by Sven-Ola, License: GPLv3
+# Docs and downloads: http://sven-ola.dyndns.org/repo/
+
+DEV=/dev/debian
+BIN=${ANDROID_DATA:-/data}/local/deb
+MNT=${ANDROID_DATA:-/data}/local/mnt
+IMG=$MNT/sdcard/debian.img
+
+case ${0%/*} in ${0}) DIR=${PWD};;*) case ${0} in /*) DIR=${0%/*};;*) DIR=${PWD}/${0%/*};DIR=${DIR%%/.};;esac;;esac
+
+# Note: on i386, qemu may execute armel code as well. Reason to query i386 fist here. 
+# 	added calls for armhf befor armel for compatibility
+CPU=$(${DIR}/i386/busybox ash -c "echo i386" 2>&- || ${DIR}/armhf/busybox ash -c "echo armhf" 2>&- || ${DIR}/armel/busybox ash -c "echo armel" 2>&-)
+case ${CPU} in "") echo "Unsupported CPU or architecture." >&2 && exit 1;;esac
+${DIR}/${CPU}/busybox ash -c "test /proc/$$/exe -ef ${DIR}/${CPU}/busybox" || exec ${DIR}/${CPU}/busybox ash -- "${0}" "$@"
+# Our busybox shell from here on
+
+umask 0022
+
+export HOME=/root
+export TERM=linux
+export LANG=
+export PATH=
+export LD_LIBRARY_PATH=
+
+# 0: use symlinks from /mount to debian-root/mount
+# 1: use bind-mounts, e.g. required for virtualbox4
+USE_BIND=1
+
+# Pivot only used for devices with read-only root (e.g. Archos with CRAMFS)
+# 0: use only symlinks in new root, unpivot_me works but e.g. virtualbox-4 does not like these for hardening reasons
+# 1: bind-mounts only mount below root, unpivot_me works but sometimes does not umount ${MNT}/dev because of new processes
+# 2: bind-mount all, unpivot_me does not work at all - you need to reset/reboot to get the original root back
+PIVOT_BIND=1
+
+# Use 'export CUSTOM_ROM=false' if the following symlinks are
+# unused by your ROM: /etc -> /system/etc, /lib -> /system/lib
+case ${CUSTOM_ROM} in false);;*) CUSTOM_ROM=true;;esac
+
+# Use 'export PIVOT_ALWAYS=true' for testing pivot mode
+case ${PIVOT_ALWAYS} in true);;*) PIVOT_ALWAYS=false;;esac
+
+##### Functions #####
+
+source ${DIR}/functions
+
+pivot_me() {
+	# Swaps current root with ramdisk mounted to $1
+
+	rw=$(get_mount_rw "/")
+	debug_mount -t tmpfs none "${1%/}" || return 1
+	mkdir "${1%/}/oldroot" || return 1
+
+	local i
+	for i in /*;do
+		if [ "0" = "${PIVOT_BIND}" ] || [ -z $(get_mount "${i}") ];then
+			if [ "lost+found" = "${i#/}" ] || [ 0 = $(ls -A "${i}"|wc -l) ];then
+				# Empty directory under root
+				mkdir "${1%/}/${i#/}" || return 1
+			else
+				if [ "2" = "${PIVOT_BIND}" ] && [ ! -h "${i}" ] && [ -d "${i}" ];then
+					mkdir "${1%/}/${i#/}" || return 1
+					debug_mount --bind "${i}" "${1%/}/${i#/}" || return 1
+				else
+					# Link file or directory under root
+					ln -s "/oldroot/${i#/}" "${1%/}/${i#/}" || return 1
+				fi
+			fi
+		else
+			mkdir "${1%/}/${i#/}" || return 1
+		fi
+	done
+
+	case ${PIVOT_BIND} in 0);;*)
+		for i in $(cut -d' ' -f2 /proc/mounts);do
+			case ${i} in /|${1});;*)
+				# Ignore mounts with no mountdir
+				if [ -d "${1%/}/${i#/}" ];then
+					debug_mount --bind "${i}" "${1%/}/${i#/}" || return 1
+				fi
+			;;esac
+		done
+	;;esac
+
+	${DEB_DEBUG} && echo pivot_root "${1%/}" "${1%/}/oldroot"
+	pivot_root "${1%/}" "${1%/}/oldroot" || return 1
+	if [ "ro" = "$rw" ] && [ -b $(get_mount "/oldroot") ];then
+		debug_mount / -o remount,ro || return 1
+	fi
+	return 0
+}
+
+unpivot_me() {
+	# Reverts pivot_me. Note that this works reliably only with PIVOT_BIND=0
+
+	pivot_root /oldroot "${1%/}" || return 1
+	if debug_mount "${1%/}" -o remount,rw;then
+		local i
+		for i in $(cut -d' ' -f2 /proc/mounts|sed '1!G;h;$!d');do
+			# Umount done in reverse order
+			case ${i} in "${1%/}"/*)
+				# Ignore errors, last umount will fail anyhow
+				debug_umount "${i}"
+			;;esac
+		done
+		for i in "${1%/}"/*;do
+			if [ -h "${i}" ];then
+				rm "${i}" || return 1
+			elif [ -d "${i}" ];then
+				rmdir "${i}" || return 1
+			fi
+		done
+	fi
+	debug_umount "${1%/}" || return 1
+	return 0
+}
+
+merge_check() {
+	# Check if $1 exists (for symlinks: in $2)
+	if [ -h "${1}" ] && [ ! -e "${1}" ];then
+		chroot "${2}" /bin/sh -c "test -e \"${1#${2%/}}\""
+		return ${?}
+	fi
+	test -e "${1}"
+}
+
+merge_warn () {
+	echo "${2:-Using Debian's} $(echo ${1} | sed 's,/\.\([^/]\+\)\.debian-android,/\1,')" >&2
+}
+
+merge_dir () {
+	# Recursively places backlinks from android dir $1 into debian dir $2, will be mounted to $3
+	if [ -d "${1}" ];then
+		local a
+		for a in "${1}"/* "${1}"/.*;do
+			case ${a##*/} in '*'|'.*'|.|..);;*)
+				local d=${2}/${a##*/}
+				if [ ! "${a}" -ef "${d}" ];then
+					local la=$(get_link "${a}")
+					if [ -d "${d}" ];then
+						# Similar Debian dir or link pointing to dir exists
+						merge_dir "${a}" "${d}" "${3}" || return 1
+					elif merge_check "${d}" "${3}";then
+						# Similar Debian file/device or link pointing to file/device exists
+						merge_warn "${a}"
+					elif [ ! -x "${a}" ] || ([ "${la##*/}" != "busybox" ] && ! get_which "${a##*/}");then
+						# Always create links to non-exec Android targets
+						# Some custom ROMs (e.g. Chainfire's initrd) contain
+						# additional busybox links. We ignore them completely
+						# Also ignore binaries that also exist in Debian PATH
+						# Note: -f overwrites dead Debian links (see merge_check)
+						ln -sf "${a}" "${d}" || return 1
+					elif ${DEB_DEBUG};then
+						# Warn about ignored links (Busybox or extra
+						# commands normally not avail under Android)
+						merge_warn "${a}" "Ignoring"
+					fi
+				fi
+			;;esac
+		done
+	else
+		merge_warn "${1}"
+	fi
+	return 0
+}
+
+merge_root_work() {
+	# Substitute all from $1 (debian root) to $2 (android root)
+	local d
+	for d in "${1}"/*;do
+		local a=${2%/}/${d##*/}
+		if [ ! "${d}" -ef "${a}" ] && [ ! -e "${2%/}/.${d##*/}.debian-android" ];then
+			case ${d##*/} in dev|mnt|proc|sys|lost+found)
+				# Do nothing
+			;;*)
+				if [ -e "${a}" ];then
+					local ad="${2%/}/.${d##*/}.debian-android"
+					mv "${a}" "${ad}" || return 1
+					if [ -d "${d}" ] && ([ ! -h "${ad}" ] || ${CUSTOM_ROM} ||
+						[ ! "${ad}" -ef "${ANDROID_ROOT:-/system}/${a##*/}" ] ||
+						([ "etc" != "${a##*/}" ] && [ "lib" != "${a##*/}" ]))
+					then
+						merge_dir "${2%/}/.${d##*/}.debian-android" "${d}" "${1}" || return 1
+					else
+						${DEB_DEBUG} && echo "Ignoring root ${d}"
+					fi
+				fi
+				if [ ! -h "${d}" ] && [ -d "${d}" ] && [ "1" = "${USE_BIND}" ];then
+					mkdir "${a}" || return 1
+					debug_mount --bind "${d}" "${a}" || return 1
+				else
+					ln -s "${d}" "${a}" || return 1
+				fi
+			;;esac
+		fi
+	done
+	return 0
+}
+
+merge_root() {
+	# Note: PATH set to determine double-binaries with "which"
+	local path=${PATH}
+	PATH="${2}/usr/local/bin:${2}/usr/local/sbin:${2}/usr/sbin:${2}/usr/bin:${2}/sbin:${2}/bin"
+	if ! merge_root_work "$@";then
+		PATH=${path}
+		return 1
+	fi
+	PATH=${path}
+	return 0
+}
+
+mount_merge() {
+	# Mounts $1 to $2, then merges all from $2 to $3
+	# Optional: $4 = "clean" to clean links from Debian disk
+	# Optional: $4 = "stage2" to debootstrap --second-stage
+	case $(get_mount "${2}") in "")
+		local i
+		${DIR}/${CPU}/e2fsck "${1}"
+		test 1 -ge $? || echo return 1
+		if [ ! -d "${2}" ];then
+			rm -f "${2}"
+			mkdir "${2}" || return 1
+		fi
+		# Note: even if this is not a loop-mount, we need
+		# these for a working Debian loop mount command.
+		make_loop_dev || return 1
+		if (${PIVOT_ALWAYS} && [ ! -d "${3}/oldroot" ]) || [ -n "$(sed '/^[^[:space:]]\+[[:space:]]\+\/[^[:space:]]\+/d;/^rootfs\b/d;/^[^[:space:]]\+[[:space:]]\+\/[[:space:]]\+tmpfs\b/d' /proc/mounts)" ];then
+			# Root not mounted to RAM disk, use pivot_root to change that
+			echo "Pivoting to ${2}"
+			pivot_me "${2}" || return 1
+		fi
+		for i in ${DIR}/${CPU}/$(uname -r)/*.ko;do
+			local m=${i##*/}
+			case ${m} in "*.ko");;*)
+				grep -q "^${m%.*} " /proc/modules || insmod ${i}
+			;;esac
+		done
+
+		debug_mount -o noatime "${1}" "${2}" || return 1
+
+		case ${4} in clean)
+			IFS="
+"
+			echo "Searching links on ${MNT}..."
+			for i in $(stat -c %N $(find "${MNT}" -type l));do
+				case ${i#* -> } in *.debian-android*|${ANDROID_ROOT:-/system}/*)
+					if rm "${i% -> *}";then
+						echo "removed ${i% -> *}"
+					fi
+				;;esac
+			done
+			unset IFS
+ 			debug_umount "${2}" || return 1
+			return 0
+		;;esac
+
+		for i in ${ANDROID_ROOT:-/system} ${ANDROID_DATA:-/data};do
+			if [ -d "${2}/${i#/}" ];then
+				echo "Conflict: Debian disk on ${2} has ${i}. Remove this first." >&2
+				return 1
+			fi
+		done
+
+		if [ -d "${2}/debootstrap" ];then
+			# Overwrite hostname aquired during PC install
+			HOSTNAME=$(${ANDROID_ROOT:-/system}/bin/getprop net.hostname)
+ 			case ${HOSTNAME} in "");;*)
+				echo ${HOSTNAME} > "${2}/etc/hostname"
+			;;esac
+
+			# Start second stage of Debian installation
+			PATH=/usr/sbin:/usr/bin:/sbin:/bin chroot "${2}" /debootstrap/debootstrap --second-stage
+
+			# Remove downloaded package files to save space
+			PATH=/usr/sbin:/usr/bin:/sbin:/bin chroot "${2}" /usr/bin/apt-get clean
+
+			# Add pubkey that verifies /etc/apt/sources.list.d/sven-ola.list
+			cat ${DIR}/sven-ola.gpg | PATH=/usr/sbin:/usr/bin:/sbin:/bin chroot "${2}" /usr/bin/apt-key add -
+
+			case ${4} in stage2)
+				debug_umount "${2}" || return 1
+				return 0
+			;;*)
+				echo >&2
+				echo "Your next steps: enter 'apt-get update' to fetch package lists, and 'apt-get install andromize' to add a small packet that further adapts Debian to the Android environment." >&2
+			;;esac
+		fi
+
+		for i in "${2}${ANDROID_DATA:-/data}" "${2}${ANDROID_ROOT:-/system}";do
+			if [ -e "${i}" ];then
+				echo "Error: ${i} is required by Android." >&2
+				return 1
+			fi
+		done
+
+		if [ ! -d "${2}/lib/modules/$(uname -r)" ];then
+			rm -f "${2}/lib/modules/$(uname -r)"
+			mkdir -p "${2}/lib/modules/$(uname -r)"
+		fi
+
+		if ${CUSTOM_ROM};then
+			# Otherwise these dirs may link to /system after merge
+			for i in ${ANDROID_ROOT:-/system}/etc/* ${ANDROID_ROOT:-/system}/lib/*;do
+				case ${i##*/} in '*'|'.*'|.|..);;*)
+					if [ -d "$i" ] && [ ! -d "${2}/${i#${ANDROID_ROOT:-/system}/}" ];then
+						rm -f "${2}/${i#${ANDROID_ROOT:-/system}/}"
+						mkdir -p "${2}/${i#${ANDROID_ROOT:-/system}/}"
+					fi
+				;;esac
+			done
+		fi
+
+		# We need Android root RW now to change/add symlinks
+		# Note: Mounting readonly triggers a bug in dpkg, that is:
+		# rmdir("//..dpkg-tmp") = -1 EROFS (Read-only file system)
+		# so we leave Android root mounted RW until "deb u"
+		debug_mount -o remount,rw "${3}" || return 1
+
+		merge_root "${2}" "${3}" || return 1
+
+		if ! ${CUSTOM_ROM};then
+			if [ -d ${ANDROID_ROOT:-/system}/lib/modules ];then
+				merge_dir ${ANDROID_ROOT:-/system}/lib/modules /lib/modules
+			fi
+		fi
+	;;esac
+	return 0
+}
+
+umount_merge() {
+	# Unmounts $1, then revert the merge-links/bind-mounts from $2
+	local m=$(get_mount "${1}")
+	case ${m} in "");;*)
+		local a
+		local rmlist=
+		for a in "${2%/}"/*;do
+			case $(get_mount "${a}") in ${m})
+				debug_umount "${a}" || return 1
+				rmdir "${a}" || return 1
+				if [ -e "${2%/}/.${a##*/}.debian-android" ];then
+					# Note: rename here for restoring failed umount_merge
+					mv "${2%/}/.${a##*/}.debian-android" "${a}" || return 1
+				fi
+			;;*)
+				if [ "${a}" -ef "${1%/}/${a##*/}" ];then
+					rmlist="${rmlist}
+${a}"
+				fi
+			;;esac
+		done
+		IFS="
+"
+		for a in ${rmlist};do
+			rm -f "${a}" || return 1
+		done
+		unset IFS
+		for a in "${2%/}"/.*.debian-android;do
+			d=${a##*/}
+			d=${d%.debian-android}
+			case ${d#.} in "*");;*)
+				mv "${a}" "${2%/}/${d#.}" || return 1
+			;;esac
+		done
+		# Last umount here for restoring failed umount_merge
+		debug_umount "${1}" || return 1
+	;;esac
+	return 0
+}
+
+mount_all() {
+	mount_merge "${IMG}" "${MNT}" "/" || return 1
+
+	# If no /etc/mtab, the debian mount command shows nothing
+	[ -f /etc/mtab ] || ln -s /proc/mounts /etc/mtab
+
+	test -s /etc/hostname && hostname $(cat /etc/hostname)
+
+	# Debian openvpn expects tun device here
+	test -d /dev/net || mkdir /dev/net || return 1
+	test -c /dev/net/tun || test -h /dev/net/tun || ln -sf /dev/tun /dev/net/tun || return 1
+
+	if [ ! -x /etc/init.d/androresolvd ];then
+		DNS=$(${ANDROID_ROOT:-/system}/bin/getprop net.dns1)
+		case ${DNS} in "");;*)
+			if get_which resolvconf;then
+				echo "nameserver ${DNS}" | resolvconf -a android
+			else
+				echo "nameserver ${DNS}" > /etc/resolv.conf
+			fi
+		;;esac
+	else
+		/etc/init.d/androresolvd start
+	fi
+	export PATH=/usr/local/bin:/usr/local/sbin:/usr/sbin:/usr/bin:/sbin:/bin
+	return 0
+}
+
+umount_all() {
+	# Tries to stop processes with signal $1 if given, then unmerges
+	if [ -x /etc/init.d/androresolvd ];then
+		/etc/init.d/androresolvd stop
+	fi
+	case ${1} in "");;*)
+		pids="$(fuser -m ${MNT})"
+		case ${pids} in "");;*)
+			kill ${1} ${pids}
+			sleep 1
+		;;esac
+	;;esac
+	if ! umount_merge "${MNT}" "/";then
+		# Restore already unmounted bind-mounts
+		merge_root "${MNT}" "/"
+		pids="$(fuser -m ${MNT})"
+		case ${pids} in "");;*)
+			echo -n "${MNT} still used by ${pids}." >&2
+		;;esac
+		return 1
+	fi
+
+	# Success so far, revert to read-only root
+	debug_mount -o remount,ro /
+	IFS="
+"
+	for i in $(losetup);do
+		unset IFS
+		set ${i}
+		if [ ${3} -ef ${IMG} ];then
+			losetup -d ${1%%:*}
+		fi
+		IFS="
+"
+	done
+	unset IFS
+	return 0
+}
+
+is_mounted() {
+	case $(get_mount "${MNT}") in "")
+		return 1
+	;;esac
+	return 0
+}
+
+start_stop() {
+	if [ -f /etc/init/${1}.conf ];then
+		PATH=/usr/sbin:/sbin:/usr/bin:/bin ${DIR}/initctl ${2} ${1}
+	else
+		PATH=/usr/sbin:/sbin:/usr/bin:/bin /etc/init.d/${1} ${2}
+	fi
+}
+
+##### Main #####
+
+case ${DEB} in "")
+	# Script not called by "deb" shortcut
+	DEB=${1}
+;;esac
+
+case $(id -u) in 0);;*)
+	echo "You need to run this script as root." >&2
+	exit 1
+;;esac
+
+case $(id -g) in 0);;*)
+	echo "Warning: GID is $(id -g). You may want to 'chmod 6477 /your/su'." >&2
+;;esac
+
+case ${IMG} in uuid:*)
+	# Note: Do not put IMG= on single line
+	if i=$(get_uuid ${IMG#uuid:});then IMG=${i};fi
+;;esac
+
+test -s ${IMG} || test -b ${IMG} || {
+	echo "${IMG} not found. You may re-insert your SD-Card and/or unplug USB" >&2
+	exit 1
+}
+
+case ${DEB} in
+	s|sshd)
+		if mount_all;then
+			if [ -f /var/run/sshd.pid ] && [ "/usr/sbin/sshd" != "$(cat /proc/$(cat /var/run/sshd.pid)/cmdline 2>&-)" ];then
+				rm -f /var/run/sshd.pid
+			fi
+			start_stop ssh start
+		fi
+	;;
+	S|sshd-stop)
+		if is_mounted;then
+			start_stop ssh stop
+			pidof -s sshd >&- && killall -KILL sshd
+			rm -f /var/run/sshd.pid
+		fi
+	;;
+	x|xrdp)
+		if mount_all;then
+			if get_which iptables >&-;then
+				# Relax firewall for local RDP (e.g. CyanogenMod 9)
+				iptables -D INPUT -p tcp --dport 3389 -i lo -j ACCEPT 2>&-
+				iptables -D OUTPUT -p tcp --sport 3389 -o lo -j ACCEPT 2>&-
+				iptables -I INPUT -p tcp --dport 3389 -i lo -j ACCEPT
+				iptables -I OUTPUT -p tcp --sport 3389 -o lo -j ACCEPT
+			fi
+			for file in xrdp sesman xrdp-sesman;do
+				if [ -f /var/run/xrdp/${file}.pid ] && [ "/usr/bin/${file}" != "$(cat /proc/$(cat /var/run/xrdp/${file}.pid)/cmdline 2>&-)" ];then
+					rm -f /var/run/xrdp/${file}.pid
+				fi
+			done
+			start_stop xrdp start
+		fi
+	;;
+	X|xrdp-stop)
+		if is_mounted;then
+			start_stop xrdp stop
+			pidof -s xrdp >&- && killall -KILL xrdp
+			pidof -s sesman >&- && killall -KILL sesman
+			rm -f /var/run/xrdp/xrdp.pid
+			rm -f /var/run/xrdp/sesman.pid
+			if get_which iptables >&-;then
+				iptables -D INPUT -p tcp --dport 3389 -i lo -j ACCEPT 2>&-
+				iptables -D OUTPUT -p tcp --sport 3389 -o lo -j ACCEPT 2>&-
+			fi
+		fi
+	;;
+	k|kill)
+		if is_mounted;then
+			umount_all -KILL
+		fi
+	;;
+	stage2)
+		# This is used by "autostart" only
+		mount_merge "${IMG}" "${MNT}" "/" stage2
+	;;
+	u|umount)
+		if is_mounted;then
+			umount_all -TERM
+		fi
+	;;
+	r|reboot)
+		if is_mounted;then
+			debug_mount -o remount,ro "${MNT}"
+		fi
+		${ANDROID_ROOT:-/system}/bin/sync
+		${ANDROID_ROOT:-/system}/bin/reboot
+	;;
+	c|clean)
+		if ! is_mounted;then
+			mount_merge "${IMG}" "${MNT}" "/" clean
+		else
+			echo "You need to unmount before cleaning out links." >&2
+		fi
+	;;
+	?|help)
+		cat<<EOF
+Script to integrate Debian binaries on an Android phone
+
+Without options:	start a root bash shell
+bootdeb ?: help,	display this help text
+bootdeb u: umount,	remove symlinks and unmount Debian disk
+bootdeb k: kill,	kill (-KILL) programs, then unmount Debian disk
+bootdeb r: reboot,	mount Debian readonly and reboot (last resort)
+bootdeb c: clean,	clean symlinks to Android root from Debian disk
+bootdeb s: sshd,	start the openssh server
+bootdeb S: sshd-stop,	stop the openssh server
+bootdeb x: xrdp,	start the xrdp server
+bootdeb X: xrdp-stop,	stop the xrdp server
+EOF
+	;;
+	*)
+		if mount_all;then
+			exec /bin/bash --login
+		fi
+	;;
+esac
+
+exit 0

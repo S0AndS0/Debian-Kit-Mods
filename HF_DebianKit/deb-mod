@@ -1,0 +1,3 @@
+#!/system/bin/sh
+# modifide to call the modded boot script
+DEB="${1}" exec su -c "/data/local/deb/bootdeb-mod"
